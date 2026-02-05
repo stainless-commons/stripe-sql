@@ -1448,7 +1448,7 @@ STABLE
 AS $$
   from stripe_minimal._types import not_given
 
-  response = GD["__stripe_minimal_context__"].client.account.with_raw_response.retrieve(
+  response = GD["__stripe_minimal_context__"].client.accounts.with_raw_response.retrieve(
       expand=not_given if expand is None else expand,
   )
 

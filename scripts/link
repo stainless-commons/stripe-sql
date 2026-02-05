@@ -8,7 +8,7 @@ if [[ -n "$1" ]]; then
   LOCAL_PYTHON="$1"
   shift
 else
-  LOCAL_PYTHON=../stripe-python
+  LOCAL_PYTHON=../Stripe-python
 fi
 
 echo "==> Linking with local directory"

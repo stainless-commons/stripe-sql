@@ -4485,27 +4485,6 @@ AS $$
   SELECT ROW(amount, currency)::stripe_minimal_invoice.tax_rate_flat_amount;
 $$;
 
-ALTER TYPE stripe_minimal_invoice.invoice_list_response
-  ADD ATTRIBUTE "data" stripe_minimal_invoice.invoice[],
-  ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE url TEXT;
-
-CREATE OR REPLACE FUNCTION stripe_minimal_invoice.make_invoice_list_response(
-  "data" stripe_minimal_invoice.invoice[],
-  has_more BOOLEAN,
-  "object" TEXT,
-  url TEXT
-)
-RETURNS stripe_minimal_invoice.invoice_list_response
-LANGUAGE SQL
-IMMUTABLE
-AS $$
-  SELECT ROW(
-    "data", has_more, "object", url
-  )::stripe_minimal_invoice.invoice_list_response;
-$$;
-
 ALTER TYPE stripe_minimal_invoice.automatic_tax
   ADD ATTRIBUTE enabled BOOLEAN,
   ADD ATTRIBUTE liability stripe_minimal_invoice.automatic_tax_liability;
@@ -4982,7 +4961,7 @@ AS $$
   END;
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_invoice._list(
+CREATE OR REPLACE FUNCTION stripe_minimal_invoice._list_first_page_py(
   collection_method TEXT DEFAULT NULL,
   created JSONB DEFAULT NULL,
   customer TEXT DEFAULT NULL,
@@ -4995,14 +4974,16 @@ CREATE OR REPLACE FUNCTION stripe_minimal_invoice._list(
   status TEXT DEFAULT NULL,
   "subscription" TEXT DEFAULT NULL
 )
-RETURNS JSONB
+RETURNS stripe_minimal_internal.page
 LANGUAGE plpython3u
 STABLE
 AS $$
   import json
   from stripe_minimal._types import not_given
+  from pydantic import TypeAdapter
+  from typing import Any
 
-  response = GD["__stripe_minimal_context__"].client.invoices.with_raw_response.list(
+  page = GD["__stripe_minimal_context__"].client.invoices.list(
       collection_method=not_given if collection_method is None else collection_method,
       created=not_given if created is None else json.loads(created),
       customer=not_given if customer is None else customer,
@@ -5015,11 +4996,95 @@ AS $$
       status=not_given if status is None else status,
       subscription=not_given if subscription is None else subscription,
   )
+  next_page_info = page.next_page_info()
+  if next_page_info is None:
+      next_request_options = None
+  else:
+      next_request_options = page._info_to_options(next_page_info).model_dump_json(
+        exclude_unset=True,
+        exclude={'post_parser'}
+      )
 
-  # We don't parse the JSON and let PL/Python perform data mapping because PL/Python errors for omitted
-  # fields instead of defaulting them to NULL, but we want to be more lenient, which we handle in the
-  # caller later.
-  return response.text()
+  # We convert to JSON instead of letting PL/Python perform data mapping because PL/Python errors for
+  # omitted fields instead of defaulting them to NULL, but we want to be more lenient, which we handle
+  # in the calling function later.
+  type_adapter = TypeAdapter(Any)
+  return (
+    type_adapter.dump_json(page._get_page_items(), exclude_unset=True).decode("utf-8"),
+    next_request_options
+  )
+$$;
+
+-- A simpler wrapper around `stripe_minimal_invoice._list_first_page` that ensures the global client is initialized.
+CREATE OR REPLACE FUNCTION stripe_minimal_invoice._list_first_page(
+  collection_method TEXT DEFAULT NULL,
+  created JSONB DEFAULT NULL,
+  customer TEXT DEFAULT NULL,
+  customer_account TEXT DEFAULT NULL,
+  due_date JSONB DEFAULT NULL,
+  ending_before TEXT DEFAULT NULL,
+  expand TEXT[] DEFAULT NULL,
+  "limit" BIGINT DEFAULT NULL,
+  starting_after TEXT DEFAULT NULL,
+  status TEXT DEFAULT NULL,
+  "subscription" TEXT DEFAULT NULL
+)
+RETURNS stripe_minimal_internal.page
+LANGUAGE plpgsql
+STABLE
+AS $$
+  BEGIN
+    PERFORM stripe_minimal_internal.ensure_context();
+    RETURN stripe_minimal_invoice._list_first_page_py(
+      collection_method,
+      created,
+      customer,
+      customer_account,
+      due_date,
+      ending_before,
+      expand,
+      "limit",
+      starting_after,
+      status,
+      "subscription"
+    );
+  END;
+$$;
+
+CREATE OR REPLACE FUNCTION stripe_minimal_invoice._list_next_page(request_options JSONB)
+RETURNS stripe_minimal_internal.page
+LANGUAGE plpython3u
+STABLE
+AS $$
+  import json
+  from stripe_minimal.types import Invoice
+  from stripe_minimal.pagination import SyncMyCursorIDPage
+  from stripe_minimal._models import FinalRequestOptions
+  from pydantic import TypeAdapter
+  from typing import Any
+
+  page = GD["__stripe_minimal_context__"].client._request_api_list(
+    model=Invoice,
+    page=SyncMyCursorIDPage[Invoice],
+    options=FinalRequestOptions.construct(**json.loads(request_options))
+  )
+  next_page_info = page.next_page_info()
+  if next_page_info is None:
+      next_request_options = None
+  else:
+      next_request_options = page._info_to_options(next_page_info).model_dump_json(
+        exclude_unset=True,
+        exclude={'post_parser'}
+      )
+
+  # We convert to JSON instead of letting PL/Python perform data mapping because PL/Python errors for
+  # omitted fields instead of defaulting them to NULL, but we want to be more lenient, which we handle
+  # in the calling function later.
+  type_adapter = TypeAdapter(Any)
+  return (
+    type_adapter.dump_json(page._get_page_items(), exclude_unset=True).decode("utf-8"),
+    next_request_options
+  )
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_minimal_invoice.list(
@@ -5035,29 +5100,34 @@ CREATE OR REPLACE FUNCTION stripe_minimal_invoice.list(
   status TEXT DEFAULT NULL,
   "subscription" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_invoice.invoice_list_response
-LANGUAGE plpgsql
+RETURNS SETOF stripe_minimal_invoice.invoice
+LANGUAGE SQL
 STABLE
 AS $$
-  BEGIN
-    PERFORM stripe_minimal_internal.ensure_context();
-    RETURN jsonb_populate_record(
-      NULL::stripe_minimal_invoice.invoice_list_response,
-      stripe_minimal_invoice._list(
-        collection_method,
-        created,
-        customer,
-        customer_account,
-        due_date,
-        ending_before,
-        expand,
-        "limit",
-        starting_after,
-        status,
-        "subscription"
-      )
-    );
-  END;
+  WITH RECURSIVE paginated AS (
+    SELECT page.*
+    FROM stripe_minimal_invoice._list_first_page(
+      collection_method,
+      created,
+      customer,
+      customer_account,
+      due_date,
+      ending_before,
+      expand,
+      "limit",
+      starting_after,
+      status,
+      "subscription"
+    ) AS page
+
+    UNION ALL
+
+    SELECT page.*
+    FROM paginated
+    CROSS JOIN stripe_minimal_invoice._list_next_page(paginated.next_request_options) AS page
+    WHERE paginated.next_request_options IS NOT NULL
+  )
+  SELECT (jsonb_populate_recordset(NULL::stripe_minimal_invoice.invoice, "data")).* FROM paginated;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_minimal_invoice._finalize(

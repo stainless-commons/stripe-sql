@@ -58,7 +58,7 @@ RETURNS void
 LANGUAGE plpython3u
 AS $$
   from types import SimpleNamespace
-  from stripe_minimal import StripeMinimal
+  from stripe_minimal import Stripe
 
   if "__stripe_minimal_context__" in GD:
       # The context was already created.
@@ -72,7 +72,7 @@ AS $$
       # This configuration parameter was not set, but it's optional so ignore the exception.
       pass
   try:
-      value = plpy.execute("SELECT current_setting('stripe_minimal.stripe_secret_key') AS value")[0]['value']
+      value = plpy.execute("SELECT current_setting('stripe_minimal.secret_key') AS value")[0]['value']
       client_options["api_key"] = value
   except Exception:
       # This configuration parameter was not set, but it's optional so ignore the exception.
@@ -91,7 +91,7 @@ AS $$
           return value
 
   GD["__stripe_minimal_context__"] = SimpleNamespace(
-      client=StripeMinimal(**client_options),
+      client=Stripe(**client_options),
       strip_none=strip_none,
   )
 $$;

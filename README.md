@@ -1,13 +1,13 @@
-# Stripe Minimal API PostgreSQL Extension
+# Stripe API PostgreSQL Extension
 
 > [!NOTE]
-> The Stripe Minimal API PostgreSQL Extension is currently **experimental** and we're excited for you to experiment with it!
+> The Stripe API PostgreSQL Extension is currently **experimental** and we're excited for you to experiment with it!
 >
 > This extension has not yet been exhaustively tested in production environments and may be missing some features you'd expect in a stable release. As we continue development, there may be breaking changes that require updates to your code.
 >
 > **We'd love your feedback!** Please share any suggestions, bug reports, feature requests, or general thoughts by [filing an issue](https://www.github.com/stainless-sdks/stripe-minimal-sql/issues/new).
 
-The Stripe Minimal API PostgreSQL Extension provides convenient access to the [Stripe Minimal REST API](https://stripe.com) from PostgreSQL.
+The Stripe API PostgreSQL Extension provides convenient access to the [Stripe REST API](https://stripe.com) from PostgreSQL.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
@@ -82,19 +82,19 @@ FROM stripe_minimal_account.retrieve();
 Configure the client by setting configuration parameters at the database level:
 
 ```sql
-ALTER DATABASE my_database SET stripe_minimal.stripe_secret_key = 'My API Key';
+ALTER DATABASE my_database SET stripe_minimal.secret_key = 'My API Key';
 ```
 
 See this table for the available configuration parameters:
 
-| Parameter                          | Required | Default value               |
-| ---------------------------------- | -------- | --------------------------- |
-| `stripe_minimal.stripe_secret_key` | false    | -                           |
-| `stripe_minimal.base_url`          | false    | `'https://api.stripe.com/'` |
+| Parameter                   | Required | Default value               |
+| --------------------------- | -------- | --------------------------- |
+| `stripe_minimal.secret_key` | false    | -                           |
+| `stripe_minimal.base_url`   | false    | `'https://api.stripe.com/'` |
 
 ## Requests and responses
 
-To send a request to the Stripe Minimal API, call the relevant SQL function with values corresponding to the parameter types and `SELECT` the columns you need from the returned rows.
+To send a request to the Stripe API, call the relevant SQL function with values corresponding to the parameter types and `SELECT` the columns you need from the returned rows.
 
 To construct [composite type](https://www.postgresql.org/docs/current/rowtypes.html) parameters, use the parameter type's provided `make_*` function. For example, `stripe_minimal_coupon.applies_to` may be constructed like so:
 

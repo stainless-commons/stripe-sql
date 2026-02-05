@@ -1280,7 +1280,7 @@ ALTER TYPE stripe_minimal_payment_intent.payment_intent_payment_method_option
   ADD ATTRIBUTE giropay stripe_minimal_payment_intent.payment_intent_payment_method_option_giropay,
   ADD ATTRIBUTE grabpay stripe_minimal_payment_intent.payment_intent_payment_method_option_grabpay,
   ADD ATTRIBUTE ideal stripe_minimal_payment_intent.payment_intent_payment_method_option_ideal,
-  ADD ATTRIBUTE interac_present JSONB,
+  ADD ATTRIBUTE interac_present stripe_minimal_payment_intent.payment_intent_payment_method_option_interac_present,
   ADD ATTRIBUTE kakao_pay stripe_minimal_payment_intent.payment_intent_payment_method_option_kakao_pay,
   ADD ATTRIBUTE klarna stripe_minimal_payment_intent.payment_intent_payment_method_option_klarna,
   ADD ATTRIBUTE konbini stripe_minimal_payment_intent.payment_intent_payment_method_option_konbini,
@@ -1293,7 +1293,7 @@ ALTER TYPE stripe_minimal_payment_intent.payment_intent_payment_method_option
   ADD ATTRIBUTE nz_bank_account stripe_minimal_payment_intent.payment_intent_payment_method_option_nz_bank_account,
   ADD ATTRIBUTE oxxo stripe_minimal_payment_intent.payment_intent_payment_method_option_oxxo,
   ADD ATTRIBUTE p24 stripe_minimal_payment_intent.payment_intent_payment_method_option_p24,
-  ADD ATTRIBUTE pay_by_bank JSONB,
+  ADD ATTRIBUTE pay_by_bank stripe_minimal_payment_intent.payment_intent_payment_method_option_pay_by_bank,
   ADD ATTRIBUTE payco stripe_minimal_payment_intent.payment_intent_payment_method_option_payco,
   ADD ATTRIBUTE paynow stripe_minimal_payment_intent.payment_intent_payment_method_option_paynow,
   ADD ATTRIBUTE paypal stripe_minimal_payment_intent.payment_intent_payment_method_option_paypal,
@@ -1334,7 +1334,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal_payment_intent.make_payment_intent_pay
   giropay stripe_minimal_payment_intent.payment_intent_payment_method_option_giropay DEFAULT NULL,
   grabpay stripe_minimal_payment_intent.payment_intent_payment_method_option_grabpay DEFAULT NULL,
   ideal stripe_minimal_payment_intent.payment_intent_payment_method_option_ideal DEFAULT NULL,
-  interac_present JSONB DEFAULT NULL,
+  interac_present stripe_minimal_payment_intent.payment_intent_payment_method_option_interac_present DEFAULT NULL,
   kakao_pay stripe_minimal_payment_intent.payment_intent_payment_method_option_kakao_pay DEFAULT NULL,
   klarna stripe_minimal_payment_intent.payment_intent_payment_method_option_klarna DEFAULT NULL,
   konbini stripe_minimal_payment_intent.payment_intent_payment_method_option_konbini DEFAULT NULL,
@@ -1347,7 +1347,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal_payment_intent.make_payment_intent_pay
   nz_bank_account stripe_minimal_payment_intent.payment_intent_payment_method_option_nz_bank_account DEFAULT NULL,
   oxxo stripe_minimal_payment_intent.payment_intent_payment_method_option_oxxo DEFAULT NULL,
   p24 stripe_minimal_payment_intent.payment_intent_payment_method_option_p24 DEFAULT NULL,
-  pay_by_bank JSONB DEFAULT NULL,
+  pay_by_bank stripe_minimal_payment_intent.payment_intent_payment_method_option_pay_by_bank DEFAULT NULL,
   payco stripe_minimal_payment_intent.payment_intent_payment_method_option_payco DEFAULT NULL,
   paynow stripe_minimal_payment_intent.payment_intent_payment_method_option_paynow DEFAULT NULL,
   paypal stripe_minimal_payment_intent.payment_intent_payment_method_option_paypal DEFAULT NULL,
@@ -2444,6 +2444,42 @@ AS $$
   )::stripe_minimal_payment_intent.payment_intent_payment_method_option_ideal;
 $$;
 
+ALTER TYPE stripe_minimal_payment_intent.payment_intent_payment_method_option_interac_present
+  ADD ATTRIBUTE capture_method TEXT,
+  ADD ATTRIBUTE installments stripe_minimal_payment_intent.payment_flows_installment_options,
+  ADD ATTRIBUTE mandate_options stripe_minimal_payment_intent.payment_intent_payment_method_options_mandate_options_payto,
+  ADD ATTRIBUTE request_incremental_authorization_support BOOLEAN,
+  ADD ATTRIBUTE require_cvc_recollection BOOLEAN,
+  ADD ATTRIBUTE routing stripe_minimal_payment_intent.payment_method_options_card_present_routing,
+  ADD ATTRIBUTE setup_future_usage TEXT,
+  ADD ATTRIBUTE verification_method TEXT;
+
+CREATE OR REPLACE FUNCTION stripe_minimal_payment_intent.make_payment_intent_payment_method_option_interac_present(
+  capture_method TEXT DEFAULT NULL,
+  installments stripe_minimal_payment_intent.payment_flows_installment_options DEFAULT NULL,
+  mandate_options stripe_minimal_payment_intent.payment_intent_payment_method_options_mandate_options_payto DEFAULT NULL,
+  request_incremental_authorization_support BOOLEAN DEFAULT NULL,
+  require_cvc_recollection BOOLEAN DEFAULT NULL,
+  routing stripe_minimal_payment_intent.payment_method_options_card_present_routing DEFAULT NULL,
+  setup_future_usage TEXT DEFAULT NULL,
+  verification_method TEXT DEFAULT NULL
+)
+RETURNS stripe_minimal_payment_intent.payment_intent_payment_method_option_interac_present
+LANGUAGE SQL
+IMMUTABLE
+AS $$
+  SELECT ROW(
+    capture_method,
+    installments,
+    mandate_options,
+    request_incremental_authorization_support,
+    require_cvc_recollection,
+    routing,
+    setup_future_usage,
+    verification_method
+  )::stripe_minimal_payment_intent.payment_intent_payment_method_option_interac_present;
+$$;
+
 ALTER TYPE stripe_minimal_payment_intent.payment_intent_payment_method_option_kakao_pay
   ADD ATTRIBUTE capture_method TEXT,
   ADD ATTRIBUTE setup_future_usage TEXT,
@@ -2895,6 +2931,42 @@ AS $$
     routing,
     verification_method
   )::stripe_minimal_payment_intent.payment_intent_payment_method_option_p24;
+$$;
+
+ALTER TYPE stripe_minimal_payment_intent.payment_intent_payment_method_option_pay_by_bank
+  ADD ATTRIBUTE capture_method TEXT,
+  ADD ATTRIBUTE installments stripe_minimal_payment_intent.payment_flows_installment_options,
+  ADD ATTRIBUTE mandate_options stripe_minimal_payment_intent.payment_intent_payment_method_options_mandate_options_payto,
+  ADD ATTRIBUTE request_incremental_authorization_support BOOLEAN,
+  ADD ATTRIBUTE require_cvc_recollection BOOLEAN,
+  ADD ATTRIBUTE routing stripe_minimal_payment_intent.payment_method_options_card_present_routing,
+  ADD ATTRIBUTE setup_future_usage TEXT,
+  ADD ATTRIBUTE verification_method TEXT;
+
+CREATE OR REPLACE FUNCTION stripe_minimal_payment_intent.make_payment_intent_payment_method_option_pay_by_bank(
+  capture_method TEXT DEFAULT NULL,
+  installments stripe_minimal_payment_intent.payment_flows_installment_options DEFAULT NULL,
+  mandate_options stripe_minimal_payment_intent.payment_intent_payment_method_options_mandate_options_payto DEFAULT NULL,
+  request_incremental_authorization_support BOOLEAN DEFAULT NULL,
+  require_cvc_recollection BOOLEAN DEFAULT NULL,
+  routing stripe_minimal_payment_intent.payment_method_options_card_present_routing DEFAULT NULL,
+  setup_future_usage TEXT DEFAULT NULL,
+  verification_method TEXT DEFAULT NULL
+)
+RETURNS stripe_minimal_payment_intent.payment_intent_payment_method_option_pay_by_bank
+LANGUAGE SQL
+IMMUTABLE
+AS $$
+  SELECT ROW(
+    capture_method,
+    installments,
+    mandate_options,
+    request_incremental_authorization_support,
+    require_cvc_recollection,
+    routing,
+    setup_future_usage,
+    verification_method
+  )::stripe_minimal_payment_intent.payment_intent_payment_method_option_pay_by_bank;
 $$;
 
 ALTER TYPE stripe_minimal_payment_intent.payment_intent_payment_method_option_payco

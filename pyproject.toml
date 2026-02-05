@@ -1,0 +1,7 @@
+[project]
+name = "stripe_minimal-sql"
+version = "0.0.0"
+requires-python = ">=3.9.18"
+dependencies = [
+    "stripe_minimal @ https://github.com/stainless-sdks/stripe-minimal-python.git",
+]

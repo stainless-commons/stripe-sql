@@ -87,7 +87,7 @@ ALTER TYPE stripe_minimal_subscription.mandate
   ADD ATTRIBUTE payment_method_details stripe_minimal_subscription.mandate_payment_method_detail,
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE multi_use JSONB,
+  ADD ATTRIBUTE multi_use stripe_minimal_subscription.mandate_multi_use,
   ADD ATTRIBUTE on_behalf_of TEXT,
   ADD ATTRIBUTE single_use stripe_minimal_subscription.mandate_single_use;
 
@@ -100,7 +100,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_mandate(
   payment_method_details stripe_minimal_subscription.mandate_payment_method_detail,
   status TEXT,
   "type" TEXT,
-  multi_use JSONB DEFAULT NULL,
+  multi_use stripe_minimal_subscription.mandate_multi_use DEFAULT NULL,
   on_behalf_of TEXT DEFAULT NULL,
   single_use stripe_minimal_subscription.mandate_single_use DEFAULT NULL
 )
@@ -126,13 +126,13 @@ $$;
 ALTER TYPE stripe_minimal_subscription.mandate_customer_acceptance
   ADD ATTRIBUTE "type" TEXT,
   ADD ATTRIBUTE accepted_at BIGINT,
-  ADD ATTRIBUTE offline JSONB,
+  ADD ATTRIBUTE offline stripe_minimal_subscription.mandate_customer_acceptance_offline,
   ADD ATTRIBUTE online stripe_minimal_subscription.mandate_customer_acceptance_online;
 
 CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_mandate_customer_acceptance(
   "type" TEXT,
   accepted_at BIGINT DEFAULT NULL,
-  offline JSONB DEFAULT NULL,
+  offline stripe_minimal_subscription.mandate_customer_acceptance_offline DEFAULT NULL,
   online stripe_minimal_subscription.mandate_customer_acceptance_online DEFAULT NULL
 )
 RETURNS stripe_minimal_subscription.mandate_customer_acceptance
@@ -162,40 +162,40 @@ $$;
 ALTER TYPE stripe_minimal_subscription.mandate_payment_method_detail
   ADD ATTRIBUTE "type" TEXT,
   ADD ATTRIBUTE acss_debit stripe_minimal_subscription.mandate_payment_method_detail_acss_debit,
-  ADD ATTRIBUTE amazon_pay JSONB,
+  ADD ATTRIBUTE amazon_pay stripe_minimal_subscription.mandate_payment_method_detail_amazon_pay,
   ADD ATTRIBUTE au_becs_debit stripe_minimal_subscription.mandate_payment_method_detail_au_becs_debit,
   ADD ATTRIBUTE bacs_debit stripe_minimal_subscription.mandate_payment_method_detail_bacs_debit,
-  ADD ATTRIBUTE card JSONB,
-  ADD ATTRIBUTE cashapp JSONB,
-  ADD ATTRIBUTE kakao_pay JSONB,
-  ADD ATTRIBUTE klarna JSONB,
-  ADD ATTRIBUTE kr_card JSONB,
-  ADD ATTRIBUTE "link" JSONB,
-  ADD ATTRIBUTE naver_pay JSONB,
-  ADD ATTRIBUTE nz_bank_account JSONB,
+  ADD ATTRIBUTE card stripe_minimal_subscription.mandate_payment_method_detail_card,
+  ADD ATTRIBUTE cashapp stripe_minimal_subscription.mandate_payment_method_detail_cashapp,
+  ADD ATTRIBUTE kakao_pay stripe_minimal_subscription.mandate_payment_method_detail_kakao_pay,
+  ADD ATTRIBUTE klarna stripe_minimal_subscription.mandate_payment_method_detail_klarna,
+  ADD ATTRIBUTE kr_card stripe_minimal_subscription.mandate_payment_method_detail_kr_card,
+  ADD ATTRIBUTE "link" stripe_minimal_subscription.mandate_payment_method_detail_link,
+  ADD ATTRIBUTE naver_pay stripe_minimal_subscription.mandate_payment_method_detail_naver_pay,
+  ADD ATTRIBUTE nz_bank_account stripe_minimal_subscription.mandate_payment_method_detail_nz_bank_account,
   ADD ATTRIBUTE paypal stripe_minimal_subscription.mandate_payment_method_detail_paypal,
   ADD ATTRIBUTE payto stripe_minimal_subscription.mandate_payment_method_detail_payto,
-  ADD ATTRIBUTE revolut_pay JSONB,
+  ADD ATTRIBUTE revolut_pay stripe_minimal_subscription.mandate_payment_method_detail_revolut_pay,
   ADD ATTRIBUTE sepa_debit stripe_minimal_subscription.mandate_payment_method_detail_sepa_debit,
   ADD ATTRIBUTE us_bank_account stripe_minimal_subscription.mandate_payment_method_detail_us_bank_account;
 
 CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_mandate_payment_method_detail(
   "type" TEXT,
   acss_debit stripe_minimal_subscription.mandate_payment_method_detail_acss_debit DEFAULT NULL,
-  amazon_pay JSONB DEFAULT NULL,
+  amazon_pay stripe_minimal_subscription.mandate_payment_method_detail_amazon_pay DEFAULT NULL,
   au_becs_debit stripe_minimal_subscription.mandate_payment_method_detail_au_becs_debit DEFAULT NULL,
   bacs_debit stripe_minimal_subscription.mandate_payment_method_detail_bacs_debit DEFAULT NULL,
-  card JSONB DEFAULT NULL,
-  cashapp JSONB DEFAULT NULL,
-  kakao_pay JSONB DEFAULT NULL,
-  klarna JSONB DEFAULT NULL,
-  kr_card JSONB DEFAULT NULL,
-  "link" JSONB DEFAULT NULL,
-  naver_pay JSONB DEFAULT NULL,
-  nz_bank_account JSONB DEFAULT NULL,
+  card stripe_minimal_subscription.mandate_payment_method_detail_card DEFAULT NULL,
+  cashapp stripe_minimal_subscription.mandate_payment_method_detail_cashapp DEFAULT NULL,
+  kakao_pay stripe_minimal_subscription.mandate_payment_method_detail_kakao_pay DEFAULT NULL,
+  klarna stripe_minimal_subscription.mandate_payment_method_detail_klarna DEFAULT NULL,
+  kr_card stripe_minimal_subscription.mandate_payment_method_detail_kr_card DEFAULT NULL,
+  "link" stripe_minimal_subscription.mandate_payment_method_detail_link DEFAULT NULL,
+  naver_pay stripe_minimal_subscription.mandate_payment_method_detail_naver_pay DEFAULT NULL,
+  nz_bank_account stripe_minimal_subscription.mandate_payment_method_detail_nz_bank_account DEFAULT NULL,
   paypal stripe_minimal_subscription.mandate_payment_method_detail_paypal DEFAULT NULL,
   payto stripe_minimal_subscription.mandate_payment_method_detail_payto DEFAULT NULL,
-  revolut_pay JSONB DEFAULT NULL,
+  revolut_pay stripe_minimal_subscription.mandate_payment_method_detail_revolut_pay DEFAULT NULL,
   sepa_debit stripe_minimal_subscription.mandate_payment_method_detail_sepa_debit DEFAULT NULL,
   us_bank_account stripe_minimal_subscription.mandate_payment_method_detail_us_bank_account DEFAULT NULL
 )
@@ -926,53 +926,53 @@ $$;
 
 ALTER TYPE stripe_minimal_subscription.setup_attempt_payment_method_details
   ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE acss_debit JSONB,
-  ADD ATTRIBUTE amazon_pay JSONB,
-  ADD ATTRIBUTE au_becs_debit JSONB,
-  ADD ATTRIBUTE bacs_debit JSONB,
+  ADD ATTRIBUTE acss_debit stripe_minimal_subscription.setup_attempt_payment_method_details_acss_debit,
+  ADD ATTRIBUTE amazon_pay stripe_minimal_subscription.setup_attempt_payment_method_details_amazon_pay,
+  ADD ATTRIBUTE au_becs_debit stripe_minimal_subscription.setup_attempt_payment_method_details_au_becs_debit,
+  ADD ATTRIBUTE bacs_debit stripe_minimal_subscription.setup_attempt_payment_method_details_bacs_debit,
   ADD ATTRIBUTE bancontact JSONB,
-  ADD ATTRIBUTE boleto JSONB,
+  ADD ATTRIBUTE boleto stripe_minimal_subscription.setup_attempt_payment_method_details_boleto,
   ADD ATTRIBUTE card stripe_minimal_subscription.setup_attempt_payment_method_details_card,
   ADD ATTRIBUTE card_present JSONB,
-  ADD ATTRIBUTE cashapp JSONB,
+  ADD ATTRIBUTE cashapp stripe_minimal_subscription.setup_attempt_payment_method_details_cashapp,
   ADD ATTRIBUTE ideal JSONB,
-  ADD ATTRIBUTE kakao_pay JSONB,
-  ADD ATTRIBUTE klarna JSONB,
-  ADD ATTRIBUTE kr_card JSONB,
-  ADD ATTRIBUTE "link" JSONB,
+  ADD ATTRIBUTE kakao_pay stripe_minimal_subscription.setup_attempt_payment_method_details_kakao_pay,
+  ADD ATTRIBUTE klarna stripe_minimal_subscription.setup_attempt_payment_method_details_klarna,
+  ADD ATTRIBUTE kr_card stripe_minimal_subscription.setup_attempt_payment_method_details_kr_card,
+  ADD ATTRIBUTE "link" stripe_minimal_subscription.setup_attempt_payment_method_details_link,
   ADD ATTRIBUTE naver_pay stripe_minimal_subscription.setup_attempt_payment_method_details_naver_pay,
-  ADD ATTRIBUTE nz_bank_account JSONB,
-  ADD ATTRIBUTE paypal JSONB,
-  ADD ATTRIBUTE payto JSONB,
-  ADD ATTRIBUTE revolut_pay JSONB,
-  ADD ATTRIBUTE sepa_debit JSONB,
+  ADD ATTRIBUTE nz_bank_account stripe_minimal_subscription.setup_attempt_payment_method_details_nz_bank_account,
+  ADD ATTRIBUTE paypal stripe_minimal_subscription.setup_attempt_payment_method_details_paypal,
+  ADD ATTRIBUTE payto stripe_minimal_subscription.setup_attempt_payment_method_details_payto,
+  ADD ATTRIBUTE revolut_pay stripe_minimal_subscription.setup_attempt_payment_method_details_revolut_pay,
+  ADD ATTRIBUTE sepa_debit stripe_minimal_subscription.setup_attempt_payment_method_details_sepa_debit,
   ADD ATTRIBUTE sofort JSONB,
-  ADD ATTRIBUTE us_bank_account JSONB;
+  ADD ATTRIBUTE us_bank_account stripe_minimal_subscription.setup_attempt_payment_method_details_us_bank_account;
 
 CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_setup_attempt_payment_method_details(
   "type" TEXT,
-  acss_debit JSONB DEFAULT NULL,
-  amazon_pay JSONB DEFAULT NULL,
-  au_becs_debit JSONB DEFAULT NULL,
-  bacs_debit JSONB DEFAULT NULL,
+  acss_debit stripe_minimal_subscription.setup_attempt_payment_method_details_acss_debit DEFAULT NULL,
+  amazon_pay stripe_minimal_subscription.setup_attempt_payment_method_details_amazon_pay DEFAULT NULL,
+  au_becs_debit stripe_minimal_subscription.setup_attempt_payment_method_details_au_becs_debit DEFAULT NULL,
+  bacs_debit stripe_minimal_subscription.setup_attempt_payment_method_details_bacs_debit DEFAULT NULL,
   bancontact JSONB DEFAULT NULL,
-  boleto JSONB DEFAULT NULL,
+  boleto stripe_minimal_subscription.setup_attempt_payment_method_details_boleto DEFAULT NULL,
   card stripe_minimal_subscription.setup_attempt_payment_method_details_card DEFAULT NULL,
   card_present JSONB DEFAULT NULL,
-  cashapp JSONB DEFAULT NULL,
+  cashapp stripe_minimal_subscription.setup_attempt_payment_method_details_cashapp DEFAULT NULL,
   ideal JSONB DEFAULT NULL,
-  kakao_pay JSONB DEFAULT NULL,
-  klarna JSONB DEFAULT NULL,
-  kr_card JSONB DEFAULT NULL,
-  "link" JSONB DEFAULT NULL,
+  kakao_pay stripe_minimal_subscription.setup_attempt_payment_method_details_kakao_pay DEFAULT NULL,
+  klarna stripe_minimal_subscription.setup_attempt_payment_method_details_klarna DEFAULT NULL,
+  kr_card stripe_minimal_subscription.setup_attempt_payment_method_details_kr_card DEFAULT NULL,
+  "link" stripe_minimal_subscription.setup_attempt_payment_method_details_link DEFAULT NULL,
   naver_pay stripe_minimal_subscription.setup_attempt_payment_method_details_naver_pay DEFAULT NULL,
-  nz_bank_account JSONB DEFAULT NULL,
-  paypal JSONB DEFAULT NULL,
-  payto JSONB DEFAULT NULL,
-  revolut_pay JSONB DEFAULT NULL,
-  sepa_debit JSONB DEFAULT NULL,
+  nz_bank_account stripe_minimal_subscription.setup_attempt_payment_method_details_nz_bank_account DEFAULT NULL,
+  paypal stripe_minimal_subscription.setup_attempt_payment_method_details_paypal DEFAULT NULL,
+  payto stripe_minimal_subscription.setup_attempt_payment_method_details_payto DEFAULT NULL,
+  revolut_pay stripe_minimal_subscription.setup_attempt_payment_method_details_revolut_pay DEFAULT NULL,
+  sepa_debit stripe_minimal_subscription.setup_attempt_payment_method_details_sepa_debit DEFAULT NULL,
   sofort JSONB DEFAULT NULL,
-  us_bank_account JSONB DEFAULT NULL
+  us_bank_account stripe_minimal_subscription.setup_attempt_payment_method_details_us_bank_account DEFAULT NULL
 )
 RETURNS stripe_minimal_subscription.setup_attempt_payment_method_details
 LANGUAGE SQL
@@ -1101,11 +1101,13 @@ $$;
 
 ALTER TYPE stripe_minimal_subscription.setup_attempt_payment_method_details_card_wallet
   ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE apple_pay JSONB,
-  ADD ATTRIBUTE google_pay JSONB;
+  ADD ATTRIBUTE apple_pay stripe_minimal_subscription.setup_attempt_payment_method_details_card_wallet_apple_pay,
+  ADD ATTRIBUTE google_pay stripe_minimal_subscription.setup_attempt_payment_method_details_card_wallet_google_pay;
 
 CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_setup_attempt_payment_method_details_card_wallet(
-  "type" TEXT, apple_pay JSONB DEFAULT NULL, google_pay JSONB DEFAULT NULL
+  "type" TEXT,
+  apple_pay stripe_minimal_subscription.setup_attempt_payment_method_details_card_wallet_apple_pay DEFAULT NULL,
+  google_pay stripe_minimal_subscription.setup_attempt_payment_method_details_card_wallet_google_pay DEFAULT NULL
 )
 RETURNS stripe_minimal_subscription.setup_attempt_payment_method_details_card_wallet
 LANGUAGE SQL
@@ -1370,12 +1372,12 @@ $$;
 
 ALTER TYPE stripe_minimal_subscription.setup_intent_payment_method_option
   ADD ATTRIBUTE acss_debit stripe_minimal_subscription.setup_intent_payment_method_option_acss_debit,
-  ADD ATTRIBUTE amazon_pay JSONB,
+  ADD ATTRIBUTE amazon_pay stripe_minimal_subscription.setup_intent_payment_method_option_amazon_pay,
   ADD ATTRIBUTE bacs_debit stripe_minimal_subscription.setup_intent_payment_method_option_bacs_debit,
   ADD ATTRIBUTE card stripe_minimal_subscription.setup_intent_payment_method_option_card,
-  ADD ATTRIBUTE card_present JSONB,
+  ADD ATTRIBUTE card_present stripe_minimal_subscription.setup_intent_payment_method_option_card_present,
   ADD ATTRIBUTE klarna stripe_minimal_subscription.setup_intent_payment_method_option_klarna,
-  ADD ATTRIBUTE "link" JSONB,
+  ADD ATTRIBUTE "link" stripe_minimal_subscription.setup_intent_payment_method_option_link,
   ADD ATTRIBUTE paypal stripe_minimal_subscription.setup_intent_payment_method_option_paypal,
   ADD ATTRIBUTE payto stripe_minimal_subscription.setup_intent_payment_method_option_payto,
   ADD ATTRIBUTE sepa_debit stripe_minimal_subscription.setup_intent_payment_method_option_sepa_debit,
@@ -1383,12 +1385,12 @@ ALTER TYPE stripe_minimal_subscription.setup_intent_payment_method_option
 
 CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_setup_intent_payment_method_option(
   acss_debit stripe_minimal_subscription.setup_intent_payment_method_option_acss_debit DEFAULT NULL,
-  amazon_pay JSONB DEFAULT NULL,
+  amazon_pay stripe_minimal_subscription.setup_intent_payment_method_option_amazon_pay DEFAULT NULL,
   bacs_debit stripe_minimal_subscription.setup_intent_payment_method_option_bacs_debit DEFAULT NULL,
   card stripe_minimal_subscription.setup_intent_payment_method_option_card DEFAULT NULL,
-  card_present JSONB DEFAULT NULL,
+  card_present stripe_minimal_subscription.setup_intent_payment_method_option_card_present DEFAULT NULL,
   klarna stripe_minimal_subscription.setup_intent_payment_method_option_klarna DEFAULT NULL,
-  "link" JSONB DEFAULT NULL,
+  "link" stripe_minimal_subscription.setup_intent_payment_method_option_link DEFAULT NULL,
   paypal stripe_minimal_subscription.setup_intent_payment_method_option_paypal DEFAULT NULL,
   payto stripe_minimal_subscription.setup_intent_payment_method_option_payto DEFAULT NULL,
   sepa_debit stripe_minimal_subscription.setup_intent_payment_method_option_sepa_debit DEFAULT NULL,
@@ -1475,6 +1477,23 @@ AS $$
     purpose,
     start_date
   )::stripe_minimal_subscription.setup_intent_payment_method_option_acss_debit_mandate_option;
+$$;
+
+ALTER TYPE stripe_minimal_subscription.setup_intent_payment_method_option_amazon_pay
+  ADD ATTRIBUTE mandate_options stripe_minimal_subscription.setup_intent_payment_method_options_mandate_options_payto,
+  ADD ATTRIBUTE verification_method TEXT;
+
+CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_setup_intent_payment_method_option_amazon_pay(
+  mandate_options stripe_minimal_subscription.setup_intent_payment_method_options_mandate_options_payto DEFAULT NULL,
+  verification_method TEXT DEFAULT NULL
+)
+RETURNS stripe_minimal_subscription.setup_intent_payment_method_option_amazon_pay
+LANGUAGE SQL
+IMMUTABLE
+AS $$
+  SELECT ROW(
+    mandate_options, verification_method
+  )::stripe_minimal_subscription.setup_intent_payment_method_option_amazon_pay;
 $$;
 
 ALTER TYPE stripe_minimal_subscription.setup_intent_payment_method_option_bacs_debit
@@ -1602,6 +1621,23 @@ AS $$
   )::stripe_minimal_subscription.setup_intent_payment_method_option_card_mandate_option;
 $$;
 
+ALTER TYPE stripe_minimal_subscription.setup_intent_payment_method_option_card_present
+  ADD ATTRIBUTE mandate_options stripe_minimal_subscription.setup_intent_payment_method_options_mandate_options_payto,
+  ADD ATTRIBUTE verification_method TEXT;
+
+CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_setup_intent_payment_method_option_card_present(
+  mandate_options stripe_minimal_subscription.setup_intent_payment_method_options_mandate_options_payto DEFAULT NULL,
+  verification_method TEXT DEFAULT NULL
+)
+RETURNS stripe_minimal_subscription.setup_intent_payment_method_option_card_present
+LANGUAGE SQL
+IMMUTABLE
+AS $$
+  SELECT ROW(
+    mandate_options, verification_method
+  )::stripe_minimal_subscription.setup_intent_payment_method_option_card_present;
+$$;
+
 ALTER TYPE stripe_minimal_subscription.setup_intent_payment_method_option_klarna
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE preferred_locale TEXT,
@@ -1621,6 +1657,23 @@ AS $$
   SELECT ROW(
     currency, preferred_locale, mandate_options, verification_method
   )::stripe_minimal_subscription.setup_intent_payment_method_option_klarna;
+$$;
+
+ALTER TYPE stripe_minimal_subscription.setup_intent_payment_method_option_link
+  ADD ATTRIBUTE mandate_options stripe_minimal_subscription.setup_intent_payment_method_options_mandate_options_payto,
+  ADD ATTRIBUTE verification_method TEXT;
+
+CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_setup_intent_payment_method_option_link(
+  mandate_options stripe_minimal_subscription.setup_intent_payment_method_options_mandate_options_payto DEFAULT NULL,
+  verification_method TEXT DEFAULT NULL
+)
+RETURNS stripe_minimal_subscription.setup_intent_payment_method_option_link
+LANGUAGE SQL
+IMMUTABLE
+AS $$
+  SELECT ROW(
+    mandate_options, verification_method
+  )::stripe_minimal_subscription.setup_intent_payment_method_option_link;
 $$;
 
 ALTER TYPE stripe_minimal_subscription.setup_intent_payment_method_option_paypal
@@ -2152,9 +2205,9 @@ ALTER TYPE stripe_minimal_subscription.subscription_payment_setting_payment_meth
   ADD ATTRIBUTE bancontact stripe_minimal_subscription.subscription_payment_setting_payment_method_option_bancontact,
   ADD ATTRIBUTE card stripe_minimal_subscription.subscription_payment_setting_payment_method_option_card,
   ADD ATTRIBUTE customer_balance stripe_minimal_subscription.s_payment_setting_payment_method_option_customer_balance,
-  ADD ATTRIBUTE konbini JSONB,
+  ADD ATTRIBUTE konbini stripe_minimal_subscription.subscription_payment_setting_payment_method_option_konbini,
   ADD ATTRIBUTE payto stripe_minimal_subscription.subscription_payment_setting_payment_method_option_payto,
-  ADD ATTRIBUTE sepa_debit JSONB,
+  ADD ATTRIBUTE sepa_debit stripe_minimal_subscription.subscription_payment_setting_payment_method_option_sepa_debit,
   ADD ATTRIBUTE us_bank_account stripe_minimal_subscription.s_payment_setting_payment_method_option_us_bank_account;
 
 CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_subscription_payment_setting_payment_method_option(
@@ -2162,9 +2215,9 @@ CREATE OR REPLACE FUNCTION stripe_minimal_subscription.make_subscription_payment
   bancontact stripe_minimal_subscription.subscription_payment_setting_payment_method_option_bancontact DEFAULT NULL,
   card stripe_minimal_subscription.subscription_payment_setting_payment_method_option_card DEFAULT NULL,
   customer_balance stripe_minimal_subscription.s_payment_setting_payment_method_option_customer_balance DEFAULT NULL,
-  konbini JSONB DEFAULT NULL,
+  konbini stripe_minimal_subscription.subscription_payment_setting_payment_method_option_konbini DEFAULT NULL,
   payto stripe_minimal_subscription.subscription_payment_setting_payment_method_option_payto DEFAULT NULL,
-  sepa_debit JSONB DEFAULT NULL,
+  sepa_debit stripe_minimal_subscription.subscription_payment_setting_payment_method_option_sepa_debit DEFAULT NULL,
   us_bank_account stripe_minimal_subscription.s_payment_setting_payment_method_option_us_bank_account DEFAULT NULL
 )
 RETURNS stripe_minimal_subscription.subscription_payment_setting_payment_method_option

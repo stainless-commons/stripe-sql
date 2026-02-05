@@ -3131,7 +3131,7 @@ ALTER TYPE stripe_minimal_dispute.payment_method_details
   ADD ATTRIBUTE card_present stripe_minimal.payment_method_details_card_present,
   ADD ATTRIBUTE cashapp stripe_minimal_dispute.payment_method_details_cashapp,
   ADD ATTRIBUTE crypto stripe_minimal_dispute.payment_method_details_crypto,
-  ADD ATTRIBUTE customer_balance JSONB,
+  ADD ATTRIBUTE customer_balance stripe_minimal_dispute.payment_method_details_customer_balance,
   ADD ATTRIBUTE eps stripe_minimal_dispute.payment_method_details_ep,
   ADD ATTRIBUTE fpx stripe_minimal_dispute.payment_method_details_fpx,
   ADD ATTRIBUTE giropay stripe_minimal_dispute.payment_method_details_giropay,
@@ -3143,14 +3143,14 @@ ALTER TYPE stripe_minimal_dispute.payment_method_details
   ADD ATTRIBUTE konbini stripe_minimal_dispute.payment_method_details_konbini,
   ADD ATTRIBUTE kr_card stripe_minimal_dispute.payment_method_details_kr_card,
   ADD ATTRIBUTE "link" stripe_minimal_dispute.payment_method_details_link,
-  ADD ATTRIBUTE mb_way JSONB,
+  ADD ATTRIBUTE mb_way stripe_minimal_dispute.payment_method_details_mb_way,
   ADD ATTRIBUTE mobilepay stripe_minimal_dispute.payment_method_details_mobilepay,
   ADD ATTRIBUTE multibanco stripe_minimal_dispute.payment_method_details_multibanco,
   ADD ATTRIBUTE naver_pay stripe_minimal_dispute.payment_method_details_naver_pay,
   ADD ATTRIBUTE nz_bank_account stripe_minimal_dispute.payment_method_details_nz_bank_account,
   ADD ATTRIBUTE oxxo stripe_minimal_dispute.payment_method_details_oxxo,
   ADD ATTRIBUTE p24 stripe_minimal_dispute.payment_method_details_p24,
-  ADD ATTRIBUTE pay_by_bank JSONB,
+  ADD ATTRIBUTE pay_by_bank stripe_minimal_dispute.payment_method_details_pay_by_bank,
   ADD ATTRIBUTE payco stripe_minimal_dispute.payment_method_details_payco,
   ADD ATTRIBUTE paynow stripe_minimal_dispute.payment_method_details_paynow,
   ADD ATTRIBUTE paypal stripe_minimal_dispute.payment_method_details_paypal,
@@ -3162,13 +3162,13 @@ ALTER TYPE stripe_minimal_dispute.payment_method_details
   ADD ATTRIBUTE satispay stripe_minimal_dispute.payment_method_details_satispay,
   ADD ATTRIBUTE sepa_debit stripe_minimal_dispute.payment_method_details_sepa_debit,
   ADD ATTRIBUTE sofort JSONB,
-  ADD ATTRIBUTE stripe_account JSONB,
+  ADD ATTRIBUTE stripe_account stripe_minimal_dispute.payment_method_details_stripe_account,
   ADD ATTRIBUTE swish stripe_minimal_dispute.payment_method_details_swish,
-  ADD ATTRIBUTE twint JSONB,
+  ADD ATTRIBUTE twint stripe_minimal_dispute.payment_method_details_twint,
   ADD ATTRIBUTE us_bank_account JSONB,
-  ADD ATTRIBUTE wechat JSONB,
+  ADD ATTRIBUTE wechat stripe_minimal_dispute.payment_method_details_wechat,
   ADD ATTRIBUTE wechat_pay stripe_minimal_dispute.payment_method_details_wechat_pay,
-  ADD ATTRIBUTE zip JSONB;
+  ADD ATTRIBUTE zip stripe_minimal_dispute.payment_method_details_zip;
 
 CREATE OR REPLACE FUNCTION stripe_minimal_dispute.make_payment_method_details(
   "type" TEXT,
@@ -3190,7 +3190,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal_dispute.make_payment_method_details(
   card_present stripe_minimal.payment_method_details_card_present DEFAULT NULL,
   cashapp stripe_minimal_dispute.payment_method_details_cashapp DEFAULT NULL,
   crypto stripe_minimal_dispute.payment_method_details_crypto DEFAULT NULL,
-  customer_balance JSONB DEFAULT NULL,
+  customer_balance stripe_minimal_dispute.payment_method_details_customer_balance DEFAULT NULL,
   eps stripe_minimal_dispute.payment_method_details_ep DEFAULT NULL,
   fpx stripe_minimal_dispute.payment_method_details_fpx DEFAULT NULL,
   giropay stripe_minimal_dispute.payment_method_details_giropay DEFAULT NULL,
@@ -3202,14 +3202,14 @@ CREATE OR REPLACE FUNCTION stripe_minimal_dispute.make_payment_method_details(
   konbini stripe_minimal_dispute.payment_method_details_konbini DEFAULT NULL,
   kr_card stripe_minimal_dispute.payment_method_details_kr_card DEFAULT NULL,
   "link" stripe_minimal_dispute.payment_method_details_link DEFAULT NULL,
-  mb_way JSONB DEFAULT NULL,
+  mb_way stripe_minimal_dispute.payment_method_details_mb_way DEFAULT NULL,
   mobilepay stripe_minimal_dispute.payment_method_details_mobilepay DEFAULT NULL,
   multibanco stripe_minimal_dispute.payment_method_details_multibanco DEFAULT NULL,
   naver_pay stripe_minimal_dispute.payment_method_details_naver_pay DEFAULT NULL,
   nz_bank_account stripe_minimal_dispute.payment_method_details_nz_bank_account DEFAULT NULL,
   oxxo stripe_minimal_dispute.payment_method_details_oxxo DEFAULT NULL,
   p24 stripe_minimal_dispute.payment_method_details_p24 DEFAULT NULL,
-  pay_by_bank JSONB DEFAULT NULL,
+  pay_by_bank stripe_minimal_dispute.payment_method_details_pay_by_bank DEFAULT NULL,
   payco stripe_minimal_dispute.payment_method_details_payco DEFAULT NULL,
   paynow stripe_minimal_dispute.payment_method_details_paynow DEFAULT NULL,
   paypal stripe_minimal_dispute.payment_method_details_paypal DEFAULT NULL,
@@ -3221,13 +3221,13 @@ CREATE OR REPLACE FUNCTION stripe_minimal_dispute.make_payment_method_details(
   satispay stripe_minimal_dispute.payment_method_details_satispay DEFAULT NULL,
   sepa_debit stripe_minimal_dispute.payment_method_details_sepa_debit DEFAULT NULL,
   sofort JSONB DEFAULT NULL,
-  stripe_account JSONB DEFAULT NULL,
+  stripe_account stripe_minimal_dispute.payment_method_details_stripe_account DEFAULT NULL,
   swish stripe_minimal_dispute.payment_method_details_swish DEFAULT NULL,
-  twint JSONB DEFAULT NULL,
+  twint stripe_minimal_dispute.payment_method_details_twint DEFAULT NULL,
   us_bank_account JSONB DEFAULT NULL,
-  wechat JSONB DEFAULT NULL,
+  wechat stripe_minimal_dispute.payment_method_details_wechat DEFAULT NULL,
   wechat_pay stripe_minimal_dispute.payment_method_details_wechat_pay DEFAULT NULL,
-  zip JSONB DEFAULT NULL
+  zip stripe_minimal_dispute.payment_method_details_zip DEFAULT NULL
 )
 RETURNS stripe_minimal_dispute.payment_method_details
 LANGUAGE SQL
@@ -3807,24 +3807,24 @@ $$;
 
 ALTER TYPE stripe_minimal_dispute.payment_method_details_card_wallet
   ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE amex_express_checkout JSONB,
-  ADD ATTRIBUTE apple_pay JSONB,
+  ADD ATTRIBUTE amex_express_checkout stripe_minimal_dispute.payment_method_details_card_wallet_amex_express_checkout,
+  ADD ATTRIBUTE apple_pay stripe_minimal_dispute.payment_method_details_card_wallet_apple_pay,
   ADD ATTRIBUTE dynamic_last4 TEXT,
-  ADD ATTRIBUTE google_pay JSONB,
-  ADD ATTRIBUTE "link" JSONB,
+  ADD ATTRIBUTE google_pay stripe_minimal_dispute.payment_method_details_card_wallet_google_pay,
+  ADD ATTRIBUTE "link" stripe_minimal_dispute.payment_method_details_card_wallet_link,
   ADD ATTRIBUTE masterpass stripe_minimal_dispute.payment_method_details_card_wallet_masterpass,
-  ADD ATTRIBUTE samsung_pay JSONB,
+  ADD ATTRIBUTE samsung_pay stripe_minimal_dispute.payment_method_details_card_wallet_samsung_pay,
   ADD ATTRIBUTE visa_checkout stripe_minimal_dispute.payment_method_details_card_wallet_visa_checkout;
 
 CREATE OR REPLACE FUNCTION stripe_minimal_dispute.make_payment_method_details_card_wallet(
   "type" TEXT,
-  amex_express_checkout JSONB DEFAULT NULL,
-  apple_pay JSONB DEFAULT NULL,
+  amex_express_checkout stripe_minimal_dispute.payment_method_details_card_wallet_amex_express_checkout DEFAULT NULL,
+  apple_pay stripe_minimal_dispute.payment_method_details_card_wallet_apple_pay DEFAULT NULL,
   dynamic_last4 TEXT DEFAULT NULL,
-  google_pay JSONB DEFAULT NULL,
-  "link" JSONB DEFAULT NULL,
+  google_pay stripe_minimal_dispute.payment_method_details_card_wallet_google_pay DEFAULT NULL,
+  "link" stripe_minimal_dispute.payment_method_details_card_wallet_link DEFAULT NULL,
   masterpass stripe_minimal_dispute.payment_method_details_card_wallet_masterpass DEFAULT NULL,
-  samsung_pay JSONB DEFAULT NULL,
+  samsung_pay stripe_minimal_dispute.payment_method_details_card_wallet_samsung_pay DEFAULT NULL,
   visa_checkout stripe_minimal_dispute.payment_method_details_card_wallet_visa_checkout DEFAULT NULL
 )
 RETURNS stripe_minimal_dispute.payment_method_details_card_wallet

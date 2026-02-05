@@ -1,6 +1,6 @@
 {
   "name": "stripe_minimal",
-  "abstract": "The official PostgreSQL extension for the Stripe Minimal API.",
+  "abstract": "The official PostgreSQL extension for the Stripe API.",
   "tags": [
     "api",
     "http",
@@ -9,7 +9,7 @@
   ],
   "version": "0.0.1",
   "release_status": "testing",
-  "maintainer": "Stripe Minimal <dev-platform@stripe.com>",
+  "maintainer": "Stripe <dev-platform@stripe.com>",
   "generated_by": "Stainless (https://stainless.com)",
   "license": "apache_2_0",
   "resources": {
@@ -26,7 +26,7 @@
   },
   "provides": {
     "stripe_minimal": {
-      "abstract": "The official PostgreSQL extension for the Stripe Minimal API.",
+      "abstract": "The official PostgreSQL extension for the Stripe API.",
       "file": "sql/build/stripe_minimal--0.0.1.sql",
       "docfile": "README.md",
       "version": "0.0.1"

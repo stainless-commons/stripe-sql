@@ -1,0 +1,47 @@
+{
+  "name": "stripe_minimal",
+  "abstract": "The official PostgreSQL extension for the Stripe Minimal API.",
+  "tags": [
+    "api",
+    "http",
+    "rest",
+    "sdk"
+  ],
+  "version": "0.0.1",
+  "release_status": "testing",
+  "maintainer": "Stripe Minimal <dev-platform@stripe.com>",
+  "generated_by": "Stainless (https://stainless.com)",
+  "license": "apache_2_0",
+  "resources": {
+    "homepage": "https://stripe.com",
+    "bugtracker": {
+      "web": "https://www.github.com/stainless-sdks/stripe-minimal-sql/issues",
+      "mailto": "dev-platform@stripe.com"
+    },
+    "repository": {
+      "url": "git://github.com/stainless-sdks/stripe-minimal-sql.git",
+      "web": "https://www.github.com/stainless-sdks/stripe-minimal-sql",
+      "type": "git"
+    }
+  },
+  "provides": {
+    "stripe_minimal": {
+      "abstract": "The official PostgreSQL extension for the Stripe Minimal API.",
+      "file": "sql/build/stripe_minimal--0.0.1.sql",
+      "docfile": "README.md",
+      "version": "0.0.1"
+    }
+  },
+  "prereqs": {
+    "runtime": {
+      "requires": {
+        "PostgreSQL": "14.0.0",
+        "plpython3u": "0"
+      }
+    }
+  },
+  "meta-spec": {
+    "version": "1.0.0",
+    "url": "https://pgxn.org/meta/spec.txt"
+  }
+}

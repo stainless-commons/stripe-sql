@@ -1,0 +1,3 @@
+comment = 'The official PostgreSQL extension for the Stripe Minimal API.'
+default_version = '0.0.1'
+relocatable = true

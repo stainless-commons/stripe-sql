@@ -102,6 +102,23 @@ To construct [composite type](https://www.postgresql.org/docs/current/rowtypes.h
 stripe_minimal_coupon.make_applies_to(products := ARRAY['string'])
 ```
 
+## Pagination
+
+For Stripe API endpoints that return a paginated lists of results, the extension automatically fetches more pages as needed.
+
+For example, the following query will make the minimum number of requests necessary to satisfy the `LIMIT`:
+
+```sql
+SELECT *
+FROM stripe_minimal_coupon.list()
+LIMIT 200;
+```
+
+> [!IMPORTANT]
+> Place your `LIMIT` as close to the paginated function call as possible. If the `LIMIT` is too far
+> removed, then PostgreSQL may not [push down the condition](https://wiki.postgresql.org/wiki/Inlining_of_SQL_functions),
+> causing all pages to be requested and buffered.
+
 ## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:

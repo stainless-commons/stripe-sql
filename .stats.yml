@@ -1,4 +1,4 @@
 configured_endpoints: 22
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/democast%2Fstripe-minimal-940a58abcb3dc84403ac5e39f02dd33fbc06cddea1ad5d13b337db3425883ba9.yml
-openapi_spec_hash: 898924d1994136611e7c6d75710c591a
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/democast%2Fstripe-minimal-42ed442816caf83fffc50820674c70bf337f5ede987370b3313ffcd9273792f2.yml
+openapi_spec_hash: e09fbe83a958ffba517bce207e9f9dc1
 config_hash: 50c2fa5ebb8f50a46cd0177b0e7b0d3b

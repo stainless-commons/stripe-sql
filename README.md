@@ -82,15 +82,15 @@ FROM stripe_minimal_account.retrieve();
 Configure the client by setting configuration parameters at the database level:
 
 ```sql
-ALTER DATABASE my_database SET stripe_minimal.api_key = 'My API Key';
+ALTER DATABASE my_database SET stripe_minimal.stripe_secret_key = 'My API Key';
 ```
 
 See this table for the available configuration parameters:
 
-| Parameter                 | Required | Default value               |
-| ------------------------- | -------- | --------------------------- |
-| `stripe_minimal.api_key`  | false    | -                           |
-| `stripe_minimal.base_url` | false    | `'https://api.stripe.com/'` |
+| Parameter                          | Required | Default value               |
+| ---------------------------------- | -------- | --------------------------- |
+| `stripe_minimal.stripe_secret_key` | false    | -                           |
+| `stripe_minimal.base_url`          | false    | `'https://api.stripe.com/'` |
 
 ## Requests and responses
 

@@ -89,7 +89,7 @@ fi
 echo "==> Running postgres"
 PYTHONPATH="$(python -c "import site; print(site.getsitepackages()[0])")"
 export PYTHONPATH
-export PGOPTIONS="-c stripe_minimal.base_url=${TEST_API_BASE_URL:-http://localhost:4010}"
+export PGOPTIONS="-c stripe.base_url=${TEST_API_BASE_URL:-http://localhost:4010}"
 "$(pg_config --bindir)/postgres" -D temp/db "${POSTGRES_CONFIG[@]}" &
 POSTGRES_PID=$!
 trap 'kill $POSTGRES_PID' EXIT

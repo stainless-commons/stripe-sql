@@ -32,7 +32,7 @@ And load it into the relevant database:
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS plpython3u; -- Dependency
-CREATE EXTENSION stripe_minimal;
+CREATE EXTENSION stripe;
 ```
 
 ### Troubleshooting
@@ -74,7 +74,7 @@ This extension requires:
 
 ```sql
 SELECT *
-FROM stripe_minimal_account.retrieve();
+FROM stripe_account.retrieve();
 ```
 
 ## Client configuration
@@ -82,24 +82,24 @@ FROM stripe_minimal_account.retrieve();
 Configure the client by setting configuration parameters at the database level:
 
 ```sql
-ALTER DATABASE my_database SET stripe_minimal.secret_key = 'My API Key';
+ALTER DATABASE my_database SET stripe.secret_key = 'My API Key';
 ```
 
 See this table for the available configuration parameters:
 
-| Parameter                   | Required | Default value               |
-| --------------------------- | -------- | --------------------------- |
-| `stripe_minimal.secret_key` | false    | -                           |
-| `stripe_minimal.base_url`   | false    | `'https://api.stripe.com/'` |
+| Parameter           | Required | Default value               |
+| ------------------- | -------- | --------------------------- |
+| `stripe.secret_key` | false    | -                           |
+| `stripe.base_url`   | false    | `'https://api.stripe.com/'` |
 
 ## Requests and responses
 
 To send a request to the Stripe API, call the relevant SQL function with values corresponding to the parameter types and `SELECT` the columns you need from the returned rows.
 
-To construct [composite type](https://www.postgresql.org/docs/current/rowtypes.html) parameters, use the parameter type's provided `make_*` function. For example, `stripe_minimal_coupon.applies_to` may be constructed like so:
+To construct [composite type](https://www.postgresql.org/docs/current/rowtypes.html) parameters, use the parameter type's provided `make_*` function. For example, `stripe_coupon.applies_to` may be constructed like so:
 
 ```sql
-stripe_minimal_coupon.make_applies_to(products := ARRAY['string'])
+stripe_coupon.make_applies_to(products := ARRAY['string'])
 ```
 
 ## Pagination
@@ -110,7 +110,7 @@ For example, the following query will make the minimum number of requests necess
 
 ```sql
 SELECT *
-FROM stripe_minimal_coupon.list()
+FROM stripe_coupon.list()
 LIMIT 200;
 ```
 

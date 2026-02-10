@@ -1,4 +1,4 @@
-ALTER TYPE stripe_minimal_coupon.coupon
+ALTER TYPE stripe_coupon.coupon
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE duration TEXT,
@@ -7,7 +7,7 @@ ALTER TYPE stripe_minimal_coupon.coupon
   ADD ATTRIBUTE times_redeemed BIGINT,
   ADD ATTRIBUTE "valid" BOOLEAN,
   ADD ATTRIBUTE amount_off BIGINT,
-  ADD ATTRIBUTE applies_to stripe_minimal_coupon.coupon_applies_to,
+  ADD ATTRIBUTE applies_to stripe_coupon.coupon_applies_to,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE currency_options JSONB,
   ADD ATTRIBUTE duration_in_months BIGINT,
@@ -17,7 +17,7 @@ ALTER TYPE stripe_minimal_coupon.coupon
   ADD ATTRIBUTE percent_off DOUBLE PRECISION,
   ADD ATTRIBUTE redeem_by BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_coupon.make_coupon(
+CREATE OR REPLACE FUNCTION stripe_coupon.make_coupon(
   "id" TEXT,
   created BIGINT,
   duration TEXT,
@@ -26,7 +26,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal_coupon.make_coupon(
   times_redeemed BIGINT,
   "valid" BOOLEAN,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_minimal_coupon.coupon_applies_to DEFAULT NULL,
+  applies_to stripe_coupon.coupon_applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration_in_months BIGINT DEFAULT NULL,
@@ -36,7 +36,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal_coupon.make_coupon(
   percent_off DOUBLE PRECISION DEFAULT NULL,
   redeem_by BIGINT DEFAULT NULL
 )
-RETURNS stripe_minimal_coupon.coupon
+RETURNS stripe_coupon.coupon
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -58,39 +58,37 @@ AS $$
     "name",
     percent_off,
     redeem_by
-  )::stripe_minimal_coupon.coupon;
+  )::stripe_coupon.coupon;
 $$;
 
-ALTER TYPE stripe_minimal_coupon.coupon_applies_to
+ALTER TYPE stripe_coupon.coupon_applies_to
   ADD ATTRIBUTE products TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_minimal_coupon.make_coupon_applies_to(
-  products TEXT[]
-)
-RETURNS stripe_minimal_coupon.coupon_applies_to
+CREATE OR REPLACE FUNCTION stripe_coupon.make_coupon_applies_to(products TEXT[])
+RETURNS stripe_coupon.coupon_applies_to
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(products)::stripe_minimal_coupon.coupon_applies_to;
+  SELECT ROW(products)::stripe_coupon.coupon_applies_to;
 $$;
 
-ALTER TYPE stripe_minimal_coupon.applies_to
+ALTER TYPE stripe_coupon.applies_to
   ADD ATTRIBUTE products TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_minimal_coupon.make_applies_to(
+CREATE OR REPLACE FUNCTION stripe_coupon.make_applies_to(
   products TEXT[] DEFAULT NULL
 )
-RETURNS stripe_minimal_coupon.applies_to
+RETURNS stripe_coupon.applies_to
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(products)::stripe_minimal_coupon.applies_to;
+  SELECT ROW(products)::stripe_coupon.applies_to;
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_coupon._create(
+CREATE OR REPLACE FUNCTION stripe_coupon._create(
   "id" TEXT DEFAULT NULL,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_minimal_coupon.applies_to DEFAULT NULL,
+  applies_to stripe_coupon.applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration TEXT DEFAULT NULL,
@@ -108,10 +106,10 @@ AS $$
   import json
   from stripe_minimal._types import not_given
 
-  response = GD["__stripe_minimal_context__"].client.coupons.with_raw_response.create(
+  response = GD["__stripe_context__"].client.coupons.with_raw_response.create(
       id=not_given if id is None else id,
       amount_off=not_given if amount_off is None else amount_off,
-      applies_to=not_given if applies_to is None else GD["__stripe_minimal_context__"].strip_none(applies_to),
+      applies_to=not_given if applies_to is None else GD["__stripe_context__"].strip_none(applies_to),
       currency=not_given if currency is None else currency,
       currency_options=not_given if currency_options is None else json.loads(currency_options),
       duration=not_given if duration is None else duration,
@@ -130,10 +128,10 @@ AS $$
   return response.text()
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_coupon.create(
+CREATE OR REPLACE FUNCTION stripe_coupon.create(
   "id" TEXT DEFAULT NULL,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_minimal_coupon.applies_to DEFAULT NULL,
+  applies_to stripe_coupon.applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration TEXT DEFAULT NULL,
@@ -145,14 +143,14 @@ CREATE OR REPLACE FUNCTION stripe_minimal_coupon.create(
   percent_off DOUBLE PRECISION DEFAULT NULL,
   redeem_by BIGINT DEFAULT NULL
 )
-RETURNS stripe_minimal_coupon.coupon
+RETURNS stripe_coupon.coupon
 LANGUAGE plpgsql
 AS $$
   BEGIN
-    PERFORM stripe_minimal_internal.ensure_context();
+    PERFORM stripe_internal.ensure_context();
     RETURN jsonb_populate_record(
-      NULL::stripe_minimal_coupon.coupon,
-      stripe_minimal_coupon._create(
+      NULL::stripe_coupon.coupon,
+      stripe_coupon._create(
         "id",
         amount_off,
         applies_to,
@@ -171,14 +169,14 @@ AS $$
   END;
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_coupon._list_first_page_py(
+CREATE OR REPLACE FUNCTION stripe_coupon._list_first_page_py(
   created JSONB DEFAULT NULL,
   ending_before TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   "limit" BIGINT DEFAULT NULL,
   starting_after TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_internal.page
+RETURNS stripe_internal.page
 LANGUAGE plpython3u
 STABLE
 AS $$
@@ -187,7 +185,7 @@ AS $$
   from pydantic import TypeAdapter
   from typing import Any
 
-  page = GD["__stripe_minimal_context__"].client.coupons.list(
+  page = GD["__stripe_context__"].client.coupons.list(
       created=not_given if created is None else json.loads(created),
       ending_before=not_given if ending_before is None else ending_before,
       expand=not_given if expand is None else expand,
@@ -213,28 +211,28 @@ AS $$
   )
 $$;
 
--- A simpler wrapper around `stripe_minimal_coupon._list_first_page` that ensures the global client is initialized.
-CREATE OR REPLACE FUNCTION stripe_minimal_coupon._list_first_page(
+-- A simpler wrapper around `stripe_coupon._list_first_page` that ensures the global client is initialized.
+CREATE OR REPLACE FUNCTION stripe_coupon._list_first_page(
   created JSONB DEFAULT NULL,
   ending_before TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   "limit" BIGINT DEFAULT NULL,
   starting_after TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_internal.page
+RETURNS stripe_internal.page
 LANGUAGE plpgsql
 STABLE
 AS $$
   BEGIN
-    PERFORM stripe_minimal_internal.ensure_context();
-    RETURN stripe_minimal_coupon._list_first_page_py(
+    PERFORM stripe_internal.ensure_context();
+    RETURN stripe_coupon._list_first_page_py(
       created, ending_before, expand, "limit", starting_after
     );
   END;
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_coupon._list_next_page(request_options JSONB)
-RETURNS stripe_minimal_internal.page
+CREATE OR REPLACE FUNCTION stripe_coupon._list_next_page(request_options JSONB)
+RETURNS stripe_internal.page
 LANGUAGE plpython3u
 STABLE
 AS $$
@@ -245,7 +243,7 @@ AS $$
   from pydantic import TypeAdapter
   from typing import Any
 
-  page = GD["__stripe_minimal_context__"].client._request_api_list(
+  page = GD["__stripe_context__"].client._request_api_list(
     model=Coupon,
     page=SyncMyCursorIDPage[Coupon],
     options=FinalRequestOptions.construct(**json.loads(request_options))
@@ -269,20 +267,20 @@ AS $$
   )
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_coupon.list(
+CREATE OR REPLACE FUNCTION stripe_coupon.list(
   created JSONB DEFAULT NULL,
   ending_before TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   "limit" BIGINT DEFAULT NULL,
   starting_after TEXT DEFAULT NULL
 )
-RETURNS SETOF stripe_minimal_coupon.coupon
+RETURNS SETOF stripe_coupon.coupon
 LANGUAGE SQL
 STABLE
 AS $$
   WITH RECURSIVE paginated AS (
     SELECT page.*
-    FROM stripe_minimal_coupon._list_first_page(
+    FROM stripe_coupon._list_first_page(
       created, ending_before, expand, "limit", starting_after
     ) AS page
 
@@ -290,8 +288,8 @@ AS $$
 
     SELECT page.*
     FROM paginated
-    CROSS JOIN stripe_minimal_coupon._list_next_page(paginated.next_request_options) AS page
+    CROSS JOIN stripe_coupon._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_minimal_coupon.coupon, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_coupon.coupon, "data")).* FROM paginated;
 $$;

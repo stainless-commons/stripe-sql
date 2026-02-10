@@ -1,4 +1,4 @@
-EXTENSION = stripe_minimal
+EXTENSION = stripe
 EXTVERSION = 0.0.1
 
 DATA = sql/build/$(EXTENSION)--$(EXTVERSION).sql

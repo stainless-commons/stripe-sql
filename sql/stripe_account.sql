@@ -1,54 +1,54 @@
-ALTER TYPE stripe_minimal_account.account
+ALTER TYPE stripe_account.account
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE business_profile stripe_minimal_account.account_business_profile,
+  ADD ATTRIBUTE business_profile stripe_account.account_business_profile,
   ADD ATTRIBUTE business_type TEXT,
-  ADD ATTRIBUTE capabilities stripe_minimal_account.account_capability,
+  ADD ATTRIBUTE capabilities stripe_account.account_capability,
   ADD ATTRIBUTE charges_enabled BOOLEAN,
-  ADD ATTRIBUTE company stripe_minimal_account.account_company,
-  ADD ATTRIBUTE controller stripe_minimal_account.account_controller,
+  ADD ATTRIBUTE company stripe_account.account_company,
+  ADD ATTRIBUTE controller stripe_account.account_controller,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE default_currency TEXT,
   ADD ATTRIBUTE details_submitted BOOLEAN,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE external_accounts stripe_minimal_account.account_external_account,
-  ADD ATTRIBUTE future_requirements stripe_minimal_account.account_future_requirement,
-  ADD ATTRIBUTE "groups" stripe_minimal_account.account_group,
-  ADD ATTRIBUTE individual stripe_minimal_account.account_individual,
+  ADD ATTRIBUTE external_accounts stripe_account.account_external_account,
+  ADD ATTRIBUTE future_requirements stripe_account.account_future_requirement,
+  ADD ATTRIBUTE "groups" stripe_account.account_group,
+  ADD ATTRIBUTE individual stripe_account.account_individual,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE payouts_enabled BOOLEAN,
-  ADD ATTRIBUTE requirements stripe_minimal_account.account_requirement,
+  ADD ATTRIBUTE requirements stripe_account.account_requirement,
   ADD ATTRIBUTE settings JSONB,
-  ADD ATTRIBUTE tos_acceptance stripe_minimal_account.account_tos_acceptance,
+  ADD ATTRIBUTE tos_acceptance stripe_account.account_tos_acceptance,
   ADD ATTRIBUTE "type" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account(
+CREATE OR REPLACE FUNCTION stripe_account.make_account(
   "id" TEXT,
   "object" TEXT,
-  business_profile stripe_minimal_account.account_business_profile DEFAULT NULL,
+  business_profile stripe_account.account_business_profile DEFAULT NULL,
   business_type TEXT DEFAULT NULL,
-  capabilities stripe_minimal_account.account_capability DEFAULT NULL,
+  capabilities stripe_account.account_capability DEFAULT NULL,
   charges_enabled BOOLEAN DEFAULT NULL,
-  company stripe_minimal_account.account_company DEFAULT NULL,
-  controller stripe_minimal_account.account_controller DEFAULT NULL,
+  company stripe_account.account_company DEFAULT NULL,
+  controller stripe_account.account_controller DEFAULT NULL,
   country TEXT DEFAULT NULL,
   created BIGINT DEFAULT NULL,
   default_currency TEXT DEFAULT NULL,
   details_submitted BOOLEAN DEFAULT NULL,
   email TEXT DEFAULT NULL,
-  external_accounts stripe_minimal_account.account_external_account DEFAULT NULL,
-  future_requirements stripe_minimal_account.account_future_requirement DEFAULT NULL,
-  "groups" stripe_minimal_account.account_group DEFAULT NULL,
-  individual stripe_minimal_account.account_individual DEFAULT NULL,
+  external_accounts stripe_account.account_external_account DEFAULT NULL,
+  future_requirements stripe_account.account_future_requirement DEFAULT NULL,
+  "groups" stripe_account.account_group DEFAULT NULL,
+  individual stripe_account.account_individual DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   payouts_enabled BOOLEAN DEFAULT NULL,
-  requirements stripe_minimal_account.account_requirement DEFAULT NULL,
+  requirements stripe_account.account_requirement DEFAULT NULL,
   settings JSONB DEFAULT NULL,
-  tos_acceptance stripe_minimal_account.account_tos_acceptance DEFAULT NULL,
+  tos_acceptance stripe_account.account_tos_acceptance DEFAULT NULL,
   "type" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account
+RETURNS stripe_account.account
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -76,38 +76,38 @@ AS $$
     settings,
     tos_acceptance,
     "type"
-  )::stripe_minimal_account.account;
+  )::stripe_account.account;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_business_profile
-  ADD ATTRIBUTE annual_revenue stripe_minimal_account.account_business_profile_annual_revenue,
+ALTER TYPE stripe_account.account_business_profile
+  ADD ATTRIBUTE annual_revenue stripe_account.account_business_profile_annual_revenue,
   ADD ATTRIBUTE estimated_worker_count BIGINT,
   ADD ATTRIBUTE mcc TEXT,
   ADD ATTRIBUTE minority_owned_business_designation TEXT[],
-  ADD ATTRIBUTE monthly_estimated_revenue stripe_minimal_account.account_business_profile_monthly_estimated_revenue,
+  ADD ATTRIBUTE monthly_estimated_revenue stripe_account.account_business_profile_monthly_estimated_revenue,
   ADD ATTRIBUTE "name" TEXT,
   ADD ATTRIBUTE product_description TEXT,
-  ADD ATTRIBUTE support_address stripe_minimal.address,
+  ADD ATTRIBUTE support_address stripe.address,
   ADD ATTRIBUTE support_email TEXT,
   ADD ATTRIBUTE support_phone TEXT,
   ADD ATTRIBUTE support_url TEXT,
   ADD ATTRIBUTE url TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_business_profile(
-  annual_revenue stripe_minimal_account.account_business_profile_annual_revenue DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_account.make_account_business_profile(
+  annual_revenue stripe_account.account_business_profile_annual_revenue DEFAULT NULL,
   estimated_worker_count BIGINT DEFAULT NULL,
   mcc TEXT DEFAULT NULL,
   minority_owned_business_designation TEXT[] DEFAULT NULL,
-  monthly_estimated_revenue stripe_minimal_account.account_business_profile_monthly_estimated_revenue DEFAULT NULL,
+  monthly_estimated_revenue stripe_account.account_business_profile_monthly_estimated_revenue DEFAULT NULL,
   "name" TEXT DEFAULT NULL,
   product_description TEXT DEFAULT NULL,
-  support_address stripe_minimal.address DEFAULT NULL,
+  support_address stripe.address DEFAULT NULL,
   support_email TEXT DEFAULT NULL,
   support_phone TEXT DEFAULT NULL,
   support_url TEXT DEFAULT NULL,
   url TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_business_profile
+RETURNS stripe_account.account_business_profile
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -124,44 +124,44 @@ AS $$
     support_phone,
     support_url,
     url
-  )::stripe_minimal_account.account_business_profile;
+  )::stripe_account.account_business_profile;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_business_profile_annual_revenue
+ALTER TYPE stripe_account.account_business_profile_annual_revenue
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE fiscal_year_end TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_business_profile_annual_revenue(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_business_profile_annual_revenue(
   amount BIGINT DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   fiscal_year_end TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_business_profile_annual_revenue
+RETURNS stripe_account.account_business_profile_annual_revenue
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     amount, currency, fiscal_year_end
-  )::stripe_minimal_account.account_business_profile_annual_revenue;
+  )::stripe_account.account_business_profile_annual_revenue;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_business_profile_monthly_estimated_revenue
+ALTER TYPE stripe_account.account_business_profile_monthly_estimated_revenue
   ADD ATTRIBUTE amount BIGINT, ADD ATTRIBUTE currency TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_business_profile_monthly_estimated_revenue(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_business_profile_monthly_estimated_revenue(
   amount BIGINT, currency TEXT
 )
-RETURNS stripe_minimal_account.account_business_profile_monthly_estimated_revenue
+RETURNS stripe_account.account_business_profile_monthly_estimated_revenue
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     amount, currency
-  )::stripe_minimal_account.account_business_profile_monthly_estimated_revenue;
+  )::stripe_account.account_business_profile_monthly_estimated_revenue;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_capability
+ALTER TYPE stripe_account.account_capability
   ADD ATTRIBUTE acss_debit_payments TEXT,
   ADD ATTRIBUTE affirm_payments TEXT,
   ADD ATTRIBUTE afterpay_clearpay_payments TEXT,
@@ -224,7 +224,7 @@ ALTER TYPE stripe_minimal_account.account_capability
   ADD ATTRIBUTE us_bank_transfer_payments TEXT,
   ADD ATTRIBUTE zip_payments TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_capability(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_capability(
   acss_debit_payments TEXT DEFAULT NULL,
   affirm_payments TEXT DEFAULT NULL,
   afterpay_clearpay_payments TEXT DEFAULT NULL,
@@ -287,7 +287,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_capability(
   us_bank_transfer_payments TEXT DEFAULT NULL,
   zip_payments TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_capability
+RETURNS stripe_account.account_capability
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -353,15 +353,15 @@ AS $$
     us_bank_account_ach_payments,
     us_bank_transfer_payments,
     zip_payments
-  )::stripe_minimal_account.account_capability;
+  )::stripe_account.account_capability;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_company
-  ADD ATTRIBUTE address stripe_minimal.address,
-  ADD ATTRIBUTE address_kana stripe_minimal_account.legal_entity_japan_address,
-  ADD ATTRIBUTE address_kanji stripe_minimal_account.legal_entity_japan_address,
+ALTER TYPE stripe_account.account_company
+  ADD ATTRIBUTE address stripe.address,
+  ADD ATTRIBUTE address_kana stripe_account.legal_entity_japan_address,
+  ADD ATTRIBUTE address_kanji stripe_account.legal_entity_japan_address,
   ADD ATTRIBUTE directors_provided BOOLEAN,
-  ADD ATTRIBUTE directorship_declaration stripe_minimal_account.account_company_directorship_declaration,
+  ADD ATTRIBUTE directorship_declaration stripe_account.account_company_directorship_declaration,
   ADD ATTRIBUTE executives_provided BOOLEAN,
   ADD ATTRIBUTE export_license_id TEXT,
   ADD ATTRIBUTE export_purpose_code TEXT,
@@ -369,23 +369,23 @@ ALTER TYPE stripe_minimal_account.account_company
   ADD ATTRIBUTE name_kana TEXT,
   ADD ATTRIBUTE name_kanji TEXT,
   ADD ATTRIBUTE owners_provided BOOLEAN,
-  ADD ATTRIBUTE ownership_declaration stripe_minimal_account.account_company_ownership_declaration,
+  ADD ATTRIBUTE ownership_declaration stripe_account.account_company_ownership_declaration,
   ADD ATTRIBUTE ownership_exemption_reason TEXT,
   ADD ATTRIBUTE phone TEXT,
-  ADD ATTRIBUTE registration_date stripe_minimal_account.account_company_registration_date,
-  ADD ATTRIBUTE representative_declaration stripe_minimal_account.account_company_representative_declaration,
+  ADD ATTRIBUTE registration_date stripe_account.account_company_registration_date,
+  ADD ATTRIBUTE representative_declaration stripe_account.account_company_representative_declaration,
   ADD ATTRIBUTE "structure" TEXT,
   ADD ATTRIBUTE tax_id_provided BOOLEAN,
   ADD ATTRIBUTE tax_id_registrar TEXT,
   ADD ATTRIBUTE vat_id_provided BOOLEAN,
-  ADD ATTRIBUTE verification stripe_minimal_account.account_company_verification;
+  ADD ATTRIBUTE verification stripe_account.account_company_verification;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_company(
-  address stripe_minimal.address DEFAULT NULL,
-  address_kana stripe_minimal_account.legal_entity_japan_address DEFAULT NULL,
-  address_kanji stripe_minimal_account.legal_entity_japan_address DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_account.make_account_company(
+  address stripe.address DEFAULT NULL,
+  address_kana stripe_account.legal_entity_japan_address DEFAULT NULL,
+  address_kanji stripe_account.legal_entity_japan_address DEFAULT NULL,
   directors_provided BOOLEAN DEFAULT NULL,
-  directorship_declaration stripe_minimal_account.account_company_directorship_declaration DEFAULT NULL,
+  directorship_declaration stripe_account.account_company_directorship_declaration DEFAULT NULL,
   executives_provided BOOLEAN DEFAULT NULL,
   export_license_id TEXT DEFAULT NULL,
   export_purpose_code TEXT DEFAULT NULL,
@@ -393,18 +393,18 @@ CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_company(
   name_kana TEXT DEFAULT NULL,
   name_kanji TEXT DEFAULT NULL,
   owners_provided BOOLEAN DEFAULT NULL,
-  ownership_declaration stripe_minimal_account.account_company_ownership_declaration DEFAULT NULL,
+  ownership_declaration stripe_account.account_company_ownership_declaration DEFAULT NULL,
   ownership_exemption_reason TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL,
-  registration_date stripe_minimal_account.account_company_registration_date DEFAULT NULL,
-  representative_declaration stripe_minimal_account.account_company_representative_declaration DEFAULT NULL,
+  registration_date stripe_account.account_company_registration_date DEFAULT NULL,
+  representative_declaration stripe_account.account_company_representative_declaration DEFAULT NULL,
   "structure" TEXT DEFAULT NULL,
   tax_id_provided BOOLEAN DEFAULT NULL,
   tax_id_registrar TEXT DEFAULT NULL,
   vat_id_provided BOOLEAN DEFAULT NULL,
-  verification stripe_minimal_account.account_company_verification DEFAULT NULL
+  verification stripe_account.account_company_verification DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_company
+RETURNS stripe_account.account_company
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -431,130 +431,130 @@ AS $$
     tax_id_registrar,
     vat_id_provided,
     verification
-  )::stripe_minimal_account.account_company;
+  )::stripe_account.account_company;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_company_directorship_declaration
+ALTER TYPE stripe_account.account_company_directorship_declaration
   ADD ATTRIBUTE "date" BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_company_directorship_declaration(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_company_directorship_declaration(
   "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_company_directorship_declaration
+RETURNS stripe_account.account_company_directorship_declaration
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "date", ip, user_agent
-  )::stripe_minimal_account.account_company_directorship_declaration;
+  )::stripe_account.account_company_directorship_declaration;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_company_ownership_declaration
+ALTER TYPE stripe_account.account_company_ownership_declaration
   ADD ATTRIBUTE "date" BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_company_ownership_declaration(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_company_ownership_declaration(
   "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_company_ownership_declaration
+RETURNS stripe_account.account_company_ownership_declaration
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "date", ip, user_agent
-  )::stripe_minimal_account.account_company_ownership_declaration;
+  )::stripe_account.account_company_ownership_declaration;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_company_registration_date
+ALTER TYPE stripe_account.account_company_registration_date
   ADD ATTRIBUTE "day" BIGINT,
   ADD ATTRIBUTE "month" BIGINT,
   ADD ATTRIBUTE "year" BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_company_registration_date(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_company_registration_date(
   "day" BIGINT DEFAULT NULL,
   "month" BIGINT DEFAULT NULL,
   "year" BIGINT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_company_registration_date
+RETURNS stripe_account.account_company_registration_date
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "day", "month", "year"
-  )::stripe_minimal_account.account_company_registration_date;
+  )::stripe_account.account_company_registration_date;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_company_representative_declaration
+ALTER TYPE stripe_account.account_company_representative_declaration
   ADD ATTRIBUTE "date" BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_company_representative_declaration(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_company_representative_declaration(
   "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_company_representative_declaration
+RETURNS stripe_account.account_company_representative_declaration
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "date", ip, user_agent
-  )::stripe_minimal_account.account_company_representative_declaration;
+  )::stripe_account.account_company_representative_declaration;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_company_verification
-  ADD ATTRIBUTE "document" stripe_minimal_account.account_company_verification_document;
+ALTER TYPE stripe_account.account_company_verification
+  ADD ATTRIBUTE "document" stripe_account.account_company_verification_document;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_company_verification(
-  "document" stripe_minimal_account.account_company_verification_document
+CREATE OR REPLACE FUNCTION stripe_account.make_account_company_verification(
+  "document" stripe_account.account_company_verification_document
 )
-RETURNS stripe_minimal_account.account_company_verification
+RETURNS stripe_account.account_company_verification
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("document")::stripe_minimal_account.account_company_verification;
+  SELECT ROW("document")::stripe_account.account_company_verification;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_company_verification_document
+ALTER TYPE stripe_account.account_company_verification_document
   ADD ATTRIBUTE back JSONB,
   ADD ATTRIBUTE details TEXT,
   ADD ATTRIBUTE details_code TEXT,
   ADD ATTRIBUTE front JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_company_verification_document(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_company_verification_document(
   back JSONB DEFAULT NULL,
   details TEXT DEFAULT NULL,
   details_code TEXT DEFAULT NULL,
   front JSONB DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_company_verification_document
+RETURNS stripe_account.account_company_verification_document
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     back, details, details_code, front
-  )::stripe_minimal_account.account_company_verification_document;
+  )::stripe_account.account_company_verification_document;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_controller
+ALTER TYPE stripe_account.account_controller
   ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE fees stripe_minimal_account.account_controller_fee,
+  ADD ATTRIBUTE fees stripe_account.account_controller_fee,
   ADD ATTRIBUTE is_controller BOOLEAN,
-  ADD ATTRIBUTE losses stripe_minimal_account.account_controller_loss,
+  ADD ATTRIBUTE losses stripe_account.account_controller_loss,
   ADD ATTRIBUTE requirement_collection TEXT,
-  ADD ATTRIBUTE stripe_dashboard stripe_minimal_account.account_controller_stripe_dashboard;
+  ADD ATTRIBUTE stripe_dashboard stripe_account.account_controller_stripe_dashboard;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_controller(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_controller(
   "type" TEXT,
-  fees stripe_minimal_account.account_controller_fee DEFAULT NULL,
+  fees stripe_account.account_controller_fee DEFAULT NULL,
   is_controller BOOLEAN DEFAULT NULL,
-  losses stripe_minimal_account.account_controller_loss DEFAULT NULL,
+  losses stripe_account.account_controller_loss DEFAULT NULL,
   requirement_collection TEXT DEFAULT NULL,
-  stripe_dashboard stripe_minimal_account.account_controller_stripe_dashboard DEFAULT NULL
+  stripe_dashboard stripe_account.account_controller_stripe_dashboard DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_controller
+RETURNS stripe_account.account_controller
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -565,89 +565,87 @@ AS $$
     losses,
     requirement_collection,
     stripe_dashboard
-  )::stripe_minimal_account.account_controller;
+  )::stripe_account.account_controller;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_controller_fee
+ALTER TYPE stripe_account.account_controller_fee
   ADD ATTRIBUTE payer TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_controller_fee(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_controller_fee(
   payer TEXT
 )
-RETURNS stripe_minimal_account.account_controller_fee
+RETURNS stripe_account.account_controller_fee
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(payer)::stripe_minimal_account.account_controller_fee;
+  SELECT ROW(payer)::stripe_account.account_controller_fee;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_controller_loss
+ALTER TYPE stripe_account.account_controller_loss
   ADD ATTRIBUTE payments TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_controller_loss(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_controller_loss(
   payments TEXT
 )
-RETURNS stripe_minimal_account.account_controller_loss
+RETURNS stripe_account.account_controller_loss
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(payments)::stripe_minimal_account.account_controller_loss;
+  SELECT ROW(payments)::stripe_account.account_controller_loss;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_controller_stripe_dashboard
+ALTER TYPE stripe_account.account_controller_stripe_dashboard
   ADD ATTRIBUTE "type" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_controller_stripe_dashboard(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_controller_stripe_dashboard(
   "type" TEXT
 )
-RETURNS stripe_minimal_account.account_controller_stripe_dashboard
+RETURNS stripe_account.account_controller_stripe_dashboard
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    "type"
-  )::stripe_minimal_account.account_controller_stripe_dashboard;
+  SELECT ROW("type")::stripe_account.account_controller_stripe_dashboard;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_external_account
+ALTER TYPE stripe_account.account_external_account
   ADD ATTRIBUTE "data" JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
   ADD ATTRIBUTE "object" TEXT,
   ADD ATTRIBUTE url TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_external_account(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_external_account(
   "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
 )
-RETURNS stripe_minimal_account.account_external_account
+RETURNS stripe_account.account_external_account
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "data", has_more, "object", url
-  )::stripe_minimal_account.account_external_account;
+  )::stripe_account.account_external_account;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_future_requirement
-  ADD ATTRIBUTE alternatives stripe_minimal_account.account_requirements_alternative[],
+ALTER TYPE stripe_account.account_future_requirement
+  ADD ATTRIBUTE alternatives stripe_account.account_requirements_alternative[],
   ADD ATTRIBUTE current_deadline BIGINT,
   ADD ATTRIBUTE currently_due TEXT[],
   ADD ATTRIBUTE disabled_reason TEXT,
-  ADD ATTRIBUTE errors stripe_minimal.account_requirements_error[],
+  ADD ATTRIBUTE errors stripe.account_requirements_error[],
   ADD ATTRIBUTE eventually_due TEXT[],
   ADD ATTRIBUTE past_due TEXT[],
   ADD ATTRIBUTE pending_verification TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_future_requirement(
-  alternatives stripe_minimal_account.account_requirements_alternative[] DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_account.make_account_future_requirement(
+  alternatives stripe_account.account_requirements_alternative[] DEFAULT NULL,
   current_deadline BIGINT DEFAULT NULL,
   currently_due TEXT[] DEFAULT NULL,
   disabled_reason TEXT DEFAULT NULL,
-  errors stripe_minimal.account_requirements_error[] DEFAULT NULL,
+  errors stripe.account_requirements_error[] DEFAULT NULL,
   eventually_due TEXT[] DEFAULT NULL,
   past_due TEXT[] DEFAULT NULL,
   pending_verification TEXT[] DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_future_requirement
+RETURNS stripe_account.account_future_requirement
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -660,38 +658,38 @@ AS $$
     eventually_due,
     past_due,
     pending_verification
-  )::stripe_minimal_account.account_future_requirement;
+  )::stripe_account.account_future_requirement;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_group
+ALTER TYPE stripe_account.account_group
   ADD ATTRIBUTE payments_pricing TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_group(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_group(
   payments_pricing TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_group
+RETURNS stripe_account.account_group
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(payments_pricing)::stripe_minimal_account.account_group;
+  SELECT ROW(payments_pricing)::stripe_account.account_group;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual
+ALTER TYPE stripe_account.account_individual
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE account TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE additional_tos_acceptances stripe_minimal_account.account_individual_additional_tos_acceptance,
-  ADD ATTRIBUTE address stripe_minimal.address,
-  ADD ATTRIBUTE address_kana stripe_minimal_account.legal_entity_japan_address,
-  ADD ATTRIBUTE address_kanji stripe_minimal_account.legal_entity_japan_address,
-  ADD ATTRIBUTE dob stripe_minimal_account.account_individual_dob,
+  ADD ATTRIBUTE additional_tos_acceptances stripe_account.account_individual_additional_tos_acceptance,
+  ADD ATTRIBUTE address stripe.address,
+  ADD ATTRIBUTE address_kana stripe_account.legal_entity_japan_address,
+  ADD ATTRIBUTE address_kanji stripe_account.legal_entity_japan_address,
+  ADD ATTRIBUTE dob stripe_account.account_individual_dob,
   ADD ATTRIBUTE email TEXT,
   ADD ATTRIBUTE first_name TEXT,
   ADD ATTRIBUTE first_name_kana TEXT,
   ADD ATTRIBUTE first_name_kanji TEXT,
   ADD ATTRIBUTE full_name_aliases TEXT[],
-  ADD ATTRIBUTE future_requirements stripe_minimal_account.account_individual_future_requirement,
+  ADD ATTRIBUTE future_requirements stripe_account.account_individual_future_requirement,
   ADD ATTRIBUTE gender TEXT,
   ADD ATTRIBUTE id_number_provided BOOLEAN,
   ADD ATTRIBUTE id_number_secondary_provided BOOLEAN,
@@ -703,29 +701,29 @@ ALTER TYPE stripe_minimal_account.account_individual
   ADD ATTRIBUTE nationality TEXT,
   ADD ATTRIBUTE phone TEXT,
   ADD ATTRIBUTE political_exposure TEXT,
-  ADD ATTRIBUTE registered_address stripe_minimal.address,
-  ADD ATTRIBUTE relationship stripe_minimal_account.account_individual_relationship,
-  ADD ATTRIBUTE requirements stripe_minimal_account.account_individual_requirement,
+  ADD ATTRIBUTE registered_address stripe.address,
+  ADD ATTRIBUTE relationship stripe_account.account_individual_relationship,
+  ADD ATTRIBUTE requirements stripe_account.account_individual_requirement,
   ADD ATTRIBUTE ssn_last_4_provided BOOLEAN,
-  ADD ATTRIBUTE us_cfpb_data stripe_minimal_account.account_individual_us_cfpb_data,
-  ADD ATTRIBUTE verification stripe_minimal_account.account_individual_verification;
+  ADD ATTRIBUTE us_cfpb_data stripe_account.account_individual_us_cfpb_data,
+  ADD ATTRIBUTE verification stripe_account.account_individual_verification;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual(
   "id" TEXT,
   account TEXT,
   created BIGINT,
   "object" TEXT,
-  additional_tos_acceptances stripe_minimal_account.account_individual_additional_tos_acceptance DEFAULT NULL,
-  address stripe_minimal.address DEFAULT NULL,
-  address_kana stripe_minimal_account.legal_entity_japan_address DEFAULT NULL,
-  address_kanji stripe_minimal_account.legal_entity_japan_address DEFAULT NULL,
-  dob stripe_minimal_account.account_individual_dob DEFAULT NULL,
+  additional_tos_acceptances stripe_account.account_individual_additional_tos_acceptance DEFAULT NULL,
+  address stripe.address DEFAULT NULL,
+  address_kana stripe_account.legal_entity_japan_address DEFAULT NULL,
+  address_kanji stripe_account.legal_entity_japan_address DEFAULT NULL,
+  dob stripe_account.account_individual_dob DEFAULT NULL,
   email TEXT DEFAULT NULL,
   first_name TEXT DEFAULT NULL,
   first_name_kana TEXT DEFAULT NULL,
   first_name_kanji TEXT DEFAULT NULL,
   full_name_aliases TEXT[] DEFAULT NULL,
-  future_requirements stripe_minimal_account.account_individual_future_requirement DEFAULT NULL,
+  future_requirements stripe_account.account_individual_future_requirement DEFAULT NULL,
   gender TEXT DEFAULT NULL,
   id_number_provided BOOLEAN DEFAULT NULL,
   id_number_secondary_provided BOOLEAN DEFAULT NULL,
@@ -737,14 +735,14 @@ CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual(
   nationality TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL,
   political_exposure TEXT DEFAULT NULL,
-  registered_address stripe_minimal.address DEFAULT NULL,
-  relationship stripe_minimal_account.account_individual_relationship DEFAULT NULL,
-  requirements stripe_minimal_account.account_individual_requirement DEFAULT NULL,
+  registered_address stripe.address DEFAULT NULL,
+  relationship stripe_account.account_individual_relationship DEFAULT NULL,
+  requirements stripe_account.account_individual_requirement DEFAULT NULL,
   ssn_last_4_provided BOOLEAN DEFAULT NULL,
-  us_cfpb_data stripe_minimal_account.account_individual_us_cfpb_data DEFAULT NULL,
-  verification stripe_minimal_account.account_individual_verification DEFAULT NULL
+  us_cfpb_data stripe_account.account_individual_us_cfpb_data DEFAULT NULL,
+  verification stripe_account.account_individual_verification DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual
+RETURNS stripe_account.account_individual
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -781,77 +779,75 @@ AS $$
     ssn_last_4_provided,
     us_cfpb_data,
     verification
-  )::stripe_minimal_account.account_individual;
+  )::stripe_account.account_individual;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_additional_tos_acceptance
-  ADD ATTRIBUTE account stripe_minimal_account.account_individual_additional_tos_acceptance_account;
+ALTER TYPE stripe_account.account_individual_additional_tos_acceptance
+  ADD ATTRIBUTE account stripe_account.account_individual_additional_tos_acceptance_account;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_additional_tos_acceptance(
-  account stripe_minimal_account.account_individual_additional_tos_acceptance_account DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_additional_tos_acceptance(
+  account stripe_account.account_individual_additional_tos_acceptance_account DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_additional_tos_acceptance
+RETURNS stripe_account.account_individual_additional_tos_acceptance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     account
-  )::stripe_minimal_account.account_individual_additional_tos_acceptance;
+  )::stripe_account.account_individual_additional_tos_acceptance;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_additional_tos_acceptance_account
+ALTER TYPE stripe_account.account_individual_additional_tos_acceptance_account
   ADD ATTRIBUTE "date" BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_additional_tos_acceptance_account(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_additional_tos_acceptance_account(
   "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_additional_tos_acceptance_account
+RETURNS stripe_account.account_individual_additional_tos_acceptance_account
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "date", ip, user_agent
-  )::stripe_minimal_account.account_individual_additional_tos_acceptance_account;
+  )::stripe_account.account_individual_additional_tos_acceptance_account;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_dob
+ALTER TYPE stripe_account.account_individual_dob
   ADD ATTRIBUTE "day" BIGINT,
   ADD ATTRIBUTE "month" BIGINT,
   ADD ATTRIBUTE "year" BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_dob(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_dob(
   "day" BIGINT DEFAULT NULL,
   "month" BIGINT DEFAULT NULL,
   "year" BIGINT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_dob
+RETURNS stripe_account.account_individual_dob
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    "day", "month", "year"
-  )::stripe_minimal_account.account_individual_dob;
+  SELECT ROW("day", "month", "year")::stripe_account.account_individual_dob;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_future_requirement
+ALTER TYPE stripe_account.account_individual_future_requirement
   ADD ATTRIBUTE currently_due TEXT[],
-  ADD ATTRIBUTE errors stripe_minimal.account_requirements_error[],
+  ADD ATTRIBUTE errors stripe.account_requirements_error[],
   ADD ATTRIBUTE eventually_due TEXT[],
   ADD ATTRIBUTE past_due TEXT[],
   ADD ATTRIBUTE pending_verification TEXT[],
-  ADD ATTRIBUTE alternatives stripe_minimal_account.account_requirements_alternative[];
+  ADD ATTRIBUTE alternatives stripe_account.account_requirements_alternative[];
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_future_requirement(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_future_requirement(
   currently_due TEXT[],
-  errors stripe_minimal.account_requirements_error[],
+  errors stripe.account_requirements_error[],
   eventually_due TEXT[],
   past_due TEXT[],
   pending_verification TEXT[],
-  alternatives stripe_minimal_account.account_requirements_alternative[] DEFAULT NULL
+  alternatives stripe_account.account_requirements_alternative[] DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_future_requirement
+RETURNS stripe_account.account_individual_future_requirement
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -862,10 +858,10 @@ AS $$
     past_due,
     pending_verification,
     alternatives
-  )::stripe_minimal_account.account_individual_future_requirement;
+  )::stripe_account.account_individual_future_requirement;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_relationship
+ALTER TYPE stripe_account.account_individual_relationship
   ADD ATTRIBUTE authorizer BOOLEAN,
   ADD ATTRIBUTE director BOOLEAN,
   ADD ATTRIBUTE executive BOOLEAN,
@@ -875,7 +871,7 @@ ALTER TYPE stripe_minimal_account.account_individual_relationship
   ADD ATTRIBUTE representative BOOLEAN,
   ADD ATTRIBUTE title TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_relationship(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_relationship(
   authorizer BOOLEAN DEFAULT NULL,
   director BOOLEAN DEFAULT NULL,
   executive BOOLEAN DEFAULT NULL,
@@ -885,7 +881,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_relati
   representative BOOLEAN DEFAULT NULL,
   title TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_relationship
+RETURNS stripe_account.account_individual_relationship
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -898,26 +894,26 @@ AS $$
     percent_ownership,
     representative,
     title
-  )::stripe_minimal_account.account_individual_relationship;
+  )::stripe_account.account_individual_relationship;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_requirement
+ALTER TYPE stripe_account.account_individual_requirement
   ADD ATTRIBUTE currently_due TEXT[],
-  ADD ATTRIBUTE errors stripe_minimal.account_requirements_error[],
+  ADD ATTRIBUTE errors stripe.account_requirements_error[],
   ADD ATTRIBUTE eventually_due TEXT[],
   ADD ATTRIBUTE past_due TEXT[],
   ADD ATTRIBUTE pending_verification TEXT[],
-  ADD ATTRIBUTE alternatives stripe_minimal_account.account_requirements_alternative[];
+  ADD ATTRIBUTE alternatives stripe_account.account_requirements_alternative[];
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_requirement(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_requirement(
   currently_due TEXT[],
-  errors stripe_minimal.account_requirements_error[],
+  errors stripe.account_requirements_error[],
   eventually_due TEXT[],
   past_due TEXT[],
   pending_verification TEXT[],
-  alternatives stripe_minimal_account.account_requirements_alternative[] DEFAULT NULL
+  alternatives stripe_account.account_requirements_alternative[] DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_requirement
+RETURNS stripe_account.account_individual_requirement
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -928,144 +924,144 @@ AS $$
     past_due,
     pending_verification,
     alternatives
-  )::stripe_minimal_account.account_individual_requirement;
+  )::stripe_account.account_individual_requirement;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_us_cfpb_data
-  ADD ATTRIBUTE ethnicity_details stripe_minimal_account.account_individual_us_cfpb_data_ethnicity_detail,
-  ADD ATTRIBUTE race_details stripe_minimal_account.account_individual_us_cfpb_data_race_detail,
+ALTER TYPE stripe_account.account_individual_us_cfpb_data
+  ADD ATTRIBUTE ethnicity_details stripe_account.account_individual_us_cfpb_data_ethnicity_detail,
+  ADD ATTRIBUTE race_details stripe_account.account_individual_us_cfpb_data_race_detail,
   ADD ATTRIBUTE self_identified_gender TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_us_cfpb_data(
-  ethnicity_details stripe_minimal_account.account_individual_us_cfpb_data_ethnicity_detail DEFAULT NULL,
-  race_details stripe_minimal_account.account_individual_us_cfpb_data_race_detail DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_us_cfpb_data(
+  ethnicity_details stripe_account.account_individual_us_cfpb_data_ethnicity_detail DEFAULT NULL,
+  race_details stripe_account.account_individual_us_cfpb_data_race_detail DEFAULT NULL,
   self_identified_gender TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_us_cfpb_data
+RETURNS stripe_account.account_individual_us_cfpb_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     ethnicity_details, race_details, self_identified_gender
-  )::stripe_minimal_account.account_individual_us_cfpb_data;
+  )::stripe_account.account_individual_us_cfpb_data;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_us_cfpb_data_ethnicity_detail
+ALTER TYPE stripe_account.account_individual_us_cfpb_data_ethnicity_detail
   ADD ATTRIBUTE ethnicity TEXT[], ADD ATTRIBUTE ethnicity_other TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_us_cfpb_data_ethnicity_detail(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_us_cfpb_data_ethnicity_detail(
   ethnicity TEXT[] DEFAULT NULL, ethnicity_other TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_us_cfpb_data_ethnicity_detail
+RETURNS stripe_account.account_individual_us_cfpb_data_ethnicity_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     ethnicity, ethnicity_other
-  )::stripe_minimal_account.account_individual_us_cfpb_data_ethnicity_detail;
+  )::stripe_account.account_individual_us_cfpb_data_ethnicity_detail;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_us_cfpb_data_race_detail
+ALTER TYPE stripe_account.account_individual_us_cfpb_data_race_detail
   ADD ATTRIBUTE race TEXT[], ADD ATTRIBUTE race_other TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_us_cfpb_data_race_detail(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_us_cfpb_data_race_detail(
   race TEXT[] DEFAULT NULL, race_other TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_us_cfpb_data_race_detail
+RETURNS stripe_account.account_individual_us_cfpb_data_race_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     race, race_other
-  )::stripe_minimal_account.account_individual_us_cfpb_data_race_detail;
+  )::stripe_account.account_individual_us_cfpb_data_race_detail;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_verification
+ALTER TYPE stripe_account.account_individual_verification
   ADD ATTRIBUTE status TEXT,
-  ADD ATTRIBUTE additional_document stripe_minimal_account.account_individual_verification_additional_document,
+  ADD ATTRIBUTE additional_document stripe_account.account_individual_verification_additional_document,
   ADD ATTRIBUTE details TEXT,
   ADD ATTRIBUTE details_code TEXT,
-  ADD ATTRIBUTE "document" stripe_minimal_account.account_individual_verification_document;
+  ADD ATTRIBUTE "document" stripe_account.account_individual_verification_document;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_verification(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_verification(
   status TEXT,
-  additional_document stripe_minimal_account.account_individual_verification_additional_document DEFAULT NULL,
+  additional_document stripe_account.account_individual_verification_additional_document DEFAULT NULL,
   details TEXT DEFAULT NULL,
   details_code TEXT DEFAULT NULL,
-  "document" stripe_minimal_account.account_individual_verification_document DEFAULT NULL
+  "document" stripe_account.account_individual_verification_document DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_verification
+RETURNS stripe_account.account_individual_verification
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     status, additional_document, details, details_code, "document"
-  )::stripe_minimal_account.account_individual_verification;
+  )::stripe_account.account_individual_verification;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_verification_additional_document
+ALTER TYPE stripe_account.account_individual_verification_additional_document
   ADD ATTRIBUTE back JSONB,
   ADD ATTRIBUTE details TEXT,
   ADD ATTRIBUTE details_code TEXT,
   ADD ATTRIBUTE front JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_verification_additional_document(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_verification_additional_document(
   back JSONB DEFAULT NULL,
   details TEXT DEFAULT NULL,
   details_code TEXT DEFAULT NULL,
   front JSONB DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_verification_additional_document
+RETURNS stripe_account.account_individual_verification_additional_document
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     back, details, details_code, front
-  )::stripe_minimal_account.account_individual_verification_additional_document;
+  )::stripe_account.account_individual_verification_additional_document;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_individual_verification_document
+ALTER TYPE stripe_account.account_individual_verification_document
   ADD ATTRIBUTE back JSONB,
   ADD ATTRIBUTE details TEXT,
   ADD ATTRIBUTE details_code TEXT,
   ADD ATTRIBUTE front JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_individual_verification_document(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_individual_verification_document(
   back JSONB DEFAULT NULL,
   details TEXT DEFAULT NULL,
   details_code TEXT DEFAULT NULL,
   front JSONB DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_individual_verification_document
+RETURNS stripe_account.account_individual_verification_document
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     back, details, details_code, front
-  )::stripe_minimal_account.account_individual_verification_document;
+  )::stripe_account.account_individual_verification_document;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_requirement
-  ADD ATTRIBUTE alternatives stripe_minimal_account.account_requirements_alternative[],
+ALTER TYPE stripe_account.account_requirement
+  ADD ATTRIBUTE alternatives stripe_account.account_requirements_alternative[],
   ADD ATTRIBUTE current_deadline BIGINT,
   ADD ATTRIBUTE currently_due TEXT[],
   ADD ATTRIBUTE disabled_reason TEXT,
-  ADD ATTRIBUTE errors stripe_minimal.account_requirements_error[],
+  ADD ATTRIBUTE errors stripe.account_requirements_error[],
   ADD ATTRIBUTE eventually_due TEXT[],
   ADD ATTRIBUTE past_due TEXT[],
   ADD ATTRIBUTE pending_verification TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_requirement(
-  alternatives stripe_minimal_account.account_requirements_alternative[] DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_account.make_account_requirement(
+  alternatives stripe_account.account_requirements_alternative[] DEFAULT NULL,
   current_deadline BIGINT DEFAULT NULL,
   currently_due TEXT[] DEFAULT NULL,
   disabled_reason TEXT DEFAULT NULL,
-  errors stripe_minimal.account_requirements_error[] DEFAULT NULL,
+  errors stripe.account_requirements_error[] DEFAULT NULL,
   eventually_due TEXT[] DEFAULT NULL,
   past_due TEXT[] DEFAULT NULL,
   pending_verification TEXT[] DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_requirement
+RETURNS stripe_account.account_requirement
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1078,88 +1074,88 @@ AS $$
     eventually_due,
     past_due,
     pending_verification
-  )::stripe_minimal_account.account_requirement;
+  )::stripe_account.account_requirement;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_tos_acceptance
+ALTER TYPE stripe_account.account_tos_acceptance
   ADD ATTRIBUTE "date" BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE service_agreement TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_tos_acceptance(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_tos_acceptance(
   "date" BIGINT DEFAULT NULL,
   ip TEXT DEFAULT NULL,
   service_agreement TEXT DEFAULT NULL,
   user_agent TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_tos_acceptance
+RETURNS stripe_account.account_tos_acceptance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "date", ip, service_agreement, user_agent
-  )::stripe_minimal_account.account_tos_acceptance;
+  )::stripe_account.account_tos_acceptance;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_invoices_settings
+ALTER TYPE stripe_account.account_invoices_settings
   ADD ATTRIBUTE default_account_tax_ids JSONB[],
   ADD ATTRIBUTE hosted_payment_method_save TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_invoices_settings(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_invoices_settings(
   default_account_tax_ids JSONB[] DEFAULT NULL,
   hosted_payment_method_save TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_invoices_settings
+RETURNS stripe_account.account_invoices_settings
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     default_account_tax_ids, hosted_payment_method_save
-  )::stripe_minimal_account.account_invoices_settings;
+  )::stripe_account.account_invoices_settings;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_requirements_alternative
+ALTER TYPE stripe_account.account_requirements_alternative
   ADD ATTRIBUTE alternative_fields_due TEXT[],
   ADD ATTRIBUTE original_fields_due TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_requirements_alternative(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_requirements_alternative(
   alternative_fields_due TEXT[], original_fields_due TEXT[]
 )
-RETURNS stripe_minimal_account.account_requirements_alternative
+RETURNS stripe_account.account_requirements_alternative
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     alternative_fields_due, original_fields_due
-  )::stripe_minimal_account.account_requirements_alternative;
+  )::stripe_account.account_requirements_alternative;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings
-  ADD ATTRIBUTE branding stripe_minimal_account.account_settings_branding,
-  ADD ATTRIBUTE card_payments stripe_minimal_account.account_settings_card_payment,
-  ADD ATTRIBUTE dashboard stripe_minimal_account.account_settings_dashboard,
-  ADD ATTRIBUTE payments stripe_minimal_account.account_settings_payment,
-  ADD ATTRIBUTE bacs_debit_payments stripe_minimal_account.account_settings_bacs_debit_payment,
-  ADD ATTRIBUTE card_issuing stripe_minimal_account.account_settings_card_issuing,
+ALTER TYPE stripe_account.account_settings
+  ADD ATTRIBUTE branding stripe_account.account_settings_branding,
+  ADD ATTRIBUTE card_payments stripe_account.account_settings_card_payment,
+  ADD ATTRIBUTE dashboard stripe_account.account_settings_dashboard,
+  ADD ATTRIBUTE payments stripe_account.account_settings_payment,
+  ADD ATTRIBUTE bacs_debit_payments stripe_account.account_settings_bacs_debit_payment,
+  ADD ATTRIBUTE card_issuing stripe_account.account_settings_card_issuing,
   ADD ATTRIBUTE invoices JSONB,
-  ADD ATTRIBUTE payouts stripe_minimal_account.account_settings_payout,
-  ADD ATTRIBUTE sepa_debit_payments stripe_minimal_account.account_settings_sepa_debit_payment,
-  ADD ATTRIBUTE treasury stripe_minimal_account.account_settings_treasury;
+  ADD ATTRIBUTE payouts stripe_account.account_settings_payout,
+  ADD ATTRIBUTE sepa_debit_payments stripe_account.account_settings_sepa_debit_payment,
+  ADD ATTRIBUTE treasury stripe_account.account_settings_treasury;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings(
-  branding stripe_minimal_account.account_settings_branding,
-  card_payments stripe_minimal_account.account_settings_card_payment,
-  dashboard stripe_minimal_account.account_settings_dashboard,
-  payments stripe_minimal_account.account_settings_payment,
-  bacs_debit_payments stripe_minimal_account.account_settings_bacs_debit_payment DEFAULT NULL,
-  card_issuing stripe_minimal_account.account_settings_card_issuing DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings(
+  branding stripe_account.account_settings_branding,
+  card_payments stripe_account.account_settings_card_payment,
+  dashboard stripe_account.account_settings_dashboard,
+  payments stripe_account.account_settings_payment,
+  bacs_debit_payments stripe_account.account_settings_bacs_debit_payment DEFAULT NULL,
+  card_issuing stripe_account.account_settings_card_issuing DEFAULT NULL,
   invoices JSONB DEFAULT NULL,
-  payouts stripe_minimal_account.account_settings_payout DEFAULT NULL,
-  sepa_debit_payments stripe_minimal_account.account_settings_sepa_debit_payment DEFAULT NULL,
-  treasury stripe_minimal_account.account_settings_treasury DEFAULT NULL
+  payouts stripe_account.account_settings_payout DEFAULT NULL,
+  sepa_debit_payments stripe_account.account_settings_sepa_debit_payment DEFAULT NULL,
+  treasury stripe_account.account_settings_treasury DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings
+RETURNS stripe_account.account_settings
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1174,43 +1170,43 @@ AS $$
     payouts,
     sepa_debit_payments,
     treasury
-  )::stripe_minimal_account.account_settings;
+  )::stripe_account.account_settings;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_branding
+ALTER TYPE stripe_account.account_settings_branding
   ADD ATTRIBUTE icon JSONB,
   ADD ATTRIBUTE logo JSONB,
   ADD ATTRIBUTE primary_color TEXT,
   ADD ATTRIBUTE secondary_color TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_branding(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_branding(
   icon JSONB DEFAULT NULL,
   logo JSONB DEFAULT NULL,
   primary_color TEXT DEFAULT NULL,
   secondary_color TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_branding
+RETURNS stripe_account.account_settings_branding
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     icon, logo, primary_color, secondary_color
-  )::stripe_minimal_account.account_settings_branding;
+  )::stripe_account.account_settings_branding;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_card_payment
-  ADD ATTRIBUTE decline_on stripe_minimal_account.account_settings_card_payment_decline_on,
+ALTER TYPE stripe_account.account_settings_card_payment
+  ADD ATTRIBUTE decline_on stripe_account.account_settings_card_payment_decline_on,
   ADD ATTRIBUTE statement_descriptor_prefix TEXT,
   ADD ATTRIBUTE statement_descriptor_prefix_kana TEXT,
   ADD ATTRIBUTE statement_descriptor_prefix_kanji TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_card_payment(
-  decline_on stripe_minimal_account.account_settings_card_payment_decline_on DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_card_payment(
+  decline_on stripe_account.account_settings_card_payment_decline_on DEFAULT NULL,
   statement_descriptor_prefix TEXT DEFAULT NULL,
   statement_descriptor_prefix_kana TEXT DEFAULT NULL,
   statement_descriptor_prefix_kanji TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_card_payment
+RETURNS stripe_account.account_settings_card_payment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1219,125 +1215,121 @@ AS $$
     statement_descriptor_prefix,
     statement_descriptor_prefix_kana,
     statement_descriptor_prefix_kanji
-  )::stripe_minimal_account.account_settings_card_payment;
+  )::stripe_account.account_settings_card_payment;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_card_payment_decline_on
+ALTER TYPE stripe_account.account_settings_card_payment_decline_on
   ADD ATTRIBUTE avs_failure BOOLEAN, ADD ATTRIBUTE cvc_failure BOOLEAN;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_card_payment_decline_on(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_card_payment_decline_on(
   avs_failure BOOLEAN, cvc_failure BOOLEAN
 )
-RETURNS stripe_minimal_account.account_settings_card_payment_decline_on
+RETURNS stripe_account.account_settings_card_payment_decline_on
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     avs_failure, cvc_failure
-  )::stripe_minimal_account.account_settings_card_payment_decline_on;
+  )::stripe_account.account_settings_card_payment_decline_on;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_dashboard
+ALTER TYPE stripe_account.account_settings_dashboard
   ADD ATTRIBUTE display_name TEXT, ADD ATTRIBUTE timezone TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_dashboard(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_dashboard(
   display_name TEXT DEFAULT NULL, timezone TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_dashboard
+RETURNS stripe_account.account_settings_dashboard
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    display_name, timezone
-  )::stripe_minimal_account.account_settings_dashboard;
+  SELECT ROW(display_name, timezone)::stripe_account.account_settings_dashboard;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_payment
+ALTER TYPE stripe_account.account_settings_payment
   ADD ATTRIBUTE statement_descriptor TEXT,
   ADD ATTRIBUTE statement_descriptor_kana TEXT,
   ADD ATTRIBUTE statement_descriptor_kanji TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_payment(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_payment(
   statement_descriptor TEXT DEFAULT NULL,
   statement_descriptor_kana TEXT DEFAULT NULL,
   statement_descriptor_kanji TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_payment
+RETURNS stripe_account.account_settings_payment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     statement_descriptor, statement_descriptor_kana, statement_descriptor_kanji
-  )::stripe_minimal_account.account_settings_payment;
+  )::stripe_account.account_settings_payment;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_bacs_debit_payment
+ALTER TYPE stripe_account.account_settings_bacs_debit_payment
   ADD ATTRIBUTE display_name TEXT, ADD ATTRIBUTE service_user_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_bacs_debit_payment(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_bacs_debit_payment(
   display_name TEXT DEFAULT NULL, service_user_number TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_bacs_debit_payment
+RETURNS stripe_account.account_settings_bacs_debit_payment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     display_name, service_user_number
-  )::stripe_minimal_account.account_settings_bacs_debit_payment;
+  )::stripe_account.account_settings_bacs_debit_payment;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_card_issuing
-  ADD ATTRIBUTE tos_acceptance stripe_minimal_account.account_settings_card_issuing_tos_acceptance;
+ALTER TYPE stripe_account.account_settings_card_issuing
+  ADD ATTRIBUTE tos_acceptance stripe_account.account_settings_card_issuing_tos_acceptance;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_card_issuing(
-  tos_acceptance stripe_minimal_account.account_settings_card_issuing_tos_acceptance DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_card_issuing(
+  tos_acceptance stripe_account.account_settings_card_issuing_tos_acceptance DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_card_issuing
+RETURNS stripe_account.account_settings_card_issuing
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    tos_acceptance
-  )::stripe_minimal_account.account_settings_card_issuing;
+  SELECT ROW(tos_acceptance)::stripe_account.account_settings_card_issuing;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_card_issuing_tos_acceptance
+ALTER TYPE stripe_account.account_settings_card_issuing_tos_acceptance
   ADD ATTRIBUTE "date" BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_card_issuing_tos_acceptance(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_card_issuing_tos_acceptance(
   "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_card_issuing_tos_acceptance
+RETURNS stripe_account.account_settings_card_issuing_tos_acceptance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "date", ip, user_agent
-  )::stripe_minimal_account.account_settings_card_issuing_tos_acceptance;
+  )::stripe_account.account_settings_card_issuing_tos_acceptance;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_payout
+ALTER TYPE stripe_account.account_settings_payout
   ADD ATTRIBUTE debit_negative_balances BOOLEAN,
-  ADD ATTRIBUTE schedule stripe_minimal_account.account_settings_payout_schedule,
+  ADD ATTRIBUTE schedule stripe_account.account_settings_payout_schedule,
   ADD ATTRIBUTE statement_descriptor TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_payout(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_payout(
   debit_negative_balances BOOLEAN,
-  schedule stripe_minimal_account.account_settings_payout_schedule,
+  schedule stripe_account.account_settings_payout_schedule,
   statement_descriptor TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_payout
+RETURNS stripe_account.account_settings_payout
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     debit_negative_balances, schedule, statement_descriptor
-  )::stripe_minimal_account.account_settings_payout;
+  )::stripe_account.account_settings_payout;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_payout_schedule
+ALTER TYPE stripe_account.account_settings_payout_schedule
   ADD ATTRIBUTE delay_days BIGINT,
   ADD ATTRIBUTE "interval" TEXT,
   ADD ATTRIBUTE monthly_anchor BIGINT,
@@ -1345,7 +1337,7 @@ ALTER TYPE stripe_minimal_account.account_settings_payout_schedule
   ADD ATTRIBUTE weekly_anchor TEXT,
   ADD ATTRIBUTE weekly_payout_days TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_payout_schedule(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_payout_schedule(
   delay_days BIGINT,
   "interval" TEXT,
   monthly_anchor BIGINT DEFAULT NULL,
@@ -1353,7 +1345,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_payout_s
   weekly_anchor TEXT DEFAULT NULL,
   weekly_payout_days TEXT[] DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_payout_schedule
+RETURNS stripe_account.account_settings_payout_schedule
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1364,55 +1356,53 @@ AS $$
     monthly_payout_days,
     weekly_anchor,
     weekly_payout_days
-  )::stripe_minimal_account.account_settings_payout_schedule;
+  )::stripe_account.account_settings_payout_schedule;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_sepa_debit_payment
+ALTER TYPE stripe_account.account_settings_sepa_debit_payment
   ADD ATTRIBUTE creditor_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_sepa_debit_payment(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_sepa_debit_payment(
   creditor_id TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_sepa_debit_payment
+RETURNS stripe_account.account_settings_sepa_debit_payment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    creditor_id
-  )::stripe_minimal_account.account_settings_sepa_debit_payment;
+  SELECT ROW(creditor_id)::stripe_account.account_settings_sepa_debit_payment;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_treasury
-  ADD ATTRIBUTE tos_acceptance stripe_minimal_account.account_settings_treasury_tos_acceptance;
+ALTER TYPE stripe_account.account_settings_treasury
+  ADD ATTRIBUTE tos_acceptance stripe_account.account_settings_treasury_tos_acceptance;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_treasury(
-  tos_acceptance stripe_minimal_account.account_settings_treasury_tos_acceptance DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_treasury(
+  tos_acceptance stripe_account.account_settings_treasury_tos_acceptance DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_treasury
+RETURNS stripe_account.account_settings_treasury
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(tos_acceptance)::stripe_minimal_account.account_settings_treasury;
+  SELECT ROW(tos_acceptance)::stripe_account.account_settings_treasury;
 $$;
 
-ALTER TYPE stripe_minimal_account.account_settings_treasury_tos_acceptance
+ALTER TYPE stripe_account.account_settings_treasury_tos_acceptance
   ADD ATTRIBUTE "date" BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_account_settings_treasury_tos_acceptance(
+CREATE OR REPLACE FUNCTION stripe_account.make_account_settings_treasury_tos_acceptance(
   "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.account_settings_treasury_tos_acceptance
+RETURNS stripe_account.account_settings_treasury_tos_acceptance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "date", ip, user_agent
-  )::stripe_minimal_account.account_settings_treasury_tos_acceptance;
+  )::stripe_account.account_settings_treasury_tos_acceptance;
 $$;
 
-ALTER TYPE stripe_minimal_account.legal_entity_japan_address
+ALTER TYPE stripe_account.legal_entity_japan_address
   ADD ATTRIBUTE city TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE line1 TEXT,
@@ -1421,7 +1411,7 @@ ALTER TYPE stripe_minimal_account.legal_entity_japan_address
   ADD ATTRIBUTE "state" TEXT,
   ADD ATTRIBUTE town TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.make_legal_entity_japan_address(
+CREATE OR REPLACE FUNCTION stripe_account.make_legal_entity_japan_address(
   city TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
   line1 TEXT DEFAULT NULL,
@@ -1430,25 +1420,23 @@ CREATE OR REPLACE FUNCTION stripe_minimal_account.make_legal_entity_japan_addres
   "state" TEXT DEFAULT NULL,
   town TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal_account.legal_entity_japan_address
+RETURNS stripe_account.legal_entity_japan_address
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     city, country, line1, line2, postal_code, "state", town
-  )::stripe_minimal_account.legal_entity_japan_address;
+  )::stripe_account.legal_entity_japan_address;
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account._retrieve(
-  expand TEXT[] DEFAULT NULL
-)
+CREATE OR REPLACE FUNCTION stripe_account._retrieve(expand TEXT[] DEFAULT NULL)
 RETURNS JSONB
 LANGUAGE plpython3u
 STABLE
 AS $$
   from stripe_minimal._types import not_given
 
-  response = GD["__stripe_minimal_context__"].client.accounts.with_raw_response.retrieve(
+  response = GD["__stripe_context__"].client.accounts.with_raw_response.retrieve(
       expand=not_given if expand is None else expand,
   )
 
@@ -1458,18 +1446,15 @@ AS $$
   return response.text()
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_minimal_account.retrieve(
-  expand TEXT[] DEFAULT NULL
-)
-RETURNS stripe_minimal_account.account
+CREATE OR REPLACE FUNCTION stripe_account.retrieve(expand TEXT[] DEFAULT NULL)
+RETURNS stripe_account.account
 LANGUAGE plpgsql
 STABLE
 AS $$
   BEGIN
-    PERFORM stripe_minimal_internal.ensure_context();
+    PERFORM stripe_internal.ensure_context();
     RETURN jsonb_populate_record(
-      NULL::stripe_minimal_account.account,
-      stripe_minimal_account._retrieve(expand)
+      NULL::stripe_account.account, stripe_account._retrieve(expand)
     );
   END;
 $$;

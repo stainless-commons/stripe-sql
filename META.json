@@ -1,5 +1,5 @@
 {
-  "name": "stripe_minimal",
+  "name": "stripe",
   "abstract": "The official PostgreSQL extension for the Stripe API.",
   "tags": [
     "api",
@@ -25,9 +25,9 @@
     }
   },
   "provides": {
-    "stripe_minimal": {
+    "stripe": {
       "abstract": "The official PostgreSQL extension for the Stripe API.",
-      "file": "sql/build/stripe_minimal--0.0.1.sql",
+      "file": "sql/build/stripe--0.0.1.sql",
       "docfile": "README.md",
       "version": "0.0.1"
     }

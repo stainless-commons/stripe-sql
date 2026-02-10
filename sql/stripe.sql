@@ -1,21 +1,19 @@
-ALTER TYPE stripe_minimal.account_requirements_error
+ALTER TYPE stripe.account_requirements_error
   ADD ATTRIBUTE code TEXT,
   ADD ATTRIBUTE reason TEXT,
   ADD ATTRIBUTE requirement TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_account_requirements_error(
+CREATE OR REPLACE FUNCTION stripe.make_account_requirements_error(
   code TEXT, reason TEXT, requirement TEXT
 )
-RETURNS stripe_minimal.account_requirements_error
+RETURNS stripe.account_requirements_error
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    code, reason, requirement
-  )::stripe_minimal.account_requirements_error;
+  SELECT ROW(code, reason, requirement)::stripe.account_requirements_error;
 $$;
 
-ALTER TYPE stripe_minimal.address
+ALTER TYPE stripe.address
   ADD ATTRIBUTE city TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE line1 TEXT,
@@ -23,7 +21,7 @@ ALTER TYPE stripe_minimal.address
   ADD ATTRIBUTE postal_code TEXT,
   ADD ATTRIBUTE "state" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_address(
+CREATE OR REPLACE FUNCTION stripe.make_address(
   city TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
   line1 TEXT DEFAULT NULL,
@@ -31,170 +29,166 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_address(
   postal_code TEXT DEFAULT NULL,
   "state" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.address
+RETURNS stripe.address
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    city, country, line1, line2, postal_code, "state"
-  )::stripe_minimal.address;
+  SELECT ROW(city, country, line1, line2, postal_code, "state")::stripe.address;
 $$;
 
-ALTER TYPE stripe_minimal.application
+ALTER TYPE stripe.application
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE "object" TEXT,
   ADD ATTRIBUTE "name" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_application(
+CREATE OR REPLACE FUNCTION stripe.make_application(
   "id" TEXT, "object" TEXT, "name" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.application
+RETURNS stripe.application
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("id", "object", "name")::stripe_minimal.application;
+  SELECT ROW("id", "object", "name")::stripe.application;
 $$;
 
-ALTER TYPE stripe_minimal.billing_clocks_resource_status_details_advancing_status_details
+ALTER TYPE stripe.billing_clocks_resource_status_details_advancing_status_details
   ADD ATTRIBUTE target_frozen_time BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.m_b_clocks_resource_status_details_advancing_status_details(
+CREATE OR REPLACE FUNCTION stripe.m_b_clocks_resource_status_details_advancing_status_details(
   target_frozen_time BIGINT
 )
-RETURNS stripe_minimal.billing_clocks_resource_status_details_advancing_status_details
+RETURNS stripe.billing_clocks_resource_status_details_advancing_status_details
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     target_frozen_time
-  )::stripe_minimal.billing_clocks_resource_status_details_advancing_status_details;
+  )::stripe.billing_clocks_resource_status_details_advancing_status_details;
 $$;
 
-ALTER TYPE stripe_minimal.billing_clocks_resource_status_details_status_details
-  ADD ATTRIBUTE advancing stripe_minimal.billing_clocks_resource_status_details_advancing_status_details;
+ALTER TYPE stripe.billing_clocks_resource_status_details_status_details
+  ADD ATTRIBUTE advancing stripe.billing_clocks_resource_status_details_advancing_status_details;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_billing_clocks_resource_status_details_status_details(
-  advancing stripe_minimal.billing_clocks_resource_status_details_advancing_status_details DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe.make_billing_clocks_resource_status_details_status_details(
+  advancing stripe.billing_clocks_resource_status_details_advancing_status_details DEFAULT NULL
 )
-RETURNS stripe_minimal.billing_clocks_resource_status_details_status_details
+RETURNS stripe.billing_clocks_resource_status_details_status_details
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     advancing
-  )::stripe_minimal.billing_clocks_resource_status_details_status_details;
+  )::stripe.billing_clocks_resource_status_details_status_details;
 $$;
 
-ALTER TYPE stripe_minimal.deleted_application
+ALTER TYPE stripe.deleted_application
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE deleted BOOLEAN,
   ADD ATTRIBUTE "object" TEXT,
   ADD ATTRIBUTE "name" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_deleted_application(
+CREATE OR REPLACE FUNCTION stripe.make_deleted_application(
   "id" TEXT, deleted BOOLEAN, "object" TEXT, "name" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.deleted_application
+RETURNS stripe.deleted_application
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    "id", deleted, "object", "name"
-  )::stripe_minimal.deleted_application;
+  SELECT ROW("id", deleted, "object", "name")::stripe.deleted_application;
 $$;
 
-ALTER TYPE stripe_minimal.deleted_customer
+ALTER TYPE stripe.deleted_customer
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE deleted BOOLEAN,
   ADD ATTRIBUTE "object" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_deleted_customer(
+CREATE OR REPLACE FUNCTION stripe.make_deleted_customer(
   "id" TEXT, deleted BOOLEAN, "object" TEXT
 )
-RETURNS stripe_minimal.deleted_customer
+RETURNS stripe.deleted_customer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("id", deleted, "object")::stripe_minimal.deleted_customer;
+  SELECT ROW("id", deleted, "object")::stripe.deleted_customer;
 $$;
 
-ALTER TYPE stripe_minimal.deleted_tax_id
+ALTER TYPE stripe.deleted_tax_id
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE deleted BOOLEAN,
   ADD ATTRIBUTE "object" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_deleted_tax_id(
+CREATE OR REPLACE FUNCTION stripe.make_deleted_tax_id(
   "id" TEXT, deleted BOOLEAN, "object" TEXT
 )
-RETURNS stripe_minimal.deleted_tax_id
+RETURNS stripe.deleted_tax_id
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("id", deleted, "object")::stripe_minimal.deleted_tax_id;
+  SELECT ROW("id", deleted, "object")::stripe.deleted_tax_id;
 $$;
 
-ALTER TYPE stripe_minimal.invoice_setting_custom_field
+ALTER TYPE stripe.invoice_setting_custom_field
   ADD ATTRIBUTE "name" TEXT, ADD ATTRIBUTE "value" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_invoice_setting_custom_field(
+CREATE OR REPLACE FUNCTION stripe.make_invoice_setting_custom_field(
   "name" TEXT, "value" TEXT
 )
-RETURNS stripe_minimal.invoice_setting_custom_field
+RETURNS stripe.invoice_setting_custom_field
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("name", "value")::stripe_minimal.invoice_setting_custom_field;
+  SELECT ROW("name", "value")::stripe.invoice_setting_custom_field;
 $$;
 
-ALTER TYPE stripe_minimal.payment_flows_payment_intent_presentment_details
+ALTER TYPE stripe.payment_flows_payment_intent_presentment_details
   ADD ATTRIBUTE presentment_amount BIGINT,
   ADD ATTRIBUTE presentment_currency TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_payment_flows_payment_intent_presentment_details(
+CREATE OR REPLACE FUNCTION stripe.make_payment_flows_payment_intent_presentment_details(
   presentment_amount BIGINT, presentment_currency TEXT
 )
-RETURNS stripe_minimal.payment_flows_payment_intent_presentment_details
+RETURNS stripe.payment_flows_payment_intent_presentment_details
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     presentment_amount, presentment_currency
-  )::stripe_minimal.payment_flows_payment_intent_presentment_details;
+  )::stripe.payment_flows_payment_intent_presentment_details;
 $$;
 
-ALTER TYPE stripe_minimal.p_flows_private_payment_methods_card_present_common_wallet
+ALTER TYPE stripe.p_flows_private_payment_methods_card_present_common_wallet
   ADD ATTRIBUTE "type" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.m_p_flows_private_payment_methods_card_present_common_wallet(
+CREATE OR REPLACE FUNCTION stripe.m_p_flows_private_payment_methods_card_present_common_wallet(
   "type" TEXT
 )
-RETURNS stripe_minimal.p_flows_private_payment_methods_card_present_common_wallet
+RETURNS stripe.p_flows_private_payment_methods_card_present_common_wallet
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "type"
-  )::stripe_minimal.p_flows_private_payment_methods_card_present_common_wallet;
+  )::stripe.p_flows_private_payment_methods_card_present_common_wallet;
 $$;
 
-ALTER TYPE stripe_minimal.payment_method_details_card_installments_plan
+ALTER TYPE stripe.payment_method_details_card_installments_plan
   ADD ATTRIBUTE "type" TEXT,
   ADD ATTRIBUTE "count" BIGINT,
   ADD ATTRIBUTE "interval" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_payment_method_details_card_installments_plan(
+CREATE OR REPLACE FUNCTION stripe.make_payment_method_details_card_installments_plan(
   "type" TEXT, "count" BIGINT DEFAULT NULL, "interval" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.payment_method_details_card_installments_plan
+RETURNS stripe.payment_method_details_card_installments_plan
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "type", "count", "interval"
-  )::stripe_minimal.payment_method_details_card_installments_plan;
+  )::stripe.payment_method_details_card_installments_plan;
 $$;
 
-ALTER TYPE stripe_minimal.payment_method_details_card_present
+ALTER TYPE stripe.payment_method_details_card_present
   ADD ATTRIBUTE exp_month BIGINT,
   ADD ATTRIBUTE exp_year BIGINT,
   ADD ATTRIBUTE incremental_authorization_supported BOOLEAN,
@@ -214,13 +208,13 @@ ALTER TYPE stripe_minimal.payment_method_details_card_present
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE network TEXT,
   ADD ATTRIBUTE network_transaction_id TEXT,
-  ADD ATTRIBUTE offline stripe_minimal.payment_method_details_card_present_offline,
+  ADD ATTRIBUTE offline stripe.payment_method_details_card_present_offline,
   ADD ATTRIBUTE preferred_locales TEXT[],
   ADD ATTRIBUTE read_method TEXT,
-  ADD ATTRIBUTE receipt stripe_minimal.payment_method_details_card_present_receipt,
-  ADD ATTRIBUTE wallet stripe_minimal.p_flows_private_payment_methods_card_present_common_wallet;
+  ADD ATTRIBUTE receipt stripe.payment_method_details_card_present_receipt,
+  ADD ATTRIBUTE wallet stripe.p_flows_private_payment_methods_card_present_common_wallet;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_payment_method_details_card_present(
+CREATE OR REPLACE FUNCTION stripe.make_payment_method_details_card_present(
   exp_month BIGINT,
   exp_year BIGINT,
   incremental_authorization_supported BOOLEAN,
@@ -240,13 +234,13 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_payment_method_details_card_prese
   last4 TEXT DEFAULT NULL,
   network TEXT DEFAULT NULL,
   network_transaction_id TEXT DEFAULT NULL,
-  offline stripe_minimal.payment_method_details_card_present_offline DEFAULT NULL,
+  offline stripe.payment_method_details_card_present_offline DEFAULT NULL,
   preferred_locales TEXT[] DEFAULT NULL,
   read_method TEXT DEFAULT NULL,
-  receipt stripe_minimal.payment_method_details_card_present_receipt DEFAULT NULL,
-  wallet stripe_minimal.p_flows_private_payment_methods_card_present_common_wallet DEFAULT NULL
+  receipt stripe.payment_method_details_card_present_receipt DEFAULT NULL,
+  wallet stripe.p_flows_private_payment_methods_card_present_common_wallet DEFAULT NULL
 )
-RETURNS stripe_minimal.payment_method_details_card_present
+RETURNS stripe.payment_method_details_card_present
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -275,25 +269,25 @@ AS $$
     read_method,
     receipt,
     wallet
-  )::stripe_minimal.payment_method_details_card_present;
+  )::stripe.payment_method_details_card_present;
 $$;
 
-ALTER TYPE stripe_minimal.payment_method_details_card_present_offline
+ALTER TYPE stripe.payment_method_details_card_present_offline
   ADD ATTRIBUTE stored_at BIGINT, ADD ATTRIBUTE "type" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_payment_method_details_card_present_offline(
+CREATE OR REPLACE FUNCTION stripe.make_payment_method_details_card_present_offline(
   stored_at BIGINT DEFAULT NULL, "type" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.payment_method_details_card_present_offline
+RETURNS stripe.payment_method_details_card_present_offline
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     stored_at, "type"
-  )::stripe_minimal.payment_method_details_card_present_offline;
+  )::stripe.payment_method_details_card_present_offline;
 $$;
 
-ALTER TYPE stripe_minimal.payment_method_details_card_present_receipt
+ALTER TYPE stripe.payment_method_details_card_present_receipt
   ADD ATTRIBUTE account_type TEXT,
   ADD ATTRIBUTE application_cryptogram TEXT,
   ADD ATTRIBUTE application_preferred_name TEXT,
@@ -304,7 +298,7 @@ ALTER TYPE stripe_minimal.payment_method_details_card_present_receipt
   ADD ATTRIBUTE terminal_verification_results TEXT,
   ADD ATTRIBUTE transaction_status_information TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_payment_method_details_card_present_receipt(
+CREATE OR REPLACE FUNCTION stripe.make_payment_method_details_card_present_receipt(
   account_type TEXT DEFAULT NULL,
   application_cryptogram TEXT DEFAULT NULL,
   application_preferred_name TEXT DEFAULT NULL,
@@ -315,7 +309,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_payment_method_details_card_prese
   terminal_verification_results TEXT DEFAULT NULL,
   transaction_status_information TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.payment_method_details_card_present_receipt
+RETURNS stripe.payment_method_details_card_present_receipt
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -329,10 +323,10 @@ AS $$
     dedicated_file_name,
     terminal_verification_results,
     transaction_status_information
-  )::stripe_minimal.payment_method_details_card_present_receipt;
+  )::stripe.payment_method_details_card_present_receipt;
 $$;
 
-ALTER TYPE stripe_minimal.payment_method_details_passthrough_card
+ALTER TYPE stripe.payment_method_details_passthrough_card
   ADD ATTRIBUTE brand TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE exp_month BIGINT,
@@ -340,7 +334,7 @@ ALTER TYPE stripe_minimal.payment_method_details_passthrough_card
   ADD ATTRIBUTE funding TEXT,
   ADD ATTRIBUTE last4 TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_payment_method_details_passthrough_card(
+CREATE OR REPLACE FUNCTION stripe.make_payment_method_details_passthrough_card(
   brand TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
   exp_month BIGINT DEFAULT NULL,
@@ -348,39 +342,37 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_payment_method_details_passthroug
   funding TEXT DEFAULT NULL,
   last4 TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.payment_method_details_passthrough_card
+RETURNS stripe.payment_method_details_passthrough_card
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     brand, country, exp_month, exp_year, funding, last4
-  )::stripe_minimal.payment_method_details_passthrough_card;
+  )::stripe.payment_method_details_passthrough_card;
 $$;
 
-ALTER TYPE stripe_minimal.shipping
-  ADD ATTRIBUTE address stripe_minimal.address,
+ALTER TYPE stripe.shipping
+  ADD ATTRIBUTE address stripe.address,
   ADD ATTRIBUTE carrier TEXT,
   ADD ATTRIBUTE "name" TEXT,
   ADD ATTRIBUTE phone TEXT,
   ADD ATTRIBUTE tracking_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_shipping(
-  address stripe_minimal.address DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe.make_shipping(
+  address stripe.address DEFAULT NULL,
   carrier TEXT DEFAULT NULL,
   "name" TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL,
   tracking_number TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.shipping
+RETURNS stripe.shipping
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    address, carrier, "name", phone, tracking_number
-  )::stripe_minimal.shipping;
+  SELECT ROW(address, carrier, "name", phone, tracking_number)::stripe.shipping;
 $$;
 
-ALTER TYPE stripe_minimal.source
+ALTER TYPE stripe.source
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE client_secret TEXT,
   ADD ATTRIBUTE created BIGINT,
@@ -389,38 +381,38 @@ ALTER TYPE stripe_minimal.source
   ADD ATTRIBUTE "object" TEXT,
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE ach_credit_transfer stripe_minimal.source_type_ach_credit_transfer,
-  ADD ATTRIBUTE ach_debit stripe_minimal.source_type_ach_debit,
-  ADD ATTRIBUTE acss_debit stripe_minimal.source_type_acss_debit,
-  ADD ATTRIBUTE alipay stripe_minimal.source_type_alipay,
+  ADD ATTRIBUTE ach_credit_transfer stripe.source_type_ach_credit_transfer,
+  ADD ATTRIBUTE ach_debit stripe.source_type_ach_debit,
+  ADD ATTRIBUTE acss_debit stripe.source_type_acss_debit,
+  ADD ATTRIBUTE alipay stripe.source_type_alipay,
   ADD ATTRIBUTE allow_redisplay TEXT,
   ADD ATTRIBUTE amount BIGINT,
-  ADD ATTRIBUTE au_becs_debit stripe_minimal.source_type_au_becs_debit,
-  ADD ATTRIBUTE bancontact stripe_minimal.source_type_bancontact,
-  ADD ATTRIBUTE card stripe_minimal.source_type_card,
-  ADD ATTRIBUTE card_present stripe_minimal.source_type_card_present,
-  ADD ATTRIBUTE code_verification stripe_minimal.source_code_verification_flow,
+  ADD ATTRIBUTE au_becs_debit stripe.source_type_au_becs_debit,
+  ADD ATTRIBUTE bancontact stripe.source_type_bancontact,
+  ADD ATTRIBUTE card stripe.source_type_card,
+  ADD ATTRIBUTE card_present stripe.source_type_card_present,
+  ADD ATTRIBUTE code_verification stripe.source_code_verification_flow,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE customer TEXT,
-  ADD ATTRIBUTE eps stripe_minimal.source_type_eps,
-  ADD ATTRIBUTE giropay stripe_minimal.source_type_giropay,
-  ADD ATTRIBUTE ideal stripe_minimal.source_type_ideal,
-  ADD ATTRIBUTE klarna stripe_minimal.source_type_klarna,
+  ADD ATTRIBUTE eps stripe.source_type_eps,
+  ADD ATTRIBUTE giropay stripe.source_type_giropay,
+  ADD ATTRIBUTE ideal stripe.source_type_ideal,
+  ADD ATTRIBUTE klarna stripe.source_type_klarna,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE multibanco stripe_minimal.source_type_multibanco,
-  ADD ATTRIBUTE "owner" stripe_minimal.source_owner,
-  ADD ATTRIBUTE p24 stripe_minimal.source_type_p24,
-  ADD ATTRIBUTE receiver stripe_minimal.source_receiver_flow,
-  ADD ATTRIBUTE redirect stripe_minimal.source_redirect_flow,
-  ADD ATTRIBUTE sepa_debit stripe_minimal.source_type_sepa_debit,
-  ADD ATTRIBUTE sofort stripe_minimal.source_type_sofort,
-  ADD ATTRIBUTE source_order stripe_minimal.source_order,
+  ADD ATTRIBUTE multibanco stripe.source_type_multibanco,
+  ADD ATTRIBUTE "owner" stripe.source_owner,
+  ADD ATTRIBUTE p24 stripe.source_type_p24,
+  ADD ATTRIBUTE receiver stripe.source_receiver_flow,
+  ADD ATTRIBUTE redirect stripe.source_redirect_flow,
+  ADD ATTRIBUTE sepa_debit stripe.source_type_sepa_debit,
+  ADD ATTRIBUTE sofort stripe.source_type_sofort,
+  ADD ATTRIBUTE source_order stripe.source_order,
   ADD ATTRIBUTE statement_descriptor TEXT,
-  ADD ATTRIBUTE three_d_secure stripe_minimal.source_type_three_d_secure,
+  ADD ATTRIBUTE three_d_secure stripe.source_type_three_d_secure,
   ADD ATTRIBUTE "usage" TEXT,
-  ADD ATTRIBUTE wechat stripe_minimal.source_type_wechat;
+  ADD ATTRIBUTE wechat stripe.source_type_wechat;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source(
+CREATE OR REPLACE FUNCTION stripe.make_source(
   "id" TEXT,
   client_secret TEXT,
   created BIGINT,
@@ -429,38 +421,38 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source(
   "object" TEXT,
   status TEXT,
   "type" TEXT,
-  ach_credit_transfer stripe_minimal.source_type_ach_credit_transfer DEFAULT NULL,
-  ach_debit stripe_minimal.source_type_ach_debit DEFAULT NULL,
-  acss_debit stripe_minimal.source_type_acss_debit DEFAULT NULL,
-  alipay stripe_minimal.source_type_alipay DEFAULT NULL,
+  ach_credit_transfer stripe.source_type_ach_credit_transfer DEFAULT NULL,
+  ach_debit stripe.source_type_ach_debit DEFAULT NULL,
+  acss_debit stripe.source_type_acss_debit DEFAULT NULL,
+  alipay stripe.source_type_alipay DEFAULT NULL,
   allow_redisplay TEXT DEFAULT NULL,
   amount BIGINT DEFAULT NULL,
-  au_becs_debit stripe_minimal.source_type_au_becs_debit DEFAULT NULL,
-  bancontact stripe_minimal.source_type_bancontact DEFAULT NULL,
-  card stripe_minimal.source_type_card DEFAULT NULL,
-  card_present stripe_minimal.source_type_card_present DEFAULT NULL,
-  code_verification stripe_minimal.source_code_verification_flow DEFAULT NULL,
+  au_becs_debit stripe.source_type_au_becs_debit DEFAULT NULL,
+  bancontact stripe.source_type_bancontact DEFAULT NULL,
+  card stripe.source_type_card DEFAULT NULL,
+  card_present stripe.source_type_card_present DEFAULT NULL,
+  code_verification stripe.source_code_verification_flow DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   customer TEXT DEFAULT NULL,
-  eps stripe_minimal.source_type_eps DEFAULT NULL,
-  giropay stripe_minimal.source_type_giropay DEFAULT NULL,
-  ideal stripe_minimal.source_type_ideal DEFAULT NULL,
-  klarna stripe_minimal.source_type_klarna DEFAULT NULL,
+  eps stripe.source_type_eps DEFAULT NULL,
+  giropay stripe.source_type_giropay DEFAULT NULL,
+  ideal stripe.source_type_ideal DEFAULT NULL,
+  klarna stripe.source_type_klarna DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  multibanco stripe_minimal.source_type_multibanco DEFAULT NULL,
-  "owner" stripe_minimal.source_owner DEFAULT NULL,
-  p24 stripe_minimal.source_type_p24 DEFAULT NULL,
-  receiver stripe_minimal.source_receiver_flow DEFAULT NULL,
-  redirect stripe_minimal.source_redirect_flow DEFAULT NULL,
-  sepa_debit stripe_minimal.source_type_sepa_debit DEFAULT NULL,
-  sofort stripe_minimal.source_type_sofort DEFAULT NULL,
-  source_order stripe_minimal.source_order DEFAULT NULL,
+  multibanco stripe.source_type_multibanco DEFAULT NULL,
+  "owner" stripe.source_owner DEFAULT NULL,
+  p24 stripe.source_type_p24 DEFAULT NULL,
+  receiver stripe.source_receiver_flow DEFAULT NULL,
+  redirect stripe.source_redirect_flow DEFAULT NULL,
+  sepa_debit stripe.source_type_sepa_debit DEFAULT NULL,
+  sofort stripe.source_type_sofort DEFAULT NULL,
+  source_order stripe.source_order DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL,
-  three_d_secure stripe_minimal.source_type_three_d_secure DEFAULT NULL,
+  three_d_secure stripe.source_type_three_d_secure DEFAULT NULL,
   "usage" TEXT DEFAULT NULL,
-  wechat stripe_minimal.source_type_wechat DEFAULT NULL
+  wechat stripe.source_type_wechat DEFAULT NULL
 )
-RETURNS stripe_minimal.source
+RETURNS stripe.source
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -503,48 +495,44 @@ AS $$
     three_d_secure,
     "usage",
     wechat
-  )::stripe_minimal.source;
+  )::stripe.source;
 $$;
 
-ALTER TYPE stripe_minimal.source_code_verification_flow
+ALTER TYPE stripe.source_code_verification_flow
   ADD ATTRIBUTE attempts_remaining BIGINT, ADD ATTRIBUTE status TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_code_verification_flow(
+CREATE OR REPLACE FUNCTION stripe.make_source_code_verification_flow(
   attempts_remaining BIGINT, status TEXT
 )
-RETURNS stripe_minimal.source_code_verification_flow
+RETURNS stripe.source_code_verification_flow
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    attempts_remaining, status
-  )::stripe_minimal.source_code_verification_flow;
+  SELECT ROW(attempts_remaining, status)::stripe.source_code_verification_flow;
 $$;
 
-ALTER TYPE stripe_minimal.source_order
+ALTER TYPE stripe.source_order
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE items stripe_minimal.source_order_item[],
-  ADD ATTRIBUTE shipping stripe_minimal.shipping;
+  ADD ATTRIBUTE items stripe.source_order_item[],
+  ADD ATTRIBUTE shipping stripe.shipping;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_order(
+CREATE OR REPLACE FUNCTION stripe.make_source_order(
   amount BIGINT,
   currency TEXT,
   email TEXT DEFAULT NULL,
-  items stripe_minimal.source_order_item[] DEFAULT NULL,
-  shipping stripe_minimal.shipping DEFAULT NULL
+  items stripe.source_order_item[] DEFAULT NULL,
+  shipping stripe.shipping DEFAULT NULL
 )
-RETURNS stripe_minimal.source_order
+RETURNS stripe.source_order
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    amount, currency, email, items, shipping
-  )::stripe_minimal.source_order;
+  SELECT ROW(amount, currency, email, items, shipping)::stripe.source_order;
 $$;
 
-ALTER TYPE stripe_minimal.source_order_item
+ALTER TYPE stripe.source_order_item
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE description TEXT,
@@ -552,7 +540,7 @@ ALTER TYPE stripe_minimal.source_order_item
   ADD ATTRIBUTE quantity BIGINT,
   ADD ATTRIBUTE "type" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_order_item(
+CREATE OR REPLACE FUNCTION stripe.make_source_order_item(
   amount BIGINT DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   description TEXT DEFAULT NULL,
@@ -560,36 +548,36 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_order_item(
   quantity BIGINT DEFAULT NULL,
   "type" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_order_item
+RETURNS stripe.source_order_item
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     amount, currency, description, parent, quantity, "type"
-  )::stripe_minimal.source_order_item;
+  )::stripe.source_order_item;
 $$;
 
-ALTER TYPE stripe_minimal.source_owner
-  ADD ATTRIBUTE address stripe_minimal.address,
+ALTER TYPE stripe.source_owner
+  ADD ATTRIBUTE address stripe.address,
   ADD ATTRIBUTE email TEXT,
   ADD ATTRIBUTE "name" TEXT,
   ADD ATTRIBUTE phone TEXT,
-  ADD ATTRIBUTE verified_address stripe_minimal.address,
+  ADD ATTRIBUTE verified_address stripe.address,
   ADD ATTRIBUTE verified_email TEXT,
   ADD ATTRIBUTE verified_name TEXT,
   ADD ATTRIBUTE verified_phone TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_owner(
-  address stripe_minimal.address DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe.make_source_owner(
+  address stripe.address DEFAULT NULL,
   email TEXT DEFAULT NULL,
   "name" TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL,
-  verified_address stripe_minimal.address DEFAULT NULL,
+  verified_address stripe.address DEFAULT NULL,
   verified_email TEXT DEFAULT NULL,
   verified_name TEXT DEFAULT NULL,
   verified_phone TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_owner
+RETURNS stripe.source_owner
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -602,10 +590,10 @@ AS $$
     verified_email,
     verified_name,
     verified_phone
-  )::stripe_minimal.source_owner;
+  )::stripe.source_owner;
 $$;
 
-ALTER TYPE stripe_minimal.source_receiver_flow
+ALTER TYPE stripe.source_receiver_flow
   ADD ATTRIBUTE amount_charged BIGINT,
   ADD ATTRIBUTE amount_received BIGINT,
   ADD ATTRIBUTE amount_returned BIGINT,
@@ -613,7 +601,7 @@ ALTER TYPE stripe_minimal.source_receiver_flow
   ADD ATTRIBUTE refund_attributes_status TEXT,
   ADD ATTRIBUTE address TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_receiver_flow(
+CREATE OR REPLACE FUNCTION stripe.make_source_receiver_flow(
   amount_charged BIGINT,
   amount_received BIGINT,
   amount_returned BIGINT,
@@ -621,7 +609,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_receiver_flow(
   refund_attributes_status TEXT,
   address TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_receiver_flow
+RETURNS stripe.source_receiver_flow
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -632,28 +620,28 @@ AS $$
     refund_attributes_method,
     refund_attributes_status,
     address
-  )::stripe_minimal.source_receiver_flow;
+  )::stripe.source_receiver_flow;
 $$;
 
-ALTER TYPE stripe_minimal.source_redirect_flow
+ALTER TYPE stripe.source_redirect_flow
   ADD ATTRIBUTE return_url TEXT,
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE url TEXT,
   ADD ATTRIBUTE failure_reason TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_redirect_flow(
+CREATE OR REPLACE FUNCTION stripe.make_source_redirect_flow(
   return_url TEXT, status TEXT, url TEXT, failure_reason TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_redirect_flow
+RETURNS stripe.source_redirect_flow
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     return_url, status, url, failure_reason
-  )::stripe_minimal.source_redirect_flow;
+  )::stripe.source_redirect_flow;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_ach_credit_transfer
+ALTER TYPE stripe.source_type_ach_credit_transfer
   ADD ATTRIBUTE account_number TEXT,
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE fingerprint TEXT,
@@ -663,7 +651,7 @@ ALTER TYPE stripe_minimal.source_type_ach_credit_transfer
   ADD ATTRIBUTE routing_number TEXT,
   ADD ATTRIBUTE swift_code TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_ach_credit_transfer(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_ach_credit_transfer(
   account_number TEXT DEFAULT NULL,
   bank_name TEXT DEFAULT NULL,
   fingerprint TEXT DEFAULT NULL,
@@ -673,7 +661,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_ach_credit_transfer(
   routing_number TEXT DEFAULT NULL,
   swift_code TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_ach_credit_transfer
+RETURNS stripe.source_type_ach_credit_transfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -686,10 +674,10 @@ AS $$
     refund_routing_number,
     routing_number,
     swift_code
-  )::stripe_minimal.source_type_ach_credit_transfer;
+  )::stripe.source_type_ach_credit_transfer;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_ach_debit
+ALTER TYPE stripe.source_type_ach_debit
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE fingerprint TEXT,
@@ -697,7 +685,7 @@ ALTER TYPE stripe_minimal.source_type_ach_debit
   ADD ATTRIBUTE routing_number TEXT,
   ADD ATTRIBUTE "type" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_ach_debit(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_ach_debit(
   bank_name TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
   fingerprint TEXT DEFAULT NULL,
@@ -705,16 +693,16 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_ach_debit(
   routing_number TEXT DEFAULT NULL,
   "type" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_ach_debit
+RETURNS stripe.source_type_ach_debit
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bank_name, country, fingerprint, last4, routing_number, "type"
-  )::stripe_minimal.source_type_ach_debit;
+  )::stripe.source_type_ach_debit;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_acss_debit
+ALTER TYPE stripe.source_type_acss_debit
   ADD ATTRIBUTE bank_address_city TEXT,
   ADD ATTRIBUTE bank_address_line_1 TEXT,
   ADD ATTRIBUTE bank_address_line_2 TEXT,
@@ -726,7 +714,7 @@ ALTER TYPE stripe_minimal.source_type_acss_debit
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE routing_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_acss_debit(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_acss_debit(
   bank_address_city TEXT DEFAULT NULL,
   bank_address_line_1 TEXT DEFAULT NULL,
   bank_address_line_2 TEXT DEFAULT NULL,
@@ -738,7 +726,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_acss_debit(
   last4 TEXT DEFAULT NULL,
   routing_number TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_acss_debit
+RETURNS stripe.source_type_acss_debit
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -753,48 +741,46 @@ AS $$
     fingerprint,
     last4,
     routing_number
-  )::stripe_minimal.source_type_acss_debit;
+  )::stripe.source_type_acss_debit;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_alipay
+ALTER TYPE stripe.source_type_alipay
   ADD ATTRIBUTE data_string TEXT,
   ADD ATTRIBUTE native_url TEXT,
   ADD ATTRIBUTE statement_descriptor TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_alipay(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_alipay(
   data_string TEXT DEFAULT NULL,
   native_url TEXT DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_alipay
+RETURNS stripe.source_type_alipay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     data_string, native_url, statement_descriptor
-  )::stripe_minimal.source_type_alipay;
+  )::stripe.source_type_alipay;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_au_becs_debit
+ALTER TYPE stripe.source_type_au_becs_debit
   ADD ATTRIBUTE bsb_number TEXT,
   ADD ATTRIBUTE fingerprint TEXT,
   ADD ATTRIBUTE last4 TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_au_becs_debit(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_au_becs_debit(
   bsb_number TEXT DEFAULT NULL,
   fingerprint TEXT DEFAULT NULL,
   last4 TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_au_becs_debit
+RETURNS stripe.source_type_au_becs_debit
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    bsb_number, fingerprint, last4
-  )::stripe_minimal.source_type_au_becs_debit;
+  SELECT ROW(bsb_number, fingerprint, last4)::stripe.source_type_au_becs_debit;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_bancontact
+ALTER TYPE stripe.source_type_bancontact
   ADD ATTRIBUTE bank_code TEXT,
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE bic TEXT,
@@ -802,7 +788,7 @@ ALTER TYPE stripe_minimal.source_type_bancontact
   ADD ATTRIBUTE preferred_language TEXT,
   ADD ATTRIBUTE statement_descriptor TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_bancontact(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_bancontact(
   bank_code TEXT DEFAULT NULL,
   bank_name TEXT DEFAULT NULL,
   bic TEXT DEFAULT NULL,
@@ -810,7 +796,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_bancontact(
   preferred_language TEXT DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_bancontact
+RETURNS stripe.source_type_bancontact
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -821,10 +807,10 @@ AS $$
     iban_last4,
     preferred_language,
     statement_descriptor
-  )::stripe_minimal.source_type_bancontact;
+  )::stripe.source_type_bancontact;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_card
+ALTER TYPE stripe.source_type_card
   ADD ATTRIBUTE address_line1_check TEXT,
   ADD ATTRIBUTE address_zip_check TEXT,
   ADD ATTRIBUTE brand TEXT,
@@ -840,7 +826,7 @@ ALTER TYPE stripe_minimal.source_type_card
   ADD ATTRIBUTE three_d_secure TEXT,
   ADD ATTRIBUTE tokenization_method TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_card(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_card(
   address_line1_check TEXT DEFAULT NULL,
   address_zip_check TEXT DEFAULT NULL,
   brand TEXT DEFAULT NULL,
@@ -856,7 +842,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_card(
   three_d_secure TEXT DEFAULT NULL,
   tokenization_method TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_card
+RETURNS stripe.source_type_card
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -875,10 +861,10 @@ AS $$
     "name",
     three_d_secure,
     tokenization_method
-  )::stripe_minimal.source_type_card;
+  )::stripe.source_type_card;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_card_present
+ALTER TYPE stripe.source_type_card_present
   ADD ATTRIBUTE application_cryptogram TEXT,
   ADD ATTRIBUTE application_preferred_name TEXT,
   ADD ATTRIBUTE authorization_code TEXT,
@@ -903,7 +889,7 @@ ALTER TYPE stripe_minimal.source_type_card_present
   ADD ATTRIBUTE terminal_verification_results TEXT,
   ADD ATTRIBUTE transaction_status_information TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_card_present(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_card_present(
   application_cryptogram TEXT DEFAULT NULL,
   application_preferred_name TEXT DEFAULT NULL,
   authorization_code TEXT DEFAULT NULL,
@@ -928,7 +914,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_card_present(
   terminal_verification_results TEXT DEFAULT NULL,
   transaction_status_information TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_card_present
+RETURNS stripe.source_type_card_present
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -956,65 +942,65 @@ AS $$
     reader,
     terminal_verification_results,
     transaction_status_information
-  )::stripe_minimal.source_type_card_present;
+  )::stripe.source_type_card_present;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_eps
+ALTER TYPE stripe.source_type_eps
   ADD ATTRIBUTE reference TEXT, ADD ATTRIBUTE statement_descriptor TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_eps(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_eps(
   reference TEXT DEFAULT NULL, statement_descriptor TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_eps
+RETURNS stripe.source_type_eps
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(reference, statement_descriptor)::stripe_minimal.source_type_eps;
+  SELECT ROW(reference, statement_descriptor)::stripe.source_type_eps;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_giropay
+ALTER TYPE stripe.source_type_giropay
   ADD ATTRIBUTE bank_code TEXT,
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE bic TEXT,
   ADD ATTRIBUTE statement_descriptor TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_giropay(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_giropay(
   bank_code TEXT DEFAULT NULL,
   bank_name TEXT DEFAULT NULL,
   bic TEXT DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_giropay
+RETURNS stripe.source_type_giropay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bank_code, bank_name, bic, statement_descriptor
-  )::stripe_minimal.source_type_giropay;
+  )::stripe.source_type_giropay;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_ideal
+ALTER TYPE stripe.source_type_ideal
   ADD ATTRIBUTE bank TEXT,
   ADD ATTRIBUTE bic TEXT,
   ADD ATTRIBUTE iban_last4 TEXT,
   ADD ATTRIBUTE statement_descriptor TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_ideal(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_ideal(
   bank TEXT DEFAULT NULL,
   bic TEXT DEFAULT NULL,
   iban_last4 TEXT DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_ideal
+RETURNS stripe.source_type_ideal
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bank, bic, iban_last4, statement_descriptor
-  )::stripe_minimal.source_type_ideal;
+  )::stripe.source_type_ideal;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_klarna
+ALTER TYPE stripe.source_type_klarna
   ADD ATTRIBUTE background_image_url TEXT,
   ADD ATTRIBUTE client_token TEXT,
   ADD ATTRIBUTE first_name TEXT,
@@ -1042,7 +1028,7 @@ ALTER TYPE stripe_minimal.source_type_klarna
   ADD ATTRIBUTE shipping_first_name TEXT,
   ADD ATTRIBUTE shipping_last_name TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_klarna(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_klarna(
   background_image_url TEXT DEFAULT NULL,
   client_token TEXT DEFAULT NULL,
   first_name TEXT DEFAULT NULL,
@@ -1070,7 +1056,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_klarna(
   shipping_first_name TEXT DEFAULT NULL,
   shipping_last_name TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_klarna
+RETURNS stripe.source_type_klarna
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1101,10 +1087,10 @@ AS $$
     shipping_delay,
     shipping_first_name,
     shipping_last_name
-  )::stripe_minimal.source_type_klarna;
+  )::stripe.source_type_klarna;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_multibanco
+ALTER TYPE stripe.source_type_multibanco
   ADD ATTRIBUTE entity TEXT,
   ADD ATTRIBUTE reference TEXT,
   ADD ATTRIBUTE refund_account_holder_address_city TEXT,
@@ -1116,7 +1102,7 @@ ALTER TYPE stripe_minimal.source_type_multibanco
   ADD ATTRIBUTE refund_account_holder_name TEXT,
   ADD ATTRIBUTE refund_iban TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_multibanco(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_multibanco(
   entity TEXT DEFAULT NULL,
   reference TEXT DEFAULT NULL,
   refund_account_holder_address_city TEXT DEFAULT NULL,
@@ -1128,7 +1114,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_multibanco(
   refund_account_holder_name TEXT DEFAULT NULL,
   refund_iban TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_multibanco
+RETURNS stripe.source_type_multibanco
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1143,23 +1129,23 @@ AS $$
     refund_account_holder_address_state,
     refund_account_holder_name,
     refund_iban
-  )::stripe_minimal.source_type_multibanco;
+  )::stripe.source_type_multibanco;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_p24
+ALTER TYPE stripe.source_type_p24
   ADD ATTRIBUTE reference TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_p24(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_p24(
   reference TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_p24
+RETURNS stripe.source_type_p24
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(reference)::stripe_minimal.source_type_p24;
+  SELECT ROW(reference)::stripe.source_type_p24;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_sepa_debit
+ALTER TYPE stripe.source_type_sepa_debit
   ADD ATTRIBUTE bank_code TEXT,
   ADD ATTRIBUTE branch_code TEXT,
   ADD ATTRIBUTE country TEXT,
@@ -1168,7 +1154,7 @@ ALTER TYPE stripe_minimal.source_type_sepa_debit
   ADD ATTRIBUTE mandate_reference TEXT,
   ADD ATTRIBUTE mandate_url TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_sepa_debit(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_sepa_debit(
   bank_code TEXT DEFAULT NULL,
   branch_code TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
@@ -1177,7 +1163,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_sepa_debit(
   mandate_reference TEXT DEFAULT NULL,
   mandate_url TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_sepa_debit
+RETURNS stripe.source_type_sepa_debit
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1189,10 +1175,10 @@ AS $$
     last4,
     mandate_reference,
     mandate_url
-  )::stripe_minimal.source_type_sepa_debit;
+  )::stripe.source_type_sepa_debit;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_sofort
+ALTER TYPE stripe.source_type_sofort
   ADD ATTRIBUTE bank_code TEXT,
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE bic TEXT,
@@ -1201,7 +1187,7 @@ ALTER TYPE stripe_minimal.source_type_sofort
   ADD ATTRIBUTE preferred_language TEXT,
   ADD ATTRIBUTE statement_descriptor TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_sofort(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_sofort(
   bank_code TEXT DEFAULT NULL,
   bank_name TEXT DEFAULT NULL,
   bic TEXT DEFAULT NULL,
@@ -1210,7 +1196,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_sofort(
   preferred_language TEXT DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_sofort
+RETURNS stripe.source_type_sofort
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1222,10 +1208,10 @@ AS $$
     iban_last4,
     preferred_language,
     statement_descriptor
-  )::stripe_minimal.source_type_sofort;
+  )::stripe.source_type_sofort;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_three_d_secure
+ALTER TYPE stripe.source_type_three_d_secure
   ADD ATTRIBUTE address_line1_check TEXT,
   ADD ATTRIBUTE address_zip_check TEXT,
   ADD ATTRIBUTE authenticated BOOLEAN,
@@ -1244,7 +1230,7 @@ ALTER TYPE stripe_minimal.source_type_three_d_secure
   ADD ATTRIBUTE three_d_secure TEXT,
   ADD ATTRIBUTE tokenization_method TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_three_d_secure(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_three_d_secure(
   address_line1_check TEXT DEFAULT NULL,
   address_zip_check TEXT DEFAULT NULL,
   authenticated BOOLEAN DEFAULT NULL,
@@ -1263,7 +1249,7 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_three_d_secure(
   three_d_secure TEXT DEFAULT NULL,
   tokenization_method TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_three_d_secure
+RETURNS stripe.source_type_three_d_secure
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1285,45 +1271,45 @@ AS $$
     "name",
     three_d_secure,
     tokenization_method
-  )::stripe_minimal.source_type_three_d_secure;
+  )::stripe.source_type_three_d_secure;
 $$;
 
-ALTER TYPE stripe_minimal.source_type_wechat
+ALTER TYPE stripe.source_type_wechat
   ADD ATTRIBUTE prepay_id TEXT,
   ADD ATTRIBUTE qr_code_url TEXT,
   ADD ATTRIBUTE statement_descriptor TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_source_type_wechat(
+CREATE OR REPLACE FUNCTION stripe.make_source_type_wechat(
   prepay_id TEXT DEFAULT NULL,
   qr_code_url TEXT DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.source_type_wechat
+RETURNS stripe.source_type_wechat
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     prepay_id, qr_code_url, statement_descriptor
-  )::stripe_minimal.source_type_wechat;
+  )::stripe.source_type_wechat;
 $$;
 
-ALTER TYPE stripe_minimal.tax_code
+ALTER TYPE stripe.tax_code
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE "name" TEXT,
   ADD ATTRIBUTE "object" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_tax_code(
+CREATE OR REPLACE FUNCTION stripe.make_tax_code(
   "id" TEXT, description TEXT, "name" TEXT, "object" TEXT
 )
-RETURNS stripe_minimal.tax_code
+RETURNS stripe.tax_code
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("id", description, "name", "object")::stripe_minimal.tax_code;
+  SELECT ROW("id", description, "name", "object")::stripe.tax_code;
 $$;
 
-ALTER TYPE stripe_minimal.test_helpers_test_clock
+ALTER TYPE stripe.test_helpers_test_clock
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE deletes_after BIGINT,
@@ -1331,10 +1317,10 @@ ALTER TYPE stripe_minimal.test_helpers_test_clock
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE "object" TEXT,
   ADD ATTRIBUTE status TEXT,
-  ADD ATTRIBUTE status_details stripe_minimal.billing_clocks_resource_status_details_status_details,
+  ADD ATTRIBUTE status_details stripe.billing_clocks_resource_status_details_status_details,
   ADD ATTRIBUTE "name" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_minimal.make_test_helpers_test_clock(
+CREATE OR REPLACE FUNCTION stripe.make_test_helpers_test_clock(
   "id" TEXT,
   created BIGINT,
   deletes_after BIGINT,
@@ -1342,10 +1328,10 @@ CREATE OR REPLACE FUNCTION stripe_minimal.make_test_helpers_test_clock(
   livemode BOOLEAN,
   "object" TEXT,
   status TEXT,
-  status_details stripe_minimal.billing_clocks_resource_status_details_status_details,
+  status_details stripe.billing_clocks_resource_status_details_status_details,
   "name" TEXT DEFAULT NULL
 )
-RETURNS stripe_minimal.test_helpers_test_clock
+RETURNS stripe.test_helpers_test_clock
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1359,5 +1345,5 @@ AS $$
     status,
     status_details,
     "name"
-  )::stripe_minimal.test_helpers_test_clock;
+  )::stripe.test_helpers_test_clock;
 $$;

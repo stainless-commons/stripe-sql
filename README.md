@@ -53,7 +53,7 @@ This extension requires:
 - PostgreSQL 14 or higher
 - [PL/Python](https://www.postgresql.org/docs/current/plpython.html)
 - Python 3.9 or higher
-- The stainless-commons-stripe Python package
+- The stainless_commons_stripe Python package
 
 ## Usage
 

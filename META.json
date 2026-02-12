@@ -15,12 +15,12 @@
   "resources": {
     "homepage": "https://stripe.com",
     "bugtracker": {
-      "web": "https://www.github.com/stainless-sdks/stripe-minimal-sql/issues",
+      "web": "https://www.github.com/stainless-commons/stripe-sql/issues",
       "mailto": "dev-platform@stripe.com"
     },
     "repository": {
-      "url": "git://github.com/stainless-sdks/stripe-minimal-sql.git",
-      "web": "https://www.github.com/stainless-sdks/stripe-minimal-sql",
+      "url": "git://github.com/stainless-commons/stripe-sql.git",
+      "web": "https://www.github.com/stainless-commons/stripe-sql",
       "type": "git"
     }
   },

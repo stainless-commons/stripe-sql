@@ -223,7 +223,7 @@ RETURNS JSONB
 LANGUAGE plpython3u
 AS $$
   import json
-  from stripe_minimal._types import not_given
+  from stainless_commons_stripe._types import not_given
 
   response = GD["__stripe_context__"].client.products.with_raw_response.create(
       name=name,
@@ -310,7 +310,7 @@ LANGUAGE plpython3u
 STABLE
 AS $$
   import json
-  from stripe_minimal._types import not_given
+  from stainless_commons_stripe._types import not_given
   from pydantic import TypeAdapter
   from typing import Any
 
@@ -382,9 +382,9 @@ LANGUAGE plpython3u
 STABLE
 AS $$
   import json
-  from stripe_minimal.types import Product
-  from stripe_minimal.pagination import SyncMyCursorIDPage
-  from stripe_minimal._models import FinalRequestOptions
+  from stainless_commons_stripe.types import Product
+  from stainless_commons_stripe.pagination import SyncMyCursorIDPage
+  from stainless_commons_stripe._models import FinalRequestOptions
   from pydantic import TypeAdapter
   from typing import Any
 

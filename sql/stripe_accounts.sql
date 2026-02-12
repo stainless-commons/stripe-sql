@@ -1436,7 +1436,7 @@ RETURNS JSONB
 LANGUAGE plpython3u
 STABLE
 AS $$
-  from stripe_minimal._types import not_given
+  from stainless_commons_stripe._types import not_given
 
   response = GD["__stripe_context__"].client.accounts.with_raw_response.retrieve(
       expand=not_given if expand is None else expand,

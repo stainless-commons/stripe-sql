@@ -3019,7 +3019,7 @@ RETURNS JSONB
 LANGUAGE plpython3u
 AS $$
   import json
-  from stripe_minimal._types import not_given
+  from stainless_commons_stripe._types import not_given
 
   response = GD["__stripe_context__"].client.subscriptions.with_raw_response.update(
       subscription_exposed_id=subscription_exposed_id,
@@ -3162,7 +3162,7 @@ LANGUAGE plpython3u
 STABLE
 AS $$
   import json
-  from stripe_minimal._types import not_given
+  from stainless_commons_stripe._types import not_given
   from pydantic import TypeAdapter
   from typing import Any
 
@@ -3249,9 +3249,9 @@ LANGUAGE plpython3u
 STABLE
 AS $$
   import json
-  from stripe_minimal.types import Subscription
-  from stripe_minimal.pagination import SyncMyCursorIDPage
-  from stripe_minimal._models import FinalRequestOptions
+  from stainless_commons_stripe.types import Subscription
+  from stainless_commons_stripe.pagination import SyncMyCursorIDPage
+  from stainless_commons_stripe._models import FinalRequestOptions
   from pydantic import TypeAdapter
   from typing import Any
 
@@ -3338,7 +3338,7 @@ CREATE OR REPLACE FUNCTION stripe_subscriptions._cancel(
 RETURNS JSONB
 LANGUAGE plpython3u
 AS $$
-  from stripe_minimal._types import not_given
+  from stainless_commons_stripe._types import not_given
 
   response = GD["__stripe_context__"].client.subscriptions.with_raw_response.cancel(
       subscription_exposed_id=subscription_exposed_id,

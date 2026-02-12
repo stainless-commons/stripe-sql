@@ -1,4 +1,4 @@
-ALTER TYPE stripe_coupon.coupon
+ALTER TYPE stripe_coupons.coupon
   ADD ATTRIBUTE "id" TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE duration TEXT,
@@ -7,7 +7,7 @@ ALTER TYPE stripe_coupon.coupon
   ADD ATTRIBUTE times_redeemed BIGINT,
   ADD ATTRIBUTE "valid" BOOLEAN,
   ADD ATTRIBUTE amount_off BIGINT,
-  ADD ATTRIBUTE applies_to stripe_coupon.coupon_applies_to,
+  ADD ATTRIBUTE applies_to stripe_coupons.coupon_applies_to,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE currency_options JSONB,
   ADD ATTRIBUTE duration_in_months BIGINT,
@@ -17,7 +17,7 @@ ALTER TYPE stripe_coupon.coupon
   ADD ATTRIBUTE percent_off DOUBLE PRECISION,
   ADD ATTRIBUTE redeem_by BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_coupon.make_coupon(
+CREATE OR REPLACE FUNCTION stripe_coupons.make_coupon(
   "id" TEXT,
   created BIGINT,
   duration TEXT,
@@ -26,7 +26,7 @@ CREATE OR REPLACE FUNCTION stripe_coupon.make_coupon(
   times_redeemed BIGINT,
   "valid" BOOLEAN,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_coupon.coupon_applies_to DEFAULT NULL,
+  applies_to stripe_coupons.coupon_applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration_in_months BIGINT DEFAULT NULL,
@@ -36,7 +36,7 @@ CREATE OR REPLACE FUNCTION stripe_coupon.make_coupon(
   percent_off DOUBLE PRECISION DEFAULT NULL,
   redeem_by BIGINT DEFAULT NULL
 )
-RETURNS stripe_coupon.coupon
+RETURNS stripe_coupons.coupon
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -58,37 +58,39 @@ AS $$
     "name",
     percent_off,
     redeem_by
-  )::stripe_coupon.coupon;
+  )::stripe_coupons.coupon;
 $$;
 
-ALTER TYPE stripe_coupon.coupon_applies_to
+ALTER TYPE stripe_coupons.coupon_applies_to
   ADD ATTRIBUTE products TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_coupon.make_coupon_applies_to(products TEXT[])
-RETURNS stripe_coupon.coupon_applies_to
+CREATE OR REPLACE FUNCTION stripe_coupons.make_coupon_applies_to(
+  products TEXT[]
+)
+RETURNS stripe_coupons.coupon_applies_to
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(products)::stripe_coupon.coupon_applies_to;
+  SELECT ROW(products)::stripe_coupons.coupon_applies_to;
 $$;
 
-ALTER TYPE stripe_coupon.applies_to
+ALTER TYPE stripe_coupons.applies_to
   ADD ATTRIBUTE products TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_coupon.make_applies_to(
+CREATE OR REPLACE FUNCTION stripe_coupons.make_applies_to(
   products TEXT[] DEFAULT NULL
 )
-RETURNS stripe_coupon.applies_to
+RETURNS stripe_coupons.applies_to
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(products)::stripe_coupon.applies_to;
+  SELECT ROW(products)::stripe_coupons.applies_to;
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_coupon._create(
+CREATE OR REPLACE FUNCTION stripe_coupons._create(
   "id" TEXT DEFAULT NULL,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_coupon.applies_to DEFAULT NULL,
+  applies_to stripe_coupons.applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration TEXT DEFAULT NULL,
@@ -128,10 +130,10 @@ AS $$
   return response.text()
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_coupon.create(
+CREATE OR REPLACE FUNCTION stripe_coupons.create(
   "id" TEXT DEFAULT NULL,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_coupon.applies_to DEFAULT NULL,
+  applies_to stripe_coupons.applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration TEXT DEFAULT NULL,
@@ -143,14 +145,14 @@ CREATE OR REPLACE FUNCTION stripe_coupon.create(
   percent_off DOUBLE PRECISION DEFAULT NULL,
   redeem_by BIGINT DEFAULT NULL
 )
-RETURNS stripe_coupon.coupon
+RETURNS stripe_coupons.coupon
 LANGUAGE plpgsql
 AS $$
   BEGIN
     PERFORM stripe_internal.ensure_context();
     RETURN jsonb_populate_record(
-      NULL::stripe_coupon.coupon,
-      stripe_coupon._create(
+      NULL::stripe_coupons.coupon,
+      stripe_coupons._create(
         "id",
         amount_off,
         applies_to,
@@ -169,7 +171,7 @@ AS $$
   END;
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_coupon._list_first_page_py(
+CREATE OR REPLACE FUNCTION stripe_coupons._list_first_page_py(
   created JSONB DEFAULT NULL,
   ending_before TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
@@ -211,8 +213,8 @@ AS $$
   )
 $$;
 
--- A simpler wrapper around `stripe_coupon._list_first_page` that ensures the global client is initialized.
-CREATE OR REPLACE FUNCTION stripe_coupon._list_first_page(
+-- A simpler wrapper around `stripe_coupons._list_first_page` that ensures the global client is initialized.
+CREATE OR REPLACE FUNCTION stripe_coupons._list_first_page(
   created JSONB DEFAULT NULL,
   ending_before TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
@@ -225,13 +227,13 @@ STABLE
 AS $$
   BEGIN
     PERFORM stripe_internal.ensure_context();
-    RETURN stripe_coupon._list_first_page_py(
+    RETURN stripe_coupons._list_first_page_py(
       created, ending_before, expand, "limit", starting_after
     );
   END;
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_coupon._list_next_page(request_options JSONB)
+CREATE OR REPLACE FUNCTION stripe_coupons._list_next_page(request_options JSONB)
 RETURNS stripe_internal.page
 LANGUAGE plpython3u
 STABLE
@@ -267,20 +269,20 @@ AS $$
   )
 $$;
 
-CREATE OR REPLACE FUNCTION stripe_coupon.list(
+CREATE OR REPLACE FUNCTION stripe_coupons.list(
   created JSONB DEFAULT NULL,
   ending_before TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   "limit" BIGINT DEFAULT NULL,
   starting_after TEXT DEFAULT NULL
 )
-RETURNS SETOF stripe_coupon.coupon
+RETURNS SETOF stripe_coupons.coupon
 LANGUAGE SQL
 STABLE
 AS $$
   WITH RECURSIVE paginated AS (
     SELECT page.*
-    FROM stripe_coupon._list_first_page(
+    FROM stripe_coupons._list_first_page(
       created, ending_before, expand, "limit", starting_after
     ) AS page
 
@@ -288,8 +290,8 @@ AS $$
 
     SELECT page.*
     FROM paginated
-    CROSS JOIN stripe_coupon._list_next_page(paginated.next_request_options) AS page
+    CROSS JOIN stripe_coupons._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_coupon.coupon, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_coupons.coupon, "data")).* FROM paginated;
 $$;

@@ -74,7 +74,7 @@ This extension requires:
 
 ```sql
 SELECT *
-FROM stripe_account.retrieve();
+FROM stripe_accounts.retrieve();
 ```
 
 ## Client configuration
@@ -96,10 +96,10 @@ See this table for the available configuration parameters:
 
 To send a request to the Stripe API, call the relevant SQL function with values corresponding to the parameter types and `SELECT` the columns you need from the returned rows.
 
-To construct [composite type](https://www.postgresql.org/docs/current/rowtypes.html) parameters, use the parameter type's provided `make_*` function. For example, `stripe_coupon.applies_to` may be constructed like so:
+To construct [composite type](https://www.postgresql.org/docs/current/rowtypes.html) parameters, use the parameter type's provided `make_*` function. For example, `stripe_coupons.applies_to` may be constructed like so:
 
 ```sql
-stripe_coupon.make_applies_to(products := ARRAY['string'])
+stripe_coupons.make_applies_to(products := ARRAY['string'])
 ```
 
 ## Pagination
@@ -110,7 +110,7 @@ For example, the following query will make the minimum number of requests necess
 
 ```sql
 SELECT *
-FROM stripe_coupon.list()
+FROM stripe_coupons.list()
 LIMIT 200;
 ```
 

@@ -1579,7 +1579,7 @@ RETURNS JSONB
 LANGUAGE plpython3u
 AS $$
   import json
-  from stripe_minimal._types import not_given
+  from stainless_commons_stripe._types import not_given
 
   response = GD["__stripe_context__"].client.payment_links.with_raw_response.create(
       line_items=GD["__stripe_context__"].strip_none(line_items),

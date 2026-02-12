@@ -540,7 +540,7 @@ RETURNS JSONB
 LANGUAGE plpython3u
 AS $$
   import json
-  from stripe_minimal._types import not_given
+  from stainless_commons_stripe._types import not_given
 
   response = GD["__stripe_context__"].client.refunds.with_raw_response.create(
       amount=not_given if amount is None else amount,

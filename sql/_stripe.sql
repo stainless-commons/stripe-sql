@@ -58,7 +58,7 @@ RETURNS void
 LANGUAGE plpython3u
 AS $$
   from types import SimpleNamespace
-  from stripe_minimal import Stripe
+  from stainless_commons_stripe import Stripe
 
   if "__stripe_context__" in GD:
       # The context was already created.

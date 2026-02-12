@@ -28,39 +28,23 @@ Install the extension:
 make install
 ```
 
-And load it into the relevant database:
+Load it into the relevant database:
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS plpython3u; -- Dependency
 CREATE EXTENSION stripe;
 ```
 
-### Troubleshooting
-
-If you encounter an error such as:
-
-```
-make: pg_config: Command not found
-```
-
-Then ensure you have `pg_config` installed and in your `PATH`. If necessary, tell `make` where to find it:
+And install the Python SDK dependency:
 
 ```sh
-PG_CONFIG=/path/to/pg_config make install
+# install from this staging repo
+pip install git+ssh://git@github.com/stainless-sdks/stripe-minimal-python.git
 ```
 
-To install the extension in a custom prefix on PostgreSQL 18 or later, pass the `prefix` argument:
+See [`./scripts/test`](./scripts/test) how to use a [Python virtual environment](https://docs.python.org/3/library/sys_path_init.html#sys-path-init-virtual-environments) if you prefer that instead.
 
-```sh
-make install prefix=/usr/local/extras
-```
-
-You must also ensure that the prefix is included in the following [`postgresql.conf` parameters](https://www.postgresql.org/docs/current/config-setting.html#CONFIG-SETTING-CONFIGURATION-FILE):
-
-```conf
-extension_control_path = '/usr/local/extras/postgresql/share:$system'
-dynamic_library_path   = '/usr/local/extras/postgresql/lib:$libdir'
-```
+Use [the troubleshooting section](#troubleshooting) if you encounter issues during or after installation.
 
 ## Requirements
 
@@ -69,6 +53,7 @@ This extension requires:
 - PostgreSQL 14 or higher
 - [PL/Python](https://www.postgresql.org/docs/current/plpython.html)
 - Python 3.9 or higher
+- The stripe_minimal Python package
 
 ## Usage
 
@@ -84,6 +69,9 @@ Configure the client by setting configuration parameters at the database level:
 ```sql
 ALTER DATABASE my_database SET stripe.secret_key = 'My API Key';
 ```
+
+> [!NOTE] > `ALTER DATABASE` persistently alters the database, but doesn't take effect until the next session. To
+> ephemerally modify the current session, use `SET stripe.secret_key TO 'My API Key';`.
 
 See this table for the available configuration parameters:
 
@@ -118,6 +106,57 @@ LIMIT 200;
 > Place your `LIMIT` as close to the paginated function call as possible. If the `LIMIT` is too far
 > removed, then PostgreSQL may not [push down the condition](https://wiki.postgresql.org/wiki/Inlining_of_SQL_functions),
 > causing all pages to be requested and buffered.
+
+## Troubleshooting
+
+### Installation
+
+If you encounter an error such as:
+
+```
+Operation not permitted
+```
+
+Then run with `sudo`. If necessary, ensure your terminal has full disk access.
+
+If you encounter an error such as:
+
+```
+make: pg_config: Command not found
+```
+
+Then ensure you have `pg_config` installed and in your `PATH`. If necessary, tell `make` where to find it:
+
+```sh
+PG_CONFIG=/path/to/pg_config make install
+```
+
+To install the extension in a custom prefix on PostgreSQL 18 or later, pass the `prefix` argument:
+
+```sh
+make install prefix=/usr/local/extras
+```
+
+You must also ensure that the prefix is included in the following [`postgresql.conf` parameters](https://www.postgresql.org/docs/current/config-setting.html#CONFIG-SETTING-CONFIGURATION-FILE):
+
+```conf
+extension_control_path = '/usr/local/extras/postgresql/share:$system'
+dynamic_library_path   = '/usr/local/extras/postgresql/lib:$libdir'
+```
+
+### Loading
+
+If you encounter an error such as:
+
+```
+ERROR: could not load library
+```
+
+Then ensure your Python installation is linked to the directory where PostgreSQL was looking for it. You can print out the directory of your Python installation with this command:
+
+```sh
+python3 -c "import sys; print(sys.prefix)"
+```
 
 ## Semantic versioning
 

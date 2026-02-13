@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1 (2026-02-13)
+
+Full Changelog: [v0.1.0...v0.1.1](https://github.com/stainless-commons/stripe-sql/compare/v0.1.0...v0.1.1)
+
+### Chores
+
+* bump @stdy/cli to 0.15.3 ([7e3b3f9](https://github.com/stainless-commons/stripe-sql/commit/7e3b3f907a47a9a76ae94e1fcdef9f718ae900a3))
+* **test:** enable generated tests ([b6b74e8](https://github.com/stainless-commons/stripe-sql/commit/b6b74e8e4f73a919dd0129e427670ce35c053718))
+
 ## 0.1.0 (2026-02-12)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/stainless-commons/stripe-sql/compare/v0.0.1...v0.1.0)

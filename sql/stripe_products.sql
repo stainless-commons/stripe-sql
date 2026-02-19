@@ -1,13 +1,13 @@
 ALTER TYPE stripe_products.product
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE active BOOLEAN,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE images TEXT[],
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE marketing_features stripe_products.product_marketing_feature[],
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "name" TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE name TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE updated BIGINT,
   ADD ATTRIBUTE default_price JSONB,
   ADD ATTRIBUTE description TEXT,
@@ -19,15 +19,15 @@ ALTER TYPE stripe_products.product
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_products.make_product(
-  "id" TEXT,
+  id TEXT,
   active BOOLEAN,
   created BIGINT,
   images TEXT[],
   livemode BOOLEAN,
   marketing_features stripe_products.product_marketing_feature[],
   metadata JSONB,
-  "name" TEXT,
-  "object" TEXT,
+  name TEXT,
+  object TEXT,
   updated BIGINT,
   default_price JSONB DEFAULT NULL,
   description TEXT DEFAULT NULL,
@@ -43,15 +43,15 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     active,
     created,
     images,
     livemode,
     marketing_features,
     metadata,
-    "name",
-    "object",
+    name,
+    object,
     updated,
     default_price,
     description,
@@ -65,27 +65,27 @@ AS $$
 $$;
 
 ALTER TYPE stripe_products.product_marketing_feature
-  ADD ATTRIBUTE "name" TEXT;
+  ADD ATTRIBUTE name TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_products.make_product_marketing_feature(
-  "name" TEXT DEFAULT NULL
+  name TEXT DEFAULT NULL
 )
 RETURNS stripe_products.product_marketing_feature
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("name")::stripe_products.product_marketing_feature;
+  SELECT ROW(name)::stripe_products.product_marketing_feature;
 $$;
 
 ALTER TYPE stripe_products.product_package_dimension
   ADD ATTRIBUTE height DOUBLE PRECISION,
-  ADD ATTRIBUTE "length" DOUBLE PRECISION,
+  ADD ATTRIBUTE length DOUBLE PRECISION,
   ADD ATTRIBUTE weight DOUBLE PRECISION,
   ADD ATTRIBUTE width DOUBLE PRECISION;
 
 CREATE OR REPLACE FUNCTION stripe_products.make_product_package_dimension(
   height DOUBLE PRECISION,
-  "length" DOUBLE PRECISION,
+  length DOUBLE PRECISION,
   weight DOUBLE PRECISION,
   width DOUBLE PRECISION
 )
@@ -94,7 +94,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    height, "length", weight, width
+    height, length, weight, width
   )::stripe_products.product_package_dimension;
 $$;
 
@@ -171,25 +171,25 @@ AS $$
 $$;
 
 ALTER TYPE stripe_products.marketing_feature
-  ADD ATTRIBUTE "name" TEXT;
+  ADD ATTRIBUTE name TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_products.make_marketing_feature("name" TEXT)
+CREATE OR REPLACE FUNCTION stripe_products.make_marketing_feature(name TEXT)
 RETURNS stripe_products.marketing_feature
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("name")::stripe_products.marketing_feature;
+  SELECT ROW(name)::stripe_products.marketing_feature;
 $$;
 
 ALTER TYPE stripe_products.package_dimension
   ADD ATTRIBUTE height DOUBLE PRECISION,
-  ADD ATTRIBUTE "length" DOUBLE PRECISION,
+  ADD ATTRIBUTE length DOUBLE PRECISION,
   ADD ATTRIBUTE weight DOUBLE PRECISION,
   ADD ATTRIBUTE width DOUBLE PRECISION;
 
 CREATE OR REPLACE FUNCTION stripe_products.make_package_dimension(
   height DOUBLE PRECISION,
-  "length" DOUBLE PRECISION,
+  length DOUBLE PRECISION,
   weight DOUBLE PRECISION,
   width DOUBLE PRECISION
 )
@@ -197,14 +197,12 @@ RETURNS stripe_products.package_dimension
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    height, "length", weight, width
-  )::stripe_products.package_dimension;
+  SELECT ROW(height, length, weight, width)::stripe_products.package_dimension;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_products._create(
-  "name" TEXT,
-  "id" TEXT DEFAULT NULL,
+  name TEXT,
+  id TEXT DEFAULT NULL,
   active BOOLEAN DEFAULT NULL,
   default_price_data stripe_products.default_price_data DEFAULT NULL,
   description TEXT DEFAULT NULL,
@@ -250,8 +248,8 @@ AS $$
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_products.create(
-  "name" TEXT,
-  "id" TEXT DEFAULT NULL,
+  name TEXT,
+  id TEXT DEFAULT NULL,
   active BOOLEAN DEFAULT NULL,
   default_price_data stripe_products.default_price_data DEFAULT NULL,
   description TEXT DEFAULT NULL,
@@ -274,8 +272,8 @@ AS $$
     RETURN jsonb_populate_record(
       NULL::stripe_products.product,
       stripe_products._create(
-        "name",
-        "id",
+        name,
+        id,
         active,
         default_price_data,
         description,
@@ -448,5 +446,5 @@ AS $$
     CROSS JOIN stripe_products._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_products.product, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_products.product, data)).* FROM paginated;
 $$;

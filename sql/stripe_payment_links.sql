@@ -12,7 +12,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE active BOOLEAN,
   ADD ATTRIBUTE after_completion stripe_payment_links.payment_link_create_response_after_completion,
   ADD ATTRIBUTE allow_promotion_codes BOOLEAN,
@@ -24,7 +24,7 @@ ALTER TYPE stripe_payment_links.payment_link_create_response
   ADD ATTRIBUTE customer_creation TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE payment_method_collection TEXT,
   ADD ATTRIBUTE phone_number_collection stripe_payment_links.payment_link_create_response_phone_number_collection,
   ADD ATTRIBUTE shipping_options stripe_payment_links.payment_link_create_response_shipping_option[],
@@ -49,7 +49,7 @@ ALTER TYPE stripe_payment_links.payment_link_create_response
   ADD ATTRIBUTE transfer_data stripe_payment_links.payment_link_create_response_transfer_data;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response(
-  "id" TEXT,
+  id TEXT,
   active BOOLEAN,
   after_completion stripe_payment_links.payment_link_create_response_after_completion,
   allow_promotion_codes BOOLEAN,
@@ -61,7 +61,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_respons
   customer_creation TEXT,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   payment_method_collection TEXT,
   phone_number_collection stripe_payment_links.payment_link_create_response_phone_number_collection,
   shipping_options stripe_payment_links.payment_link_create_response_shipping_option[],
@@ -90,7 +90,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     active,
     after_completion,
     allow_promotion_codes,
@@ -102,7 +102,7 @@ AS $$
     customer_creation,
     livemode,
     metadata,
-    "object",
+    object,
     payment_method_collection,
     phone_number_collection,
     shipping_options,
@@ -129,12 +129,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_after_completion
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE hosted_confirmation stripe_payment_links.p_link_create_response_after_completion_hosted_confirmation,
   ADD ATTRIBUTE redirect stripe_payment_links.payment_link_create_response_after_completion_redirect;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_after_completion(
-  "type" TEXT,
+  type TEXT,
   hosted_confirmation stripe_payment_links.p_link_create_response_after_completion_hosted_confirmation DEFAULT NULL,
   redirect stripe_payment_links.payment_link_create_response_after_completion_redirect DEFAULT NULL
 )
@@ -143,7 +143,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", hosted_confirmation, redirect
+    type, hosted_confirmation, redirect
   )::stripe_payment_links.payment_link_create_response_after_completion;
 $$;
 
@@ -195,53 +195,53 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_custom_field
-  ADD ATTRIBUTE "key" TEXT,
-  ADD ATTRIBUTE "label" stripe_payment_links.payment_link_create_response_custom_field_label,
+  ADD ATTRIBUTE key TEXT,
+  ADD ATTRIBUTE label stripe_payment_links.payment_link_create_response_custom_field_label,
   ADD ATTRIBUTE optional BOOLEAN,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE dropdown stripe_payment_links.payment_link_create_response_custom_field_dropdown,
   ADD ATTRIBUTE "numeric" stripe_payment_links.payment_link_create_response_custom_field_numeric,
-  ADD ATTRIBUTE "text" stripe_payment_links.payment_link_create_response_custom_field_text;
+  ADD ATTRIBUTE text stripe_payment_links.payment_link_create_response_custom_field_text;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_custom_field(
-  "key" TEXT,
-  "label" stripe_payment_links.payment_link_create_response_custom_field_label,
+  key TEXT,
+  label stripe_payment_links.payment_link_create_response_custom_field_label,
   optional BOOLEAN,
-  "type" TEXT,
+  type TEXT,
   dropdown stripe_payment_links.payment_link_create_response_custom_field_dropdown DEFAULT NULL,
   "numeric" stripe_payment_links.payment_link_create_response_custom_field_numeric DEFAULT NULL,
-  "text" stripe_payment_links.payment_link_create_response_custom_field_text DEFAULT NULL
+  text stripe_payment_links.payment_link_create_response_custom_field_text DEFAULT NULL
 )
 RETURNS stripe_payment_links.payment_link_create_response_custom_field
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "key", "label", optional, "type", dropdown, "numeric", "text"
+    key, label, optional, type, dropdown, "numeric", text
   )::stripe_payment_links.payment_link_create_response_custom_field;
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_custom_field_label
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE custom TEXT;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE custom TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_custom_field_label(
-  "type" TEXT, custom TEXT DEFAULT NULL
+  type TEXT, custom TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_links.payment_link_create_response_custom_field_label
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", custom
+    type, custom
   )::stripe_payment_links.payment_link_create_response_custom_field_label;
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_custom_field_dropdown
-  ADD ATTRIBUTE "options" stripe_payment_links.payment_link_create_response_custom_field_dropdown_option[],
+  ADD ATTRIBUTE options stripe_payment_links.payment_link_create_response_custom_field_dropdown_option[],
   ADD ATTRIBUTE default_value TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_custom_field_dropdown(
-  "options" stripe_payment_links.payment_link_create_response_custom_field_dropdown_option[],
+  options stripe_payment_links.payment_link_create_response_custom_field_dropdown_option[],
   default_value TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_links.payment_link_create_response_custom_field_dropdown
@@ -249,22 +249,22 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "options", default_value
+    options, default_value
   )::stripe_payment_links.payment_link_create_response_custom_field_dropdown;
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_custom_field_dropdown_option
-  ADD ATTRIBUTE "label" TEXT, ADD ATTRIBUTE "value" TEXT;
+  ADD ATTRIBUTE label TEXT, ADD ATTRIBUTE value TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_custom_field_dropdown_option(
-  "label" TEXT, "value" TEXT
+  label TEXT, value TEXT
 )
 RETURNS stripe_payment_links.payment_link_create_response_custom_field_dropdown_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "label", "value"
+    label, value
   )::stripe_payment_links.payment_link_create_response_custom_field_dropdown_option;
 $$;
 
@@ -457,30 +457,30 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.p_l_c_response_invoice_creation_invoice_data_rendering_option
-  ADD ATTRIBUTE amount_tax_display TEXT, ADD ATTRIBUTE "template" TEXT;
+  ADD ATTRIBUTE amount_tax_display TEXT, ADD ATTRIBUTE template TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.m_p_l_c_response_invoice_creation_invoice_data_rendering_option(
-  amount_tax_display TEXT DEFAULT NULL, "template" TEXT DEFAULT NULL
+  amount_tax_display TEXT DEFAULT NULL, template TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_links.p_l_c_response_invoice_creation_invoice_data_rendering_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    amount_tax_display, "template"
+    amount_tax_display, template
   )::stripe_payment_links.p_l_c_response_invoice_creation_invoice_data_rendering_option;
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_line_item
-  ADD ATTRIBUTE "data" stripe_payment_links.payment_link_create_response_line_item_data[],
+  ADD ATTRIBUTE data stripe_payment_links.payment_link_create_response_line_item_data[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_line_item(
-  "data" stripe_payment_links.payment_link_create_response_line_item_data[],
+  data stripe_payment_links.payment_link_create_response_line_item_data[],
   has_more BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   url TEXT
 )
 RETURNS stripe_payment_links.payment_link_create_response_line_item
@@ -488,18 +488,18 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data", has_more, "object", url
+    data, has_more, object, url
   )::stripe_payment_links.payment_link_create_response_line_item;
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_line_item_data
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount_discount BIGINT,
   ADD ATTRIBUTE amount_subtotal BIGINT,
   ADD ATTRIBUTE amount_tax BIGINT,
   ADD ATTRIBUTE amount_total BIGINT,
   ADD ATTRIBUTE currency TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE adjustable_quantity stripe_payment_links.payment_link_create_response_line_item_data_adjustable_quantity,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE discounts stripe_payment_links.payment_link_create_response_line_item_data_discount[],
@@ -509,13 +509,13 @@ ALTER TYPE stripe_payment_links.payment_link_create_response_line_item_data
   ADD ATTRIBUTE taxes stripe_payment_links.payment_link_create_response_line_item_data_tax[];
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_line_item_data(
-  "id" TEXT,
+  id TEXT,
   amount_discount BIGINT,
   amount_subtotal BIGINT,
   amount_tax BIGINT,
   amount_total BIGINT,
   currency TEXT,
-  "object" TEXT,
+  object TEXT,
   adjustable_quantity stripe_payment_links.payment_link_create_response_line_item_data_adjustable_quantity DEFAULT NULL,
   description TEXT DEFAULT NULL,
   discounts stripe_payment_links.payment_link_create_response_line_item_data_discount[] DEFAULT NULL,
@@ -529,13 +529,13 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount_discount,
     amount_subtotal,
     amount_tax,
     amount_total,
     currency,
-    "object",
+    object,
     adjustable_quantity,
     description,
     discounts,
@@ -731,17 +731,17 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_restriction_completed_session
-  ADD ATTRIBUTE "count" BIGINT, ADD ATTRIBUTE "limit" BIGINT;
+  ADD ATTRIBUTE count BIGINT, ADD ATTRIBUTE "limit" BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_restriction_completed_session(
-  "count" BIGINT, "limit" BIGINT
+  count BIGINT, "limit" BIGINT
 )
 RETURNS stripe_payment_links.payment_link_create_response_restriction_completed_session
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "count", "limit"
+    count, "limit"
   )::stripe_payment_links.payment_link_create_response_restriction_completed_session;
 $$;
 
@@ -915,7 +915,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.line_item_price_data_product_data
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE images TEXT[],
   ADD ATTRIBUTE metadata JSONB,
@@ -923,7 +923,7 @@ ALTER TYPE stripe_payment_links.line_item_price_data_product_data
   ADD ATTRIBUTE unit_label TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_line_item_price_data_product_data(
-  "name" TEXT,
+  name TEXT,
   description TEXT DEFAULT NULL,
   images TEXT[] DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
@@ -935,7 +935,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "name", description, images, metadata, tax_code, unit_label
+    name, description, images, metadata, tax_code, unit_label
   )::stripe_payment_links.line_item_price_data_product_data;
 $$;
 
@@ -955,12 +955,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.after_completion
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE hosted_confirmation stripe_payment_links.after_completion_hosted_confirmation,
   ADD ATTRIBUTE redirect stripe_payment_links.after_completion_redirect;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_after_completion(
-  "type" TEXT,
+  type TEXT,
   hosted_confirmation stripe_payment_links.after_completion_hosted_confirmation DEFAULT NULL,
   redirect stripe_payment_links.after_completion_redirect DEFAULT NULL
 )
@@ -969,7 +969,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", hosted_confirmation, redirect
+    type, hosted_confirmation, redirect
   )::stripe_payment_links.after_completion;
 $$;
 
@@ -1017,16 +1017,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.automatic_tax_liability
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE account TEXT;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_automatic_tax_liability(
-  "type" TEXT, account TEXT DEFAULT NULL
+  type TEXT, account TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_links.automatic_tax_liability
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", account)::stripe_payment_links.automatic_tax_liability;
+  SELECT ROW(type, account)::stripe_payment_links.automatic_tax_liability;
 $$;
 
 ALTER TYPE stripe_payment_links.consent_collection
@@ -1064,51 +1064,51 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.custom_field
-  ADD ATTRIBUTE "key" TEXT,
-  ADD ATTRIBUTE "label" stripe_payment_links.custom_field_label,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE key TEXT,
+  ADD ATTRIBUTE label stripe_payment_links.custom_field_label,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE dropdown stripe_payment_links.custom_field_dropdown,
   ADD ATTRIBUTE "numeric" stripe_payment_links.custom_field_numeric,
   ADD ATTRIBUTE optional BOOLEAN,
-  ADD ATTRIBUTE "text" stripe_payment_links.custom_field_text;
+  ADD ATTRIBUTE text stripe_payment_links.custom_field_text;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field(
-  "key" TEXT,
-  "label" stripe_payment_links.custom_field_label,
-  "type" TEXT,
+  key TEXT,
+  label stripe_payment_links.custom_field_label,
+  type TEXT,
   dropdown stripe_payment_links.custom_field_dropdown DEFAULT NULL,
   "numeric" stripe_payment_links.custom_field_numeric DEFAULT NULL,
   optional BOOLEAN DEFAULT NULL,
-  "text" stripe_payment_links.custom_field_text DEFAULT NULL
+  text stripe_payment_links.custom_field_text DEFAULT NULL
 )
 RETURNS stripe_payment_links.custom_field
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "key", "label", "type", dropdown, "numeric", optional, "text"
+    key, label, type, dropdown, "numeric", optional, text
   )::stripe_payment_links.custom_field;
 $$;
 
 ALTER TYPE stripe_payment_links.custom_field_label
-  ADD ATTRIBUTE custom TEXT, ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE custom TEXT, ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field_label(
-  custom TEXT, "type" TEXT
+  custom TEXT, type TEXT
 )
 RETURNS stripe_payment_links.custom_field_label
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(custom, "type")::stripe_payment_links.custom_field_label;
+  SELECT ROW(custom, type)::stripe_payment_links.custom_field_label;
 $$;
 
 ALTER TYPE stripe_payment_links.custom_field_dropdown
-  ADD ATTRIBUTE "options" stripe_payment_links.custom_field_dropdown_option[],
+  ADD ATTRIBUTE options stripe_payment_links.custom_field_dropdown_option[],
   ADD ATTRIBUTE default_value TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field_dropdown(
-  "options" stripe_payment_links.custom_field_dropdown_option[],
+  options stripe_payment_links.custom_field_dropdown_option[],
   default_value TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_links.custom_field_dropdown
@@ -1116,23 +1116,21 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "options", default_value
+    options, default_value
   )::stripe_payment_links.custom_field_dropdown;
 $$;
 
 ALTER TYPE stripe_payment_links.custom_field_dropdown_option
-  ADD ATTRIBUTE "label" TEXT, ADD ATTRIBUTE "value" TEXT;
+  ADD ATTRIBUTE label TEXT, ADD ATTRIBUTE value TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field_dropdown_option(
-  "label" TEXT, "value" TEXT
+  label TEXT, value TEXT
 )
 RETURNS stripe_payment_links.custom_field_dropdown_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    "label", "value"
-  )::stripe_payment_links.custom_field_dropdown_option;
+  SELECT ROW(label, value)::stripe_payment_links.custom_field_dropdown_option;
 $$;
 
 ALTER TYPE stripe_payment_links.custom_field_numeric
@@ -1243,17 +1241,17 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.invoice_creation_invoice_data_issuer
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE account TEXT;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_invoice_creation_invoice_data_issuer(
-  "type" TEXT, account TEXT DEFAULT NULL
+  type TEXT, account TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_links.invoice_creation_invoice_data_issuer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", account
+    type, account
   )::stripe_payment_links.invoice_creation_invoice_data_issuer;
 $$;
 
@@ -1473,17 +1471,17 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.subscription_data_invoice_setting_issuer
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE account TEXT;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_subscription_data_invoice_setting_issuer(
-  "type" TEXT, account TEXT DEFAULT NULL
+  type TEXT, account TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_links.subscription_data_invoice_setting_issuer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", account
+    type, account
   )::stripe_payment_links.subscription_data_invoice_setting_issuer;
 $$;
 

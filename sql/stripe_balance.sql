@@ -37,7 +37,7 @@ $$;
 ALTER TYPE stripe_balance.balance_retrieve_response
   ADD ATTRIBUTE available stripe_balance.balance_amount[],
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE pending stripe_balance.balance_amount[],
   ADD ATTRIBUTE connect_reserved stripe_balance.balance_amount[],
   ADD ATTRIBUTE instant_available stripe_balance.balance_retrieve_response_instant_available[],
@@ -47,7 +47,7 @@ ALTER TYPE stripe_balance.balance_retrieve_response
 CREATE OR REPLACE FUNCTION stripe_balance.make_balance_retrieve_response(
   available stripe_balance.balance_amount[],
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   pending stripe_balance.balance_amount[],
   connect_reserved stripe_balance.balance_amount[] DEFAULT NULL,
   instant_available stripe_balance.balance_retrieve_response_instant_available[] DEFAULT NULL,
@@ -61,7 +61,7 @@ AS $$
   SELECT ROW(
     available,
     livemode,
-    "object",
+    object,
     pending,
     connect_reserved,
     instant_available,

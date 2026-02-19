@@ -1,9 +1,9 @@
 ALTER TYPE stripe_customers.bank_account
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE last4 TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE account JSONB,
   ADD ATTRIBUTE account_holder_name TEXT,
@@ -20,11 +20,11 @@ ALTER TYPE stripe_customers.bank_account
   ADD ATTRIBUTE routing_number TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_bank_account(
-  "id" TEXT,
+  id TEXT,
   country TEXT,
   currency TEXT,
   last4 TEXT,
-  "object" TEXT,
+  object TEXT,
   status TEXT,
   account JSONB DEFAULT NULL,
   account_holder_name TEXT DEFAULT NULL,
@@ -45,11 +45,11 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     country,
     currency,
     last4,
-    "object",
+    object,
     status,
     account,
     account_holder_name,
@@ -110,13 +110,13 @@ AS $$
 $$;
 
 ALTER TYPE stripe_customers.card
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE brand TEXT,
   ADD ATTRIBUTE exp_month BIGINT,
   ADD ATTRIBUTE exp_year BIGINT,
   ADD ATTRIBUTE funding TEXT,
   ADD ATTRIBUTE last4 TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE account JSONB,
   ADD ATTRIBUTE address_city TEXT,
   ADD ATTRIBUTE address_country TEXT,
@@ -137,20 +137,20 @@ ALTER TYPE stripe_customers.card
   ADD ATTRIBUTE fingerprint TEXT,
   ADD ATTRIBUTE iin TEXT,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE networks stripe_customers.card_network,
   ADD ATTRIBUTE regulated_status TEXT,
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE tokenization_method TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_card(
-  "id" TEXT,
+  id TEXT,
   brand TEXT,
   exp_month BIGINT,
   exp_year BIGINT,
   funding TEXT,
   last4 TEXT,
-  "object" TEXT,
+  object TEXT,
   account JSONB DEFAULT NULL,
   address_city TEXT DEFAULT NULL,
   address_country TEXT DEFAULT NULL,
@@ -171,7 +171,7 @@ CREATE OR REPLACE FUNCTION stripe_customers.make_card(
   fingerprint TEXT DEFAULT NULL,
   iin TEXT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   networks stripe_customers.card_network DEFAULT NULL,
   regulated_status TEXT DEFAULT NULL,
   status TEXT DEFAULT NULL,
@@ -182,13 +182,13 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     brand,
     exp_month,
     exp_year,
     funding,
     last4,
-    "object",
+    object,
     account,
     address_city,
     address_country,
@@ -209,7 +209,7 @@ AS $$
     fingerprint,
     iin,
     metadata,
-    "name",
+    name,
     networks,
     regulated_status,
     status,
@@ -231,10 +231,10 @@ AS $$
 $$;
 
 ALTER TYPE stripe_customers.customer
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE address stripe.address,
   ADD ATTRIBUTE balance BIGINT,
   ADD ATTRIBUTE business_name TEXT,
@@ -251,7 +251,7 @@ ALTER TYPE stripe_customers.customer
   ADD ATTRIBUTE invoice_prefix TEXT,
   ADD ATTRIBUTE invoice_settings JSONB,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE next_invoice_sequence BIGINT,
   ADD ATTRIBUTE phone TEXT,
   ADD ATTRIBUTE preferred_locales TEXT[],
@@ -264,10 +264,10 @@ ALTER TYPE stripe_customers.customer
   ADD ATTRIBUTE test_clock JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_customer(
-  "id" TEXT,
+  id TEXT,
   created BIGINT,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   address stripe.address DEFAULT NULL,
   balance BIGINT DEFAULT NULL,
   business_name TEXT DEFAULT NULL,
@@ -284,7 +284,7 @@ CREATE OR REPLACE FUNCTION stripe_customers.make_customer(
   invoice_prefix TEXT DEFAULT NULL,
   invoice_settings JSONB DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   next_invoice_sequence BIGINT DEFAULT NULL,
   phone TEXT DEFAULT NULL,
   preferred_locales TEXT[] DEFAULT NULL,
@@ -301,10 +301,10 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     created,
     livemode,
-    "object",
+    object,
     address,
     balance,
     business_name,
@@ -321,7 +321,7 @@ AS $$
     invoice_prefix,
     invoice_settings,
     metadata,
-    "name",
+    name,
     next_invoice_sequence,
     phone,
     preferred_locales,
@@ -338,7 +338,7 @@ $$;
 ALTER TYPE stripe_customers.customer_cash_balance
   ADD ATTRIBUTE customer TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE settings stripe_customers.customer_cash_balance_setting,
   ADD ATTRIBUTE available JSONB,
   ADD ATTRIBUTE customer_account TEXT;
@@ -346,7 +346,7 @@ ALTER TYPE stripe_customers.customer_cash_balance
 CREATE OR REPLACE FUNCTION stripe_customers.make_customer_cash_balance(
   customer TEXT,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   settings stripe_customers.customer_cash_balance_setting,
   available JSONB DEFAULT NULL,
   customer_account TEXT DEFAULT NULL
@@ -356,7 +356,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    customer, livemode, "object", settings, available, customer_account
+    customer, livemode, object, settings, available, customer_account
   )::stripe_customers.customer_cash_balance;
 $$;
 
@@ -377,36 +377,36 @@ AS $$
 $$;
 
 ALTER TYPE stripe_customers.customer_source
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_customer_source(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_customers.customer_source
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("data", has_more, "object", url)::stripe_customers.customer_source;
+  SELECT ROW(data, has_more, object, url)::stripe_customers.customer_source;
 $$;
 
 ALTER TYPE stripe_customers.customer_subscription
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_customer_subscription(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_customers.customer_subscription
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data", has_more, "object", url
+    data, has_more, object, url
   )::stripe_customers.customer_subscription;
 $$;
 
@@ -414,61 +414,59 @@ ALTER TYPE stripe_customers.customer_tax
   ADD ATTRIBUTE automatic_tax TEXT,
   ADD ATTRIBUTE provider TEXT,
   ADD ATTRIBUTE ip_address TEXT,
-  ADD ATTRIBUTE "location" stripe_customers.customer_tax_location;
+  ADD ATTRIBUTE location stripe_customers.customer_tax_location;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_customer_tax(
   automatic_tax TEXT,
   provider TEXT,
   ip_address TEXT DEFAULT NULL,
-  "location" stripe_customers.customer_tax_location DEFAULT NULL
+  location stripe_customers.customer_tax_location DEFAULT NULL
 )
 RETURNS stripe_customers.customer_tax
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    automatic_tax, provider, ip_address, "location"
+    automatic_tax, provider, ip_address, location
   )::stripe_customers.customer_tax;
 $$;
 
 ALTER TYPE stripe_customers.customer_tax_location
   ADD ATTRIBUTE country TEXT,
-  ADD ATTRIBUTE "source" TEXT,
-  ADD ATTRIBUTE "state" TEXT;
+  ADD ATTRIBUTE source TEXT,
+  ADD ATTRIBUTE state TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_customer_tax_location(
-  country TEXT, "source" TEXT, "state" TEXT DEFAULT NULL
+  country TEXT, source TEXT, state TEXT DEFAULT NULL
 )
 RETURNS stripe_customers.customer_tax_location
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    country, "source", "state"
-  )::stripe_customers.customer_tax_location;
+  SELECT ROW(country, source, state)::stripe_customers.customer_tax_location;
 $$;
 
 ALTER TYPE stripe_customers.customer_tax_id
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_customer_tax_id(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_customers.customer_tax_id
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("data", has_more, "object", url)::stripe_customers.customer_tax_id;
+  SELECT ROW(data, has_more, object, url)::stripe_customers.customer_tax_id;
 $$;
 
 ALTER TYPE stripe_customers.discount
-  ADD ATTRIBUTE "id" TEXT,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE "source" stripe_customers.discount_source,
-  ADD ATTRIBUTE "start" BIGINT,
+  ADD ATTRIBUTE id TEXT,
+  ADD ATTRIBUTE object TEXT,
+  ADD ATTRIBUTE source stripe_customers.discount_source,
+  ADD ATTRIBUTE start BIGINT,
   ADD ATTRIBUTE checkout_session TEXT,
   ADD ATTRIBUTE customer JSONB,
   ADD ATTRIBUTE customer_account TEXT,
@@ -476,14 +474,14 @@ ALTER TYPE stripe_customers.discount
   ADD ATTRIBUTE invoice TEXT,
   ADD ATTRIBUTE invoice_item TEXT,
   ADD ATTRIBUTE promotion_code JSONB,
-  ADD ATTRIBUTE "subscription" TEXT,
+  ADD ATTRIBUTE subscription TEXT,
   ADD ATTRIBUTE subscription_item TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_discount(
-  "id" TEXT,
-  "object" TEXT,
-  "source" stripe_customers.discount_source,
-  "start" BIGINT,
+  id TEXT,
+  object TEXT,
+  source stripe_customers.discount_source,
+  start BIGINT,
   checkout_session TEXT DEFAULT NULL,
   customer JSONB DEFAULT NULL,
   customer_account TEXT DEFAULT NULL,
@@ -491,7 +489,7 @@ CREATE OR REPLACE FUNCTION stripe_customers.make_discount(
   invoice TEXT DEFAULT NULL,
   invoice_item TEXT DEFAULT NULL,
   promotion_code JSONB DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL,
+  subscription TEXT DEFAULT NULL,
   subscription_item TEXT DEFAULT NULL
 )
 RETURNS stripe_customers.discount
@@ -499,10 +497,10 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
-    "object",
-    "source",
-    "start",
+    id,
+    object,
+    source,
+    start,
     checkout_session,
     customer,
     customer_account,
@@ -510,22 +508,22 @@ AS $$
     invoice,
     invoice_item,
     promotion_code,
-    "subscription",
+    subscription,
     subscription_item
   )::stripe_customers.discount;
 $$;
 
 ALTER TYPE stripe_customers.discount_source
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE coupon JSONB;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE coupon JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_discount_source(
-  "type" TEXT, coupon JSONB DEFAULT NULL
+  type TEXT, coupon JSONB DEFAULT NULL
 )
 RETURNS stripe_customers.discount_source
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", coupon)::stripe_customers.discount_source;
+  SELECT ROW(type, coupon)::stripe_customers.discount_source;
 $$;
 
 ALTER TYPE stripe_customers.invoice_setting
@@ -550,27 +548,27 @@ AS $$
 $$;
 
 ALTER TYPE stripe_customers.invoice_setting_rendering_option
-  ADD ATTRIBUTE amount_tax_display TEXT, ADD ATTRIBUTE "template" TEXT;
+  ADD ATTRIBUTE amount_tax_display TEXT, ADD ATTRIBUTE template TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_invoice_setting_rendering_option(
-  amount_tax_display TEXT DEFAULT NULL, "template" TEXT DEFAULT NULL
+  amount_tax_display TEXT DEFAULT NULL, template TEXT DEFAULT NULL
 )
 RETURNS stripe_customers.invoice_setting_rendering_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    amount_tax_display, "template"
+    amount_tax_display, template
   )::stripe_customers.invoice_setting_rendering_option;
 $$;
 
 ALTER TYPE stripe_customers.promotion_code
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE active BOOLEAN,
   ADD ATTRIBUTE code TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE promotion stripe_customers.promotion_code_promotion,
   ADD ATTRIBUTE restrictions stripe_customers.promotion_code_restriction,
   ADD ATTRIBUTE times_redeemed BIGINT,
@@ -581,12 +579,12 @@ ALTER TYPE stripe_customers.promotion_code
   ADD ATTRIBUTE metadata JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_promotion_code(
-  "id" TEXT,
+  id TEXT,
   active BOOLEAN,
   code TEXT,
   created BIGINT,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   promotion stripe_customers.promotion_code_promotion,
   restrictions stripe_customers.promotion_code_restriction,
   times_redeemed BIGINT,
@@ -601,12 +599,12 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     active,
     code,
     created,
     livemode,
-    "object",
+    object,
     promotion,
     restrictions,
     times_redeemed,
@@ -619,16 +617,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_customers.promotion_code_promotion
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE coupon JSONB;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE coupon JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_promotion_code_promotion(
-  "type" TEXT, coupon JSONB DEFAULT NULL
+  type TEXT, coupon JSONB DEFAULT NULL
 )
 RETURNS stripe_customers.promotion_code_promotion
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", coupon)::stripe_customers.promotion_code_promotion;
+  SELECT ROW(type, coupon)::stripe_customers.promotion_code_promotion;
 $$;
 
 ALTER TYPE stripe_customers.promotion_code_restriction
@@ -656,29 +654,29 @@ AS $$
 $$;
 
 ALTER TYPE stripe_customers.tax_id
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE "value" TEXT,
+  ADD ATTRIBUTE object TEXT,
+  ADD ATTRIBUTE type TEXT,
+  ADD ATTRIBUTE value TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE customer JSONB,
   ADD ATTRIBUTE customer_account TEXT,
-  ADD ATTRIBUTE "owner" JSONB,
+  ADD ATTRIBUTE owner JSONB,
   ADD ATTRIBUTE verification stripe_customers.tax_id_verification;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_tax_id(
-  "id" TEXT,
+  id TEXT,
   created BIGINT,
   livemode BOOLEAN,
-  "object" TEXT,
-  "type" TEXT,
-  "value" TEXT,
+  object TEXT,
+  type TEXT,
+  value TEXT,
   country TEXT DEFAULT NULL,
   customer JSONB DEFAULT NULL,
   customer_account TEXT DEFAULT NULL,
-  "owner" JSONB DEFAULT NULL,
+  owner JSONB DEFAULT NULL,
   verification stripe_customers.tax_id_verification DEFAULT NULL
 )
 RETURNS stripe_customers.tax_id
@@ -686,16 +684,16 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     created,
     livemode,
-    "object",
-    "type",
-    "value",
+    object,
+    type,
+    value,
     country,
     customer,
     customer_account,
-    "owner",
+    owner,
     verification
   )::stripe_customers.tax_id;
 $$;
@@ -720,14 +718,14 @@ AS $$
 $$;
 
 ALTER TYPE stripe_customers.tax_ids_owner
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE account JSONB,
   ADD ATTRIBUTE application JSONB,
   ADD ATTRIBUTE customer JSONB,
   ADD ATTRIBUTE customer_account TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_tax_ids_owner(
-  "type" TEXT,
+  type TEXT,
   account JSONB DEFAULT NULL,
   application JSONB DEFAULT NULL,
   customer JSONB DEFAULT NULL,
@@ -738,7 +736,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", account, application, customer, customer_account
+    type, account, application, customer, customer_account
   )::stripe_customers.tax_ids_owner;
 $$;
 
@@ -803,16 +801,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_customers.tax_id_data
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE "value" TEXT;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE value TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_customers.make_tax_id_data(
-  "type" TEXT, "value" TEXT
+  type TEXT, value TEXT
 )
 RETURNS stripe_customers.tax_id_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", "value")::stripe_customers.tax_id_data;
+  SELECT ROW(type, value)::stripe_customers.tax_id_data;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_customers._create(
@@ -827,13 +825,13 @@ CREATE OR REPLACE FUNCTION stripe_customers._create(
   invoice_prefix TEXT DEFAULT NULL,
   invoice_settings stripe_customers.invoice_setting1 DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   next_invoice_sequence BIGINT DEFAULT NULL,
   payment_method TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL,
   preferred_locales TEXT[] DEFAULT NULL,
   shipping JSONB DEFAULT NULL,
-  "source" TEXT DEFAULT NULL,
+  source TEXT DEFAULT NULL,
   tax stripe_customers.tax DEFAULT NULL,
   tax_exempt TEXT DEFAULT NULL,
   tax_id_data stripe_customers.tax_id_data[] DEFAULT NULL,
@@ -888,13 +886,13 @@ CREATE OR REPLACE FUNCTION stripe_customers.create(
   invoice_prefix TEXT DEFAULT NULL,
   invoice_settings stripe_customers.invoice_setting1 DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   next_invoice_sequence BIGINT DEFAULT NULL,
   payment_method TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL,
   preferred_locales TEXT[] DEFAULT NULL,
   shipping JSONB DEFAULT NULL,
-  "source" TEXT DEFAULT NULL,
+  source TEXT DEFAULT NULL,
   tax stripe_customers.tax DEFAULT NULL,
   tax_exempt TEXT DEFAULT NULL,
   tax_id_data stripe_customers.tax_id_data[] DEFAULT NULL,
@@ -919,13 +917,13 @@ AS $$
         invoice_prefix,
         invoice_settings,
         metadata,
-        "name",
+        name,
         next_invoice_sequence,
         payment_method,
         phone,
         preferred_locales,
         shipping,
-        "source",
+        source,
         tax,
         tax_exempt,
         tax_id_data,
@@ -1065,5 +1063,5 @@ AS $$
     CROSS JOIN stripe_customers._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_customers.customer, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_customers.customer, data)).* FROM paginated;
 $$;

@@ -14,7 +14,7 @@ FROM stripe_payment_links.create(
         currency := 'currency',
         product := 'product',
         product_data := stripe_payment_links.make_line_item_price_data_product_data(
-          "name" := 'name',
+          name := 'name',
           description := 'description',
           images := ARRAY['string'],
           metadata := $$

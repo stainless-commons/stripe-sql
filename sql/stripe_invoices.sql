@@ -1,5 +1,5 @@
 ALTER TYPE stripe_invoices.api_errors
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE advice_code TEXT,
   ADD ATTRIBUTE charge TEXT,
   ADD ATTRIBUTE code TEXT,
@@ -14,10 +14,10 @@ ALTER TYPE stripe_invoices.api_errors
   ADD ATTRIBUTE payment_method_type TEXT,
   ADD ATTRIBUTE request_log_url TEXT,
   ADD ATTRIBUTE setup_intent JSONB,
-  ADD ATTRIBUTE "source" JSONB;
+  ADD ATTRIBUTE source JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_api_errors(
-  "type" TEXT,
+  type TEXT,
   advice_code TEXT DEFAULT NULL,
   charge TEXT DEFAULT NULL,
   code TEXT DEFAULT NULL,
@@ -32,14 +32,14 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_api_errors(
   payment_method_type TEXT DEFAULT NULL,
   request_log_url TEXT DEFAULT NULL,
   setup_intent JSONB DEFAULT NULL,
-  "source" JSONB DEFAULT NULL
+  source JSONB DEFAULT NULL
 )
 RETURNS stripe_invoices.api_errors
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     advice_code,
     charge,
     code,
@@ -54,7 +54,7 @@ AS $$
     payment_method_type,
     request_log_url,
     setup_intent,
-    "source"
+    source
   )::stripe_invoices.api_errors;
 $$;
 
@@ -82,12 +82,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.billing_bill_resource_invoicing_parents_invoice_parent
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE quote_details stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail,
   ADD ATTRIBUTE subscription_details JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_bill_resource_invoicing_parents_invoice_parent(
-  "type" TEXT,
+  type TEXT,
   quote_details stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail DEFAULT NULL,
   subscription_details JSONB DEFAULT NULL
 )
@@ -96,32 +96,32 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", quote_details, subscription_details
+    type, quote_details, subscription_details
   )::stripe_invoices.billing_bill_resource_invoicing_parents_invoice_parent;
 $$;
 
 ALTER TYPE stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail
-  ADD ATTRIBUTE "quote" TEXT;
+  ADD ATTRIBUTE quote TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_b_bill_resource_invoicing_parents_invoice_parent_quote_detail(
-  "quote" TEXT
+  quote TEXT
 )
 RETURNS stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "quote"
+    quote
   )::stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail;
 $$;
 
 ALTER TYPE stripe_invoices.b_bill_resource_invoicing_parents_invoice_subscription_parent
-  ADD ATTRIBUTE "subscription" JSONB,
+  ADD ATTRIBUTE subscription JSONB,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE subscription_proration_date BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_b_bill_resource_invoicing_parents_invoice_subscription_parent(
-  "subscription" JSONB,
+  subscription JSONB,
   metadata JSONB DEFAULT NULL,
   subscription_proration_date BIGINT DEFAULT NULL
 )
@@ -130,54 +130,54 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "subscription", metadata, subscription_proration_date
+    subscription, metadata, subscription_proration_date
   )::stripe_invoices.b_bill_resource_invoicing_parents_invoice_subscription_parent;
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_balance_transaction
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE credit_grant JSONB,
   ADD ATTRIBUTE effective_at BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE credit JSONB,
   ADD ATTRIBUTE debit JSONB,
   ADD ATTRIBUTE test_clock JSONB,
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_credit_balance_transaction(
-  "id" TEXT,
+  id TEXT,
   created BIGINT,
   credit_grant JSONB,
   effective_at BIGINT,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   credit JSONB DEFAULT NULL,
   debit JSONB DEFAULT NULL,
   test_clock JSONB DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.billing_credit_balance_transaction
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     created,
     credit_grant,
     effective_at,
     livemode,
-    "object",
+    object,
     credit,
     debit,
     test_clock,
-    "type"
+    type
   )::stripe_invoices.billing_credit_balance_transaction;
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_grant
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount stripe_invoices.billing_credit_grants_resource_amount,
   ADD ATTRIBUTE applicability_config stripe_invoices.billing_credit_grant_applicability_config,
   ADD ATTRIBUTE category TEXT,
@@ -185,18 +185,18 @@ ALTER TYPE stripe_invoices.billing_credit_grant
   ADD ATTRIBUTE customer JSONB,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE updated BIGINT,
   ADD ATTRIBUTE customer_account TEXT,
   ADD ATTRIBUTE effective_at BIGINT,
   ADD ATTRIBUTE expires_at BIGINT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE priority BIGINT,
   ADD ATTRIBUTE test_clock JSONB,
   ADD ATTRIBUTE voided_at BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_credit_grant(
-  "id" TEXT,
+  id TEXT,
   amount stripe_invoices.billing_credit_grants_resource_amount,
   applicability_config stripe_invoices.billing_credit_grant_applicability_config,
   category TEXT,
@@ -204,12 +204,12 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_credit_grant(
   customer JSONB,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   updated BIGINT,
   customer_account TEXT DEFAULT NULL,
   effective_at BIGINT DEFAULT NULL,
   expires_at BIGINT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   priority BIGINT DEFAULT NULL,
   test_clock JSONB DEFAULT NULL,
   voided_at BIGINT DEFAULT NULL
@@ -219,7 +219,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     applicability_config,
     category,
@@ -227,12 +227,12 @@ AS $$
     customer,
     livemode,
     metadata,
-    "object",
+    object,
     updated,
     customer_account,
     effective_at,
     expires_at,
-    "name",
+    name,
     priority,
     test_clock,
     voided_at
@@ -240,18 +240,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_grant_applicability_config
-  ADD ATTRIBUTE "scope" stripe_invoices.billing_credit_grant_applicability_config_scope;
+  ADD ATTRIBUTE scope stripe_invoices.billing_credit_grant_applicability_config_scope;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_credit_grant_applicability_config(
-  "scope" stripe_invoices.billing_credit_grant_applicability_config_scope
+  scope stripe_invoices.billing_credit_grant_applicability_config_scope
 )
 RETURNS stripe_invoices.billing_credit_grant_applicability_config
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    "scope"
-  )::stripe_invoices.billing_credit_grant_applicability_config;
+  SELECT ROW(scope)::stripe_invoices.billing_credit_grant_applicability_config;
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_grant_applicability_config_scope
@@ -272,26 +270,26 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_grant_applicability_config_scope_price
-  ADD ATTRIBUTE "id" TEXT;
+  ADD ATTRIBUTE id TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_credit_grant_applicability_config_scope_price(
-  "id" TEXT DEFAULT NULL
+  id TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.billing_credit_grant_applicability_config_scope_price
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id"
+    id
   )::stripe_invoices.billing_credit_grant_applicability_config_scope_price;
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_grants_resource_amount
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE monetary stripe_invoices.billing_credit_grants_resource_monetary_amount;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_credit_grants_resource_amount(
-  "type" TEXT,
+  type TEXT,
   monetary stripe_invoices.billing_credit_grants_resource_monetary_amount DEFAULT NULL
 )
 RETURNS stripe_invoices.billing_credit_grants_resource_amount
@@ -299,18 +297,18 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", monetary
+    type, monetary
   )::stripe_invoices.billing_credit_grants_resource_amount;
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_grants_resource_balance_credit
   ADD ATTRIBUTE amount stripe_invoices.billing_credit_grants_resource_amount,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE credits_application_invoice_voided JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_credit_grants_resource_balance_credit(
   amount stripe_invoices.billing_credit_grants_resource_amount,
-  "type" TEXT,
+  type TEXT,
   credits_application_invoice_voided JSONB DEFAULT NULL
 )
 RETURNS stripe_invoices.billing_credit_grants_resource_balance_credit
@@ -318,7 +316,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    amount, "type", credits_application_invoice_voided
+    amount, type, credits_application_invoice_voided
   )::stripe_invoices.billing_credit_grants_resource_balance_credit;
 $$;
 
@@ -354,12 +352,12 @@ $$;
 
 ALTER TYPE stripe_invoices.billing_credit_grants_resource_balance_debit
   ADD ATTRIBUTE amount stripe_invoices.billing_credit_grants_resource_amount,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE credits_applied JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_credit_grants_resource_balance_debit(
   amount stripe_invoices.billing_credit_grants_resource_amount,
-  "type" TEXT,
+  type TEXT,
   credits_applied JSONB DEFAULT NULL
 )
 RETURNS stripe_invoices.billing_credit_grants_resource_balance_debit
@@ -367,66 +365,66 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    amount, "type", credits_applied
+    amount, type, credits_applied
   )::stripe_invoices.billing_credit_grants_resource_balance_debit;
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_grants_resource_monetary_amount
-  ADD ATTRIBUTE currency TEXT, ADD ATTRIBUTE "value" BIGINT;
+  ADD ATTRIBUTE currency TEXT, ADD ATTRIBUTE value BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_credit_grants_resource_monetary_amount(
-  currency TEXT, "value" BIGINT
+  currency TEXT, value BIGINT
 )
 RETURNS stripe_invoices.billing_credit_grants_resource_monetary_amount
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    currency, "value"
+    currency, value
   )::stripe_invoices.billing_credit_grants_resource_monetary_amount;
 $$;
 
 ALTER TYPE stripe_invoices.connect_account_reference
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE account JSONB;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_connect_account_reference(
-  "type" TEXT, account JSONB DEFAULT NULL
+  type TEXT, account JSONB DEFAULT NULL
 )
 RETURNS stripe_invoices.connect_account_reference
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", account)::stripe_invoices.connect_account_reference;
+  SELECT ROW(type, account)::stripe_invoices.connect_account_reference;
 $$;
 
 ALTER TYPE stripe_invoices.deleted_discount
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE deleted BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE "source" stripe_invoices.deleted_discount_source,
-  ADD ATTRIBUTE "start" BIGINT,
+  ADD ATTRIBUTE object TEXT,
+  ADD ATTRIBUTE source stripe_invoices.deleted_discount_source,
+  ADD ATTRIBUTE start BIGINT,
   ADD ATTRIBUTE checkout_session TEXT,
   ADD ATTRIBUTE customer JSONB,
   ADD ATTRIBUTE customer_account TEXT,
   ADD ATTRIBUTE invoice TEXT,
   ADD ATTRIBUTE invoice_item TEXT,
   ADD ATTRIBUTE promotion_code JSONB,
-  ADD ATTRIBUTE "subscription" TEXT,
+  ADD ATTRIBUTE subscription TEXT,
   ADD ATTRIBUTE subscription_item TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_deleted_discount(
-  "id" TEXT,
+  id TEXT,
   deleted BOOLEAN,
-  "object" TEXT,
-  "source" stripe_invoices.deleted_discount_source,
-  "start" BIGINT,
+  object TEXT,
+  source stripe_invoices.deleted_discount_source,
+  start BIGINT,
   checkout_session TEXT DEFAULT NULL,
   customer JSONB DEFAULT NULL,
   customer_account TEXT DEFAULT NULL,
   invoice TEXT DEFAULT NULL,
   invoice_item TEXT DEFAULT NULL,
   promotion_code JSONB DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL,
+  subscription TEXT DEFAULT NULL,
   subscription_item TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.deleted_discount
@@ -434,33 +432,33 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     deleted,
-    "object",
-    "source",
-    "start",
+    object,
+    source,
+    start,
     checkout_session,
     customer,
     customer_account,
     invoice,
     invoice_item,
     promotion_code,
-    "subscription",
+    subscription,
     subscription_item
   )::stripe_invoices.deleted_discount;
 $$;
 
 ALTER TYPE stripe_invoices.deleted_discount_source
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE coupon JSONB;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE coupon JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_deleted_discount_source(
-  "type" TEXT, coupon JSONB DEFAULT NULL
+  type TEXT, coupon JSONB DEFAULT NULL
 )
 RETURNS stripe_invoices.deleted_discount_source
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", coupon)::stripe_invoices.deleted_discount_source;
+  SELECT ROW(type, coupon)::stripe_invoices.deleted_discount_source;
 $$;
 
 ALTER TYPE stripe_invoices.discounts_resource_discount_amount
@@ -479,7 +477,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.invoice
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount_due BIGINT,
   ADD ATTRIBUTE amount_overpaid BIGINT,
   ADD ATTRIBUTE amount_paid BIGINT,
@@ -498,7 +496,7 @@ ALTER TYPE stripe_invoices.invoice
   ADD ATTRIBUTE issuer JSONB,
   ADD ATTRIBUTE lines stripe_invoices.invoice_line,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE payment_settings stripe_invoices.invoice_payment_setting,
   ADD ATTRIBUTE period_end BIGINT,
   ADD ATTRIBUTE period_start BIGINT,
@@ -538,7 +536,7 @@ ALTER TYPE stripe_invoices.invoice
   ADD ATTRIBUTE latest_revision JSONB,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE next_payment_attempt BIGINT,
-  ADD ATTRIBUTE "number" TEXT,
+  ADD ATTRIBUTE number TEXT,
   ADD ATTRIBUTE on_behalf_of JSONB,
   ADD ATTRIBUTE parent JSONB,
   ADD ATTRIBUTE payments stripe_invoices.invoice_payment,
@@ -558,7 +556,7 @@ ALTER TYPE stripe_invoices.invoice
   ADD ATTRIBUTE webhooks_delivered_at BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice(
-  "id" TEXT,
+  id TEXT,
   amount_due BIGINT,
   amount_overpaid BIGINT,
   amount_paid BIGINT,
@@ -577,7 +575,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice(
   issuer JSONB,
   lines stripe_invoices.invoice_line,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   payment_settings stripe_invoices.invoice_payment_setting,
   period_end BIGINT,
   period_start BIGINT,
@@ -617,7 +615,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice(
   latest_revision JSONB DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   next_payment_attempt BIGINT DEFAULT NULL,
-  "number" TEXT DEFAULT NULL,
+  number TEXT DEFAULT NULL,
   on_behalf_of JSONB DEFAULT NULL,
   parent JSONB DEFAULT NULL,
   payments stripe_invoices.invoice_payment DEFAULT NULL,
@@ -641,7 +639,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount_due,
     amount_overpaid,
     amount_paid,
@@ -660,7 +658,7 @@ AS $$
     issuer,
     lines,
     livemode,
-    "object",
+    object,
     payment_settings,
     period_end,
     period_start,
@@ -700,7 +698,7 @@ AS $$
     latest_revision,
     metadata,
     next_payment_attempt,
-    "number",
+    number,
     on_behalf_of,
     parent,
     payments,
@@ -722,19 +720,19 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.invoice_line
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice_line(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_invoices.invoice_line
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("data", has_more, "object", url)::stripe_invoices.invoice_line;
+  SELECT ROW(data, has_more, object, url)::stripe_invoices.invoice_line;
 $$;
 
 ALTER TYPE stripe_invoices.invoice_payment_setting
@@ -890,18 +888,18 @@ $$;
 
 ALTER TYPE stripe_invoices.i_p_s_payment_method_option_customer_balance_bank_transfer
   ADD ATTRIBUTE eu_bank_transfer stripe_invoices.i_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer,
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_i_p_s_payment_method_option_customer_balance_bank_transfer(
   eu_bank_transfer stripe_invoices.i_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.i_p_s_payment_method_option_customer_balance_bank_transfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    eu_bank_transfer, "type"
+    eu_bank_transfer, type
   )::stripe_invoices.i_p_s_payment_method_option_customer_balance_bank_transfer;
 $$;
 
@@ -1027,59 +1025,57 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.invoice_confirmation_secret
-  ADD ATTRIBUTE client_secret TEXT, ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE client_secret TEXT, ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice_confirmation_secret(
-  client_secret TEXT, "type" TEXT
+  client_secret TEXT, type TEXT
 )
 RETURNS stripe_invoices.invoice_confirmation_secret
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    client_secret, "type"
-  )::stripe_invoices.invoice_confirmation_secret;
+  SELECT ROW(client_secret, type)::stripe_invoices.invoice_confirmation_secret;
 $$;
 
 ALTER TYPE stripe_invoices.invoice_customer_tax_id
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE "value" TEXT;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE value TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice_customer_tax_id(
-  "type" TEXT, "value" TEXT DEFAULT NULL
+  type TEXT, value TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.invoice_customer_tax_id
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", "value")::stripe_invoices.invoice_customer_tax_id;
+  SELECT ROW(type, value)::stripe_invoices.invoice_customer_tax_id;
 $$;
 
 ALTER TYPE stripe_invoices.invoice_payment
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice_payment(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_invoices.invoice_payment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("data", has_more, "object", url)::stripe_invoices.invoice_payment;
+  SELECT ROW(data, has_more, object, url)::stripe_invoices.invoice_payment;
 $$;
 
 ALTER TYPE stripe_invoices.invoice_rendering
   ADD ATTRIBUTE amount_tax_display TEXT,
   ADD ATTRIBUTE pdf stripe_invoices.invoice_rendering_pdf,
-  ADD ATTRIBUTE "template" TEXT,
+  ADD ATTRIBUTE template TEXT,
   ADD ATTRIBUTE template_version BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice_rendering(
   amount_tax_display TEXT DEFAULT NULL,
   pdf stripe_invoices.invoice_rendering_pdf DEFAULT NULL,
-  "template" TEXT DEFAULT NULL,
+  template TEXT DEFAULT NULL,
   template_version BIGINT DEFAULT NULL
 )
 RETURNS stripe_invoices.invoice_rendering
@@ -1087,7 +1083,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    amount_tax_display, pdf, "template", template_version
+    amount_tax_display, pdf, template, template_version
   )::stripe_invoices.invoice_rendering;
 $$;
 
@@ -1184,7 +1180,7 @@ ALTER TYPE stripe_invoices.invoice_total_tax
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE tax_behavior TEXT,
   ADD ATTRIBUTE taxability_reason TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE tax_rate_details stripe_invoices.invoice_total_tax_tax_rate_detail,
   ADD ATTRIBUTE taxable_amount BIGINT;
 
@@ -1192,7 +1188,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice_total_tax(
   amount BIGINT,
   tax_behavior TEXT,
   taxability_reason TEXT,
-  "type" TEXT,
+  type TEXT,
   tax_rate_details stripe_invoices.invoice_total_tax_tax_rate_detail DEFAULT NULL,
   taxable_amount BIGINT DEFAULT NULL
 )
@@ -1204,7 +1200,7 @@ AS $$
     amount,
     tax_behavior,
     taxability_reason,
-    "type",
+    type,
     tax_rate_details,
     taxable_amount
   )::stripe_invoices.invoice_total_tax;
@@ -1224,28 +1220,28 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.invoice_payment1
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount_requested BIGINT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE invoice JSONB,
   ADD ATTRIBUTE is_default BOOLEAN,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE payment JSONB,
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE status_transitions stripe_invoices.invoice_payment_status_transition,
   ADD ATTRIBUTE amount_paid BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice_payment1(
-  "id" TEXT,
+  id TEXT,
   amount_requested BIGINT,
   created BIGINT,
   currency TEXT,
   invoice JSONB,
   is_default BOOLEAN,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   payment JSONB,
   status TEXT,
   status_transitions stripe_invoices.invoice_payment_status_transition,
@@ -1256,14 +1252,14 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount_requested,
     created,
     currency,
     invoice,
     is_default,
     livemode,
-    "object",
+    object,
     payment,
     status,
     status_transitions,
@@ -1287,13 +1283,13 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.invoices_payments_invoice_payment_associated_payment
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE charge JSONB,
   ADD ATTRIBUTE payment_intent JSONB,
   ADD ATTRIBUTE payment_record JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoices_payments_invoice_payment_associated_payment(
-  "type" TEXT,
+  type TEXT,
   charge JSONB DEFAULT NULL,
   payment_intent JSONB DEFAULT NULL,
   payment_record JSONB DEFAULT NULL
@@ -1303,32 +1299,32 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", charge, payment_intent, payment_record
+    type, charge, payment_intent, payment_record
   )::stripe_invoices.invoices_payments_invoice_payment_associated_payment;
 $$;
 
 ALTER TYPE stripe_invoices.invoices_resource_from_invoice
-  ADD ATTRIBUTE "action" TEXT, ADD ATTRIBUTE invoice JSONB;
+  ADD ATTRIBUTE action TEXT, ADD ATTRIBUTE invoice JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoices_resource_from_invoice(
-  "action" TEXT, invoice JSONB
+  action TEXT, invoice JSONB
 )
 RETURNS stripe_invoices.invoices_resource_from_invoice
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("action", invoice)::stripe_invoices.invoices_resource_from_invoice;
+  SELECT ROW(action, invoice)::stripe_invoices.invoices_resource_from_invoice;
 $$;
 
 ALTER TYPE stripe_invoices.invoices_resource_pretax_credit_amount
   ADD ATTRIBUTE amount BIGINT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE credit_balance_transaction JSONB,
   ADD ATTRIBUTE discount JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoices_resource_pretax_credit_amount(
   amount BIGINT,
-  "type" TEXT,
+  type TEXT,
   credit_balance_transaction JSONB DEFAULT NULL,
   discount JSONB DEFAULT NULL
 )
@@ -1337,20 +1333,20 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    amount, "type", credit_balance_transaction, discount
+    amount, type, credit_balance_transaction, discount
   )::stripe_invoices.invoices_resource_pretax_credit_amount;
 $$;
 
 ALTER TYPE stripe_invoices.line_item
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE discountable BOOLEAN,
   ADD ATTRIBUTE discounts JSONB[],
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE "period" stripe_invoices.line_item_period,
+  ADD ATTRIBUTE object TEXT,
+  ADD ATTRIBUTE period stripe_invoices.line_item_period,
   ADD ATTRIBUTE subtotal BIGINT,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE discount_amounts JSONB[],
@@ -1359,19 +1355,19 @@ ALTER TYPE stripe_invoices.line_item
   ADD ATTRIBUTE pretax_credit_amounts JSONB[],
   ADD ATTRIBUTE pricing stripe_invoices.line_item_pricing,
   ADD ATTRIBUTE quantity BIGINT,
-  ADD ATTRIBUTE "subscription" JSONB,
+  ADD ATTRIBUTE subscription JSONB,
   ADD ATTRIBUTE taxes stripe_invoices.line_item_tax[];
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   currency TEXT,
   discountable BOOLEAN,
   discounts JSONB[],
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
-  "period" stripe_invoices.line_item_period,
+  object TEXT,
+  period stripe_invoices.line_item_period,
   subtotal BIGINT,
   description TEXT DEFAULT NULL,
   discount_amounts JSONB[] DEFAULT NULL,
@@ -1380,7 +1376,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item(
   pretax_credit_amounts JSONB[] DEFAULT NULL,
   pricing stripe_invoices.line_item_pricing DEFAULT NULL,
   quantity BIGINT DEFAULT NULL,
-  "subscription" JSONB DEFAULT NULL,
+  subscription JSONB DEFAULT NULL,
   taxes stripe_invoices.line_item_tax[] DEFAULT NULL
 )
 RETURNS stripe_invoices.line_item
@@ -1388,15 +1384,15 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     currency,
     discountable,
     discounts,
     livemode,
     metadata,
-    "object",
-    "period",
+    object,
+    period,
     subtotal,
     description,
     discount_amounts,
@@ -1405,31 +1401,31 @@ AS $$
     pretax_credit_amounts,
     pricing,
     quantity,
-    "subscription",
+    subscription,
     taxes
   )::stripe_invoices.line_item;
 $$;
 
 ALTER TYPE stripe_invoices.line_item_period
-  ADD ATTRIBUTE "end" BIGINT, ADD ATTRIBUTE "start" BIGINT;
+  ADD ATTRIBUTE "end" BIGINT, ADD ATTRIBUTE start BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item_period(
-  "end" BIGINT, "start" BIGINT
+  "end" BIGINT, start BIGINT
 )
 RETURNS stripe_invoices.line_item_period
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("end", "start")::stripe_invoices.line_item_period;
+  SELECT ROW("end", start)::stripe_invoices.line_item_period;
 $$;
 
 ALTER TYPE stripe_invoices.line_item_parent
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE invoice_item_details stripe_invoices.line_item_parent_invoice_item_detail,
   ADD ATTRIBUTE subscription_item_details stripe_invoices.line_item_parent_subscription_item_detail;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item_parent(
-  "type" TEXT,
+  type TEXT,
   invoice_item_details stripe_invoices.line_item_parent_invoice_item_detail DEFAULT NULL,
   subscription_item_details stripe_invoices.line_item_parent_subscription_item_detail DEFAULT NULL
 )
@@ -1438,7 +1434,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", invoice_item_details, subscription_item_details
+    type, invoice_item_details, subscription_item_details
   )::stripe_invoices.line_item_parent;
 $$;
 
@@ -1446,20 +1442,20 @@ ALTER TYPE stripe_invoices.line_item_parent_invoice_item_detail
   ADD ATTRIBUTE invoice_item TEXT,
   ADD ATTRIBUTE proration BOOLEAN,
   ADD ATTRIBUTE proration_details stripe_invoices.line_item_parent_invoice_item_detail_proration_detail,
-  ADD ATTRIBUTE "subscription" TEXT;
+  ADD ATTRIBUTE subscription TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item_parent_invoice_item_detail(
   invoice_item TEXT,
   proration BOOLEAN,
   proration_details stripe_invoices.line_item_parent_invoice_item_detail_proration_detail DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL
+  subscription TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.line_item_parent_invoice_item_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    invoice_item, proration, proration_details, "subscription"
+    invoice_item, proration, proration_details, subscription
   )::stripe_invoices.line_item_parent_invoice_item_detail;
 $$;
 
@@ -1498,25 +1494,21 @@ ALTER TYPE stripe_invoices.line_item_parent_subscription_item_detail
   ADD ATTRIBUTE subscription_item TEXT,
   ADD ATTRIBUTE invoice_item TEXT,
   ADD ATTRIBUTE proration_details stripe_invoices.line_item_parent_subscription_item_detail_proration_detail,
-  ADD ATTRIBUTE "subscription" TEXT;
+  ADD ATTRIBUTE subscription TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item_parent_subscription_item_detail(
   proration BOOLEAN,
   subscription_item TEXT,
   invoice_item TEXT DEFAULT NULL,
   proration_details stripe_invoices.line_item_parent_subscription_item_detail_proration_detail DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL
+  subscription TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.line_item_parent_subscription_item_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    proration,
-    subscription_item,
-    invoice_item,
-    proration_details,
-    "subscription"
+    proration, subscription_item, invoice_item, proration_details, subscription
   )::stripe_invoices.line_item_parent_subscription_item_detail;
 $$;
 
@@ -1551,12 +1543,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.line_item_pricing
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE price_details stripe_invoices.line_item_pricing_price_detail,
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item_pricing(
-  "type" TEXT,
+  type TEXT,
   price_details stripe_invoices.line_item_pricing_price_detail DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
@@ -1565,7 +1557,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", price_details, unit_amount_decimal
+    type, price_details, unit_amount_decimal
   )::stripe_invoices.line_item_pricing;
 $$;
 
@@ -1586,7 +1578,7 @@ ALTER TYPE stripe_invoices.line_item_tax
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE tax_behavior TEXT,
   ADD ATTRIBUTE taxability_reason TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE tax_rate_details stripe_invoices.line_item_tax_tax_rate_detail,
   ADD ATTRIBUTE taxable_amount BIGINT;
 
@@ -1594,7 +1586,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item_tax(
   amount BIGINT,
   tax_behavior TEXT,
   taxability_reason TEXT,
-  "type" TEXT,
+  type TEXT,
   tax_rate_details stripe_invoices.line_item_tax_tax_rate_detail DEFAULT NULL,
   taxable_amount BIGINT DEFAULT NULL
 )
@@ -1606,7 +1598,7 @@ AS $$
     amount,
     tax_behavior,
     taxability_reason,
-    "type",
+    type,
     tax_rate_details,
     taxable_amount
   )::stripe_invoices.line_item_tax;
@@ -1626,12 +1618,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.payment_method
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE billing_details stripe_invoices.payment_method_billing_detail,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE object TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE acss_debit stripe_invoices.payment_method_acss_debit,
   ADD ATTRIBUTE affirm stripe_invoices.payment_method_affirm,
   ADD ATTRIBUTE afterpay_clearpay stripe_invoices.payment_method_afterpay_clearpay,
@@ -1663,7 +1655,7 @@ ALTER TYPE stripe_invoices.payment_method
   ADD ATTRIBUTE klarna stripe_invoices.payment_method_klarna,
   ADD ATTRIBUTE konbini stripe_invoices.payment_method_konbini,
   ADD ATTRIBUTE kr_card stripe_invoices.payment_method_kr_card,
-  ADD ATTRIBUTE "link" stripe_invoices.payment_method_link,
+  ADD ATTRIBUTE link stripe_invoices.payment_method_link,
   ADD ATTRIBUTE mb_way stripe_invoices.payment_method_mb_way,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE mobilepay stripe_invoices.payment_method_mobilepay,
@@ -1692,12 +1684,12 @@ ALTER TYPE stripe_invoices.payment_method
   ADD ATTRIBUTE zip stripe_invoices.payment_method_zip;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method(
-  "id" TEXT,
+  id TEXT,
   billing_details stripe_invoices.payment_method_billing_detail,
   created BIGINT,
   livemode BOOLEAN,
-  "object" TEXT,
-  "type" TEXT,
+  object TEXT,
+  type TEXT,
   acss_debit stripe_invoices.payment_method_acss_debit DEFAULT NULL,
   affirm stripe_invoices.payment_method_affirm DEFAULT NULL,
   afterpay_clearpay stripe_invoices.payment_method_afterpay_clearpay DEFAULT NULL,
@@ -1729,7 +1721,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method(
   klarna stripe_invoices.payment_method_klarna DEFAULT NULL,
   konbini stripe_invoices.payment_method_konbini DEFAULT NULL,
   kr_card stripe_invoices.payment_method_kr_card DEFAULT NULL,
-  "link" stripe_invoices.payment_method_link DEFAULT NULL,
+  link stripe_invoices.payment_method_link DEFAULT NULL,
   mb_way stripe_invoices.payment_method_mb_way DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   mobilepay stripe_invoices.payment_method_mobilepay DEFAULT NULL,
@@ -1762,12 +1754,12 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     billing_details,
     created,
     livemode,
-    "object",
-    "type",
+    object,
+    type,
     acss_debit,
     affirm,
     afterpay_clearpay,
@@ -1799,7 +1791,7 @@ AS $$
     klarna,
     konbini,
     kr_card,
-    "link",
+    link,
     mb_way,
     metadata,
     mobilepay,
@@ -1832,14 +1824,14 @@ $$;
 ALTER TYPE stripe_invoices.payment_method_billing_detail
   ADD ATTRIBUTE address stripe.address,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE phone TEXT,
   ADD ATTRIBUTE tax_id TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_billing_detail(
   address stripe.address DEFAULT NULL,
   email TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL,
   tax_id TEXT DEFAULT NULL
 )
@@ -1848,7 +1840,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    address, email, "name", phone, tax_id
+    address, email, name, phone, tax_id
   )::stripe_invoices.payment_method_billing_detail;
 $$;
 
@@ -2015,12 +2007,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_custom
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE display_name TEXT,
   ADD ATTRIBUTE logo stripe_invoices.payment_method_custom_logo;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_custom(
-  "type" TEXT,
+  type TEXT,
   display_name TEXT DEFAULT NULL,
   logo stripe_invoices.payment_method_custom_logo DEFAULT NULL
 )
@@ -2028,7 +2020,7 @@ RETURNS stripe_invoices.payment_method_custom
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", display_name, logo)::stripe_invoices.payment_method_custom;
+  SELECT ROW(type, display_name, logo)::stripe_invoices.payment_method_custom;
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_custom_logo
@@ -2161,20 +2153,18 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_klarna_dob
-  ADD ATTRIBUTE "day" BIGINT,
-  ADD ATTRIBUTE "month" BIGINT,
-  ADD ATTRIBUTE "year" BIGINT;
+  ADD ATTRIBUTE day BIGINT,
+  ADD ATTRIBUTE month BIGINT,
+  ADD ATTRIBUTE year BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_klarna_dob(
-  "day" BIGINT DEFAULT NULL,
-  "month" BIGINT DEFAULT NULL,
-  "year" BIGINT DEFAULT NULL
+  day BIGINT DEFAULT NULL, month BIGINT DEFAULT NULL, year BIGINT DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_method_klarna_dob
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("day", "month", "year")::stripe_invoices.payment_method_klarna_dob;
+  SELECT ROW(day, month, year)::stripe_invoices.payment_method_klarna_dob;
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_kr_card
@@ -2291,16 +2281,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_radar_option
-  ADD ATTRIBUTE "session" TEXT;
+  ADD ATTRIBUTE session TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_radar_option(
-  "session" TEXT DEFAULT NULL
+  session TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_method_radar_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("session")::stripe_invoices.payment_method_radar_option;
+  SELECT ROW(session)::stripe_invoices.payment_method_radar_option;
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_sofort
@@ -2371,17 +2361,17 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_us_bank_account_status_detail
-  ADD ATTRIBUTE "blocked" stripe_invoices.payment_method_us_bank_account_status_detail_blocked;
+  ADD ATTRIBUTE blocked stripe_invoices.payment_method_us_bank_account_status_detail_blocked;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_us_bank_account_status_detail(
-  "blocked" stripe_invoices.payment_method_us_bank_account_status_detail_blocked DEFAULT NULL
+  blocked stripe_invoices.payment_method_us_bank_account_status_detail_blocked DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_method_us_bank_account_status_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "blocked"
+    blocked
   )::stripe_invoices.payment_method_us_bank_account_status_detail;
 $$;
 
@@ -2502,23 +2492,23 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_card_wallet
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE amex_express_checkout stripe_invoices.payment_method_card_wallet_amex_express_checkout,
   ADD ATTRIBUTE apple_pay stripe_invoices.payment_method_card_wallet_apple_pay,
   ADD ATTRIBUTE dynamic_last4 TEXT,
   ADD ATTRIBUTE google_pay stripe_invoices.payment_method_card_wallet_google_pay,
-  ADD ATTRIBUTE "link" stripe_invoices.payment_method_card_wallet_link,
+  ADD ATTRIBUTE link stripe_invoices.payment_method_card_wallet_link,
   ADD ATTRIBUTE masterpass stripe_invoices.payment_method_card_wallet_masterpass,
   ADD ATTRIBUTE samsung_pay stripe_invoices.payment_method_card_wallet_samsung_pay,
   ADD ATTRIBUTE visa_checkout stripe_invoices.payment_method_card_wallet_visa_checkout;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_card_wallet(
-  "type" TEXT,
+  type TEXT,
   amex_express_checkout stripe_invoices.payment_method_card_wallet_amex_express_checkout DEFAULT NULL,
   apple_pay stripe_invoices.payment_method_card_wallet_apple_pay DEFAULT NULL,
   dynamic_last4 TEXT DEFAULT NULL,
   google_pay stripe_invoices.payment_method_card_wallet_google_pay DEFAULT NULL,
-  "link" stripe_invoices.payment_method_card_wallet_link DEFAULT NULL,
+  link stripe_invoices.payment_method_card_wallet_link DEFAULT NULL,
   masterpass stripe_invoices.payment_method_card_wallet_masterpass DEFAULT NULL,
   samsung_pay stripe_invoices.payment_method_card_wallet_samsung_pay DEFAULT NULL,
   visa_checkout stripe_invoices.payment_method_card_wallet_visa_checkout DEFAULT NULL
@@ -2528,12 +2518,12 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     amex_express_checkout,
     apple_pay,
     dynamic_last4,
     google_pay,
-    "link",
+    link,
     masterpass,
     samsung_pay,
     visa_checkout
@@ -2543,13 +2533,13 @@ $$;
 ALTER TYPE stripe_invoices.payment_method_card_wallet_masterpass
   ADD ATTRIBUTE billing_address stripe.address,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE shipping_address stripe.address;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_card_wallet_masterpass(
   billing_address stripe.address DEFAULT NULL,
   email TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   shipping_address stripe.address DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_method_card_wallet_masterpass
@@ -2557,20 +2547,20 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    billing_address, email, "name", shipping_address
+    billing_address, email, name, shipping_address
   )::stripe_invoices.payment_method_card_wallet_masterpass;
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_card_wallet_visa_checkout
   ADD ATTRIBUTE billing_address stripe.address,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE shipping_address stripe.address;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_card_wallet_visa_checkout(
   billing_address stripe.address DEFAULT NULL,
   email TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   shipping_address stripe.address DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_method_card_wallet_visa_checkout
@@ -2578,7 +2568,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    billing_address, email, "name", shipping_address
+    billing_address, email, name, shipping_address
   )::stripe_invoices.payment_method_card_wallet_visa_checkout;
 $$;
 
@@ -2602,11 +2592,11 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.payment_method_card_generated_card_payment_method_detail
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE card_present stripe.payment_method_details_card_present;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_card_generated_card_payment_method_detail(
-  "type" TEXT,
+  type TEXT,
   card_present stripe.payment_method_details_card_present DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_method_card_generated_card_payment_method_detail
@@ -2614,7 +2604,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", card_present
+    type, card_present
   )::stripe_invoices.payment_method_card_generated_card_payment_method_detail;
 $$;
 
@@ -2683,7 +2673,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.payment_record
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount stripe_invoices.payments_primitives_payment_records_resource_amount,
   ADD ATTRIBUTE amount_authorized stripe_invoices.payments_primitives_payment_records_resource_amount,
   ADD ATTRIBUTE amount_canceled stripe_invoices.payments_primitives_payment_records_resource_amount,
@@ -2694,7 +2684,7 @@ ALTER TYPE stripe_invoices.payment_record
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE processor_details stripe_invoices.payment_record_processor_detail,
   ADD ATTRIBUTE reported_by TEXT,
   ADD ATTRIBUTE application TEXT,
@@ -2706,7 +2696,7 @@ ALTER TYPE stripe_invoices.payment_record
   ADD ATTRIBUTE shipping_details stripe_invoices.payment_record_shipping_detail;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_record(
-  "id" TEXT,
+  id TEXT,
   amount stripe_invoices.payments_primitives_payment_records_resource_amount,
   amount_authorized stripe_invoices.payments_primitives_payment_records_resource_amount,
   amount_canceled stripe_invoices.payments_primitives_payment_records_resource_amount,
@@ -2717,7 +2707,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_record(
   created BIGINT,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   processor_details stripe_invoices.payment_record_processor_detail,
   reported_by TEXT,
   application TEXT DEFAULT NULL,
@@ -2733,7 +2723,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     amount_authorized,
     amount_canceled,
@@ -2744,7 +2734,7 @@ AS $$
     created,
     livemode,
     metadata,
-    "object",
+    object,
     processor_details,
     reported_by,
     application,
@@ -2758,18 +2748,18 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.payment_record_processor_detail
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE custom stripe_invoices.payment_record_processor_detail_custom;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_record_processor_detail(
-  "type" TEXT,
+  type TEXT,
   custom stripe_invoices.payment_record_processor_detail_custom DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_record_processor_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", custom)::stripe_invoices.payment_record_processor_detail;
+  SELECT ROW(type, custom)::stripe_invoices.payment_record_processor_detail;
 $$;
 
 ALTER TYPE stripe_invoices.payment_record_processor_detail_custom
@@ -2790,13 +2780,13 @@ $$;
 ALTER TYPE stripe_invoices.payment_record_customer_detail
   ADD ATTRIBUTE customer TEXT,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE phone TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_record_customer_detail(
   customer TEXT DEFAULT NULL,
   email TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_record_customer_detail
@@ -2804,18 +2794,18 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    customer, email, "name", phone
+    customer, email, name, phone
   )::stripe_invoices.payment_record_customer_detail;
 $$;
 
 ALTER TYPE stripe_invoices.payment_record_shipping_detail
   ADD ATTRIBUTE address stripe_invoices.payment_record_shipping_detail_address,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE phone TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_record_shipping_detail(
   address stripe_invoices.payment_record_shipping_detail_address,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_record_shipping_detail
@@ -2823,7 +2813,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    address, "name", phone
+    address, name, phone
   )::stripe_invoices.payment_record_shipping_detail;
 $$;
 
@@ -2833,7 +2823,7 @@ ALTER TYPE stripe_invoices.payment_record_shipping_detail_address
   ADD ATTRIBUTE line1 TEXT,
   ADD ATTRIBUTE line2 TEXT,
   ADD ATTRIBUTE postal_code TEXT,
-  ADD ATTRIBUTE "state" TEXT;
+  ADD ATTRIBUTE state TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_record_shipping_detail_address(
   city TEXT DEFAULT NULL,
@@ -2841,34 +2831,34 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_record_shipping_detail_a
   line1 TEXT DEFAULT NULL,
   line2 TEXT DEFAULT NULL,
   postal_code TEXT DEFAULT NULL,
-  "state" TEXT DEFAULT NULL
+  state TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_record_shipping_detail_address
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    city, country, line1, line2, postal_code, "state"
+    city, country, line1, line2, postal_code, state
   )::stripe_invoices.payment_record_shipping_detail_address;
 $$;
 
 ALTER TYPE stripe_invoices.payments_primitives_payment_records_resource_amount
-  ADD ATTRIBUTE currency TEXT, ADD ATTRIBUTE "value" BIGINT;
+  ADD ATTRIBUTE currency TEXT, ADD ATTRIBUTE value BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payments_primitives_payment_records_resource_amount(
-  currency TEXT, "value" BIGINT
+  currency TEXT, value BIGINT
 )
 RETURNS stripe_invoices.payments_primitives_payment_records_resource_amount
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    currency, "value"
+    currency, value
   )::stripe_invoices.payments_primitives_payment_records_resource_amount;
 $$;
 
 ALTER TYPE stripe_invoices.p_primitives_payment_records_resource_payment_method_details
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE ach_credit_transfer stripe_invoices.p_p_p_r_resource_payment_method_details_ach_credit_transfer,
   ADD ATTRIBUTE ach_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_ach_debit,
   ADD ATTRIBUTE acss_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_acss_debit,
@@ -2900,7 +2890,7 @@ ALTER TYPE stripe_invoices.p_primitives_payment_records_resource_payment_method_
   ADD ATTRIBUTE klarna stripe_invoices.p_p_payment_records_resource_payment_method_details_klarna,
   ADD ATTRIBUTE konbini stripe_invoices.p_p_payment_records_resource_payment_method_details_konbini,
   ADD ATTRIBUTE kr_card stripe_invoices.p_p_payment_records_resource_payment_method_details_kr_card,
-  ADD ATTRIBUTE "link" stripe_invoices.p_p_payment_records_resource_payment_method_details_link,
+  ADD ATTRIBUTE link stripe_invoices.p_p_payment_records_resource_payment_method_details_link,
   ADD ATTRIBUTE mb_way stripe_invoices.p_p_payment_records_resource_payment_method_details_mb_way,
   ADD ATTRIBUTE mobilepay stripe_invoices.p_p_payment_records_resource_payment_method_details_mobilepay,
   ADD ATTRIBUTE multibanco stripe_invoices.p_p_payment_records_resource_payment_method_details_multibanco,
@@ -2930,7 +2920,7 @@ ALTER TYPE stripe_invoices.p_primitives_payment_records_resource_payment_method_
   ADD ATTRIBUTE zip stripe_invoices.p_p_payment_records_resource_payment_method_details_zip;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_primitives_payment_records_resource_payment_method_details(
-  "type" TEXT,
+  type TEXT,
   ach_credit_transfer stripe_invoices.p_p_p_r_resource_payment_method_details_ach_credit_transfer DEFAULT NULL,
   ach_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_ach_debit DEFAULT NULL,
   acss_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_acss_debit DEFAULT NULL,
@@ -2962,7 +2952,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_primitives_payment_records_resour
   klarna stripe_invoices.p_p_payment_records_resource_payment_method_details_klarna DEFAULT NULL,
   konbini stripe_invoices.p_p_payment_records_resource_payment_method_details_konbini DEFAULT NULL,
   kr_card stripe_invoices.p_p_payment_records_resource_payment_method_details_kr_card DEFAULT NULL,
-  "link" stripe_invoices.p_p_payment_records_resource_payment_method_details_link DEFAULT NULL,
+  link stripe_invoices.p_p_payment_records_resource_payment_method_details_link DEFAULT NULL,
   mb_way stripe_invoices.p_p_payment_records_resource_payment_method_details_mb_way DEFAULT NULL,
   mobilepay stripe_invoices.p_p_payment_records_resource_payment_method_details_mobilepay DEFAULT NULL,
   multibanco stripe_invoices.p_p_payment_records_resource_payment_method_details_multibanco DEFAULT NULL,
@@ -2996,7 +2986,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     ach_credit_transfer,
     ach_debit,
     acss_debit,
@@ -3028,7 +3018,7 @@ AS $$
     klarna,
     konbini,
     kr_card,
-    "link",
+    link,
     mb_way,
     mobilepay,
     multibanco,
@@ -3139,12 +3129,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_affirm
-  ADD ATTRIBUTE "location" TEXT,
+  ADD ATTRIBUTE location TEXT,
   ADD ATTRIBUTE reader TEXT,
   ADD ATTRIBUTE transaction_id TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_affirm(
-  "location" TEXT DEFAULT NULL,
+  location TEXT DEFAULT NULL,
   reader TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
@@ -3153,7 +3143,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "location", reader, transaction_id
+    location, reader, transaction_id
   )::stripe_invoices.p_p_payment_records_resource_payment_method_details_affirm;
 $$;
 
@@ -3209,17 +3199,17 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_alma_installment
-  ADD ATTRIBUTE "count" BIGINT;
+  ADD ATTRIBUTE count BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_alma_installment(
-  "count" BIGINT
+  count BIGINT
 )
 RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_alma_installment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "count"
+    count
   )::stripe_invoices.p_p_p_records_resource_payment_method_details_alma_installment;
 $$;
 
@@ -3242,18 +3232,18 @@ $$;
 
 ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_amazon_pay_funding
   ADD ATTRIBUTE card stripe.payment_method_details_passthrough_card,
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_amazon_pay_funding(
   card stripe.payment_method_details_passthrough_card DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_amazon_pay_funding
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    card, "type"
+    card, type
   )::stripe_invoices.p_p_p_r_resource_payment_method_details_amazon_pay_funding;
 $$;
 
@@ -3321,13 +3311,13 @@ $$;
 ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_billing_detail
   ADD ATTRIBUTE address stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detail_address,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE phone TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_billing_detail(
   address stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detail_address,
   email TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_billing_detail
@@ -3335,7 +3325,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    address, email, "name", phone
+    address, email, name, phone
   )::stripe_invoices.p_p_p_records_resource_payment_method_details_billing_detail;
 $$;
 
@@ -3345,7 +3335,7 @@ ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detai
   ADD ATTRIBUTE line1 TEXT,
   ADD ATTRIBUTE line2 TEXT,
   ADD ATTRIBUTE postal_code TEXT,
-  ADD ATTRIBUTE "state" TEXT;
+  ADD ATTRIBUTE state TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_r_payment_method_details_billing_detail_address(
   city TEXT DEFAULT NULL,
@@ -3353,14 +3343,14 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_r_payment_method_details_bi
   line1 TEXT DEFAULT NULL,
   line2 TEXT DEFAULT NULL,
   postal_code TEXT DEFAULT NULL,
-  "state" TEXT DEFAULT NULL
+  state TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detail_address
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    city, country, line1, line2, postal_code, "state"
+    city, country, line1, line2, postal_code, state
   )::stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detail_address;
 $$;
 
@@ -3492,34 +3482,34 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_card_installment
-  ADD ATTRIBUTE "plan" stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan;
+  ADD ATTRIBUTE plan stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_card_installment(
-  "plan" stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan DEFAULT NULL
+  plan stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_card_installment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "plan"
+    plan
   )::stripe_invoices.p_p_p_records_resource_payment_method_details_card_installment;
 $$;
 
 ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan
-  ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE "count" BIGINT,
+  ADD ATTRIBUTE type TEXT,
+  ADD ATTRIBUTE count BIGINT,
   ADD ATTRIBUTE "interval" TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_card_installment_plan(
-  "type" TEXT, "count" BIGINT DEFAULT NULL, "interval" TEXT DEFAULT NULL
+  type TEXT, count BIGINT DEFAULT NULL, "interval" TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", "count", "interval"
+    type, count, "interval"
   )::stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan;
 $$;
 
@@ -3540,33 +3530,33 @@ $$;
 
 ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_card_three_d_secure
   ADD ATTRIBUTE authentication_flow TEXT,
-  ADD ATTRIBUTE "result" TEXT,
+  ADD ATTRIBUTE result TEXT,
   ADD ATTRIBUTE result_reason TEXT,
-  ADD ATTRIBUTE "version" TEXT;
+  ADD ATTRIBUTE version TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_card_three_d_secure(
   authentication_flow TEXT DEFAULT NULL,
-  "result" TEXT DEFAULT NULL,
+  result TEXT DEFAULT NULL,
   result_reason TEXT DEFAULT NULL,
-  "version" TEXT DEFAULT NULL
+  version TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_card_three_d_secure
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    authentication_flow, "result", result_reason, "version"
+    authentication_flow, result, result_reason, version
   )::stripe_invoices.p_p_p_r_resource_payment_method_details_card_three_d_secure;
 $$;
 
 ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_card_wallet
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE apple_pay stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay,
   ADD ATTRIBUTE dynamic_last4 TEXT,
   ADD ATTRIBUTE google_pay stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_google_pay;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_card_wallet(
-  "type" TEXT,
+  type TEXT,
   apple_pay stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay DEFAULT NULL,
   dynamic_last4 TEXT DEFAULT NULL,
   google_pay stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_google_pay DEFAULT NULL
@@ -3576,22 +3566,22 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", apple_pay, dynamic_last4, google_pay
+    type, apple_pay, dynamic_last4, google_pay
   )::stripe_invoices.p_p_payment_records_resource_payment_method_details_card_wallet;
 $$;
 
 ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_card_wallet_apple_pay(
-  "type" TEXT
+  type TEXT
 )
 RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type"
+    type
   )::stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay;
 $$;
 
@@ -3636,17 +3626,17 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_custom
-  ADD ATTRIBUTE display_name TEXT, ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE display_name TEXT, ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_custom(
-  display_name TEXT, "type" TEXT DEFAULT NULL
+  display_name TEXT, type TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_custom
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    display_name, "type"
+    display_name, type
   )::stripe_invoices.p_p_payment_records_resource_payment_method_details_custom;
 $$;
 
@@ -3898,17 +3888,17 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_konbini_store
-  ADD ATTRIBUTE "chain" TEXT;
+  ADD ATTRIBUTE chain TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_konbini_store(
-  "chain" TEXT DEFAULT NULL
+  chain TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_konbini_store
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "chain"
+    chain
   )::stripe_invoices.p_p_p_records_resource_payment_method_details_konbini_store;
 $$;
 
@@ -4050,17 +4040,17 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_oxxo
-  ADD ATTRIBUTE "number" TEXT;
+  ADD ATTRIBUTE number TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_oxxo(
-  "number" TEXT DEFAULT NULL
+  number TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_oxxo
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "number"
+    number
   )::stripe_invoices.p_p_payment_records_resource_payment_method_details_oxxo;
 $$;
 
@@ -4099,12 +4089,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_paynow
-  ADD ATTRIBUTE "location" TEXT,
+  ADD ATTRIBUTE location TEXT,
   ADD ATTRIBUTE reader TEXT,
   ADD ATTRIBUTE reference TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_paynow(
-  "location" TEXT DEFAULT NULL,
+  location TEXT DEFAULT NULL,
   reader TEXT DEFAULT NULL,
   reference TEXT DEFAULT NULL
 )
@@ -4113,7 +4103,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "location", reader, reference
+    location, reader, reference
   )::stripe_invoices.p_p_payment_records_resource_payment_method_details_paynow;
 $$;
 
@@ -4232,18 +4222,18 @@ $$;
 
 ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_revolut_pay_funding
   ADD ATTRIBUTE card stripe.payment_method_details_passthrough_card,
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_revolut_pay_funding(
   card stripe.payment_method_details_passthrough_card DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_revolut_pay_funding
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    card, "type"
+    card, type
   )::stripe_invoices.p_p_p_r_resource_payment_method_details_revolut_pay_funding;
 $$;
 
@@ -4331,13 +4321,13 @@ $$;
 
 ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_wechat_pay
   ADD ATTRIBUTE fingerprint TEXT,
-  ADD ATTRIBUTE "location" TEXT,
+  ADD ATTRIBUTE location TEXT,
   ADD ATTRIBUTE reader TEXT,
   ADD ATTRIBUTE transaction_id TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_wechat_pay(
   fingerprint TEXT DEFAULT NULL,
-  "location" TEXT DEFAULT NULL,
+  location TEXT DEFAULT NULL,
   reader TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
@@ -4346,7 +4336,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    fingerprint, "location", reader, transaction_id
+    fingerprint, location, reader, transaction_id
   )::stripe_invoices.p_p_payment_records_resource_payment_method_details_wechat_pay;
 $$;
 
@@ -4364,28 +4354,28 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.shipping_rate_delivery_estimate_bound
-  ADD ATTRIBUTE unit TEXT, ADD ATTRIBUTE "value" BIGINT;
+  ADD ATTRIBUTE unit TEXT, ADD ATTRIBUTE value BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_rate_delivery_estimate_bound(
-  unit TEXT, "value" BIGINT
+  unit TEXT, value BIGINT
 )
 RETURNS stripe_invoices.shipping_rate_delivery_estimate_bound
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    unit, "value"
+    unit, value
   )::stripe_invoices.shipping_rate_delivery_estimate_bound;
 $$;
 
 ALTER TYPE stripe_invoices.tax_rate
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE active BOOLEAN,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE display_name TEXT,
   ADD ATTRIBUTE inclusive BOOLEAN,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE percentage DOUBLE PRECISION,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE description TEXT,
@@ -4395,17 +4385,17 @@ ALTER TYPE stripe_invoices.tax_rate
   ADD ATTRIBUTE jurisdiction_level TEXT,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE rate_type TEXT,
-  ADD ATTRIBUTE "state" TEXT,
+  ADD ATTRIBUTE state TEXT,
   ADD ATTRIBUTE tax_type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_tax_rate(
-  "id" TEXT,
+  id TEXT,
   active BOOLEAN,
   created BIGINT,
   display_name TEXT,
   inclusive BOOLEAN,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   percentage DOUBLE PRECISION,
   country TEXT DEFAULT NULL,
   description TEXT DEFAULT NULL,
@@ -4415,7 +4405,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_tax_rate(
   jurisdiction_level TEXT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   rate_type TEXT DEFAULT NULL,
-  "state" TEXT DEFAULT NULL,
+  state TEXT DEFAULT NULL,
   tax_type TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.tax_rate
@@ -4423,13 +4413,13 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     active,
     created,
     display_name,
     inclusive,
     livemode,
-    "object",
+    object,
     percentage,
     country,
     description,
@@ -4439,7 +4429,7 @@ AS $$
     jurisdiction_level,
     metadata,
     rate_type,
-    "state",
+    state,
     tax_type
   )::stripe_invoices.tax_rate;
 $$;
@@ -4473,42 +4463,42 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.automatic_tax_liability
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE account TEXT;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_automatic_tax_liability(
-  "type" TEXT, account TEXT DEFAULT NULL
+  type TEXT, account TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.automatic_tax_liability
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", account)::stripe_invoices.automatic_tax_liability;
+  SELECT ROW(type, account)::stripe_invoices.automatic_tax_liability;
 $$;
 
 ALTER TYPE stripe_invoices.from_invoice
-  ADD ATTRIBUTE "action" TEXT, ADD ATTRIBUTE invoice TEXT;
+  ADD ATTRIBUTE action TEXT, ADD ATTRIBUTE invoice TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_from_invoice(
-  "action" TEXT, invoice TEXT
+  action TEXT, invoice TEXT
 )
 RETURNS stripe_invoices.from_invoice
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("action", invoice)::stripe_invoices.from_invoice;
+  SELECT ROW(action, invoice)::stripe_invoices.from_invoice;
 $$;
 
 ALTER TYPE stripe_invoices.issuer
-  ADD ATTRIBUTE "type" TEXT, ADD ATTRIBUTE account TEXT;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_issuer(
-  "type" TEXT, account TEXT DEFAULT NULL
+  type TEXT, account TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.issuer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", account)::stripe_invoices.issuer;
+  SELECT ROW(type, account)::stripe_invoices.issuer;
 $$;
 
 ALTER TYPE stripe_invoices.payment_setting
@@ -4569,13 +4559,13 @@ $$;
 ALTER TYPE stripe_invoices.rendering
   ADD ATTRIBUTE amount_tax_display TEXT,
   ADD ATTRIBUTE pdf stripe_invoices.rendering_pdf,
-  ADD ATTRIBUTE "template" TEXT,
+  ADD ATTRIBUTE template TEXT,
   ADD ATTRIBUTE template_version JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_rendering(
   amount_tax_display TEXT DEFAULT NULL,
   pdf stripe_invoices.rendering_pdf DEFAULT NULL,
-  "template" TEXT DEFAULT NULL,
+  template TEXT DEFAULT NULL,
   template_version JSONB DEFAULT NULL
 )
 RETURNS stripe_invoices.rendering
@@ -4583,7 +4573,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    amount_tax_display, pdf, "template", template_version
+    amount_tax_display, pdf, template, template_version
   )::stripe_invoices.rendering;
 $$;
 
@@ -4622,7 +4612,7 @@ ALTER TYPE stripe_invoices.shipping_cost_shipping_rate_data
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE tax_behavior TEXT,
   ADD ATTRIBUTE tax_code TEXT,
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost_shipping_rate_data(
   display_name TEXT,
@@ -4631,7 +4621,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost_shipping_rate_data
   metadata JSONB DEFAULT NULL,
   tax_behavior TEXT DEFAULT NULL,
   tax_code TEXT DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.shipping_cost_shipping_rate_data
 LANGUAGE SQL
@@ -4644,7 +4634,7 @@ AS $$
     metadata,
     tax_behavior,
     tax_code,
-    "type"
+    type
   )::stripe_invoices.shipping_cost_shipping_rate_data;
 $$;
 
@@ -4666,32 +4656,32 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_maximum
-  ADD ATTRIBUTE unit TEXT, ADD ATTRIBUTE "value" BIGINT;
+  ADD ATTRIBUTE unit TEXT, ADD ATTRIBUTE value BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost_shipping_rate_data_delivery_estimate_maximum(
-  unit TEXT, "value" BIGINT
+  unit TEXT, value BIGINT
 )
 RETURNS stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_maximum
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    unit, "value"
+    unit, value
   )::stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_maximum;
 $$;
 
 ALTER TYPE stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_minimum
-  ADD ATTRIBUTE unit TEXT, ADD ATTRIBUTE "value" BIGINT;
+  ADD ATTRIBUTE unit TEXT, ADD ATTRIBUTE value BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost_shipping_rate_data_delivery_estimate_minimum(
-  unit TEXT, "value" BIGINT
+  unit TEXT, value BIGINT
 )
 RETURNS stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_minimum
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    unit, "value"
+    unit, value
   )::stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_minimum;
 $$;
 
@@ -4714,19 +4704,19 @@ $$;
 
 ALTER TYPE stripe_invoices.shipping_detail
   ADD ATTRIBUTE address stripe_invoices.shipping_detail_address,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE phone TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_detail(
   address stripe_invoices.shipping_detail_address,
-  "name" TEXT,
+  name TEXT,
   phone TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.shipping_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(address, "name", phone)::stripe_invoices.shipping_detail;
+  SELECT ROW(address, name, phone)::stripe_invoices.shipping_detail;
 $$;
 
 ALTER TYPE stripe_invoices.shipping_detail_address
@@ -4735,7 +4725,7 @@ ALTER TYPE stripe_invoices.shipping_detail_address
   ADD ATTRIBUTE line1 TEXT,
   ADD ATTRIBUTE line2 TEXT,
   ADD ATTRIBUTE postal_code TEXT,
-  ADD ATTRIBUTE "state" TEXT;
+  ADD ATTRIBUTE state TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_detail_address(
   city TEXT DEFAULT NULL,
@@ -4743,14 +4733,14 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_detail_address(
   line1 TEXT DEFAULT NULL,
   line2 TEXT DEFAULT NULL,
   postal_code TEXT DEFAULT NULL,
-  "state" TEXT DEFAULT NULL
+  state TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.shipping_detail_address
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    city, country, line1, line2, postal_code, "state"
+    city, country, line1, line2, postal_code, state
   )::stripe_invoices.shipping_detail_address;
 $$;
 
@@ -4791,7 +4781,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices._create(
   from_invoice stripe_invoices.from_invoice DEFAULT NULL,
   issuer stripe_invoices.issuer DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "number" TEXT DEFAULT NULL,
+  number TEXT DEFAULT NULL,
   on_behalf_of TEXT DEFAULT NULL,
   payment_settings stripe_invoices.payment_setting DEFAULT NULL,
   pending_invoice_items_behavior TEXT DEFAULT NULL,
@@ -4799,7 +4789,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices._create(
   shipping_cost stripe_invoices.shipping_cost DEFAULT NULL,
   shipping_details stripe_invoices.shipping_detail DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL,
+  subscription TEXT DEFAULT NULL,
   transfer_data stripe_invoices.transfer_data DEFAULT NULL
 )
 RETURNS JSONB
@@ -4874,7 +4864,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.create(
   from_invoice stripe_invoices.from_invoice DEFAULT NULL,
   issuer stripe_invoices.issuer DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "number" TEXT DEFAULT NULL,
+  number TEXT DEFAULT NULL,
   on_behalf_of TEXT DEFAULT NULL,
   payment_settings stripe_invoices.payment_setting DEFAULT NULL,
   pending_invoice_items_behavior TEXT DEFAULT NULL,
@@ -4882,7 +4872,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.create(
   shipping_cost stripe_invoices.shipping_cost DEFAULT NULL,
   shipping_details stripe_invoices.shipping_detail DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL,
+  subscription TEXT DEFAULT NULL,
   transfer_data stripe_invoices.transfer_data DEFAULT NULL
 )
 RETURNS stripe_invoices.invoice
@@ -4916,7 +4906,7 @@ AS $$
         from_invoice,
         issuer,
         metadata,
-        "number",
+        number,
         on_behalf_of,
         payment_settings,
         pending_invoice_items_behavior,
@@ -4924,7 +4914,7 @@ AS $$
         shipping_cost,
         shipping_details,
         statement_descriptor,
-        "subscription",
+        subscription,
         transfer_data
       )
     );
@@ -4942,7 +4932,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices._list_first_page_py(
   "limit" BIGINT DEFAULT NULL,
   starting_after TEXT DEFAULT NULL,
   status TEXT DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL
+  subscription TEXT DEFAULT NULL
 )
 RETURNS stripe_internal.page
 LANGUAGE plpython3u
@@ -4997,7 +4987,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices._list_first_page(
   "limit" BIGINT DEFAULT NULL,
   starting_after TEXT DEFAULT NULL,
   status TEXT DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL
+  subscription TEXT DEFAULT NULL
 )
 RETURNS stripe_internal.page
 LANGUAGE plpgsql
@@ -5016,7 +5006,7 @@ AS $$
       "limit",
       starting_after,
       status,
-      "subscription"
+      subscription
     );
   END;
 $$;
@@ -5068,7 +5058,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.list(
   "limit" BIGINT DEFAULT NULL,
   starting_after TEXT DEFAULT NULL,
   status TEXT DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL
+  subscription TEXT DEFAULT NULL
 )
 RETURNS SETOF stripe_invoices.invoice
 LANGUAGE SQL
@@ -5087,7 +5077,7 @@ AS $$
       "limit",
       starting_after,
       status,
-      "subscription"
+      subscription
     ) AS page
 
     UNION ALL
@@ -5097,7 +5087,7 @@ AS $$
     CROSS JOIN stripe_invoices._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_invoices.invoice, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_invoices.invoice, data)).* FROM paginated;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_invoices._finalize(

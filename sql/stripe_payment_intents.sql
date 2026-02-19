@@ -1,25 +1,25 @@
 ALTER TYPE stripe_payment_intents.payment_flows_installment_options
   ADD ATTRIBUTE enabled BOOLEAN,
-  ADD ATTRIBUTE "plan" stripe.payment_method_details_card_installments_plan;
+  ADD ATTRIBUTE plan stripe.payment_method_details_card_installments_plan;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_flows_installment_options(
   enabled BOOLEAN,
-  "plan" stripe.payment_method_details_card_installments_plan DEFAULT NULL
+  plan stripe.payment_method_details_card_installments_plan DEFAULT NULL
 )
 RETURNS stripe_payment_intents.payment_flows_installment_options
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    enabled, "plan"
+    enabled, plan
   )::stripe_payment_intents.payment_flows_installment_options;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE amount_capturable BIGINT,
@@ -61,10 +61,10 @@ ALTER TYPE stripe_payment_intents.payment_intent
   ADD ATTRIBUTE transfer_group TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent(
-  "id" TEXT,
+  id TEXT,
   created BIGINT,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   status TEXT,
   amount BIGINT DEFAULT NULL,
   amount_capturable BIGINT DEFAULT NULL,
@@ -110,10 +110,10 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     created,
     livemode,
-    "object",
+    object,
     status,
     amount,
     amount_capturable,
@@ -158,7 +158,7 @@ $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_amount_detail
   ADD ATTRIBUTE discount_amount BIGINT,
-  ADD ATTRIBUTE "error" stripe_payment_intents.payment_intent_amount_detail_error,
+  ADD ATTRIBUTE error stripe_payment_intents.payment_intent_amount_detail_error,
   ADD ATTRIBUTE line_items stripe_payment_intents.payment_intent_amount_detail_line_item,
   ADD ATTRIBUTE shipping stripe_payment_intents.payment_intent_amount_detail_shipping,
   ADD ATTRIBUTE tax stripe_payment_intents.payment_intent_amount_detail_tax,
@@ -166,7 +166,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_amount_detail
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_amount_detail(
   discount_amount BIGINT DEFAULT NULL,
-  "error" stripe_payment_intents.payment_intent_amount_detail_error DEFAULT NULL,
+  error stripe_payment_intents.payment_intent_amount_detail_error DEFAULT NULL,
   line_items stripe_payment_intents.payment_intent_amount_detail_line_item DEFAULT NULL,
   shipping stripe_payment_intents.payment_intent_amount_detail_shipping DEFAULT NULL,
   tax stripe_payment_intents.payment_intent_amount_detail_tax DEFAULT NULL,
@@ -177,7 +177,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    discount_amount, "error", line_items, shipping, tax, tip
+    discount_amount, error, line_items, shipping, tax, tip
   )::stripe_payment_intents.payment_intent_amount_detail;
 $$;
 
@@ -197,15 +197,15 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_amount_detail_line_item
-  ADD ATTRIBUTE "data" stripe_payment_intents.payment_intent_amount_detail_line_item_data[],
+  ADD ATTRIBUTE data stripe_payment_intents.payment_intent_amount_detail_line_item_data[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_amount_detail_line_item(
-  "data" stripe_payment_intents.payment_intent_amount_detail_line_item_data[],
+  data stripe_payment_intents.payment_intent_amount_detail_line_item_data[],
   has_more BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   url TEXT
 )
 RETURNS stripe_payment_intents.payment_intent_amount_detail_line_item
@@ -213,13 +213,13 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data", has_more, "object", url
+    data, has_more, object, url
   )::stripe_payment_intents.payment_intent_amount_detail_line_item;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_amount_detail_line_item_data
-  ADD ATTRIBUTE "id" TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE id TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE product_name TEXT,
   ADD ATTRIBUTE quantity BIGINT,
   ADD ATTRIBUTE unit_cost BIGINT,
@@ -230,8 +230,8 @@ ALTER TYPE stripe_payment_intents.payment_intent_amount_detail_line_item_data
   ADD ATTRIBUTE unit_of_measure TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_amount_detail_line_item_data(
-  "id" TEXT,
-  "object" TEXT,
+  id TEXT,
+  object TEXT,
   product_name TEXT,
   quantity BIGINT,
   unit_cost BIGINT,
@@ -246,8 +246,8 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
-    "object",
+    id,
+    object,
     product_name,
     quantity,
     unit_cost,
@@ -467,7 +467,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE alipay_handle_redirect stripe_payment_intents.payment_intent_next_action_alipay_handle_redirect,
   ADD ATTRIBUTE boleto_display_details stripe_payment_intents.payment_intent_next_action_boleto_display_detail,
   ADD ATTRIBUTE card_await_notification stripe_payment_intents.payment_intent_next_action_card_await_notification,
@@ -488,7 +488,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_next_action
   ADD ATTRIBUTE wechat_pay_redirect_to_ios_app stripe_payment_intents.payment_intent_next_action_wechat_pay_redirect_to_ios_app;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_action(
-  "type" TEXT,
+  type TEXT,
   alipay_handle_redirect stripe_payment_intents.payment_intent_next_action_alipay_handle_redirect DEFAULT NULL,
   boleto_display_details stripe_payment_intents.payment_intent_next_action_boleto_display_detail DEFAULT NULL,
   card_await_notification stripe_payment_intents.payment_intent_next_action_card_await_notification DEFAULT NULL,
@@ -513,7 +513,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     alipay_handle_redirect,
     boleto_display_details,
     card_await_notification,
@@ -559,13 +559,13 @@ $$;
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_boleto_display_detail
   ADD ATTRIBUTE expires_at BIGINT,
   ADD ATTRIBUTE hosted_voucher_url TEXT,
-  ADD ATTRIBUTE "number" TEXT,
+  ADD ATTRIBUTE number TEXT,
   ADD ATTRIBUTE pdf TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_action_boleto_display_detail(
   expires_at BIGINT DEFAULT NULL,
   hosted_voucher_url TEXT DEFAULT NULL,
-  "number" TEXT DEFAULT NULL,
+  number TEXT DEFAULT NULL,
   pdf TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_intents.payment_intent_next_action_boleto_display_detail
@@ -573,7 +573,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    expires_at, hosted_voucher_url, "number", pdf
+    expires_at, hosted_voucher_url, number, pdf
   )::stripe_payment_intents.payment_intent_next_action_boleto_display_detail;
 $$;
 
@@ -631,7 +631,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_display_bank_transfer_instruction
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE amount_remaining BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE financial_addresses stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address[],
@@ -639,7 +639,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_next_action_display_bank_transf
   ADD ATTRIBUTE reference TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.m_payment_intent_next_action_display_bank_transfer_instruction(
-  "type" TEXT,
+  type TEXT,
   amount_remaining BIGINT DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   financial_addresses stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address[] DEFAULT NULL,
@@ -651,7 +651,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     amount_remaining,
     currency,
     financial_addresses,
@@ -661,7 +661,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE aba stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address_aba,
   ADD ATTRIBUTE iban stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_iban,
   ADD ATTRIBUTE sort_code stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_sort_code,
@@ -671,7 +671,7 @@ ALTER TYPE stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_fina
   ADD ATTRIBUTE zengin stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_zengin;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_display_bank_transfer_instruction_financial_address(
-  "type" TEXT,
+  type TEXT,
   aba stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address_aba DEFAULT NULL,
   iban stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_iban DEFAULT NULL,
   sort_code stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_sort_code DEFAULT NULL,
@@ -685,7 +685,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", aba, iban, sort_code, spei, supported_networks, swift, zengin
+    type, aba, iban, sort_code, spei, supported_networks, swift, zengin
   )::stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address;
 $$;
 
@@ -1005,30 +1005,30 @@ $$;
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_oxxo_display_detail
   ADD ATTRIBUTE expires_after BIGINT,
   ADD ATTRIBUTE hosted_voucher_url TEXT,
-  ADD ATTRIBUTE "number" TEXT;
+  ADD ATTRIBUTE number TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_action_oxxo_display_detail(
   expires_after BIGINT DEFAULT NULL,
   hosted_voucher_url TEXT DEFAULT NULL,
-  "number" TEXT DEFAULT NULL
+  number TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_intents.payment_intent_next_action_oxxo_display_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    expires_after, hosted_voucher_url, "number"
+    expires_after, hosted_voucher_url, number
   )::stripe_payment_intents.payment_intent_next_action_oxxo_display_detail;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_paynow_display_qr_code
-  ADD ATTRIBUTE "data" TEXT,
+  ADD ATTRIBUTE data TEXT,
   ADD ATTRIBUTE image_url_png TEXT,
   ADD ATTRIBUTE image_url_svg TEXT,
   ADD ATTRIBUTE hosted_instructions_url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_action_paynow_display_qr_code(
-  "data" TEXT,
+  data TEXT,
   image_url_png TEXT,
   image_url_svg TEXT,
   hosted_instructions_url TEXT DEFAULT NULL
@@ -1038,19 +1038,19 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data", image_url_png, image_url_svg, hosted_instructions_url
+    data, image_url_png, image_url_svg, hosted_instructions_url
   )::stripe_payment_intents.payment_intent_next_action_paynow_display_qr_code;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_pix_display_qr_code
-  ADD ATTRIBUTE "data" TEXT,
+  ADD ATTRIBUTE data TEXT,
   ADD ATTRIBUTE expires_at BIGINT,
   ADD ATTRIBUTE hosted_instructions_url TEXT,
   ADD ATTRIBUTE image_url_png TEXT,
   ADD ATTRIBUTE image_url_svg TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_action_pix_display_qr_code(
-  "data" TEXT DEFAULT NULL,
+  data TEXT DEFAULT NULL,
   expires_at BIGINT DEFAULT NULL,
   hosted_instructions_url TEXT DEFAULT NULL,
   image_url_png TEXT DEFAULT NULL,
@@ -1061,18 +1061,18 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data", expires_at, hosted_instructions_url, image_url_png, image_url_svg
+    data, expires_at, hosted_instructions_url, image_url_png, image_url_svg
   )::stripe_payment_intents.payment_intent_next_action_pix_display_qr_code;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_promptpay_display_qr_code
-  ADD ATTRIBUTE "data" TEXT,
+  ADD ATTRIBUTE data TEXT,
   ADD ATTRIBUTE hosted_instructions_url TEXT,
   ADD ATTRIBUTE image_url_png TEXT,
   ADD ATTRIBUTE image_url_svg TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_action_promptpay_display_qr_code(
-  "data" TEXT,
+  data TEXT,
   hosted_instructions_url TEXT,
   image_url_png TEXT,
   image_url_svg TEXT
@@ -1082,7 +1082,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data", hosted_instructions_url, image_url_png, image_url_svg
+    data, hosted_instructions_url, image_url_png, image_url_svg
   )::stripe_payment_intents.payment_intent_next_action_promptpay_display_qr_code;
 $$;
 
@@ -1119,19 +1119,19 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code
-  ADD ATTRIBUTE "data" TEXT,
+  ADD ATTRIBUTE data TEXT,
   ADD ATTRIBUTE image_url_png TEXT,
   ADD ATTRIBUTE image_url_svg TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code(
-  "data" TEXT, image_url_png TEXT, image_url_svg TEXT
+  data TEXT, image_url_png TEXT, image_url_svg TEXT
 )
 RETURNS stripe_payment_intents.p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data", image_url_png, image_url_svg
+    data, image_url_png, image_url_svg
   )::stripe_payment_intents.p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code;
 $$;
 
@@ -1155,14 +1155,14 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_wechat_pay_display_qr_code
-  ADD ATTRIBUTE "data" TEXT,
+  ADD ATTRIBUTE data TEXT,
   ADD ATTRIBUTE hosted_instructions_url TEXT,
   ADD ATTRIBUTE image_data_url TEXT,
   ADD ATTRIBUTE image_url_png TEXT,
   ADD ATTRIBUTE image_url_svg TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_action_wechat_pay_display_qr_code(
-  "data" TEXT,
+  data TEXT,
   hosted_instructions_url TEXT,
   image_data_url TEXT,
   image_url_png TEXT,
@@ -1173,11 +1173,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data",
-    hosted_instructions_url,
-    image_data_url,
-    image_url_png,
-    image_url_svg
+    data, hosted_instructions_url, image_data_url, image_url_png, image_url_svg
   )::stripe_payment_intents.payment_intent_next_action_wechat_pay_display_qr_code;
 $$;
 
@@ -1239,17 +1235,17 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_payment_method_configuration_detail
-  ADD ATTRIBUTE "id" TEXT, ADD ATTRIBUTE parent TEXT;
+  ADD ATTRIBUTE id TEXT, ADD ATTRIBUTE parent TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_payment_method_configuration_detail(
-  "id" TEXT, parent TEXT DEFAULT NULL
+  id TEXT, parent TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_intents.payment_intent_payment_method_configuration_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id", parent
+    id, parent
   )::stripe_payment_intents.payment_intent_payment_method_configuration_detail;
 $$;
 
@@ -1281,7 +1277,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option
   ADD ATTRIBUTE klarna stripe_payment_intents.payment_intent_payment_method_option_klarna,
   ADD ATTRIBUTE konbini stripe_payment_intents.payment_intent_payment_method_option_konbini,
   ADD ATTRIBUTE kr_card stripe_payment_intents.payment_intent_payment_method_option_kr_card,
-  ADD ATTRIBUTE "link" stripe_payment_intents.payment_intent_payment_method_option_link,
+  ADD ATTRIBUTE link stripe_payment_intents.payment_intent_payment_method_option_link,
   ADD ATTRIBUTE mb_way stripe_payment_intents.payment_intent_payment_method_option_mb_way,
   ADD ATTRIBUTE mobilepay stripe_payment_intents.payment_intent_payment_method_option_mobilepay,
   ADD ATTRIBUTE multibanco stripe_payment_intents.payment_intent_payment_method_option_multibanco,
@@ -1335,7 +1331,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_payment_me
   klarna stripe_payment_intents.payment_intent_payment_method_option_klarna DEFAULT NULL,
   konbini stripe_payment_intents.payment_intent_payment_method_option_konbini DEFAULT NULL,
   kr_card stripe_payment_intents.payment_intent_payment_method_option_kr_card DEFAULT NULL,
-  "link" stripe_payment_intents.payment_intent_payment_method_option_link DEFAULT NULL,
+  link stripe_payment_intents.payment_intent_payment_method_option_link DEFAULT NULL,
   mb_way stripe_payment_intents.payment_intent_payment_method_option_mb_way DEFAULT NULL,
   mobilepay stripe_payment_intents.payment_intent_payment_method_option_mobilepay DEFAULT NULL,
   multibanco stripe_payment_intents.payment_intent_payment_method_option_multibanco DEFAULT NULL,
@@ -1393,7 +1389,7 @@ AS $$
     klarna,
     konbini,
     kr_card,
-    "link",
+    link,
     mb_way,
     mobilepay,
     multibanco,
@@ -2009,19 +2005,19 @@ $$;
 ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_card_installment
   ADD ATTRIBUTE enabled BOOLEAN,
   ADD ATTRIBUTE available_plans stripe.payment_method_details_card_installments_plan[],
-  ADD ATTRIBUTE "plan" stripe.payment_method_details_card_installments_plan;
+  ADD ATTRIBUTE plan stripe.payment_method_details_card_installments_plan;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_payment_method_option_card_installment(
   enabled BOOLEAN,
   available_plans stripe.payment_method_details_card_installments_plan[] DEFAULT NULL,
-  "plan" stripe.payment_method_details_card_installments_plan DEFAULT NULL
+  plan stripe.payment_method_details_card_installments_plan DEFAULT NULL
 )
 RETURNS stripe_payment_intents.payment_intent_payment_method_option_card_installment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    enabled, available_plans, "plan"
+    enabled, available_plans, plan
   )::stripe_payment_intents.payment_intent_payment_method_option_card_installment;
 $$;
 
@@ -2229,19 +2225,19 @@ $$;
 ALTER TYPE stripe_payment_intents.p_intent_payment_method_option_customer_balance_bank_transfer
   ADD ATTRIBUTE eu_bank_transfer stripe_payment_intents.p_i_p_m_option_customer_balance_bank_transfer_eu_bank_transfer,
   ADD ATTRIBUTE requested_address_types TEXT[],
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_payment_method_option_customer_balance_bank_transfer(
   eu_bank_transfer stripe_payment_intents.p_i_p_m_option_customer_balance_bank_transfer_eu_bank_transfer DEFAULT NULL,
   requested_address_types TEXT[] DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_intents.p_intent_payment_method_option_customer_balance_bank_transfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    eu_bank_transfer, requested_address_types, "type"
+    eu_bank_transfer, requested_address_types, type
   )::stripe_payment_intents.p_intent_payment_method_option_customer_balance_bank_transfer;
 $$;
 
@@ -3680,18 +3676,18 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_processing
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE card stripe_payment_intents.payment_intent_processing_card;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_processing(
-  "type" TEXT,
+  type TEXT,
   card stripe_payment_intents.payment_intent_processing_card DEFAULT NULL
 )
 RETURNS stripe_payment_intents.payment_intent_processing
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", card)::stripe_payment_intents.payment_intent_processing;
+  SELECT ROW(type, card)::stripe_payment_intents.payment_intent_processing;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_processing_card
@@ -3819,11 +3815,11 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.review
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE "open" BOOLEAN,
+  ADD ATTRIBUTE object TEXT,
+  ADD ATTRIBUTE open BOOLEAN,
   ADD ATTRIBUTE opened_reason TEXT,
   ADD ATTRIBUTE reason TEXT,
   ADD ATTRIBUTE billing_zip TEXT,
@@ -3832,14 +3828,14 @@ ALTER TYPE stripe_payment_intents.review
   ADD ATTRIBUTE ip_address TEXT,
   ADD ATTRIBUTE ip_address_location stripe_payment_intents.review_ip_address_location,
   ADD ATTRIBUTE payment_intent JSONB,
-  ADD ATTRIBUTE "session" stripe_payment_intents.review_session;
+  ADD ATTRIBUTE session stripe_payment_intents.review_session;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_review(
-  "id" TEXT,
+  id TEXT,
   created BIGINT,
   livemode BOOLEAN,
-  "object" TEXT,
-  "open" BOOLEAN,
+  object TEXT,
+  open BOOLEAN,
   opened_reason TEXT,
   reason TEXT,
   billing_zip TEXT DEFAULT NULL,
@@ -3848,18 +3844,18 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.make_review(
   ip_address TEXT DEFAULT NULL,
   ip_address_location stripe_payment_intents.review_ip_address_location DEFAULT NULL,
   payment_intent JSONB DEFAULT NULL,
-  "session" stripe_payment_intents.review_session DEFAULT NULL
+  session stripe_payment_intents.review_session DEFAULT NULL
 )
 RETURNS stripe_payment_intents.review
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     created,
     livemode,
-    "object",
-    "open",
+    object,
+    open,
     opened_reason,
     reason,
     billing_zip,
@@ -3868,7 +3864,7 @@ AS $$
     ip_address,
     ip_address_location,
     payment_intent,
-    "session"
+    session
   )::stripe_payment_intents.review;
 $$;
 
@@ -3899,20 +3895,20 @@ ALTER TYPE stripe_payment_intents.review_session
   ADD ATTRIBUTE browser TEXT,
   ADD ATTRIBUTE device TEXT,
   ADD ATTRIBUTE platform TEXT,
-  ADD ATTRIBUTE "version" TEXT;
+  ADD ATTRIBUTE version TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_review_session(
   browser TEXT DEFAULT NULL,
   device TEXT DEFAULT NULL,
   platform TEXT DEFAULT NULL,
-  "version" TEXT DEFAULT NULL
+  version TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_intents.review_session
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    browser, device, platform, "version"
+    browser, device, platform, version
   )::stripe_payment_intents.review_session;
 $$;
 
@@ -4058,5 +4054,5 @@ AS $$
     CROSS JOIN stripe_payment_intents._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_payment_intents.payment_intent, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_payment_intents.payment_intent, data)).* FROM paginated;
 $$;

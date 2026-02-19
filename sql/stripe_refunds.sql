@@ -1,9 +1,9 @@
 ALTER TYPE stripe_refunds.refund
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE balance_transaction JSONB,
   ADD ATTRIBUTE charge JSONB,
   ADD ATTRIBUTE description TEXT,
@@ -23,11 +23,11 @@ ALTER TYPE stripe_refunds.refund
   ADD ATTRIBUTE transfer_reversal JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_refunds.make_refund(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   created BIGINT,
   currency TEXT,
-  "object" TEXT,
+  object TEXT,
   balance_transaction JSONB DEFAULT NULL,
   charge JSONB DEFAULT NULL,
   description TEXT DEFAULT NULL,
@@ -51,11 +51,11 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     created,
     currency,
-    "object",
+    object,
     balance_transaction,
     charge,
     description,
@@ -77,7 +77,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_refunds.refund_destination_detail
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE affirm stripe_refunds.refund_destination_detail_affirm,
   ADD ATTRIBUTE afterpay_clearpay stripe_refunds.refund_destination_detail_afterpay_clearpay,
   ADD ATTRIBUTE alipay stripe_refunds.refund_destination_detail_alipay,
@@ -115,7 +115,7 @@ ALTER TYPE stripe_refunds.refund_destination_detail
   ADD ATTRIBUTE zip stripe_refunds.refund_destination_detail_zip;
 
 CREATE OR REPLACE FUNCTION stripe_refunds.make_refund_destination_detail(
-  "type" TEXT,
+  type TEXT,
   affirm stripe_refunds.refund_destination_detail_affirm DEFAULT NULL,
   afterpay_clearpay stripe_refunds.refund_destination_detail_afterpay_clearpay DEFAULT NULL,
   alipay stripe_refunds.refund_destination_detail_alipay DEFAULT NULL,
@@ -157,7 +157,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     affirm,
     afterpay_clearpay,
     alipay,
@@ -231,13 +231,13 @@ AS $$
 $$;
 
 ALTER TYPE stripe_refunds.refund_destination_detail_card
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE reference TEXT,
   ADD ATTRIBUTE reference_status TEXT,
   ADD ATTRIBUTE reference_type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_refunds.make_refund_destination_detail_card(
-  "type" TEXT,
+  type TEXT,
   reference TEXT DEFAULT NULL,
   reference_status TEXT DEFAULT NULL,
   reference_type TEXT DEFAULT NULL
@@ -247,7 +247,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", reference, reference_status, reference_type
+    type, reference, reference_status, reference_type
   )::stripe_refunds.refund_destination_detail_card;
 $$;
 
@@ -434,18 +434,18 @@ AS $$
 $$;
 
 ALTER TYPE stripe_refunds.refund_next_action
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE display_details stripe_refunds.refund_next_action_display_detail;
 
 CREATE OR REPLACE FUNCTION stripe_refunds.make_refund_next_action(
-  "type" TEXT,
+  type TEXT,
   display_details stripe_refunds.refund_next_action_display_detail DEFAULT NULL
 )
 RETURNS stripe_refunds.refund_next_action
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type", display_details)::stripe_refunds.refund_next_action;
+  SELECT ROW(type, display_details)::stripe_refunds.refund_next_action;
 $$;
 
 ALTER TYPE stripe_refunds.refund_next_action_display_detail
@@ -481,11 +481,11 @@ AS $$
 $$;
 
 ALTER TYPE stripe_refunds.transfer_reversal
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE transfer JSONB,
   ADD ATTRIBUTE balance_transaction JSONB,
   ADD ATTRIBUTE destination_payment_refund JSONB,
@@ -493,11 +493,11 @@ ALTER TYPE stripe_refunds.transfer_reversal
   ADD ATTRIBUTE source_refund JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_refunds.make_transfer_reversal(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   created BIGINT,
   currency TEXT,
-  "object" TEXT,
+  object TEXT,
   transfer JSONB,
   balance_transaction JSONB DEFAULT NULL,
   destination_payment_refund JSONB DEFAULT NULL,
@@ -509,11 +509,11 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     created,
     currency,
-    "object",
+    object,
     transfer,
     balance_transaction,
     destination_payment_refund,

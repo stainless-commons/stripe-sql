@@ -97,7 +97,7 @@ AS $$
 $$;
 
 CREATE TYPE stripe_internal.page AS (
-  "data" JSONB,
+  data JSONB,
   next_request_options JSONB
 );
 

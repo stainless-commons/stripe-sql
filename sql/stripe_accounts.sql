@@ -1,6 +1,6 @@
 ALTER TYPE stripe_accounts.account
-  ADD ATTRIBUTE "id" TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE id TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE business_profile stripe_accounts.account_business_profile,
   ADD ATTRIBUTE business_type TEXT,
   ADD ATTRIBUTE capabilities stripe_accounts.account_capability,
@@ -14,18 +14,18 @@ ALTER TYPE stripe_accounts.account
   ADD ATTRIBUTE email TEXT,
   ADD ATTRIBUTE external_accounts stripe_accounts.account_external_account,
   ADD ATTRIBUTE future_requirements stripe_accounts.account_future_requirement,
-  ADD ATTRIBUTE "groups" stripe_accounts.account_group,
+  ADD ATTRIBUTE groups stripe_accounts.account_group,
   ADD ATTRIBUTE individual stripe_accounts.account_individual,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE payouts_enabled BOOLEAN,
   ADD ATTRIBUTE requirements stripe_accounts.account_requirement,
   ADD ATTRIBUTE settings JSONB,
   ADD ATTRIBUTE tos_acceptance stripe_accounts.account_tos_acceptance,
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account(
-  "id" TEXT,
-  "object" TEXT,
+  id TEXT,
+  object TEXT,
   business_profile stripe_accounts.account_business_profile DEFAULT NULL,
   business_type TEXT DEFAULT NULL,
   capabilities stripe_accounts.account_capability DEFAULT NULL,
@@ -39,22 +39,22 @@ CREATE OR REPLACE FUNCTION stripe_accounts.make_account(
   email TEXT DEFAULT NULL,
   external_accounts stripe_accounts.account_external_account DEFAULT NULL,
   future_requirements stripe_accounts.account_future_requirement DEFAULT NULL,
-  "groups" stripe_accounts.account_group DEFAULT NULL,
+  groups stripe_accounts.account_group DEFAULT NULL,
   individual stripe_accounts.account_individual DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   payouts_enabled BOOLEAN DEFAULT NULL,
   requirements stripe_accounts.account_requirement DEFAULT NULL,
   settings JSONB DEFAULT NULL,
   tos_acceptance stripe_accounts.account_tos_acceptance DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_accounts.account
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
-    "object",
+    id,
+    object,
     business_profile,
     business_type,
     capabilities,
@@ -68,14 +68,14 @@ AS $$
     email,
     external_accounts,
     future_requirements,
-    "groups",
+    groups,
     individual,
     metadata,
     payouts_enabled,
     requirements,
     settings,
     tos_acceptance,
-    "type"
+    type
   )::stripe_accounts.account;
 $$;
 
@@ -85,7 +85,7 @@ ALTER TYPE stripe_accounts.account_business_profile
   ADD ATTRIBUTE mcc TEXT,
   ADD ATTRIBUTE minority_owned_business_designation TEXT[],
   ADD ATTRIBUTE monthly_estimated_revenue stripe_accounts.account_business_profile_monthly_estimated_revenue,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE product_description TEXT,
   ADD ATTRIBUTE support_address stripe.address,
   ADD ATTRIBUTE support_email TEXT,
@@ -99,7 +99,7 @@ CREATE OR REPLACE FUNCTION stripe_accounts.make_account_business_profile(
   mcc TEXT DEFAULT NULL,
   minority_owned_business_designation TEXT[] DEFAULT NULL,
   monthly_estimated_revenue stripe_accounts.account_business_profile_monthly_estimated_revenue DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   product_description TEXT DEFAULT NULL,
   support_address stripe.address DEFAULT NULL,
   support_email TEXT DEFAULT NULL,
@@ -117,7 +117,7 @@ AS $$
     mcc,
     minority_owned_business_designation,
     monthly_estimated_revenue,
-    "name",
+    name,
     product_description,
     support_address,
     support_email,
@@ -365,7 +365,7 @@ ALTER TYPE stripe_accounts.account_company
   ADD ATTRIBUTE executives_provided BOOLEAN,
   ADD ATTRIBUTE export_license_id TEXT,
   ADD ATTRIBUTE export_purpose_code TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE name_kana TEXT,
   ADD ATTRIBUTE name_kanji TEXT,
   ADD ATTRIBUTE owners_provided BOOLEAN,
@@ -374,7 +374,7 @@ ALTER TYPE stripe_accounts.account_company
   ADD ATTRIBUTE phone TEXT,
   ADD ATTRIBUTE registration_date stripe_accounts.account_company_registration_date,
   ADD ATTRIBUTE representative_declaration stripe_accounts.account_company_representative_declaration,
-  ADD ATTRIBUTE "structure" TEXT,
+  ADD ATTRIBUTE structure TEXT,
   ADD ATTRIBUTE tax_id_provided BOOLEAN,
   ADD ATTRIBUTE tax_id_registrar TEXT,
   ADD ATTRIBUTE vat_id_provided BOOLEAN,
@@ -389,7 +389,7 @@ CREATE OR REPLACE FUNCTION stripe_accounts.make_account_company(
   executives_provided BOOLEAN DEFAULT NULL,
   export_license_id TEXT DEFAULT NULL,
   export_purpose_code TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   name_kana TEXT DEFAULT NULL,
   name_kanji TEXT DEFAULT NULL,
   owners_provided BOOLEAN DEFAULT NULL,
@@ -398,7 +398,7 @@ CREATE OR REPLACE FUNCTION stripe_accounts.make_account_company(
   phone TEXT DEFAULT NULL,
   registration_date stripe_accounts.account_company_registration_date DEFAULT NULL,
   representative_declaration stripe_accounts.account_company_representative_declaration DEFAULT NULL,
-  "structure" TEXT DEFAULT NULL,
+  structure TEXT DEFAULT NULL,
   tax_id_provided BOOLEAN DEFAULT NULL,
   tax_id_registrar TEXT DEFAULT NULL,
   vat_id_provided BOOLEAN DEFAULT NULL,
@@ -417,7 +417,7 @@ AS $$
     executives_provided,
     export_license_id,
     export_purpose_code,
-    "name",
+    name,
     name_kana,
     name_kanji,
     owners_provided,
@@ -426,7 +426,7 @@ AS $$
     phone,
     registration_date,
     representative_declaration,
-    "structure",
+    structure,
     tax_id_provided,
     tax_id_registrar,
     vat_id_provided,
@@ -435,86 +435,84 @@ AS $$
 $$;
 
 ALTER TYPE stripe_accounts.account_company_directorship_declaration
-  ADD ATTRIBUTE "date" BIGINT,
+  ADD ATTRIBUTE date BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_company_directorship_declaration(
-  "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
+  date BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
 RETURNS stripe_accounts.account_company_directorship_declaration
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "date", ip, user_agent
+    date, ip, user_agent
   )::stripe_accounts.account_company_directorship_declaration;
 $$;
 
 ALTER TYPE stripe_accounts.account_company_ownership_declaration
-  ADD ATTRIBUTE "date" BIGINT,
+  ADD ATTRIBUTE date BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_company_ownership_declaration(
-  "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
+  date BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
 RETURNS stripe_accounts.account_company_ownership_declaration
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "date", ip, user_agent
+    date, ip, user_agent
   )::stripe_accounts.account_company_ownership_declaration;
 $$;
 
 ALTER TYPE stripe_accounts.account_company_registration_date
-  ADD ATTRIBUTE "day" BIGINT,
-  ADD ATTRIBUTE "month" BIGINT,
-  ADD ATTRIBUTE "year" BIGINT;
+  ADD ATTRIBUTE day BIGINT,
+  ADD ATTRIBUTE month BIGINT,
+  ADD ATTRIBUTE year BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_company_registration_date(
-  "day" BIGINT DEFAULT NULL,
-  "month" BIGINT DEFAULT NULL,
-  "year" BIGINT DEFAULT NULL
+  day BIGINT DEFAULT NULL, month BIGINT DEFAULT NULL, year BIGINT DEFAULT NULL
 )
 RETURNS stripe_accounts.account_company_registration_date
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "day", "month", "year"
+    day, month, year
   )::stripe_accounts.account_company_registration_date;
 $$;
 
 ALTER TYPE stripe_accounts.account_company_representative_declaration
-  ADD ATTRIBUTE "date" BIGINT,
+  ADD ATTRIBUTE date BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_company_representative_declaration(
-  "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
+  date BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
 RETURNS stripe_accounts.account_company_representative_declaration
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "date", ip, user_agent
+    date, ip, user_agent
   )::stripe_accounts.account_company_representative_declaration;
 $$;
 
 ALTER TYPE stripe_accounts.account_company_verification
-  ADD ATTRIBUTE "document" stripe_accounts.account_company_verification_document;
+  ADD ATTRIBUTE document stripe_accounts.account_company_verification_document;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_company_verification(
-  "document" stripe_accounts.account_company_verification_document
+  document stripe_accounts.account_company_verification_document
 )
 RETURNS stripe_accounts.account_company_verification
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("document")::stripe_accounts.account_company_verification;
+  SELECT ROW(document)::stripe_accounts.account_company_verification;
 $$;
 
 ALTER TYPE stripe_accounts.account_company_verification_document
@@ -539,7 +537,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_accounts.account_controller
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE fees stripe_accounts.account_controller_fee,
   ADD ATTRIBUTE is_controller BOOLEAN,
   ADD ATTRIBUTE losses stripe_accounts.account_controller_loss,
@@ -547,7 +545,7 @@ ALTER TYPE stripe_accounts.account_controller
   ADD ATTRIBUTE stripe_dashboard stripe_accounts.account_controller_stripe_dashboard;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_controller(
-  "type" TEXT,
+  type TEXT,
   fees stripe_accounts.account_controller_fee DEFAULT NULL,
   is_controller BOOLEAN DEFAULT NULL,
   losses stripe_accounts.account_controller_loss DEFAULT NULL,
@@ -559,12 +557,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
-    fees,
-    is_controller,
-    losses,
-    requirement_collection,
-    stripe_dashboard
+    type, fees, is_controller, losses, requirement_collection, stripe_dashboard
   )::stripe_accounts.account_controller;
 $$;
 
@@ -595,33 +588,33 @@ AS $$
 $$;
 
 ALTER TYPE stripe_accounts.account_controller_stripe_dashboard
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_controller_stripe_dashboard(
-  "type" TEXT
+  type TEXT
 )
 RETURNS stripe_accounts.account_controller_stripe_dashboard
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("type")::stripe_accounts.account_controller_stripe_dashboard;
+  SELECT ROW(type)::stripe_accounts.account_controller_stripe_dashboard;
 $$;
 
 ALTER TYPE stripe_accounts.account_external_account
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_external_account(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_accounts.account_external_account
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data", has_more, "object", url
+    data, has_more, object, url
   )::stripe_accounts.account_external_account;
 $$;
 
@@ -675,10 +668,10 @@ AS $$
 $$;
 
 ALTER TYPE stripe_accounts.account_individual
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE account TEXT,
   ADD ATTRIBUTE created BIGINT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE additional_tos_acceptances stripe_accounts.account_individual_additional_tos_acceptance,
   ADD ATTRIBUTE address stripe.address,
   ADD ATTRIBUTE address_kana stripe_accounts.legal_entity_japan_address,
@@ -709,10 +702,10 @@ ALTER TYPE stripe_accounts.account_individual
   ADD ATTRIBUTE verification stripe_accounts.account_individual_verification;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_individual(
-  "id" TEXT,
+  id TEXT,
   account TEXT,
   created BIGINT,
-  "object" TEXT,
+  object TEXT,
   additional_tos_acceptances stripe_accounts.account_individual_additional_tos_acceptance DEFAULT NULL,
   address stripe.address DEFAULT NULL,
   address_kana stripe_accounts.legal_entity_japan_address DEFAULT NULL,
@@ -747,10 +740,10 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     account,
     created,
-    "object",
+    object,
     additional_tos_acceptances,
     address,
     address_kana,
@@ -798,37 +791,35 @@ AS $$
 $$;
 
 ALTER TYPE stripe_accounts.account_individual_additional_tos_acceptance_account
-  ADD ATTRIBUTE "date" BIGINT,
+  ADD ATTRIBUTE date BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_individual_additional_tos_acceptance_account(
-  "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
+  date BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
 RETURNS stripe_accounts.account_individual_additional_tos_acceptance_account
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "date", ip, user_agent
+    date, ip, user_agent
   )::stripe_accounts.account_individual_additional_tos_acceptance_account;
 $$;
 
 ALTER TYPE stripe_accounts.account_individual_dob
-  ADD ATTRIBUTE "day" BIGINT,
-  ADD ATTRIBUTE "month" BIGINT,
-  ADD ATTRIBUTE "year" BIGINT;
+  ADD ATTRIBUTE day BIGINT,
+  ADD ATTRIBUTE month BIGINT,
+  ADD ATTRIBUTE year BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_individual_dob(
-  "day" BIGINT DEFAULT NULL,
-  "month" BIGINT DEFAULT NULL,
-  "year" BIGINT DEFAULT NULL
+  day BIGINT DEFAULT NULL, month BIGINT DEFAULT NULL, year BIGINT DEFAULT NULL
 )
 RETURNS stripe_accounts.account_individual_dob
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("day", "month", "year")::stripe_accounts.account_individual_dob;
+  SELECT ROW(day, month, year)::stripe_accounts.account_individual_dob;
 $$;
 
 ALTER TYPE stripe_accounts.account_individual_future_requirement
@@ -866,7 +857,7 @@ ALTER TYPE stripe_accounts.account_individual_relationship
   ADD ATTRIBUTE director BOOLEAN,
   ADD ATTRIBUTE executive BOOLEAN,
   ADD ATTRIBUTE legal_guardian BOOLEAN,
-  ADD ATTRIBUTE "owner" BOOLEAN,
+  ADD ATTRIBUTE owner BOOLEAN,
   ADD ATTRIBUTE percent_ownership DOUBLE PRECISION,
   ADD ATTRIBUTE representative BOOLEAN,
   ADD ATTRIBUTE title TEXT;
@@ -876,7 +867,7 @@ CREATE OR REPLACE FUNCTION stripe_accounts.make_account_individual_relationship(
   director BOOLEAN DEFAULT NULL,
   executive BOOLEAN DEFAULT NULL,
   legal_guardian BOOLEAN DEFAULT NULL,
-  "owner" BOOLEAN DEFAULT NULL,
+  owner BOOLEAN DEFAULT NULL,
   percent_ownership DOUBLE PRECISION DEFAULT NULL,
   representative BOOLEAN DEFAULT NULL,
   title TEXT DEFAULT NULL
@@ -890,7 +881,7 @@ AS $$
     director,
     executive,
     legal_guardian,
-    "owner",
+    owner,
     percent_ownership,
     representative,
     title
@@ -981,21 +972,21 @@ ALTER TYPE stripe_accounts.account_individual_verification
   ADD ATTRIBUTE additional_document stripe_accounts.account_individual_verification_additional_document,
   ADD ATTRIBUTE details TEXT,
   ADD ATTRIBUTE details_code TEXT,
-  ADD ATTRIBUTE "document" stripe_accounts.account_individual_verification_document;
+  ADD ATTRIBUTE document stripe_accounts.account_individual_verification_document;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_individual_verification(
   status TEXT,
   additional_document stripe_accounts.account_individual_verification_additional_document DEFAULT NULL,
   details TEXT DEFAULT NULL,
   details_code TEXT DEFAULT NULL,
-  "document" stripe_accounts.account_individual_verification_document DEFAULT NULL
+  document stripe_accounts.account_individual_verification_document DEFAULT NULL
 )
 RETURNS stripe_accounts.account_individual_verification
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    status, additional_document, details, details_code, "document"
+    status, additional_document, details, details_code, document
   )::stripe_accounts.account_individual_verification;
 $$;
 
@@ -1078,13 +1069,13 @@ AS $$
 $$;
 
 ALTER TYPE stripe_accounts.account_tos_acceptance
-  ADD ATTRIBUTE "date" BIGINT,
+  ADD ATTRIBUTE date BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE service_agreement TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_tos_acceptance(
-  "date" BIGINT DEFAULT NULL,
+  date BIGINT DEFAULT NULL,
   ip TEXT DEFAULT NULL,
   service_agreement TEXT DEFAULT NULL,
   user_agent TEXT DEFAULT NULL
@@ -1094,7 +1085,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "date", ip, service_agreement, user_agent
+    date, ip, service_agreement, user_agent
   )::stripe_accounts.account_tos_acceptance;
 $$;
 
@@ -1296,19 +1287,19 @@ AS $$
 $$;
 
 ALTER TYPE stripe_accounts.account_settings_card_issuing_tos_acceptance
-  ADD ATTRIBUTE "date" BIGINT,
+  ADD ATTRIBUTE date BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_settings_card_issuing_tos_acceptance(
-  "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
+  date BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
 RETURNS stripe_accounts.account_settings_card_issuing_tos_acceptance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "date", ip, user_agent
+    date, ip, user_agent
   )::stripe_accounts.account_settings_card_issuing_tos_acceptance;
 $$;
 
@@ -1388,19 +1379,19 @@ AS $$
 $$;
 
 ALTER TYPE stripe_accounts.account_settings_treasury_tos_acceptance
-  ADD ATTRIBUTE "date" BIGINT,
+  ADD ATTRIBUTE date BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_account_settings_treasury_tos_acceptance(
-  "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
+  date BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
 RETURNS stripe_accounts.account_settings_treasury_tos_acceptance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "date", ip, user_agent
+    date, ip, user_agent
   )::stripe_accounts.account_settings_treasury_tos_acceptance;
 $$;
 
@@ -1410,7 +1401,7 @@ ALTER TYPE stripe_accounts.legal_entity_japan_address
   ADD ATTRIBUTE line1 TEXT,
   ADD ATTRIBUTE line2 TEXT,
   ADD ATTRIBUTE postal_code TEXT,
-  ADD ATTRIBUTE "state" TEXT,
+  ADD ATTRIBUTE state TEXT,
   ADD ATTRIBUTE town TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_accounts.make_legal_entity_japan_address(
@@ -1419,7 +1410,7 @@ CREATE OR REPLACE FUNCTION stripe_accounts.make_legal_entity_japan_address(
   line1 TEXT DEFAULT NULL,
   line2 TEXT DEFAULT NULL,
   postal_code TEXT DEFAULT NULL,
-  "state" TEXT DEFAULT NULL,
+  state TEXT DEFAULT NULL,
   town TEXT DEFAULT NULL
 )
 RETURNS stripe_accounts.legal_entity_japan_address
@@ -1427,7 +1418,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    city, country, line1, line2, postal_code, "state", town
+    city, country, line1, line2, postal_code, state, town
   )::stripe_accounts.legal_entity_japan_address;
 $$;
 

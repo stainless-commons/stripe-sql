@@ -1,5 +1,5 @@
 ALTER TYPE stripe_disputes.application_fee
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE account JSONB,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE amount_refunded BIGINT,
@@ -8,7 +8,7 @@ ALTER TYPE stripe_disputes.application_fee
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE refunded BOOLEAN,
   ADD ATTRIBUTE refunds stripe_disputes.application_fee_refund,
   ADD ATTRIBUTE balance_transaction JSONB,
@@ -16,7 +16,7 @@ ALTER TYPE stripe_disputes.application_fee
   ADD ATTRIBUTE originating_transaction JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_application_fee(
-  "id" TEXT,
+  id TEXT,
   account JSONB,
   amount BIGINT,
   amount_refunded BIGINT,
@@ -25,7 +25,7 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_application_fee(
   created BIGINT,
   currency TEXT,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   refunded BOOLEAN,
   refunds stripe_disputes.application_fee_refund,
   balance_transaction JSONB DEFAULT NULL,
@@ -37,7 +37,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     account,
     amount,
     amount_refunded,
@@ -46,7 +46,7 @@ AS $$
     created,
     currency,
     livemode,
-    "object",
+    object,
     refunded,
     refunds,
     balance_transaction,
@@ -56,42 +56,38 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.application_fee_refund
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_application_fee_refund(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_disputes.application_fee_refund
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "data", has_more, "object", url
+    data, has_more, object, url
   )::stripe_disputes.application_fee_refund;
 $$;
 
 ALTER TYPE stripe_disputes.application_fee_fee_source
-  ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE charge TEXT,
-  ADD ATTRIBUTE payout TEXT;
+  ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE charge TEXT, ADD ATTRIBUTE payout TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_application_fee_fee_source(
-  "type" TEXT, charge TEXT DEFAULT NULL, payout TEXT DEFAULT NULL
+  type TEXT, charge TEXT DEFAULT NULL, payout TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.application_fee_fee_source
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    "type", charge, payout
-  )::stripe_disputes.application_fee_fee_source;
+  SELECT ROW(type, charge, payout)::stripe_disputes.application_fee_fee_source;
 $$;
 
 ALTER TYPE stripe_disputes.balance_transaction
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE available_on BIGINT,
   ADD ATTRIBUTE balance_type TEXT,
@@ -100,16 +96,16 @@ ALTER TYPE stripe_disputes.balance_transaction
   ADD ATTRIBUTE fee BIGINT,
   ADD ATTRIBUTE fee_details stripe_disputes.balance_transaction_fee_detail[],
   ADD ATTRIBUTE net BIGINT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE reporting_category TEXT,
   ADD ATTRIBUTE status TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE exchange_rate DOUBLE PRECISION,
-  ADD ATTRIBUTE "source" JSONB;
+  ADD ATTRIBUTE source JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_balance_transaction(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   available_on BIGINT,
   balance_type TEXT,
@@ -118,20 +114,20 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_balance_transaction(
   fee BIGINT,
   fee_details stripe_disputes.balance_transaction_fee_detail[],
   net BIGINT,
-  "object" TEXT,
+  object TEXT,
   reporting_category TEXT,
   status TEXT,
-  "type" TEXT,
+  type TEXT,
   description TEXT DEFAULT NULL,
   exchange_rate DOUBLE PRECISION DEFAULT NULL,
-  "source" JSONB DEFAULT NULL
+  source JSONB DEFAULT NULL
 )
 RETURNS stripe_disputes.balance_transaction
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     available_on,
     balance_type,
@@ -140,27 +136,27 @@ AS $$
     fee,
     fee_details,
     net,
-    "object",
+    object,
     reporting_category,
     status,
-    "type",
+    type,
     description,
     exchange_rate,
-    "source"
+    source
   )::stripe_disputes.balance_transaction;
 $$;
 
 ALTER TYPE stripe_disputes.balance_transaction_fee_detail
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE currency TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE application TEXT,
   ADD ATTRIBUTE description TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_balance_transaction_fee_detail(
   amount BIGINT,
   currency TEXT,
-  "type" TEXT,
+  type TEXT,
   application TEXT DEFAULT NULL,
   description TEXT DEFAULT NULL
 )
@@ -169,12 +165,12 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    amount, currency, "type", application, description
+    amount, currency, type, application, description
   )::stripe_disputes.balance_transaction_fee_detail;
 $$;
 
 ALTER TYPE stripe_disputes.charge
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE amount_captured BIGINT,
   ADD ATTRIBUTE amount_refunded BIGINT,
@@ -185,7 +181,7 @@ ALTER TYPE stripe_disputes.charge
   ADD ATTRIBUTE disputed BOOLEAN,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE paid BOOLEAN,
   ADD ATTRIBUTE refunded BOOLEAN,
   ADD ATTRIBUTE status TEXT,
@@ -221,7 +217,7 @@ ALTER TYPE stripe_disputes.charge
   ADD ATTRIBUTE transfer_group TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_charge(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   amount_captured BIGINT,
   amount_refunded BIGINT,
@@ -232,7 +228,7 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_charge(
   disputed BOOLEAN,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   paid BOOLEAN,
   refunded BOOLEAN,
   status TEXT,
@@ -272,7 +268,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     amount_captured,
     amount_refunded,
@@ -283,7 +279,7 @@ AS $$
     disputed,
     livemode,
     metadata,
-    "object",
+    object,
     paid,
     refunded,
     status,
@@ -323,14 +319,14 @@ $$;
 ALTER TYPE stripe_disputes.charge_billing_detail
   ADD ATTRIBUTE address stripe.address,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE phone TEXT,
   ADD ATTRIBUTE tax_id TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_charge_billing_detail(
   address stripe.address DEFAULT NULL,
   email TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL,
   tax_id TEXT DEFAULT NULL
 )
@@ -339,7 +335,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    address, email, "name", phone, tax_id
+    address, email, name, phone, tax_id
   )::stripe_disputes.charge_billing_detail;
 $$;
 
@@ -357,7 +353,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.charge_outcome
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE advice_code TEXT,
   ADD ATTRIBUTE network_advice_code TEXT,
   ADD ATTRIBUTE network_decline_code TEXT,
@@ -365,11 +361,11 @@ ALTER TYPE stripe_disputes.charge_outcome
   ADD ATTRIBUTE reason TEXT,
   ADD ATTRIBUTE risk_level TEXT,
   ADD ATTRIBUTE risk_score BIGINT,
-  ADD ATTRIBUTE "rule" JSONB,
+  ADD ATTRIBUTE rule JSONB,
   ADD ATTRIBUTE seller_message TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_charge_outcome(
-  "type" TEXT,
+  type TEXT,
   advice_code TEXT DEFAULT NULL,
   network_advice_code TEXT DEFAULT NULL,
   network_decline_code TEXT DEFAULT NULL,
@@ -377,7 +373,7 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_charge_outcome(
   reason TEXT DEFAULT NULL,
   risk_level TEXT DEFAULT NULL,
   risk_score BIGINT DEFAULT NULL,
-  "rule" JSONB DEFAULT NULL,
+  rule JSONB DEFAULT NULL,
   seller_message TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.charge_outcome
@@ -385,7 +381,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     advice_code,
     network_advice_code,
     network_decline_code,
@@ -393,38 +389,38 @@ AS $$
     reason,
     risk_level,
     risk_score,
-    "rule",
+    rule,
     seller_message
   )::stripe_disputes.charge_outcome;
 $$;
 
 ALTER TYPE stripe_disputes.charge_radar_option
-  ADD ATTRIBUTE "session" TEXT;
+  ADD ATTRIBUTE session TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_charge_radar_option(
-  "session" TEXT DEFAULT NULL
+  session TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.charge_radar_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("session")::stripe_disputes.charge_radar_option;
+  SELECT ROW(session)::stripe_disputes.charge_radar_option;
 $$;
 
 ALTER TYPE stripe_disputes.charge_refund
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_charge_refund(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_disputes.charge_refund
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("data", has_more, "object", url)::stripe_disputes.charge_refund;
+  SELECT ROW(data, has_more, object, url)::stripe_disputes.charge_refund;
 $$;
 
 ALTER TYPE stripe_disputes.charge_transfer_data
@@ -441,27 +437,27 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.connect_collection_transfer
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE destination JSONB,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT;
+  ADD ATTRIBUTE object TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_connect_collection_transfer(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   currency TEXT,
   destination JSONB,
   livemode BOOLEAN,
-  "object" TEXT
+  object TEXT
 )
 RETURNS stripe_disputes.connect_collection_transfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id", amount, currency, destination, livemode, "object"
+    id, amount, currency, destination, livemode, object
   )::stripe_disputes.connect_collection_transfer;
 $$;
 
@@ -542,15 +538,15 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.customer_cash_balance_transaction
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE customer JSONB,
   ADD ATTRIBUTE ending_balance BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE net_amount BIGINT,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE object TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE adjusted_for_overdraft JSONB,
   ADD ATTRIBUTE applied_to_payment JSONB,
   ADD ATTRIBUTE customer_account TEXT,
@@ -560,15 +556,15 @@ ALTER TYPE stripe_disputes.customer_cash_balance_transaction
   ADD ATTRIBUTE unapplied_from_payment JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_customer_cash_balance_transaction(
-  "id" TEXT,
+  id TEXT,
   created BIGINT,
   currency TEXT,
   customer JSONB,
   ending_balance BIGINT,
   livemode BOOLEAN,
   net_amount BIGINT,
-  "object" TEXT,
-  "type" TEXT,
+  object TEXT,
+  type TEXT,
   adjusted_for_overdraft JSONB DEFAULT NULL,
   applied_to_payment JSONB DEFAULT NULL,
   customer_account TEXT DEFAULT NULL,
@@ -582,15 +578,15 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     created,
     currency,
     customer,
     ending_balance,
     livemode,
     net_amount,
-    "object",
-    "type",
+    object,
+    type,
     adjusted_for_overdraft,
     applied_to_payment,
     customer_account,
@@ -617,7 +613,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.customer_cash_balance_transaction_funded_bank_transfer
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE eu_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_eu_bank_transfer,
   ADD ATTRIBUTE gb_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_gb_bank_transfer,
   ADD ATTRIBUTE jp_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_jp_bank_transfer,
@@ -625,7 +621,7 @@ ALTER TYPE stripe_disputes.customer_cash_balance_transaction_funded_bank_transfe
   ADD ATTRIBUTE us_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_us_bank_transfer;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_customer_cash_balance_transaction_funded_bank_transfer(
-  "type" TEXT,
+  type TEXT,
   eu_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_eu_bank_transfer DEFAULT NULL,
   gb_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_gb_bank_transfer DEFAULT NULL,
   jp_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_jp_bank_transfer DEFAULT NULL,
@@ -637,7 +633,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     eu_bank_transfer,
     gb_bank_transfer,
     jp_bank_transfer,
@@ -719,7 +715,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.dispute
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE balance_transactions JSONB[],
   ADD ATTRIBUTE charge JSONB,
@@ -731,14 +727,14 @@ ALTER TYPE stripe_disputes.dispute
   ADD ATTRIBUTE is_charge_refundable BOOLEAN,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE reason TEXT,
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE payment_intent JSONB,
   ADD ATTRIBUTE payment_method_details stripe_disputes.dispute_payment_method_detail;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_dispute(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   balance_transactions JSONB[],
   charge JSONB,
@@ -750,7 +746,7 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_dispute(
   is_charge_refundable BOOLEAN,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   reason TEXT,
   status TEXT,
   payment_intent JSONB DEFAULT NULL,
@@ -761,7 +757,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     balance_transactions,
     charge,
@@ -773,7 +769,7 @@ AS $$
     is_charge_refundable,
     livemode,
     metadata,
-    "object",
+    object,
     reason,
     status,
     payment_intent,
@@ -953,7 +949,7 @@ ALTER TYPE stripe_disputes.d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping
   ADD ATTRIBUTE line1 TEXT,
   ADD ATTRIBUTE line2 TEXT,
   ADD ATTRIBUTE postal_code TEXT,
-  ADD ATTRIBUTE "state" TEXT;
+  ADD ATTRIBUTE state TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping_address(
   city TEXT DEFAULT NULL,
@@ -961,14 +957,14 @@ CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_c_e_3_prior_undisputed_tr
   line1 TEXT DEFAULT NULL,
   line2 TEXT DEFAULT NULL,
   postal_code TEXT DEFAULT NULL,
-  "state" TEXT DEFAULT NULL
+  state TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping_address
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    city, country, line1, line2, postal_code, "state"
+    city, country, line1, line2, postal_code, state
   )::stripe_disputes.d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping_address;
 $$;
 
@@ -1014,7 +1010,7 @@ ALTER TYPE stripe_disputes.d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_
   ADD ATTRIBUTE line1 TEXT,
   ADD ATTRIBUTE line2 TEXT,
   ADD ATTRIBUTE postal_code TEXT,
-  ADD ATTRIBUTE "state" TEXT;
+  ADD ATTRIBUTE state TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_address(
   city TEXT DEFAULT NULL,
@@ -1022,14 +1018,14 @@ CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_c_evidence_3_disputed_tra
   line1 TEXT DEFAULT NULL,
   line2 TEXT DEFAULT NULL,
   postal_code TEXT DEFAULT NULL,
-  "state" TEXT DEFAULT NULL
+  state TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_address
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    city, country, line1, line2, postal_code, "state"
+    city, country, line1, line2, postal_code, state
   )::stripe_disputes.d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_address;
 $$;
 
@@ -1119,14 +1115,14 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.dispute_payment_method_detail
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE amazon_pay stripe_disputes.dispute_payment_method_detail_amazon_pay,
   ADD ATTRIBUTE card stripe_disputes.dispute_payment_method_detail_card,
   ADD ATTRIBUTE klarna stripe_disputes.dispute_payment_method_detail_klarna,
   ADD ATTRIBUTE paypal stripe_disputes.dispute_payment_method_detail_paypal;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_dispute_payment_method_detail(
-  "type" TEXT,
+  type TEXT,
   amazon_pay stripe_disputes.dispute_payment_method_detail_amazon_pay DEFAULT NULL,
   card stripe_disputes.dispute_payment_method_detail_card DEFAULT NULL,
   klarna stripe_disputes.dispute_payment_method_detail_klarna DEFAULT NULL,
@@ -1137,7 +1133,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", amazon_pay, card, klarna, paypal
+    type, amazon_pay, card, klarna, paypal
   )::stripe_disputes.dispute_payment_method_detail;
 $$;
 
@@ -1205,22 +1201,22 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.fee_refund
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE fee JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE balance_transaction JSONB,
   ADD ATTRIBUTE metadata JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_fee_refund(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   created BIGINT,
   currency TEXT,
   fee JSONB,
-  "object" TEXT,
+  object TEXT,
   balance_transaction JSONB DEFAULT NULL,
   metadata JSONB DEFAULT NULL
 )
@@ -1229,41 +1225,34 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
-    amount,
-    created,
-    currency,
-    fee,
-    "object",
-    balance_transaction,
-    metadata
+    id, amount, created, currency, fee, object, balance_transaction, metadata
   )::stripe_disputes.fee_refund;
 $$;
 
 ALTER TYPE stripe_disputes.file
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE created BIGINT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE purpose TEXT,
-  ADD ATTRIBUTE "size" BIGINT,
+  ADD ATTRIBUTE size BIGINT,
   ADD ATTRIBUTE expires_at BIGINT,
   ADD ATTRIBUTE filename TEXT,
   ADD ATTRIBUTE links stripe_disputes.file_link,
   ADD ATTRIBUTE title TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_file(
-  "id" TEXT,
+  id TEXT,
   created BIGINT,
-  "object" TEXT,
+  object TEXT,
   purpose TEXT,
-  "size" BIGINT,
+  size BIGINT,
   expires_at BIGINT DEFAULT NULL,
   filename TEXT DEFAULT NULL,
   links stripe_disputes.file_link DEFAULT NULL,
   title TEXT DEFAULT NULL,
-  "type" TEXT DEFAULT NULL,
+  type TEXT DEFAULT NULL,
   url TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.file
@@ -1271,55 +1260,55 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     created,
-    "object",
+    object,
     purpose,
-    "size",
+    size,
     expires_at,
     filename,
     links,
     title,
-    "type",
+    type,
     url
   )::stripe_disputes.file;
 $$;
 
 ALTER TYPE stripe_disputes.file_link
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_file_link(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_disputes.file_link
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("data", has_more, "object", url)::stripe_disputes.file_link;
+  SELECT ROW(data, has_more, object, url)::stripe_disputes.file_link;
 $$;
 
 ALTER TYPE stripe_disputes.file_link1
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE expired BOOLEAN,
-  ADD ATTRIBUTE "file" JSONB,
+  ADD ATTRIBUTE file JSONB,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE expires_at BIGINT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_file_link1(
-  "id" TEXT,
+  id TEXT,
   created BIGINT,
   expired BOOLEAN,
-  "file" JSONB,
+  file JSONB,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   expires_at BIGINT DEFAULT NULL,
   url TEXT DEFAULT NULL
 )
@@ -1328,20 +1317,12 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
-    created,
-    expired,
-    "file",
-    livemode,
-    metadata,
-    "object",
-    expires_at,
-    url
+    id, created, expired, file, livemode, metadata, object, expires_at, url
   )::stripe_disputes.file_link1;
 $$;
 
 ALTER TYPE stripe_disputes.issuing_authorization
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE approved BOOLEAN,
   ADD ATTRIBUTE authorization_method TEXT,
@@ -1354,12 +1335,12 @@ ALTER TYPE stripe_disputes.issuing_authorization
   ADD ATTRIBUTE merchant_currency TEXT,
   ADD ATTRIBUTE merchant_data stripe_disputes.issuing_authorization_merchant_data,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE request_history stripe_disputes.issuing_authorization_request_history[],
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE transactions JSONB[],
   ADD ATTRIBUTE verification_data stripe_disputes.issuing_authorization_verification_data,
-  ADD ATTRIBUTE "token" JSONB,
+  ADD ATTRIBUTE token JSONB,
   ADD ATTRIBUTE amount_details stripe_disputes.issuing_authorization_amount_details,
   ADD ATTRIBUTE cardholder JSONB,
   ADD ATTRIBUTE fleet stripe_disputes.issuing_authorization_fleet,
@@ -1372,7 +1353,7 @@ ALTER TYPE stripe_disputes.issuing_authorization
   ADD ATTRIBUTE wallet TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_authorization(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   approved BOOLEAN,
   authorization_method TEXT,
@@ -1385,12 +1366,12 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_authorization(
   merchant_currency TEXT,
   merchant_data stripe_disputes.issuing_authorization_merchant_data,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   request_history stripe_disputes.issuing_authorization_request_history[],
   status TEXT,
   transactions JSONB[],
   verification_data stripe_disputes.issuing_authorization_verification_data,
-  "token" JSONB DEFAULT NULL,
+  token JSONB DEFAULT NULL,
   amount_details stripe_disputes.issuing_authorization_amount_details DEFAULT NULL,
   cardholder JSONB DEFAULT NULL,
   fleet stripe_disputes.issuing_authorization_fleet DEFAULT NULL,
@@ -1407,7 +1388,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     approved,
     authorization_method,
@@ -1420,12 +1401,12 @@ AS $$
     merchant_currency,
     merchant_data,
     metadata,
-    "object",
+    object,
     request_history,
     status,
     transactions,
     verification_data,
-    "token",
+    token,
     amount_details,
     cardholder,
     fleet,
@@ -1445,9 +1426,9 @@ ALTER TYPE stripe_disputes.issuing_authorization_merchant_data
   ADD ATTRIBUTE network_id TEXT,
   ADD ATTRIBUTE city TEXT,
   ADD ATTRIBUTE country TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE postal_code TEXT,
-  ADD ATTRIBUTE "state" TEXT,
+  ADD ATTRIBUTE state TEXT,
   ADD ATTRIBUTE tax_id TEXT,
   ADD ATTRIBUTE terminal_id TEXT,
   ADD ATTRIBUTE url TEXT;
@@ -1458,9 +1439,9 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_authorization_merchant_d
   network_id TEXT,
   city TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   postal_code TEXT DEFAULT NULL,
-  "state" TEXT DEFAULT NULL,
+  state TEXT DEFAULT NULL,
   tax_id TEXT DEFAULT NULL,
   terminal_id TEXT DEFAULT NULL,
   url TEXT DEFAULT NULL
@@ -1475,9 +1456,9 @@ AS $$
     network_id,
     city,
     country,
-    "name",
+    name,
     postal_code,
-    "state",
+    state,
     tax_id,
     terminal_id,
     url
@@ -1566,32 +1547,32 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.i_authorization_verification_data_authentication_exemption
-  ADD ATTRIBUTE claimed_by TEXT, ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE claimed_by TEXT, ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.m_i_authorization_verification_data_authentication_exemption(
-  claimed_by TEXT, "type" TEXT
+  claimed_by TEXT, type TEXT
 )
 RETURNS stripe_disputes.i_authorization_verification_data_authentication_exemption
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    claimed_by, "type"
+    claimed_by, type
   )::stripe_disputes.i_authorization_verification_data_authentication_exemption;
 $$;
 
 ALTER TYPE stripe_disputes.issuing_authorization_verification_data_three_d_secure
-  ADD ATTRIBUTE "result" TEXT;
+  ADD ATTRIBUTE result TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_authorization_verification_data_three_d_secure(
-  "result" TEXT
+  result TEXT
 )
 RETURNS stripe_disputes.issuing_authorization_verification_data_three_d_secure
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "result"
+    result
   )::stripe_disputes.issuing_authorization_verification_data_three_d_secure;
 $$;
 
@@ -1732,14 +1713,14 @@ $$;
 ALTER TYPE stripe_disputes.issuing_authorization_fuel
   ADD ATTRIBUTE industry_product_code TEXT,
   ADD ATTRIBUTE quantity_decimal TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE unit TEXT,
   ADD ATTRIBUTE unit_cost_decimal TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_authorization_fuel(
   industry_product_code TEXT DEFAULT NULL,
   quantity_decimal TEXT DEFAULT NULL,
-  "type" TEXT DEFAULT NULL,
+  type TEXT DEFAULT NULL,
   unit TEXT DEFAULT NULL,
   unit_cost_decimal TEXT DEFAULT NULL
 )
@@ -1748,7 +1729,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    industry_product_code, quantity_decimal, "type", unit, unit_cost_decimal
+    industry_product_code, quantity_decimal, type, unit, unit_cost_decimal
   )::stripe_disputes.issuing_authorization_fuel;
 $$;
 
@@ -1807,19 +1788,17 @@ $$;
 ALTER TYPE stripe_disputes.issuing_authorization_treasury
   ADD ATTRIBUTE received_credits TEXT[],
   ADD ATTRIBUTE received_debits TEXT[],
-  ADD ATTRIBUTE "transaction" TEXT;
+  ADD ATTRIBUTE transaction TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_authorization_treasury(
-  received_credits TEXT[],
-  received_debits TEXT[],
-  "transaction" TEXT DEFAULT NULL
+  received_credits TEXT[], received_debits TEXT[], transaction TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.issuing_authorization_treasury
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    received_credits, received_debits, "transaction"
+    received_credits, received_debits, transaction
   )::stripe_disputes.issuing_authorization_treasury;
 $$;
 
@@ -1839,7 +1818,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.issuing_card
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE brand TEXT,
   ADD ATTRIBUTE cardholder stripe_disputes.issuing_cardholder,
   ADD ATTRIBUTE created BIGINT,
@@ -1849,15 +1828,15 @@ ALTER TYPE stripe_disputes.issuing_card
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE spending_controls stripe_disputes.issuing_card_spending_control,
   ADD ATTRIBUTE status TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE cancellation_reason TEXT,
   ADD ATTRIBUTE cvc TEXT,
   ADD ATTRIBUTE financial_account TEXT,
   ADD ATTRIBUTE latest_fraud_warning stripe_disputes.issuing_card_latest_fraud_warning,
-  ADD ATTRIBUTE "number" TEXT,
+  ADD ATTRIBUTE number TEXT,
   ADD ATTRIBUTE personalization_design JSONB,
   ADD ATTRIBUTE replaced_by JSONB,
   ADD ATTRIBUTE replacement_for JSONB,
@@ -1867,7 +1846,7 @@ ALTER TYPE stripe_disputes.issuing_card
   ADD ATTRIBUTE wallets stripe_disputes.issuing_card_wallet;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_card(
-  "id" TEXT,
+  id TEXT,
   brand TEXT,
   cardholder stripe_disputes.issuing_cardholder,
   created BIGINT,
@@ -1877,15 +1856,15 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_card(
   last4 TEXT,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   spending_controls stripe_disputes.issuing_card_spending_control,
   status TEXT,
-  "type" TEXT,
+  type TEXT,
   cancellation_reason TEXT DEFAULT NULL,
   cvc TEXT DEFAULT NULL,
   financial_account TEXT DEFAULT NULL,
   latest_fraud_warning stripe_disputes.issuing_card_latest_fraud_warning DEFAULT NULL,
-  "number" TEXT DEFAULT NULL,
+  number TEXT DEFAULT NULL,
   personalization_design JSONB DEFAULT NULL,
   replaced_by JSONB DEFAULT NULL,
   replacement_for JSONB DEFAULT NULL,
@@ -1899,7 +1878,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     brand,
     cardholder,
     created,
@@ -1909,15 +1888,15 @@ AS $$
     last4,
     livemode,
     metadata,
-    "object",
+    object,
     spending_controls,
     status,
-    "type",
+    type,
     cancellation_reason,
     cvc,
     financial_account,
     latest_fraud_warning,
-    "number",
+    number,
     personalization_design,
     replaced_by,
     replacement_for,
@@ -1976,25 +1955,25 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.issuing_card_latest_fraud_warning
-  ADD ATTRIBUTE started_at BIGINT, ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE started_at BIGINT, ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_card_latest_fraud_warning(
-  started_at BIGINT DEFAULT NULL, "type" TEXT DEFAULT NULL
+  started_at BIGINT DEFAULT NULL, type TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.issuing_card_latest_fraud_warning
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    started_at, "type"
+    started_at, type
   )::stripe_disputes.issuing_card_latest_fraud_warning;
 $$;
 
 ALTER TYPE stripe_disputes.issuing_card_shipping
   ADD ATTRIBUTE address stripe.address,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE service TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE address_validation stripe_disputes.issuing_card_shipping_address_validation,
   ADD ATTRIBUTE carrier TEXT,
   ADD ATTRIBUTE customs stripe_disputes.issuing_card_shipping_custom,
@@ -2007,9 +1986,9 @@ ALTER TYPE stripe_disputes.issuing_card_shipping
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_card_shipping(
   address stripe.address,
-  "name" TEXT,
+  name TEXT,
   service TEXT,
-  "type" TEXT,
+  type TEXT,
   address_validation stripe_disputes.issuing_card_shipping_address_validation DEFAULT NULL,
   carrier TEXT DEFAULT NULL,
   customs stripe_disputes.issuing_card_shipping_custom DEFAULT NULL,
@@ -2026,9 +2005,9 @@ IMMUTABLE
 AS $$
   SELECT ROW(
     address,
-    "name",
+    name,
     service,
-    "type",
+    type,
     address_validation,
     carrier,
     customs,
@@ -2042,21 +2021,21 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.issuing_card_shipping_address_validation
-  ADD ATTRIBUTE "mode" TEXT,
+  ADD ATTRIBUTE mode TEXT,
   ADD ATTRIBUTE normalized_address stripe.address,
-  ADD ATTRIBUTE "result" TEXT;
+  ADD ATTRIBUTE result TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_card_shipping_address_validation(
-  "mode" TEXT,
+  mode TEXT,
   normalized_address stripe.address DEFAULT NULL,
-  "result" TEXT DEFAULT NULL
+  result TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.issuing_card_shipping_address_validation
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "mode", normalized_address, "result"
+    mode, normalized_address, result
   )::stripe_disputes.issuing_card_shipping_address_validation;
 $$;
 
@@ -2123,16 +2102,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.issuing_cardholder
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE billing stripe_disputes.issuing_cardholder_address,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "name" TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE name TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE requirements stripe_disputes.issuing_cardholder_requirements,
   ADD ATTRIBUTE status TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE company stripe_disputes.issuing_cardholder_company,
   ADD ATTRIBUTE email TEXT,
   ADD ATTRIBUTE individual stripe_disputes.issuing_cardholder_individual,
@@ -2141,16 +2120,16 @@ ALTER TYPE stripe_disputes.issuing_cardholder
   ADD ATTRIBUTE spending_controls stripe_disputes.issuing_cardholder_authorization_controls;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_cardholder(
-  "id" TEXT,
+  id TEXT,
   billing stripe_disputes.issuing_cardholder_address,
   created BIGINT,
   livemode BOOLEAN,
   metadata JSONB,
-  "name" TEXT,
-  "object" TEXT,
+  name TEXT,
+  object TEXT,
   requirements stripe_disputes.issuing_cardholder_requirements,
   status TEXT,
-  "type" TEXT,
+  type TEXT,
   company stripe_disputes.issuing_cardholder_company DEFAULT NULL,
   email TEXT DEFAULT NULL,
   individual stripe_disputes.issuing_cardholder_individual DEFAULT NULL,
@@ -2163,16 +2142,16 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     billing,
     created,
     livemode,
     metadata,
-    "name",
-    "object",
+    name,
+    object,
     requirements,
     status,
-    "type",
+    type,
     company,
     email,
     individual,
@@ -2290,21 +2269,19 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.issuing_cardholder_individual_dob
-  ADD ATTRIBUTE "day" BIGINT,
-  ADD ATTRIBUTE "month" BIGINT,
-  ADD ATTRIBUTE "year" BIGINT;
+  ADD ATTRIBUTE day BIGINT,
+  ADD ATTRIBUTE month BIGINT,
+  ADD ATTRIBUTE year BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_cardholder_individual_dob(
-  "day" BIGINT DEFAULT NULL,
-  "month" BIGINT DEFAULT NULL,
-  "year" BIGINT DEFAULT NULL
+  day BIGINT DEFAULT NULL, month BIGINT DEFAULT NULL, year BIGINT DEFAULT NULL
 )
 RETURNS stripe_disputes.issuing_cardholder_individual_dob
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "day", "month", "year"
+    day, month, year
   )::stripe_disputes.issuing_cardholder_individual_dob;
 $$;
 
@@ -2341,61 +2318,61 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.issuing_cardholder_user_terms_acceptance
-  ADD ATTRIBUTE "date" BIGINT,
+  ADD ATTRIBUTE date BIGINT,
   ADD ATTRIBUTE ip TEXT,
   ADD ATTRIBUTE user_agent TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_cardholder_user_terms_acceptance(
-  "date" BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
+  date BIGINT DEFAULT NULL, ip TEXT DEFAULT NULL, user_agent TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.issuing_cardholder_user_terms_acceptance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "date", ip, user_agent
+    date, ip, user_agent
   )::stripe_disputes.issuing_cardholder_user_terms_acceptance;
 $$;
 
 ALTER TYPE stripe_disputes.issuing_cardholder_verification
-  ADD ATTRIBUTE "document" stripe_disputes.issuing_cardholder_id_document;
+  ADD ATTRIBUTE document stripe_disputes.issuing_cardholder_id_document;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_cardholder_verification(
-  "document" stripe_disputes.issuing_cardholder_id_document DEFAULT NULL
+  document stripe_disputes.issuing_cardholder_id_document DEFAULT NULL
 )
 RETURNS stripe_disputes.issuing_cardholder_verification
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("document")::stripe_disputes.issuing_cardholder_verification;
+  SELECT ROW(document)::stripe_disputes.issuing_cardholder_verification;
 $$;
 
 ALTER TYPE stripe_disputes.issuing_dispute
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE evidence stripe_disputes.issuing_dispute_evidence,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE status TEXT,
-  ADD ATTRIBUTE "transaction" JSONB,
+  ADD ATTRIBUTE transaction JSONB,
   ADD ATTRIBUTE balance_transactions JSONB[],
   ADD ATTRIBUTE loss_reason TEXT,
   ADD ATTRIBUTE treasury stripe_disputes.issuing_dispute_treasury;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_dispute(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   created BIGINT,
   currency TEXT,
   evidence stripe_disputes.issuing_dispute_evidence,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   status TEXT,
-  "transaction" JSONB,
+  transaction JSONB,
   balance_transactions JSONB[] DEFAULT NULL,
   loss_reason TEXT DEFAULT NULL,
   treasury stripe_disputes.issuing_dispute_treasury DEFAULT NULL
@@ -2405,16 +2382,16 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     created,
     currency,
     evidence,
     livemode,
     metadata,
-    "object",
+    object,
     status,
-    "transaction",
+    transaction,
     balance_transactions,
     loss_reason,
     treasury
@@ -2683,7 +2660,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.issuing_transaction
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE card JSONB,
   ADD ATTRIBUTE created BIGINT,
@@ -2693,9 +2670,9 @@ ALTER TYPE stripe_disputes.issuing_transaction
   ADD ATTRIBUTE merchant_currency TEXT,
   ADD ATTRIBUTE merchant_data stripe_disputes.issuing_transaction_merchant_data,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE "type" TEXT,
-  ADD ATTRIBUTE "token" JSONB,
+  ADD ATTRIBUTE object TEXT,
+  ADD ATTRIBUTE type TEXT,
+  ADD ATTRIBUTE token JSONB,
   ADD ATTRIBUTE amount_details stripe_disputes.issuing_transaction_amount_detail,
   ADD ATTRIBUTE "authorization" JSONB,
   ADD ATTRIBUTE balance_transaction JSONB,
@@ -2707,7 +2684,7 @@ ALTER TYPE stripe_disputes.issuing_transaction
   ADD ATTRIBUTE wallet TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_transaction(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   card JSONB,
   created BIGINT,
@@ -2717,9 +2694,9 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_transaction(
   merchant_currency TEXT,
   merchant_data stripe_disputes.issuing_transaction_merchant_data,
   metadata JSONB,
-  "object" TEXT,
-  "type" TEXT,
-  "token" JSONB DEFAULT NULL,
+  object TEXT,
+  type TEXT,
+  token JSONB DEFAULT NULL,
   amount_details stripe_disputes.issuing_transaction_amount_detail DEFAULT NULL,
   "authorization" JSONB DEFAULT NULL,
   balance_transaction JSONB DEFAULT NULL,
@@ -2735,7 +2712,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     card,
     created,
@@ -2745,9 +2722,9 @@ AS $$
     merchant_currency,
     merchant_data,
     metadata,
-    "object",
-    "type",
-    "token",
+    object,
+    type,
+    token,
     amount_details,
     "authorization",
     balance_transaction,
@@ -2766,9 +2743,9 @@ ALTER TYPE stripe_disputes.issuing_transaction_merchant_data
   ADD ATTRIBUTE network_id TEXT,
   ADD ATTRIBUTE city TEXT,
   ADD ATTRIBUTE country TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE postal_code TEXT,
-  ADD ATTRIBUTE "state" TEXT,
+  ADD ATTRIBUTE state TEXT,
   ADD ATTRIBUTE tax_id TEXT,
   ADD ATTRIBUTE terminal_id TEXT,
   ADD ATTRIBUTE url TEXT;
@@ -2779,9 +2756,9 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_transaction_merchant_dat
   network_id TEXT,
   city TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   postal_code TEXT DEFAULT NULL,
-  "state" TEXT DEFAULT NULL,
+  state TEXT DEFAULT NULL,
   tax_id TEXT DEFAULT NULL,
   terminal_id TEXT DEFAULT NULL,
   url TEXT DEFAULT NULL
@@ -2796,9 +2773,9 @@ AS $$
     network_id,
     city,
     country,
-    "name",
+    name,
     postal_code,
-    "state",
+    state,
     tax_id,
     terminal_id,
     url
@@ -3028,14 +3005,14 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.issuing_transaction_purchase_detail_fuel
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE unit TEXT,
   ADD ATTRIBUTE unit_cost_decimal TEXT,
   ADD ATTRIBUTE industry_product_code TEXT,
   ADD ATTRIBUTE quantity_decimal TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_transaction_purchase_detail_fuel(
-  "type" TEXT,
+  type TEXT,
   unit TEXT,
   unit_cost_decimal TEXT,
   industry_product_code TEXT DEFAULT NULL,
@@ -3046,7 +3023,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", unit, unit_cost_decimal, industry_product_code, quantity_decimal
+    type, unit, unit_cost_decimal, industry_product_code, quantity_decimal
   )::stripe_disputes.issuing_transaction_purchase_detail_fuel;
 $$;
 
@@ -3102,7 +3079,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE ach_credit_transfer stripe_disputes.payment_method_details_ach_credit_transfer,
   ADD ATTRIBUTE ach_debit stripe_disputes.payment_method_details_ach_debit,
   ADD ATTRIBUTE acss_debit stripe_disputes.payment_method_details_acss_debit,
@@ -3132,7 +3109,7 @@ ALTER TYPE stripe_disputes.payment_method_details
   ADD ATTRIBUTE klarna stripe_disputes.payment_method_details_klarna,
   ADD ATTRIBUTE konbini stripe_disputes.payment_method_details_konbini,
   ADD ATTRIBUTE kr_card stripe_disputes.payment_method_details_kr_card,
-  ADD ATTRIBUTE "link" stripe_disputes.payment_method_details_link,
+  ADD ATTRIBUTE link stripe_disputes.payment_method_details_link,
   ADD ATTRIBUTE mb_way stripe_disputes.payment_method_details_mb_way,
   ADD ATTRIBUTE mobilepay stripe_disputes.payment_method_details_mobilepay,
   ADD ATTRIBUTE multibanco stripe_disputes.payment_method_details_multibanco,
@@ -3161,7 +3138,7 @@ ALTER TYPE stripe_disputes.payment_method_details
   ADD ATTRIBUTE zip stripe_disputes.payment_method_details_zip;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details(
-  "type" TEXT,
+  type TEXT,
   ach_credit_transfer stripe_disputes.payment_method_details_ach_credit_transfer DEFAULT NULL,
   ach_debit stripe_disputes.payment_method_details_ach_debit DEFAULT NULL,
   acss_debit stripe_disputes.payment_method_details_acss_debit DEFAULT NULL,
@@ -3191,7 +3168,7 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details(
   klarna stripe_disputes.payment_method_details_klarna DEFAULT NULL,
   konbini stripe_disputes.payment_method_details_konbini DEFAULT NULL,
   kr_card stripe_disputes.payment_method_details_kr_card DEFAULT NULL,
-  "link" stripe_disputes.payment_method_details_link DEFAULT NULL,
+  link stripe_disputes.payment_method_details_link DEFAULT NULL,
   mb_way stripe_disputes.payment_method_details_mb_way DEFAULT NULL,
   mobilepay stripe_disputes.payment_method_details_mobilepay DEFAULT NULL,
   multibanco stripe_disputes.payment_method_details_multibanco DEFAULT NULL,
@@ -3224,7 +3201,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     ach_credit_transfer,
     ach_debit,
     acss_debit,
@@ -3254,7 +3231,7 @@ AS $$
     klarna,
     konbini,
     kr_card,
-    "link",
+    link,
     mb_way,
     mobilepay,
     multibanco,
@@ -3364,12 +3341,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_affirm
-  ADD ATTRIBUTE "location" TEXT,
+  ADD ATTRIBUTE location TEXT,
   ADD ATTRIBUTE reader TEXT,
   ADD ATTRIBUTE transaction_id TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_affirm(
-  "location" TEXT DEFAULT NULL,
+  location TEXT DEFAULT NULL,
   reader TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
@@ -3378,7 +3355,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "location", reader, transaction_id
+    location, reader, transaction_id
   )::stripe_disputes.payment_method_details_affirm;
 $$;
 
@@ -3434,16 +3411,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_alma_installment
-  ADD ATTRIBUTE "count" BIGINT;
+  ADD ATTRIBUTE count BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_alma_installment(
-  "count" BIGINT
+  count BIGINT
 )
 RETURNS stripe_disputes.payment_method_details_alma_installment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("count")::stripe_disputes.payment_method_details_alma_installment;
+  SELECT ROW(count)::stripe_disputes.payment_method_details_alma_installment;
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_amazon_pay
@@ -3465,18 +3442,18 @@ $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_amazon_pay_funding
   ADD ATTRIBUTE card stripe.payment_method_details_passthrough_card,
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_amazon_pay_funding(
   card stripe.payment_method_details_passthrough_card DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.payment_method_details_amazon_pay_funding
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    card, "type"
+    card, type
   )::stripe_disputes.payment_method_details_amazon_pay_funding;
 $$;
 
@@ -3696,16 +3673,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_card_installment
-  ADD ATTRIBUTE "plan" stripe.payment_method_details_card_installments_plan;
+  ADD ATTRIBUTE plan stripe.payment_method_details_card_installments_plan;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_card_installment(
-  "plan" stripe.payment_method_details_card_installments_plan DEFAULT NULL
+  plan stripe.payment_method_details_card_installments_plan DEFAULT NULL
 )
 RETURNS stripe_disputes.payment_method_details_card_installment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("plan")::stripe_disputes.payment_method_details_card_installment;
+  SELECT ROW(plan)::stripe_disputes.payment_method_details_card_installment;
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_card_multicapture
@@ -3754,20 +3731,20 @@ ALTER TYPE stripe_disputes.payment_method_details_card_three_d_secure
   ADD ATTRIBUTE electronic_commerce_indicator TEXT,
   ADD ATTRIBUTE exemption_indicator TEXT,
   ADD ATTRIBUTE exemption_indicator_applied BOOLEAN,
-  ADD ATTRIBUTE "result" TEXT,
+  ADD ATTRIBUTE result TEXT,
   ADD ATTRIBUTE result_reason TEXT,
   ADD ATTRIBUTE transaction_id TEXT,
-  ADD ATTRIBUTE "version" TEXT;
+  ADD ATTRIBUTE version TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_card_three_d_secure(
   authentication_flow TEXT DEFAULT NULL,
   electronic_commerce_indicator TEXT DEFAULT NULL,
   exemption_indicator TEXT DEFAULT NULL,
   exemption_indicator_applied BOOLEAN DEFAULT NULL,
-  "result" TEXT DEFAULT NULL,
+  result TEXT DEFAULT NULL,
   result_reason TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL,
-  "version" TEXT DEFAULT NULL
+  version TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.payment_method_details_card_three_d_secure
 LANGUAGE SQL
@@ -3778,31 +3755,31 @@ AS $$
     electronic_commerce_indicator,
     exemption_indicator,
     exemption_indicator_applied,
-    "result",
+    result,
     result_reason,
     transaction_id,
-    "version"
+    version
   )::stripe_disputes.payment_method_details_card_three_d_secure;
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_card_wallet
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE amex_express_checkout stripe_disputes.payment_method_details_card_wallet_amex_express_checkout,
   ADD ATTRIBUTE apple_pay stripe_disputes.payment_method_details_card_wallet_apple_pay,
   ADD ATTRIBUTE dynamic_last4 TEXT,
   ADD ATTRIBUTE google_pay stripe_disputes.payment_method_details_card_wallet_google_pay,
-  ADD ATTRIBUTE "link" stripe_disputes.payment_method_details_card_wallet_link,
+  ADD ATTRIBUTE link stripe_disputes.payment_method_details_card_wallet_link,
   ADD ATTRIBUTE masterpass stripe_disputes.payment_method_details_card_wallet_masterpass,
   ADD ATTRIBUTE samsung_pay stripe_disputes.payment_method_details_card_wallet_samsung_pay,
   ADD ATTRIBUTE visa_checkout stripe_disputes.payment_method_details_card_wallet_visa_checkout;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_card_wallet(
-  "type" TEXT,
+  type TEXT,
   amex_express_checkout stripe_disputes.payment_method_details_card_wallet_amex_express_checkout DEFAULT NULL,
   apple_pay stripe_disputes.payment_method_details_card_wallet_apple_pay DEFAULT NULL,
   dynamic_last4 TEXT DEFAULT NULL,
   google_pay stripe_disputes.payment_method_details_card_wallet_google_pay DEFAULT NULL,
-  "link" stripe_disputes.payment_method_details_card_wallet_link DEFAULT NULL,
+  link stripe_disputes.payment_method_details_card_wallet_link DEFAULT NULL,
   masterpass stripe_disputes.payment_method_details_card_wallet_masterpass DEFAULT NULL,
   samsung_pay stripe_disputes.payment_method_details_card_wallet_samsung_pay DEFAULT NULL,
   visa_checkout stripe_disputes.payment_method_details_card_wallet_visa_checkout DEFAULT NULL
@@ -3812,12 +3789,12 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type",
+    type,
     amex_express_checkout,
     apple_pay,
     dynamic_last4,
     google_pay,
-    "link",
+    link,
     masterpass,
     samsung_pay,
     visa_checkout
@@ -3827,13 +3804,13 @@ $$;
 ALTER TYPE stripe_disputes.payment_method_details_card_wallet_masterpass
   ADD ATTRIBUTE billing_address stripe.address,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE shipping_address stripe.address;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_card_wallet_masterpass(
   billing_address stripe.address DEFAULT NULL,
   email TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   shipping_address stripe.address DEFAULT NULL
 )
 RETURNS stripe_disputes.payment_method_details_card_wallet_masterpass
@@ -3841,20 +3818,20 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    billing_address, email, "name", shipping_address
+    billing_address, email, name, shipping_address
   )::stripe_disputes.payment_method_details_card_wallet_masterpass;
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_card_wallet_visa_checkout
   ADD ATTRIBUTE billing_address stripe.address,
   ADD ATTRIBUTE email TEXT,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE shipping_address stripe.address;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_card_wallet_visa_checkout(
   billing_address stripe.address DEFAULT NULL,
   email TEXT DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   shipping_address stripe.address DEFAULT NULL
 )
 RETURNS stripe_disputes.payment_method_details_card_wallet_visa_checkout
@@ -3862,7 +3839,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    billing_address, email, "name", shipping_address
+    billing_address, email, name, shipping_address
   )::stripe_disputes.payment_method_details_card_wallet_visa_checkout;
 $$;
 
@@ -4146,16 +4123,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_konbini_store
-  ADD ATTRIBUTE "chain" TEXT;
+  ADD ATTRIBUTE chain TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_konbini_store(
-  "chain" TEXT DEFAULT NULL
+  chain TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.payment_method_details_konbini_store
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("chain")::stripe_disputes.payment_method_details_konbini_store;
+  SELECT ROW(chain)::stripe_disputes.payment_method_details_konbini_store;
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_kr_card
@@ -4292,16 +4269,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_oxxo
-  ADD ATTRIBUTE "number" TEXT;
+  ADD ATTRIBUTE number TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_oxxo(
-  "number" TEXT DEFAULT NULL
+  number TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.payment_method_details_oxxo
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("number")::stripe_disputes.payment_method_details_oxxo;
+  SELECT ROW(number)::stripe_disputes.payment_method_details_oxxo;
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_p24
@@ -4339,12 +4316,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_paynow
-  ADD ATTRIBUTE "location" TEXT,
+  ADD ATTRIBUTE location TEXT,
   ADD ATTRIBUTE reader TEXT,
   ADD ATTRIBUTE reference TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_paynow(
-  "location" TEXT DEFAULT NULL,
+  location TEXT DEFAULT NULL,
   reader TEXT DEFAULT NULL,
   reference TEXT DEFAULT NULL
 )
@@ -4353,7 +4330,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "location", reader, reference
+    location, reader, reference
   )::stripe_disputes.payment_method_details_paynow;
 $$;
 
@@ -4468,18 +4445,18 @@ $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_revolut_pay_funding
   ADD ATTRIBUTE card stripe.payment_method_details_passthrough_card,
-  ADD ATTRIBUTE "type" TEXT;
+  ADD ATTRIBUTE type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_revolut_pay_funding(
   card stripe.payment_method_details_passthrough_card DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.payment_method_details_revolut_pay_funding
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    card, "type"
+    card, type
   )::stripe_disputes.payment_method_details_revolut_pay_funding;
 $$;
 
@@ -4565,13 +4542,13 @@ $$;
 
 ALTER TYPE stripe_disputes.payment_method_details_wechat_pay
   ADD ATTRIBUTE fingerprint TEXT,
-  ADD ATTRIBUTE "location" TEXT,
+  ADD ATTRIBUTE location TEXT,
   ADD ATTRIBUTE reader TEXT,
   ADD ATTRIBUTE transaction_id TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payment_method_details_wechat_pay(
   fingerprint TEXT DEFAULT NULL,
-  "location" TEXT DEFAULT NULL,
+  location TEXT DEFAULT NULL,
   reader TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
@@ -4580,7 +4557,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    fingerprint, "location", reader, transaction_id
+    fingerprint, location, reader, transaction_id
   )::stripe_disputes.payment_method_details_wechat_pay;
 $$;
 
@@ -4732,19 +4709,19 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.payout
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE arrival_date BIGINT,
   ADD ATTRIBUTE automatic BOOLEAN,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "method" TEXT,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE method TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE reconciliation_status TEXT,
   ADD ATTRIBUTE source_type TEXT,
   ADD ATTRIBUTE status TEXT,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE application_fee JSONB,
   ADD ATTRIBUTE application_fee_amount BIGINT,
   ADD ATTRIBUTE balance_transaction JSONB,
@@ -4761,19 +4738,19 @@ ALTER TYPE stripe_disputes.payout
   ADD ATTRIBUTE trace_id stripe_disputes.payout_trace_id;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payout(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   arrival_date BIGINT,
   automatic BOOLEAN,
   created BIGINT,
   currency TEXT,
   livemode BOOLEAN,
-  "method" TEXT,
-  "object" TEXT,
+  method TEXT,
+  object TEXT,
   reconciliation_status TEXT,
   source_type TEXT,
   status TEXT,
-  "type" TEXT,
+  type TEXT,
   application_fee JSONB DEFAULT NULL,
   application_fee_amount BIGINT DEFAULT NULL,
   balance_transaction JSONB DEFAULT NULL,
@@ -4794,19 +4771,19 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     arrival_date,
     automatic,
     created,
     currency,
     livemode,
-    "method",
-    "object",
+    method,
+    object,
     reconciliation_status,
     source_type,
     status,
-    "type",
+    type,
     application_fee,
     application_fee_amount,
     balance_transaction,
@@ -4825,51 +4802,51 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.payout_trace_id
-  ADD ATTRIBUTE status TEXT, ADD ATTRIBUTE "value" TEXT;
+  ADD ATTRIBUTE status TEXT, ADD ATTRIBUTE value TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_payout_trace_id(
-  status TEXT, "value" TEXT DEFAULT NULL
+  status TEXT, value TEXT DEFAULT NULL
 )
 RETURNS stripe_disputes.payout_trace_id
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(status, "value")::stripe_disputes.payout_trace_id;
+  SELECT ROW(status, value)::stripe_disputes.payout_trace_id;
 $$;
 
 ALTER TYPE stripe_disputes.topup
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE status TEXT,
   ADD ATTRIBUTE balance_transaction JSONB,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE expected_availability_date BIGINT,
   ADD ATTRIBUTE failure_code TEXT,
   ADD ATTRIBUTE failure_message TEXT,
-  ADD ATTRIBUTE "source" stripe.source,
+  ADD ATTRIBUTE source stripe.source,
   ADD ATTRIBUTE statement_descriptor TEXT,
   ADD ATTRIBUTE transfer_group TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_topup(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   created BIGINT,
   currency TEXT,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   status TEXT,
   balance_transaction JSONB DEFAULT NULL,
   description TEXT DEFAULT NULL,
   expected_availability_date BIGINT DEFAULT NULL,
   failure_code TEXT DEFAULT NULL,
   failure_message TEXT DEFAULT NULL,
-  "source" stripe.source DEFAULT NULL,
+  source stripe.source DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL,
   transfer_group TEXT DEFAULT NULL
 )
@@ -4878,34 +4855,34 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     created,
     currency,
     livemode,
     metadata,
-    "object",
+    object,
     status,
     balance_transaction,
     description,
     expected_availability_date,
     failure_code,
     failure_message,
-    "source",
+    source,
     statement_descriptor,
     transfer_group
   )::stripe_disputes.topup;
 $$;
 
 ALTER TYPE stripe_disputes.transfer
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE amount_reversed BIGINT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE reversals stripe_disputes.transfer_reversal,
   ADD ATTRIBUTE reversed BOOLEAN,
   ADD ATTRIBUTE balance_transaction JSONB,
@@ -4917,14 +4894,14 @@ ALTER TYPE stripe_disputes.transfer
   ADD ATTRIBUTE transfer_group TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_transfer(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   amount_reversed BIGINT,
   created BIGINT,
   currency TEXT,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   reversals stripe_disputes.transfer_reversal,
   reversed BOOLEAN,
   balance_transaction JSONB DEFAULT NULL,
@@ -4940,14 +4917,14 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     amount_reversed,
     created,
     currency,
     livemode,
     metadata,
-    "object",
+    object,
     reversals,
     reversed,
     balance_transaction,
@@ -4961,21 +4938,19 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.transfer_reversal
-  ADD ATTRIBUTE "data" JSONB[],
+  ADD ATTRIBUTE data JSONB[],
   ADD ATTRIBUTE has_more BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE url TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_transfer_reversal(
-  "data" JSONB[], has_more BOOLEAN, "object" TEXT, url TEXT
+  data JSONB[], has_more BOOLEAN, object TEXT, url TEXT
 )
 RETURNS stripe_disputes.transfer_reversal
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(
-    "data", has_more, "object", url
-  )::stripe_disputes.transfer_reversal;
+  SELECT ROW(data, has_more, object, url)::stripe_disputes.transfer_reversal;
 $$;
 
 ALTER TYPE stripe_disputes.evidence
@@ -5262,5 +5237,5 @@ AS $$
     CROSS JOIN stripe_disputes._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_disputes.dispute, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_disputes.dispute, data)).* FROM paginated;
 $$;

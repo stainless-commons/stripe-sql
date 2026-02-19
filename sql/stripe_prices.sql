@@ -1,14 +1,14 @@
 ALTER TYPE stripe_prices.price
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE active BOOLEAN,
   ADD ATTRIBUTE billing_scheme TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE product JSONB,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE currency_options JSONB,
   ADD ATTRIBUTE custom_unit_amount stripe_prices.price_custom_unit_amount,
   ADD ATTRIBUTE lookup_key TEXT,
@@ -22,16 +22,16 @@ ALTER TYPE stripe_prices.price
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_prices.make_price(
-  "id" TEXT,
+  id TEXT,
   active BOOLEAN,
   billing_scheme TEXT,
   created BIGINT,
   currency TEXT,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   product JSONB,
-  "type" TEXT,
+  type TEXT,
   currency_options JSONB DEFAULT NULL,
   custom_unit_amount stripe_prices.price_custom_unit_amount DEFAULT NULL,
   lookup_key TEXT DEFAULT NULL,
@@ -49,16 +49,16 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     active,
     billing_scheme,
     created,
     currency,
     livemode,
     metadata,
-    "object",
+    object,
     product,
-    "type",
+    type,
     currency_options,
     custom_unit_amount,
     lookup_key,
@@ -169,8 +169,8 @@ AS $$
 $$;
 
 ALTER TYPE stripe_prices.product_data
-  ADD ATTRIBUTE "name" TEXT,
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE name TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE active BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE statement_descriptor TEXT,
@@ -178,8 +178,8 @@ ALTER TYPE stripe_prices.product_data
   ADD ATTRIBUTE unit_label TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_prices.make_product_data(
-  "name" TEXT,
-  "id" TEXT DEFAULT NULL,
+  name TEXT,
+  id TEXT DEFAULT NULL,
   active BOOLEAN DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL,
@@ -191,7 +191,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "name", "id", active, metadata, statement_descriptor, tax_code, unit_label
+    name, id, active, metadata, statement_descriptor, tax_code, unit_label
   )::stripe_prices.product_data;
 $$;
 
@@ -388,7 +388,7 @@ CREATE OR REPLACE FUNCTION stripe_prices._list_first_page_py(
   product TEXT DEFAULT NULL,
   recurring stripe_prices.recurring1 DEFAULT NULL,
   starting_after TEXT DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_internal.page
 LANGUAGE plpython3u
@@ -443,7 +443,7 @@ CREATE OR REPLACE FUNCTION stripe_prices._list_first_page(
   product TEXT DEFAULT NULL,
   recurring stripe_prices.recurring1 DEFAULT NULL,
   starting_after TEXT DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_internal.page
 LANGUAGE plpgsql
@@ -462,7 +462,7 @@ AS $$
       product,
       recurring,
       starting_after,
-      "type"
+      type
     );
   END;
 $$;
@@ -514,7 +514,7 @@ CREATE OR REPLACE FUNCTION stripe_prices.list(
   product TEXT DEFAULT NULL,
   recurring stripe_prices.recurring1 DEFAULT NULL,
   starting_after TEXT DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS SETOF stripe_prices.price
 LANGUAGE SQL
@@ -533,7 +533,7 @@ AS $$
       product,
       recurring,
       starting_after,
-      "type"
+      type
     ) AS page
 
     UNION ALL
@@ -543,5 +543,5 @@ AS $$
     CROSS JOIN stripe_prices._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_prices.price, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_prices.price, data)).* FROM paginated;
 $$;

@@ -52,7 +52,7 @@ $$;
 ALTER TYPE stripe.billing_clocks_resource_status_details_advancing_status_details
   ADD ATTRIBUTE target_frozen_time BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe.m_b_clocks_resource_status_details_advancing_status_details(
+CREATE OR REPLACE FUNCTION stripe.mke_blling_clcks_rsource_sttus_details_advancing_status_details(
   target_frozen_time BIGINT
 )
 RETURNS stripe.billing_clocks_resource_status_details_advancing_status_details
@@ -154,19 +154,19 @@ AS $$
   )::stripe.payment_flows_payment_intent_presentment_details;
 $$;
 
-ALTER TYPE stripe.p_flows_private_payment_methods_card_present_common_wallet
+ALTER TYPE stripe.pyment_flows_private_payment_methods_card_present_common_wallet
   ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe.m_p_flows_private_payment_methods_card_present_common_wallet(
+CREATE OR REPLACE FUNCTION stripe.mke_pyment_flws_prvate_pyment_mthods_card_present_common_wallet(
   type TEXT
 )
-RETURNS stripe.p_flows_private_payment_methods_card_present_common_wallet
+RETURNS stripe.pyment_flows_private_payment_methods_card_present_common_wallet
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type
-  )::stripe.p_flows_private_payment_methods_card_present_common_wallet;
+  )::stripe.pyment_flows_private_payment_methods_card_present_common_wallet;
 $$;
 
 ALTER TYPE stripe.payment_method_details_card_installments_plan
@@ -210,7 +210,7 @@ ALTER TYPE stripe.payment_method_details_card_present
   ADD ATTRIBUTE preferred_locales TEXT[],
   ADD ATTRIBUTE read_method TEXT,
   ADD ATTRIBUTE receipt stripe.payment_method_details_card_present_receipt,
-  ADD ATTRIBUTE wallet stripe.p_flows_private_payment_methods_card_present_common_wallet;
+  ADD ATTRIBUTE wallet stripe.pyment_flows_private_payment_methods_card_present_common_wallet;
 
 CREATE OR REPLACE FUNCTION stripe.make_payment_method_details_card_present(
   exp_month BIGINT,
@@ -236,7 +236,7 @@ CREATE OR REPLACE FUNCTION stripe.make_payment_method_details_card_present(
   preferred_locales TEXT[] DEFAULT NULL,
   read_method TEXT DEFAULT NULL,
   receipt stripe.payment_method_details_card_present_receipt DEFAULT NULL,
-  wallet stripe.p_flows_private_payment_methods_card_present_common_wallet DEFAULT NULL
+  wallet stripe.pyment_flows_private_payment_methods_card_present_common_wallet DEFAULT NULL
 )
 RETURNS stripe.payment_method_details_card_present
 LANGUAGE SQL

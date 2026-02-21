@@ -224,7 +224,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_amount_detail_line_item_data
   ADD ATTRIBUTE quantity BIGINT,
   ADD ATTRIBUTE unit_cost BIGINT,
   ADD ATTRIBUTE discount_amount BIGINT,
-  ADD ATTRIBUTE payment_method_options stripe_payment_intents.p_intent_amount_detail_line_item_data_payment_method_option,
+  ADD ATTRIBUTE payment_method_options stripe_payment_intents.pyment_intnt_amount_detail_line_item_data_payment_method_option,
   ADD ATTRIBUTE product_code TEXT,
   ADD ATTRIBUTE tax stripe_payment_intents.payment_intent_amount_detail_line_item_data_tax,
   ADD ATTRIBUTE unit_of_measure TEXT;
@@ -236,7 +236,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_amount_det
   quantity BIGINT,
   unit_cost BIGINT,
   discount_amount BIGINT DEFAULT NULL,
-  payment_method_options stripe_payment_intents.p_intent_amount_detail_line_item_data_payment_method_option DEFAULT NULL,
+  payment_method_options stripe_payment_intents.pyment_intnt_amount_detail_line_item_data_payment_method_option DEFAULT NULL,
   product_code TEXT DEFAULT NULL,
   tax stripe_payment_intents.payment_intent_amount_detail_line_item_data_tax DEFAULT NULL,
   unit_of_measure TEXT DEFAULT NULL
@@ -259,95 +259,95 @@ AS $$
   )::stripe_payment_intents.payment_intent_amount_detail_line_item_data;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_intent_amount_detail_line_item_data_payment_method_option
-  ADD ATTRIBUTE card stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_card,
-  ADD ATTRIBUTE card_present stripe_payment_intents.p_i_a_detail_line_item_data_payment_method_option_card_present,
-  ADD ATTRIBUTE klarna stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_klarna,
-  ADD ATTRIBUTE paypal stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_paypal;
+ALTER TYPE stripe_payment_intents.pyment_intnt_amount_detail_line_item_data_payment_method_option
+  ADD ATTRIBUTE card stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_payment_method_option_card,
+  ADD ATTRIBUTE card_present stripe_payment_intents.pymnt_intnt_amnt_dtil_lne_itm_dta_pyment_mthod_opton_crd_prsent,
+  ADD ATTRIBUTE klarna stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_klarna,
+  ADD ATTRIBUTE paypal stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_paypal;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_amount_detail_line_item_data_payment_method_option(
-  card stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_card DEFAULT NULL,
-  card_present stripe_payment_intents.p_i_a_detail_line_item_data_payment_method_option_card_present DEFAULT NULL,
-  klarna stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_klarna DEFAULT NULL,
-  paypal stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_paypal DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_amunt_dtail_lne_itm_data_payment_method_option(
+  card stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_payment_method_option_card DEFAULT NULL,
+  card_present stripe_payment_intents.pymnt_intnt_amnt_dtil_lne_itm_dta_pyment_mthod_opton_crd_prsent DEFAULT NULL,
+  klarna stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_klarna DEFAULT NULL,
+  paypal stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_paypal DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_intent_amount_detail_line_item_data_payment_method_option
+RETURNS stripe_payment_intents.pyment_intnt_amount_detail_line_item_data_payment_method_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     card, card_present, klarna, paypal
-  )::stripe_payment_intents.p_intent_amount_detail_line_item_data_payment_method_option;
+  )::stripe_payment_intents.pyment_intnt_amount_detail_line_item_data_payment_method_option;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_card
+ALTER TYPE stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_payment_method_option_card
   ADD ATTRIBUTE commodity_code TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_amount_detail_line_item_data_payment_method_option_card(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_opton_crd(
   commodity_code TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_card
+RETURNS stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_payment_method_option_card
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     commodity_code
-  )::stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_card;
+  )::stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_payment_method_option_card;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_a_detail_line_item_data_payment_method_option_card_present
+ALTER TYPE stripe_payment_intents.pymnt_intnt_amnt_dtil_lne_itm_dta_pyment_mthod_opton_crd_prsent
   ADD ATTRIBUTE commodity_code TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_a_d_line_item_data_payment_method_option_card_present(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pymnt_intnt_amnt_dtil_lne_itm_dta_pymnt_mthd_optn_crd_prsnt(
   commodity_code TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_i_a_detail_line_item_data_payment_method_option_card_present
+RETURNS stripe_payment_intents.pymnt_intnt_amnt_dtil_lne_itm_dta_pyment_mthod_opton_crd_prsent
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     commodity_code
-  )::stripe_payment_intents.p_i_a_detail_line_item_data_payment_method_option_card_present;
+  )::stripe_payment_intents.pymnt_intnt_amnt_dtil_lne_itm_dta_pyment_mthod_opton_crd_prsent;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_klarna
+ALTER TYPE stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_klarna
   ADD ATTRIBUTE image_url TEXT,
   ADD ATTRIBUTE product_url TEXT,
   ADD ATTRIBUTE reference TEXT,
   ADD ATTRIBUTE subscription_reference TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_amount_detail_line_item_data_payment_method_option_klarna(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pymnt_intnt_amnt_dtail_lne_itm_dta_pyment_mthod_opton_klrna(
   image_url TEXT DEFAULT NULL,
   product_url TEXT DEFAULT NULL,
   reference TEXT DEFAULT NULL,
   subscription_reference TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_klarna
+RETURNS stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_klarna
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     image_url, product_url, reference, subscription_reference
-  )::stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_klarna;
+  )::stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_klarna;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_paypal
+ALTER TYPE stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_paypal
   ADD ATTRIBUTE category TEXT,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE sold_by TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_amount_detail_line_item_data_payment_method_option_paypal(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pymnt_intnt_amnt_dtail_lne_itm_dta_pyment_mthod_opton_pypal(
   category TEXT DEFAULT NULL,
   description TEXT DEFAULT NULL,
   sold_by TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_paypal
+RETURNS stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_paypal
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     category, description, sold_by
-  )::stripe_payment_intents.p_i_amount_detail_line_item_data_payment_method_option_paypal;
+  )::stripe_payment_intents.pyment_intnt_amunt_dtail_lne_itm_dta_pyment_mthod_option_paypal;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_amount_detail_line_item_data_tax
@@ -471,7 +471,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_next_action
   ADD ATTRIBUTE alipay_handle_redirect stripe_payment_intents.payment_intent_next_action_alipay_handle_redirect,
   ADD ATTRIBUTE boleto_display_details stripe_payment_intents.payment_intent_next_action_boleto_display_detail,
   ADD ATTRIBUTE card_await_notification stripe_payment_intents.payment_intent_next_action_card_await_notification,
-  ADD ATTRIBUTE cashapp_handle_redirect_or_display_qr_code stripe_payment_intents.p_intent_next_action_cashapp_handle_redirect_or_display_qr_code,
+  ADD ATTRIBUTE cashapp_handle_redirect_or_display_qr_code stripe_payment_intents.pyment_intnt_nxt_acton_cshapp_hndle_redirect_or_display_qr_code,
   ADD ATTRIBUTE display_bank_transfer_instructions stripe_payment_intents.payment_intent_next_action_display_bank_transfer_instruction,
   ADD ATTRIBUTE konbini_display_details stripe_payment_intents.payment_intent_next_action_konbini_display_detail,
   ADD ATTRIBUTE multibanco_display_details stripe_payment_intents.payment_intent_next_action_multibanco_display_detail,
@@ -480,7 +480,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_next_action
   ADD ATTRIBUTE pix_display_qr_code stripe_payment_intents.payment_intent_next_action_pix_display_qr_code,
   ADD ATTRIBUTE promptpay_display_qr_code stripe_payment_intents.payment_intent_next_action_promptpay_display_qr_code,
   ADD ATTRIBUTE redirect_to_url stripe_payment_intents.payment_intent_next_action_redirect_to_url,
-  ADD ATTRIBUTE swish_handle_redirect_or_display_qr_code stripe_payment_intents.p_intent_next_action_swish_handle_redirect_or_display_qr_code,
+  ADD ATTRIBUTE swish_handle_redirect_or_display_qr_code stripe_payment_intents.pyment_intnt_nxt_acton_swish_handle_redirect_or_display_qr_code,
   ADD ATTRIBUTE use_stripe_sdk JSONB,
   ADD ATTRIBUTE verify_with_microdeposits stripe_payment_intents.payment_intent_next_action_verify_with_microdeposit,
   ADD ATTRIBUTE wechat_pay_display_qr_code stripe_payment_intents.payment_intent_next_action_wechat_pay_display_qr_code,
@@ -492,7 +492,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_actio
   alipay_handle_redirect stripe_payment_intents.payment_intent_next_action_alipay_handle_redirect DEFAULT NULL,
   boleto_display_details stripe_payment_intents.payment_intent_next_action_boleto_display_detail DEFAULT NULL,
   card_await_notification stripe_payment_intents.payment_intent_next_action_card_await_notification DEFAULT NULL,
-  cashapp_handle_redirect_or_display_qr_code stripe_payment_intents.p_intent_next_action_cashapp_handle_redirect_or_display_qr_code DEFAULT NULL,
+  cashapp_handle_redirect_or_display_qr_code stripe_payment_intents.pyment_intnt_nxt_acton_cshapp_hndle_redirect_or_display_qr_code DEFAULT NULL,
   display_bank_transfer_instructions stripe_payment_intents.payment_intent_next_action_display_bank_transfer_instruction DEFAULT NULL,
   konbini_display_details stripe_payment_intents.payment_intent_next_action_konbini_display_detail DEFAULT NULL,
   multibanco_display_details stripe_payment_intents.payment_intent_next_action_multibanco_display_detail DEFAULT NULL,
@@ -501,7 +501,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_actio
   pix_display_qr_code stripe_payment_intents.payment_intent_next_action_pix_display_qr_code DEFAULT NULL,
   promptpay_display_qr_code stripe_payment_intents.payment_intent_next_action_promptpay_display_qr_code DEFAULT NULL,
   redirect_to_url stripe_payment_intents.payment_intent_next_action_redirect_to_url DEFAULT NULL,
-  swish_handle_redirect_or_display_qr_code stripe_payment_intents.p_intent_next_action_swish_handle_redirect_or_display_qr_code DEFAULT NULL,
+  swish_handle_redirect_or_display_qr_code stripe_payment_intents.pyment_intnt_nxt_acton_swish_handle_redirect_or_display_qr_code DEFAULT NULL,
   use_stripe_sdk JSONB DEFAULT NULL,
   verify_with_microdeposits stripe_payment_intents.payment_intent_next_action_verify_with_microdeposit DEFAULT NULL,
   wechat_pay_display_qr_code stripe_payment_intents.payment_intent_next_action_wechat_pay_display_qr_code DEFAULT NULL,
@@ -594,55 +594,55 @@ AS $$
   )::stripe_payment_intents.payment_intent_next_action_card_await_notification;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_intent_next_action_cashapp_handle_redirect_or_display_qr_code
+ALTER TYPE stripe_payment_intents.pyment_intnt_nxt_acton_cshapp_hndle_redirect_or_display_qr_code
   ADD ATTRIBUTE hosted_instructions_url TEXT,
   ADD ATTRIBUTE mobile_auth_url TEXT,
-  ADD ATTRIBUTE qr_code stripe_payment_intents.p_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code;
+  ADD ATTRIBUTE qr_code stripe_payment_intents.pymnt_intnt_nxt_actn_cshpp_hndle_rdrect_or_dsplay_qr_cde_qr_cde;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_next_action_cashapp_handle_redirect_or_display_qr_code(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pymnt_intnt_nxt_acton_cshapp_hndle_rdirect_or_dsplay_qr_cde(
   hosted_instructions_url TEXT,
   mobile_auth_url TEXT,
-  qr_code stripe_payment_intents.p_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code
+  qr_code stripe_payment_intents.pymnt_intnt_nxt_actn_cshpp_hndle_rdrect_or_dsplay_qr_cde_qr_cde
 )
-RETURNS stripe_payment_intents.p_intent_next_action_cashapp_handle_redirect_or_display_qr_code
+RETURNS stripe_payment_intents.pyment_intnt_nxt_acton_cshapp_hndle_redirect_or_display_qr_code
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     hosted_instructions_url, mobile_auth_url, qr_code
-  )::stripe_payment_intents.p_intent_next_action_cashapp_handle_redirect_or_display_qr_code;
+  )::stripe_payment_intents.pyment_intnt_nxt_acton_cshapp_hndle_redirect_or_display_qr_code;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code
+ALTER TYPE stripe_payment_intents.pymnt_intnt_nxt_actn_cshpp_hndle_rdrect_or_dsplay_qr_cde_qr_cde
   ADD ATTRIBUTE expires_at BIGINT,
   ADD ATTRIBUTE image_url_png TEXT,
   ADD ATTRIBUTE image_url_svg TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_cashapp_handle_redirect_or_display_qr_code_qr_code(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.m_pymnt_intnt_nxt_actn_cshpp_hndle_rdrct_or_dsply_qr_cde_qr_cde(
   expires_at BIGINT, image_url_png TEXT, image_url_svg TEXT
 )
-RETURNS stripe_payment_intents.p_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code
+RETURNS stripe_payment_intents.pymnt_intnt_nxt_actn_cshpp_hndle_rdrect_or_dsplay_qr_cde_qr_cde
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     expires_at, image_url_png, image_url_svg
-  )::stripe_payment_intents.p_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code;
+  )::stripe_payment_intents.pymnt_intnt_nxt_actn_cshpp_hndle_rdrect_or_dsplay_qr_cde_qr_cde;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_display_bank_transfer_instruction
   ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE amount_remaining BIGINT,
   ADD ATTRIBUTE currency TEXT,
-  ADD ATTRIBUTE financial_addresses stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address[],
+  ADD ATTRIBUTE financial_addresses stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrcton_fnancial_addrss[],
   ADD ATTRIBUTE hosted_instructions_url TEXT,
   ADD ATTRIBUTE reference TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_payment_intent_next_action_display_bank_transfer_instruction(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intent_next_action_display_bank_transfer_instruction(
   type TEXT,
   amount_remaining BIGINT DEFAULT NULL,
   currency TEXT DEFAULT NULL,
-  financial_addresses stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address[] DEFAULT NULL,
+  financial_addresses stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrcton_fnancial_addrss[] DEFAULT NULL,
   hosted_instructions_url TEXT DEFAULT NULL,
   reference TEXT DEFAULT NULL
 )
@@ -660,36 +660,36 @@ AS $$
   )::stripe_payment_intents.payment_intent_next_action_display_bank_transfer_instruction;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address
+ALTER TYPE stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrcton_fnancial_addrss
   ADD ATTRIBUTE type TEXT,
-  ADD ATTRIBUTE aba stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address_aba,
-  ADD ATTRIBUTE iban stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_iban,
-  ADD ATTRIBUTE sort_code stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_sort_code,
-  ADD ATTRIBUTE spei stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_spei,
+  ADD ATTRIBUTE aba stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_aba,
+  ADD ATTRIBUTE iban stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_ibn,
+  ADD ATTRIBUTE sort_code stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_srt_cde,
+  ADD ATTRIBUTE spei stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_spi,
   ADD ATTRIBUTE supported_networks TEXT[],
-  ADD ATTRIBUTE swift stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_swift,
-  ADD ATTRIBUTE zengin stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_zengin;
+  ADD ATTRIBUTE swift stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_swft,
+  ADD ATTRIBUTE zengin stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_zngn;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_display_bank_transfer_instruction_financial_address(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss(
   type TEXT,
-  aba stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address_aba DEFAULT NULL,
-  iban stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_iban DEFAULT NULL,
-  sort_code stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_sort_code DEFAULT NULL,
-  spei stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_spei DEFAULT NULL,
+  aba stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_aba DEFAULT NULL,
+  iban stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_ibn DEFAULT NULL,
+  sort_code stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_srt_cde DEFAULT NULL,
+  spei stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_spi DEFAULT NULL,
   supported_networks TEXT[] DEFAULT NULL,
-  swift stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_swift DEFAULT NULL,
-  zengin stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_zengin DEFAULT NULL
+  swift stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_swft DEFAULT NULL,
+  zengin stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_zngn DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address
+RETURNS stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrcton_fnancial_addrss
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type, aba, iban, sort_code, spei, supported_networks, swift, zengin
-  )::stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address;
+  )::stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrcton_fnancial_addrss;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address_aba
+ALTER TYPE stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_aba
   ADD ATTRIBUTE account_holder_address stripe.address,
   ADD ATTRIBUTE account_holder_name TEXT,
   ADD ATTRIBUTE account_number TEXT,
@@ -698,7 +698,7 @@ ALTER TYPE stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_fina
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE routing_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_instruction_financial_address_aba(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_aba(
   account_holder_address stripe.address,
   account_holder_name TEXT,
   account_number TEXT,
@@ -707,7 +707,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_inst
   bank_name TEXT,
   routing_number TEXT
 )
-RETURNS stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address_aba
+RETURNS stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_aba
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -719,10 +719,10 @@ AS $$
     bank_address,
     bank_name,
     routing_number
-  )::stripe_payment_intents.p_i_n_a_display_bank_transfer_instruction_financial_address_aba;
+  )::stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_aba;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_iban
+ALTER TYPE stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_ibn
   ADD ATTRIBUTE account_holder_address stripe.address,
   ADD ATTRIBUTE account_holder_name TEXT,
   ADD ATTRIBUTE bank_address stripe.address,
@@ -730,7 +730,7 @@ ALTER TYPE stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE iban TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_instruction_financial_address_iban(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_ibn(
   account_holder_address stripe.address,
   account_holder_name TEXT,
   bank_address stripe.address,
@@ -738,7 +738,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_inst
   country TEXT,
   iban TEXT
 )
-RETURNS stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_iban
+RETURNS stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_ibn
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -749,24 +749,24 @@ AS $$
     bic,
     country,
     iban
-  )::stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_iban;
+  )::stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_ibn;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_sort_code
+ALTER TYPE stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_srt_cde
   ADD ATTRIBUTE account_holder_address stripe.address,
   ADD ATTRIBUTE account_holder_name TEXT,
   ADD ATTRIBUTE account_number TEXT,
   ADD ATTRIBUTE bank_address stripe.address,
   ADD ATTRIBUTE sort_code TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_b_transfer_instruction_financial_address_sort_code(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_srt_cde(
   account_holder_address stripe.address,
   account_holder_name TEXT,
   account_number TEXT,
   bank_address stripe.address,
   sort_code TEXT
 )
-RETURNS stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_sort_code
+RETURNS stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_srt_cde
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -776,10 +776,10 @@ AS $$
     account_number,
     bank_address,
     sort_code
-  )::stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_sort_code;
+  )::stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_srt_cde;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_spei
+ALTER TYPE stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_spi
   ADD ATTRIBUTE account_holder_address stripe.address,
   ADD ATTRIBUTE account_holder_name TEXT,
   ADD ATTRIBUTE bank_address stripe.address,
@@ -787,7 +787,7 @@ ALTER TYPE stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE clabe TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_instruction_financial_address_spei(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_spi(
   account_holder_address stripe.address,
   account_holder_name TEXT,
   bank_address stripe.address,
@@ -795,7 +795,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_inst
   bank_name TEXT,
   clabe TEXT
 )
-RETURNS stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_spei
+RETURNS stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_spi
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -806,10 +806,10 @@ AS $$
     bank_code,
     bank_name,
     clabe
-  )::stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_spei;
+  )::stripe_payment_intents.pymnt_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_spi;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_swift
+ALTER TYPE stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_swft
   ADD ATTRIBUTE account_holder_address stripe.address,
   ADD ATTRIBUTE account_holder_name TEXT,
   ADD ATTRIBUTE account_number TEXT,
@@ -818,7 +818,7 @@ ALTER TYPE stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE swift_code TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_instruction_financial_address_swift(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_swft(
   account_holder_address stripe.address,
   account_holder_name TEXT,
   account_number TEXT,
@@ -827,7 +827,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_inst
   bank_name TEXT,
   swift_code TEXT
 )
-RETURNS stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_swift
+RETURNS stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_swft
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -839,10 +839,10 @@ AS $$
     bank_address,
     bank_name,
     swift_code
-  )::stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_swift;
+  )::stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_swft;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_zengin
+ALTER TYPE stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_zngn
   ADD ATTRIBUTE account_holder_address stripe.address,
   ADD ATTRIBUTE bank_address stripe.address,
   ADD ATTRIBUTE account_holder_name TEXT,
@@ -853,7 +853,7 @@ ALTER TYPE stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_
   ADD ATTRIBUTE branch_code TEXT,
   ADD ATTRIBUTE branch_name TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_instruction_financial_address_zengin(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_zngn(
   account_holder_address stripe.address,
   bank_address stripe.address,
   account_holder_name TEXT DEFAULT NULL,
@@ -864,7 +864,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_a_d_bank_transfer_inst
   branch_code TEXT DEFAULT NULL,
   branch_name TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_zengin
+RETURNS stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_zngn
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -878,7 +878,7 @@ AS $$
     bank_name,
     branch_code,
     branch_name
-  )::stripe_payment_intents.p_i_n_a_d_bank_transfer_instruction_financial_address_zengin;
+  )::stripe_payment_intents.p_intnt_nxt_actn_dsply_bnk_trnsfr_instrctn_fnncl_addrss_zngn;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_konbini_display_detail
@@ -901,16 +901,16 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_konbini_display_detail_store
-  ADD ATTRIBUTE familymart stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_familymart,
+  ADD ATTRIBUTE familymart stripe_payment_intents.pyment_intnt_nxt_action_konbini_display_detail_store_familymart,
   ADD ATTRIBUTE lawson stripe_payment_intents.payment_intent_next_action_konbini_display_detail_store_lawson,
-  ADD ATTRIBUTE ministop stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_ministop,
-  ADD ATTRIBUTE seicomart stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_seicomart;
+  ADD ATTRIBUTE ministop stripe_payment_intents.pyment_intent_next_action_konbini_display_detail_store_ministop,
+  ADD ATTRIBUTE seicomart stripe_payment_intents.pyment_intnt_next_action_konbini_display_detail_store_seicomart;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_next_action_konbini_display_detail_store(
-  familymart stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_familymart DEFAULT NULL,
+  familymart stripe_payment_intents.pyment_intnt_nxt_action_konbini_display_detail_store_familymart DEFAULT NULL,
   lawson stripe_payment_intents.payment_intent_next_action_konbini_display_detail_store_lawson DEFAULT NULL,
-  ministop stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_ministop DEFAULT NULL,
-  seicomart stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_seicomart DEFAULT NULL
+  ministop stripe_payment_intents.pyment_intent_next_action_konbini_display_detail_store_ministop DEFAULT NULL,
+  seicomart stripe_payment_intents.pyment_intnt_next_action_konbini_display_detail_store_seicomart DEFAULT NULL
 )
 RETURNS stripe_payment_intents.payment_intent_next_action_konbini_display_detail_store
 LANGUAGE SQL
@@ -921,25 +921,25 @@ AS $$
   )::stripe_payment_intents.payment_intent_next_action_konbini_display_detail_store;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_familymart
+ALTER TYPE stripe_payment_intents.pyment_intnt_nxt_action_konbini_display_detail_store_familymart
   ADD ATTRIBUTE payment_code TEXT, ADD ATTRIBUTE confirmation_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_next_action_konbini_display_detail_store_familymart(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_nxt_acton_knbini_dsplay_dtail_store_familymart(
   payment_code TEXT, confirmation_number TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_familymart
+RETURNS stripe_payment_intents.pyment_intnt_nxt_action_konbini_display_detail_store_familymart
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     payment_code, confirmation_number
-  )::stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_familymart;
+  )::stripe_payment_intents.pyment_intnt_nxt_action_konbini_display_detail_store_familymart;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_konbini_display_detail_store_lawson
   ADD ATTRIBUTE payment_code TEXT, ADD ATTRIBUTE confirmation_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_next_action_konbini_display_detail_store_lawson(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_nxt_action_konbini_display_detail_store_lawson(
   payment_code TEXT, confirmation_number TEXT DEFAULT NULL
 )
 RETURNS stripe_payment_intents.payment_intent_next_action_konbini_display_detail_store_lawson
@@ -951,34 +951,34 @@ AS $$
   )::stripe_payment_intents.payment_intent_next_action_konbini_display_detail_store_lawson;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_ministop
+ALTER TYPE stripe_payment_intents.pyment_intent_next_action_konbini_display_detail_store_ministop
   ADD ATTRIBUTE payment_code TEXT, ADD ATTRIBUTE confirmation_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_next_action_konbini_display_detail_store_ministop(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_nxt_acton_knbini_display_detail_store_ministop(
   payment_code TEXT, confirmation_number TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_ministop
+RETURNS stripe_payment_intents.pyment_intent_next_action_konbini_display_detail_store_ministop
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     payment_code, confirmation_number
-  )::stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_ministop;
+  )::stripe_payment_intents.pyment_intent_next_action_konbini_display_detail_store_ministop;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_seicomart
+ALTER TYPE stripe_payment_intents.pyment_intnt_next_action_konbini_display_detail_store_seicomart
   ADD ATTRIBUTE payment_code TEXT, ADD ATTRIBUTE confirmation_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_next_action_konbini_display_detail_store_seicomart(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_nxt_acton_knbini_dsplay_detail_store_seicomart(
   payment_code TEXT, confirmation_number TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_seicomart
+RETURNS stripe_payment_intents.pyment_intnt_next_action_konbini_display_detail_store_seicomart
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     payment_code, confirmation_number
-  )::stripe_payment_intents.p_intent_next_action_konbini_display_detail_store_seicomart;
+  )::stripe_payment_intents.pyment_intnt_next_action_konbini_display_detail_store_seicomart;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_multibanco_display_detail
@@ -1101,38 +1101,38 @@ AS $$
   )::stripe_payment_intents.payment_intent_next_action_redirect_to_url;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_intent_next_action_swish_handle_redirect_or_display_qr_code
+ALTER TYPE stripe_payment_intents.pyment_intnt_nxt_acton_swish_handle_redirect_or_display_qr_code
   ADD ATTRIBUTE hosted_instructions_url TEXT,
-  ADD ATTRIBUTE qr_code stripe_payment_intents.p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code;
+  ADD ATTRIBUTE qr_code stripe_payment_intents.pymnt_intnt_nxt_actn_swsh_hndle_rdirect_or_dsplay_qr_cde_qr_cde;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_next_action_swish_handle_redirect_or_display_qr_code(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_nxt_acton_swsh_hndle_rdirect_or_dsplay_qr_code(
   hosted_instructions_url TEXT,
-  qr_code stripe_payment_intents.p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code
+  qr_code stripe_payment_intents.pymnt_intnt_nxt_actn_swsh_hndle_rdirect_or_dsplay_qr_cde_qr_cde
 )
-RETURNS stripe_payment_intents.p_intent_next_action_swish_handle_redirect_or_display_qr_code
+RETURNS stripe_payment_intents.pyment_intnt_nxt_acton_swish_handle_redirect_or_display_qr_code
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     hosted_instructions_url, qr_code
-  )::stripe_payment_intents.p_intent_next_action_swish_handle_redirect_or_display_qr_code;
+  )::stripe_payment_intents.pyment_intnt_nxt_acton_swish_handle_redirect_or_display_qr_code;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code
+ALTER TYPE stripe_payment_intents.pymnt_intnt_nxt_actn_swsh_hndle_rdirect_or_dsplay_qr_cde_qr_cde
   ADD ATTRIBUTE data TEXT,
   ADD ATTRIBUTE image_url_png TEXT,
   ADD ATTRIBUTE image_url_svg TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.m_pymnt_intnt_nxt_actn_swsh_hndle_rdrct_or_dsply_qr_cde_qr_cde(
   data TEXT, image_url_png TEXT, image_url_svg TEXT
 )
-RETURNS stripe_payment_intents.p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code
+RETURNS stripe_payment_intents.pymnt_intnt_nxt_actn_swsh_hndle_rdirect_or_dsplay_qr_cde_qr_cde
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     data, image_url_png, image_url_svg
-  )::stripe_payment_intents.p_i_n_action_swish_handle_redirect_or_display_qr_code_qr_code;
+  )::stripe_payment_intents.pymnt_intnt_nxt_actn_swsh_hndle_rdirect_or_dsplay_qr_cde_qr_cde;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_next_action_verify_with_microdeposit
@@ -1186,7 +1186,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_next_action_wechat_pay_redirect
   ADD ATTRIBUTE sign TEXT,
   ADD ATTRIBUTE "timestamp" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_payment_intent_next_action_wechat_pay_redirect_to_android_app(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_next_action_wechat_pay_redirect_to_android_app(
   app_id TEXT,
   nonce_str TEXT,
   package TEXT,
@@ -1467,7 +1467,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_acss_debi
   ADD ATTRIBUTE payments_per_period BIGINT,
   ADD ATTRIBUTE purpose TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_payment_method_option_acss_debit_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_pyment_method_option_acss_debit_mandate_option(
   custom_mandate_url TEXT DEFAULT NULL,
   interval_description TEXT DEFAULT NULL,
   payment_schedule TEXT DEFAULT NULL,
@@ -1768,7 +1768,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_bacs_debi
   ADD ATTRIBUTE payments_per_period BIGINT,
   ADD ATTRIBUTE purpose TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_payment_method_option_bacs_debit_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_pyment_method_option_bacs_debit_mandate_option(
   reference_prefix TEXT DEFAULT NULL,
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
@@ -2181,7 +2181,7 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_customer_balance
-  ADD ATTRIBUTE bank_transfer stripe_payment_intents.p_intent_payment_method_option_customer_balance_bank_transfer,
+  ADD ATTRIBUTE bank_transfer stripe_payment_intents.pyment_intnt_pyment_mthod_option_customer_balance_bank_transfer,
   ADD ATTRIBUTE funding_type TEXT,
   ADD ATTRIBUTE setup_future_usage TEXT,
   ADD ATTRIBUTE capture_method TEXT,
@@ -2193,7 +2193,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_customer_
   ADD ATTRIBUTE verification_method TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_payment_method_option_customer_balance(
-  bank_transfer stripe_payment_intents.p_intent_payment_method_option_customer_balance_bank_transfer DEFAULT NULL,
+  bank_transfer stripe_payment_intents.pyment_intnt_pyment_mthod_option_customer_balance_bank_transfer DEFAULT NULL,
   funding_type TEXT DEFAULT NULL,
   setup_future_usage TEXT DEFAULT NULL,
   capture_method TEXT DEFAULT NULL,
@@ -2222,38 +2222,38 @@ AS $$
   )::stripe_payment_intents.payment_intent_payment_method_option_customer_balance;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_intent_payment_method_option_customer_balance_bank_transfer
-  ADD ATTRIBUTE eu_bank_transfer stripe_payment_intents.p_i_p_m_option_customer_balance_bank_transfer_eu_bank_transfer,
+ALTER TYPE stripe_payment_intents.pyment_intnt_pyment_mthod_option_customer_balance_bank_transfer
+  ADD ATTRIBUTE eu_bank_transfer stripe_payment_intents.p_intnt_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr,
   ADD ATTRIBUTE requested_address_types TEXT[],
   ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_payment_method_option_customer_balance_bank_transfer(
-  eu_bank_transfer stripe_payment_intents.p_i_p_m_option_customer_balance_bank_transfer_eu_bank_transfer DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_pyment_mthod_opton_cstomer_blance_bnk_transfer(
+  eu_bank_transfer stripe_payment_intents.p_intnt_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr DEFAULT NULL,
   requested_address_types TEXT[] DEFAULT NULL,
   type TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_intent_payment_method_option_customer_balance_bank_transfer
+RETURNS stripe_payment_intents.pyment_intnt_pyment_mthod_option_customer_balance_bank_transfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     eu_bank_transfer, requested_address_types, type
-  )::stripe_payment_intents.p_intent_payment_method_option_customer_balance_bank_transfer;
+  )::stripe_payment_intents.pyment_intnt_pyment_mthod_option_customer_balance_bank_transfer;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_p_m_option_customer_balance_bank_transfer_eu_bank_transfer
+ALTER TYPE stripe_payment_intents.p_intnt_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr
   ADD ATTRIBUTE country TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_p_m_o_customer_balance_bank_transfer_eu_bank_transfer(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intnt_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr(
   country TEXT
 )
-RETURNS stripe_payment_intents.p_i_p_m_option_customer_balance_bank_transfer_eu_bank_transfer
+RETURNS stripe_payment_intents.p_intnt_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     country
-  )::stripe_payment_intents.p_i_p_m_option_customer_balance_bank_transfer_eu_bank_transfer;
+  )::stripe_payment_intents.p_intnt_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_ep
@@ -3348,7 +3348,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_sepa_debi
   ADD ATTRIBUTE payments_per_period BIGINT,
   ADD ATTRIBUTE purpose TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_payment_method_option_sepa_debit_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_pyment_method_option_sepa_debit_mandate_option(
   reference_prefix TEXT DEFAULT NULL,
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
@@ -3487,8 +3487,8 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_us_bank_account
-  ADD ATTRIBUTE financial_connections stripe_payment_intents.p_i_payment_method_option_us_bank_account_financial_connection,
-  ADD ATTRIBUTE mandate_options stripe_payment_intents.p_intent_payment_method_option_us_bank_account_mandate_option,
+  ADD ATTRIBUTE financial_connections stripe_payment_intents.pymnt_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_cnnection,
+  ADD ATTRIBUTE mandate_options stripe_payment_intents.pyment_intnt_pyment_mthod_option_us_bank_account_mandate_option,
   ADD ATTRIBUTE setup_future_usage TEXT,
   ADD ATTRIBUTE target_date TEXT,
   ADD ATTRIBUTE verification_method TEXT,
@@ -3499,8 +3499,8 @@ ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_us_bank_a
   ADD ATTRIBUTE routing stripe_payment_intents.payment_method_options_card_present_routing;
 
 CREATE OR REPLACE FUNCTION stripe_payment_intents.make_payment_intent_payment_method_option_us_bank_account(
-  financial_connections stripe_payment_intents.p_i_payment_method_option_us_bank_account_financial_connection DEFAULT NULL,
-  mandate_options stripe_payment_intents.p_intent_payment_method_option_us_bank_account_mandate_option DEFAULT NULL,
+  financial_connections stripe_payment_intents.pymnt_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_cnnection DEFAULT NULL,
+  mandate_options stripe_payment_intents.pyment_intnt_pyment_mthod_option_us_bank_account_mandate_option DEFAULT NULL,
   setup_future_usage TEXT DEFAULT NULL,
   target_date TEXT DEFAULT NULL,
   verification_method TEXT DEFAULT NULL,
@@ -3528,43 +3528,43 @@ AS $$
   )::stripe_payment_intents.payment_intent_payment_method_option_us_bank_account;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_payment_method_option_us_bank_account_financial_connection
-  ADD ATTRIBUTE filters stripe_payment_intents.p_i_p_method_option_us_bank_account_financial_connection_filter,
+ALTER TYPE stripe_payment_intents.pymnt_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_cnnection
+  ADD ATTRIBUTE filters stripe_payment_intents.pymnt_intnt_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction_flter,
   ADD ATTRIBUTE permissions TEXT[],
   ADD ATTRIBUTE prefetch TEXT[],
   ADD ATTRIBUTE return_url TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_p_method_option_us_bank_account_financial_connection(
-  filters stripe_payment_intents.p_i_p_method_option_us_bank_account_financial_connection_filter DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pymnt_intnt_pymnt_mthd_optn_us_bnk_accnt_fnancial_cnnection(
+  filters stripe_payment_intents.pymnt_intnt_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction_flter DEFAULT NULL,
   permissions TEXT[] DEFAULT NULL,
   prefetch TEXT[] DEFAULT NULL,
   return_url TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_i_payment_method_option_us_bank_account_financial_connection
+RETURNS stripe_payment_intents.pymnt_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_cnnection
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     filters, permissions, prefetch, return_url
-  )::stripe_payment_intents.p_i_payment_method_option_us_bank_account_financial_connection;
+  )::stripe_payment_intents.pymnt_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_cnnection;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_i_p_method_option_us_bank_account_financial_connection_filter
+ALTER TYPE stripe_payment_intents.pymnt_intnt_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction_flter
   ADD ATTRIBUTE account_subcategories TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_i_p_m_option_us_bank_account_financial_connection_filter(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pymnt_intnt_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnncton_fltr(
   account_subcategories TEXT[] DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_i_p_method_option_us_bank_account_financial_connection_filter
+RETURNS stripe_payment_intents.pymnt_intnt_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction_flter
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     account_subcategories
-  )::stripe_payment_intents.p_i_p_method_option_us_bank_account_financial_connection_filter;
+  )::stripe_payment_intents.pymnt_intnt_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction_flter;
 $$;
 
-ALTER TYPE stripe_payment_intents.p_intent_payment_method_option_us_bank_account_mandate_option
+ALTER TYPE stripe_payment_intents.pyment_intnt_pyment_mthod_option_us_bank_account_mandate_option
   ADD ATTRIBUTE collection_method TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE amount_type TEXT,
@@ -3573,7 +3573,7 @@ ALTER TYPE stripe_payment_intents.p_intent_payment_method_option_us_bank_account
   ADD ATTRIBUTE payments_per_period BIGINT,
   ADD ATTRIBUTE purpose TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_payment_method_option_us_bank_account_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_pyment_intnt_pyment_mthod_opton_us_bnk_accunt_mndate_option(
   collection_method TEXT DEFAULT NULL,
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
@@ -3582,7 +3582,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_intents.m_p_intent_payment_method_opti
   payments_per_period BIGINT DEFAULT NULL,
   purpose TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_intents.p_intent_payment_method_option_us_bank_account_mandate_option
+RETURNS stripe_payment_intents.pyment_intnt_pyment_mthod_option_us_bank_account_mandate_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -3594,7 +3594,7 @@ AS $$
     payment_schedule,
     payments_per_period,
     purpose
-  )::stripe_payment_intents.p_intent_payment_method_option_us_bank_account_mandate_option;
+  )::stripe_payment_intents.pyment_intnt_pyment_mthod_option_us_bank_account_mandate_option;
 $$;
 
 ALTER TYPE stripe_payment_intents.payment_intent_payment_method_option_wechat_pay
@@ -3728,7 +3728,7 @@ ALTER TYPE stripe_payment_intents.payment_intent_payment_method_options_mandate_
   ADD ATTRIBUTE payments_per_period BIGINT,
   ADD ATTRIBUTE purpose TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_intents.m_payment_intent_payment_method_options_mandate_options_payto(
+CREATE OR REPLACE FUNCTION stripe_payment_intents.mke_payment_intent_payment_method_options_mandate_options_payto(
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
   end_date TEXT DEFAULT NULL,

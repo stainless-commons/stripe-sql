@@ -83,12 +83,12 @@ $$;
 
 ALTER TYPE stripe_invoices.billing_bill_resource_invoicing_parents_invoice_parent
   ADD ATTRIBUTE type TEXT,
-  ADD ATTRIBUTE quote_details stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail,
+  ADD ATTRIBUTE quote_details stripe_invoices.blling_bll_rsource_invicing_parents_invoice_parent_quote_detail,
   ADD ATTRIBUTE subscription_details JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_billing_bill_resource_invoicing_parents_invoice_parent(
   type TEXT,
-  quote_details stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail DEFAULT NULL,
+  quote_details stripe_invoices.blling_bll_rsource_invicing_parents_invoice_parent_quote_detail DEFAULT NULL,
   subscription_details JSONB DEFAULT NULL
 )
 RETURNS stripe_invoices.billing_bill_resource_invoicing_parents_invoice_parent
@@ -100,38 +100,38 @@ AS $$
   )::stripe_invoices.billing_bill_resource_invoicing_parents_invoice_parent;
 $$;
 
-ALTER TYPE stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail
+ALTER TYPE stripe_invoices.blling_bll_rsource_invicing_parents_invoice_parent_quote_detail
   ADD ATTRIBUTE quote TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_b_bill_resource_invoicing_parents_invoice_parent_quote_detail(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_blling_bll_rsource_invicing_prents_invice_prent_qote_detail(
   quote TEXT
 )
-RETURNS stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail
+RETURNS stripe_invoices.blling_bll_rsource_invicing_parents_invoice_parent_quote_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     quote
-  )::stripe_invoices.b_bill_resource_invoicing_parents_invoice_parent_quote_detail;
+  )::stripe_invoices.blling_bll_rsource_invicing_parents_invoice_parent_quote_detail;
 $$;
 
-ALTER TYPE stripe_invoices.b_bill_resource_invoicing_parents_invoice_subscription_parent
+ALTER TYPE stripe_invoices.blling_bll_rsource_invicing_parents_invoice_subscription_parent
   ADD ATTRIBUTE subscription JSONB,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE subscription_proration_date BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_b_bill_resource_invoicing_parents_invoice_subscription_parent(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_blling_bll_rsource_invicing_prents_invice_sbscription_prent(
   subscription JSONB,
   metadata JSONB DEFAULT NULL,
   subscription_proration_date BIGINT DEFAULT NULL
 )
-RETURNS stripe_invoices.b_bill_resource_invoicing_parents_invoice_subscription_parent
+RETURNS stripe_invoices.blling_bll_rsource_invicing_parents_invoice_subscription_parent
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     subscription, metadata, subscription_proration_date
-  )::stripe_invoices.b_bill_resource_invoicing_parents_invoice_subscription_parent;
+  )::stripe_invoices.blling_bll_rsource_invicing_parents_invoice_subscription_parent;
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_balance_transaction
@@ -320,19 +320,19 @@ AS $$
   )::stripe_invoices.billing_credit_grants_resource_balance_credit;
 $$;
 
-ALTER TYPE stripe_invoices.b_c_grants_resource_balance_credits_application_invoice_voided
+ALTER TYPE stripe_invoices.bllng_crdit_grnts_rsource_blance_crdits_applcation_invice_vided
   ADD ATTRIBUTE invoice JSONB, ADD ATTRIBUTE invoice_line_item TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_b_c_g_resource_balance_credits_application_invoice_voided(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_bllng_crdt_grnts_rsurce_blnce_crdts_applcation_invice_vided(
   invoice JSONB, invoice_line_item TEXT
 )
-RETURNS stripe_invoices.b_c_grants_resource_balance_credits_application_invoice_voided
+RETURNS stripe_invoices.bllng_crdit_grnts_rsource_blance_crdits_applcation_invice_vided
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     invoice, invoice_line_item
-  )::stripe_invoices.b_c_grants_resource_balance_credits_application_invoice_voided;
+  )::stripe_invoices.bllng_crdit_grnts_rsource_blance_crdits_applcation_invice_vided;
 $$;
 
 ALTER TYPE stripe_invoices.billing_credit_grants_resource_balance_credits_applied
@@ -791,11 +791,11 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.invoice_payment_setting_payment_method_option_acss_debit
-  ADD ATTRIBUTE mandate_options stripe_invoices.i_p_setting_payment_method_option_acss_debit_mandate_option,
+  ADD ATTRIBUTE mandate_options stripe_invoices.invice_pyment_stting_pyment_mthod_opton_acss_dbit_mndate_option,
   ADD ATTRIBUTE verification_method TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice_payment_setting_payment_method_option_acss_debit(
-  mandate_options stripe_invoices.i_p_setting_payment_method_option_acss_debit_mandate_option DEFAULT NULL,
+  mandate_options stripe_invoices.invice_pyment_stting_pyment_mthod_opton_acss_dbit_mndate_option DEFAULT NULL,
   verification_method TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.invoice_payment_setting_payment_method_option_acss_debit
@@ -807,19 +807,19 @@ AS $$
   )::stripe_invoices.invoice_payment_setting_payment_method_option_acss_debit;
 $$;
 
-ALTER TYPE stripe_invoices.i_p_setting_payment_method_option_acss_debit_mandate_option
+ALTER TYPE stripe_invoices.invice_pyment_stting_pyment_mthod_opton_acss_dbit_mndate_option
   ADD ATTRIBUTE transaction_type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_i_p_setting_payment_method_option_acss_debit_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_invce_pymnt_sttng_pyment_mthod_opton_acss_dbit_mndate_opton(
   transaction_type TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.i_p_setting_payment_method_option_acss_debit_mandate_option
+RETURNS stripe_invoices.invice_pyment_stting_pyment_mthod_opton_acss_dbit_mndate_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     transaction_type
-  )::stripe_invoices.i_p_setting_payment_method_option_acss_debit_mandate_option;
+  )::stripe_invoices.invice_pyment_stting_pyment_mthod_opton_acss_dbit_mndate_option;
 $$;
 
 ALTER TYPE stripe_invoices.invoice_payment_setting_payment_method_option_bancontact
@@ -857,7 +857,7 @@ $$;
 ALTER TYPE stripe_invoices.invoice_payment_setting_payment_method_option_card_installment
   ADD ATTRIBUTE enabled BOOLEAN;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_i_payment_setting_payment_method_option_card_installment(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_invice_pyment_stting_payment_method_option_card_installment(
   enabled BOOLEAN DEFAULT NULL
 )
 RETURNS stripe_invoices.invoice_payment_setting_payment_method_option_card_installment
@@ -870,11 +870,11 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.invoice_payment_setting_payment_method_option_customer_balance
-  ADD ATTRIBUTE bank_transfer stripe_invoices.i_p_s_payment_method_option_customer_balance_bank_transfer,
+  ADD ATTRIBUTE bank_transfer stripe_invoices.invce_pymnt_sttng_pyment_mthod_opton_cstomer_blance_bnk_trnsfer,
   ADD ATTRIBUTE funding_type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_i_payment_setting_payment_method_option_customer_balance(
-  bank_transfer stripe_invoices.i_p_s_payment_method_option_customer_balance_bank_transfer DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_invice_pyment_stting_payment_method_option_customer_balance(
+  bank_transfer stripe_invoices.invce_pymnt_sttng_pyment_mthod_opton_cstomer_blance_bnk_trnsfer DEFAULT NULL,
   funding_type TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.invoice_payment_setting_payment_method_option_customer_balance
@@ -886,43 +886,43 @@ AS $$
   )::stripe_invoices.invoice_payment_setting_payment_method_option_customer_balance;
 $$;
 
-ALTER TYPE stripe_invoices.i_p_s_payment_method_option_customer_balance_bank_transfer
-  ADD ATTRIBUTE eu_bank_transfer stripe_invoices.i_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer,
+ALTER TYPE stripe_invoices.invce_pymnt_sttng_pyment_mthod_opton_cstomer_blance_bnk_trnsfer
+  ADD ATTRIBUTE eu_bank_transfer stripe_invoices.i_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr,
   ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_i_p_s_payment_method_option_customer_balance_bank_transfer(
-  eu_bank_transfer stripe_invoices.i_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_invce_pymnt_sttng_pymnt_mthd_optn_cstmer_blance_bnk_trnsfer(
+  eu_bank_transfer stripe_invoices.i_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr DEFAULT NULL,
   type TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.i_p_s_payment_method_option_customer_balance_bank_transfer
+RETURNS stripe_invoices.invce_pymnt_sttng_pyment_mthod_opton_cstomer_blance_bnk_trnsfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     eu_bank_transfer, type
-  )::stripe_invoices.i_p_s_payment_method_option_customer_balance_bank_transfer;
+  )::stripe_invoices.invce_pymnt_sttng_pyment_mthod_opton_cstomer_blance_bnk_trnsfer;
 $$;
 
-ALTER TYPE stripe_invoices.i_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer
+ALTER TYPE stripe_invoices.i_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr
   ADD ATTRIBUTE country TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_i_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_i_p_s_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr(
   country TEXT
 )
-RETURNS stripe_invoices.i_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer
+RETURNS stripe_invoices.i_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     country
-  )::stripe_invoices.i_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer;
+  )::stripe_invoices.i_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr;
 $$;
 
 ALTER TYPE stripe_invoices.invoice_payment_setting_payment_method_option_payto
-  ADD ATTRIBUTE mandate_options stripe_invoices.i_payment_setting_payment_method_option_payto_mandate_option;
+  ADD ATTRIBUTE mandate_options stripe_invoices.invice_pyment_stting_payment_method_option_payto_mandate_option;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_invoice_payment_setting_payment_method_option_payto(
-  mandate_options stripe_invoices.i_payment_setting_payment_method_option_payto_mandate_option DEFAULT NULL
+  mandate_options stripe_invoices.invice_pyment_stting_payment_method_option_payto_mandate_option DEFAULT NULL
 )
 RETURNS stripe_invoices.invoice_payment_setting_payment_method_option_payto
 LANGUAGE SQL
@@ -933,31 +933,31 @@ AS $$
   )::stripe_invoices.invoice_payment_setting_payment_method_option_payto;
 $$;
 
-ALTER TYPE stripe_invoices.i_payment_setting_payment_method_option_payto_mandate_option
+ALTER TYPE stripe_invoices.invice_pyment_stting_payment_method_option_payto_mandate_option
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE amount_type TEXT,
   ADD ATTRIBUTE purpose TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_i_payment_setting_payment_method_option_payto_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_invice_pyment_stting_pyment_mthod_opton_pyto_mandate_option(
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
   purpose TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.i_payment_setting_payment_method_option_payto_mandate_option
+RETURNS stripe_invoices.invice_pyment_stting_payment_method_option_payto_mandate_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     amount, amount_type, purpose
-  )::stripe_invoices.i_payment_setting_payment_method_option_payto_mandate_option;
+  )::stripe_invoices.invice_pyment_stting_payment_method_option_payto_mandate_option;
 $$;
 
 ALTER TYPE stripe_invoices.invoice_payment_setting_payment_method_option_us_bank_account
-  ADD ATTRIBUTE financial_connections stripe_invoices.i_p_s_p_method_option_us_bank_account_financial_connection,
+  ADD ATTRIBUTE financial_connections stripe_invoices.invce_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction,
   ADD ATTRIBUTE verification_method TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_invoice_payment_setting_payment_method_option_us_bank_account(
-  financial_connections stripe_invoices.i_p_s_p_method_option_us_bank_account_financial_connection DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_invice_pyment_setting_payment_method_option_us_bank_account(
+  financial_connections stripe_invoices.invce_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction DEFAULT NULL,
   verification_method TEXT DEFAULT NULL
 )
 RETURNS stripe_invoices.invoice_payment_setting_payment_method_option_us_bank_account
@@ -969,38 +969,38 @@ AS $$
   )::stripe_invoices.invoice_payment_setting_payment_method_option_us_bank_account;
 $$;
 
-ALTER TYPE stripe_invoices.i_p_s_p_method_option_us_bank_account_financial_connection
-  ADD ATTRIBUTE filters stripe_invoices.i_p_s_p_m_option_us_bank_account_financial_connection_filter,
+ALTER TYPE stripe_invoices.invce_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction
+  ADD ATTRIBUTE filters stripe_invoices.i_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr,
   ADD ATTRIBUTE permissions TEXT[],
   ADD ATTRIBUTE prefetch TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_i_p_s_p_method_option_us_bank_account_financial_connection(
-  filters stripe_invoices.i_p_s_p_m_option_us_bank_account_financial_connection_filter DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_invce_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn(
+  filters stripe_invoices.i_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr DEFAULT NULL,
   permissions TEXT[] DEFAULT NULL,
   prefetch TEXT[] DEFAULT NULL
 )
-RETURNS stripe_invoices.i_p_s_p_method_option_us_bank_account_financial_connection
+RETURNS stripe_invoices.invce_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     filters, permissions, prefetch
-  )::stripe_invoices.i_p_s_p_method_option_us_bank_account_financial_connection;
+  )::stripe_invoices.invce_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncial_cnnction;
 $$;
 
-ALTER TYPE stripe_invoices.i_p_s_p_m_option_us_bank_account_financial_connection_filter
+ALTER TYPE stripe_invoices.i_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr
   ADD ATTRIBUTE account_subcategories TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_i_p_s_p_m_option_us_bank_account_financial_connection_filter(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_i_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr(
   account_subcategories TEXT[] DEFAULT NULL
 )
-RETURNS stripe_invoices.i_p_s_p_m_option_us_bank_account_financial_connection_filter
+RETURNS stripe_invoices.i_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     account_subcategories
-  )::stripe_invoices.i_p_s_p_m_option_us_bank_account_financial_connection_filter;
+  )::stripe_invoices.i_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr;
 $$;
 
 ALTER TYPE stripe_invoices.invoice_status_transition
@@ -1460,10 +1460,10 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.line_item_parent_invoice_item_detail_proration_detail
-  ADD ATTRIBUTE credited_items stripe_invoices.l_i_parent_invoice_item_detail_proration_detail_credited_item;
+  ADD ATTRIBUTE credited_items stripe_invoices.lne_itm_prent_invice_item_detail_proration_detail_credited_item;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item_parent_invoice_item_detail_proration_detail(
-  credited_items stripe_invoices.l_i_parent_invoice_item_detail_proration_detail_credited_item DEFAULT NULL
+  credited_items stripe_invoices.lne_itm_prent_invice_item_detail_proration_detail_credited_item DEFAULT NULL
 )
 RETURNS stripe_invoices.line_item_parent_invoice_item_detail_proration_detail
 LANGUAGE SQL
@@ -1474,19 +1474,19 @@ AS $$
   )::stripe_invoices.line_item_parent_invoice_item_detail_proration_detail;
 $$;
 
-ALTER TYPE stripe_invoices.l_i_parent_invoice_item_detail_proration_detail_credited_item
+ALTER TYPE stripe_invoices.lne_itm_prent_invice_item_detail_proration_detail_credited_item
   ADD ATTRIBUTE invoice TEXT, ADD ATTRIBUTE invoice_line_items TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_l_i_parent_invoice_item_detail_proration_detail_credited_item(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_lne_itm_prent_invice_itm_dtail_prration_dtail_credited_item(
   invoice TEXT, invoice_line_items TEXT[]
 )
-RETURNS stripe_invoices.l_i_parent_invoice_item_detail_proration_detail_credited_item
+RETURNS stripe_invoices.lne_itm_prent_invice_item_detail_proration_detail_credited_item
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     invoice, invoice_line_items
-  )::stripe_invoices.l_i_parent_invoice_item_detail_proration_detail_credited_item;
+  )::stripe_invoices.lne_itm_prent_invice_item_detail_proration_detail_credited_item;
 $$;
 
 ALTER TYPE stripe_invoices.line_item_parent_subscription_item_detail
@@ -1513,10 +1513,10 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoices.line_item_parent_subscription_item_detail_proration_detail
-  ADD ATTRIBUTE credited_items stripe_invoices.l_i_p_subscription_item_detail_proration_detail_credited_item;
+  ADD ATTRIBUTE credited_items stripe_invoices.lne_itm_prent_sbscription_itm_dtail_prration_dtail_crdited_item;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_line_item_parent_subscription_item_detail_proration_detail(
-  credited_items stripe_invoices.l_i_p_subscription_item_detail_proration_detail_credited_item DEFAULT NULL
+  credited_items stripe_invoices.lne_itm_prent_sbscription_itm_dtail_prration_dtail_crdited_item DEFAULT NULL
 )
 RETURNS stripe_invoices.line_item_parent_subscription_item_detail_proration_detail
 LANGUAGE SQL
@@ -1527,19 +1527,19 @@ AS $$
   )::stripe_invoices.line_item_parent_subscription_item_detail_proration_detail;
 $$;
 
-ALTER TYPE stripe_invoices.l_i_p_subscription_item_detail_proration_detail_credited_item
+ALTER TYPE stripe_invoices.lne_itm_prent_sbscription_itm_dtail_prration_dtail_crdited_item
   ADD ATTRIBUTE invoice TEXT, ADD ATTRIBUTE invoice_line_items TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_l_i_p_subscription_item_detail_proration_detail_credited_item(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_lne_itm_prnt_sbscrption_itm_dtil_prration_dtail_crdited_itm(
   invoice TEXT, invoice_line_items TEXT[]
 )
-RETURNS stripe_invoices.l_i_p_subscription_item_detail_proration_detail_credited_item
+RETURNS stripe_invoices.lne_itm_prent_sbscription_itm_dtail_prration_dtail_crdited_item
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     invoice, invoice_line_items
-  )::stripe_invoices.l_i_p_subscription_item_detail_proration_detail_credited_item;
+  )::stripe_invoices.lne_itm_prent_sbscription_itm_dtail_prration_dtail_crdited_item;
 $$;
 
 ALTER TYPE stripe_invoices.line_item_pricing
@@ -1934,7 +1934,7 @@ ALTER TYPE stripe_invoices.payment_method_card_present
   ADD ATTRIBUTE offline stripe.payment_method_details_card_present_offline,
   ADD ATTRIBUTE preferred_locales TEXT[],
   ADD ATTRIBUTE read_method TEXT,
-  ADD ATTRIBUTE wallet stripe.p_flows_private_payment_methods_card_present_common_wallet;
+  ADD ATTRIBUTE wallet stripe.pyment_flows_private_payment_methods_card_present_common_wallet;
 
 CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_card_present(
   exp_month BIGINT,
@@ -1952,7 +1952,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_method_card_present(
   offline stripe.payment_method_details_card_present_offline DEFAULT NULL,
   preferred_locales TEXT[] DEFAULT NULL,
   read_method TEXT DEFAULT NULL,
-  wallet stripe.p_flows_private_payment_methods_card_present_common_wallet DEFAULT NULL
+  wallet stripe.pyment_flows_private_payment_methods_card_present_common_wallet DEFAULT NULL
 )
 RETURNS stripe_invoices.payment_method_card_present
 LANGUAGE SQL
@@ -2857,131 +2857,131 @@ AS $$
   )::stripe_invoices.payments_primitives_payment_records_resource_amount;
 $$;
 
-ALTER TYPE stripe_invoices.p_primitives_payment_records_resource_payment_method_details
+ALTER TYPE stripe_invoices.pyments_prmitives_pyment_rcords_resource_payment_method_details
   ADD ATTRIBUTE type TEXT,
-  ADD ATTRIBUTE ach_credit_transfer stripe_invoices.p_p_p_r_resource_payment_method_details_ach_credit_transfer,
-  ADD ATTRIBUTE ach_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_ach_debit,
-  ADD ATTRIBUTE acss_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_acss_debit,
-  ADD ATTRIBUTE affirm stripe_invoices.p_p_payment_records_resource_payment_method_details_affirm,
-  ADD ATTRIBUTE afterpay_clearpay stripe_invoices.p_p_p_records_resource_payment_method_details_afterpay_clearpay,
-  ADD ATTRIBUTE alipay stripe_invoices.p_p_payment_records_resource_payment_method_details_alipay,
-  ADD ATTRIBUTE alma stripe_invoices.p_p_payment_records_resource_payment_method_details_alma,
-  ADD ATTRIBUTE amazon_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_amazon_pay,
-  ADD ATTRIBUTE au_becs_debit stripe_invoices.p_p_p_records_resource_payment_method_details_au_becs_debit,
-  ADD ATTRIBUTE bacs_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_bacs_debit,
+  ADD ATTRIBUTE ach_credit_transfer stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_ach_crdt_trnsfr,
+  ADD ATTRIBUTE ach_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_ach_dbit,
+  ADD ATTRIBUTE acss_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_acss_dbit,
+  ADD ATTRIBUTE affirm stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_affrm,
+  ADD ATTRIBUTE afterpay_clearpay stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_aftrpy_clrpay,
+  ADD ATTRIBUTE alipay stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_alpay,
+  ADD ATTRIBUTE alma stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_alma,
+  ADD ATTRIBUTE amazon_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_amzon_py,
+  ADD ATTRIBUTE au_becs_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_au_bcs_dbit,
+  ADD ATTRIBUTE bacs_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_bcs_dbit,
   ADD ATTRIBUTE bancontact JSONB,
-  ADD ATTRIBUTE billie stripe_invoices.p_p_payment_records_resource_payment_method_details_billie,
-  ADD ATTRIBUTE billing_details stripe_invoices.p_p_p_records_resource_payment_method_details_billing_detail,
-  ADD ATTRIBUTE blik stripe_invoices.p_p_payment_records_resource_payment_method_details_blik,
-  ADD ATTRIBUTE boleto stripe_invoices.p_p_payment_records_resource_payment_method_details_boleto,
-  ADD ATTRIBUTE card stripe_invoices.p_p_payment_records_resource_payment_method_details_card,
+  ADD ATTRIBUTE billie stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bllie,
+  ADD ATTRIBUTE billing_details stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_bllng_dtail,
+  ADD ATTRIBUTE blik stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_blk,
+  ADD ATTRIBUTE boleto stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bleto,
+  ADD ATTRIBUTE card stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_crd,
   ADD ATTRIBUTE card_present stripe.payment_method_details_card_present,
-  ADD ATTRIBUTE cashapp stripe_invoices.p_p_payment_records_resource_payment_method_details_cashapp,
-  ADD ATTRIBUTE crypto stripe_invoices.p_p_payment_records_resource_payment_method_details_crypto,
-  ADD ATTRIBUTE custom stripe_invoices.p_p_payment_records_resource_payment_method_details_custom,
-  ADD ATTRIBUTE customer_balance stripe_invoices.p_p_p_records_resource_payment_method_details_customer_balance,
-  ADD ATTRIBUTE eps stripe_invoices.p_primitives_payment_records_resource_payment_method_details_ep,
-  ADD ATTRIBUTE fpx stripe_invoices.p_p_payment_records_resource_payment_method_details_fpx,
-  ADD ATTRIBUTE giropay stripe_invoices.p_p_payment_records_resource_payment_method_details_giropay,
-  ADD ATTRIBUTE grabpay stripe_invoices.p_p_payment_records_resource_payment_method_details_grabpay,
+  ADD ATTRIBUTE cashapp stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_cshapp,
+  ADD ATTRIBUTE crypto stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_crypto,
+  ADD ATTRIBUTE custom stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_cstom,
+  ADD ATTRIBUTE customer_balance stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_cstmer_blnce,
+  ADD ATTRIBUTE eps stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_details_ep,
+  ADD ATTRIBUTE fpx stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_fpx,
+  ADD ATTRIBUTE giropay stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_gropay,
+  ADD ATTRIBUTE grabpay stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_grbpay,
   ADD ATTRIBUTE ideal JSONB,
-  ADD ATTRIBUTE interac_present stripe_invoices.p_p_p_records_resource_payment_method_details_interac_present,
-  ADD ATTRIBUTE kakao_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_kakao_pay,
-  ADD ATTRIBUTE klarna stripe_invoices.p_p_payment_records_resource_payment_method_details_klarna,
-  ADD ATTRIBUTE konbini stripe_invoices.p_p_payment_records_resource_payment_method_details_konbini,
-  ADD ATTRIBUTE kr_card stripe_invoices.p_p_payment_records_resource_payment_method_details_kr_card,
-  ADD ATTRIBUTE link stripe_invoices.p_p_payment_records_resource_payment_method_details_link,
-  ADD ATTRIBUTE mb_way stripe_invoices.p_p_payment_records_resource_payment_method_details_mb_way,
-  ADD ATTRIBUTE mobilepay stripe_invoices.p_p_payment_records_resource_payment_method_details_mobilepay,
-  ADD ATTRIBUTE multibanco stripe_invoices.p_p_payment_records_resource_payment_method_details_multibanco,
-  ADD ATTRIBUTE naver_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_naver_pay,
-  ADD ATTRIBUTE nz_bank_account stripe_invoices.p_p_p_records_resource_payment_method_details_nz_bank_account,
-  ADD ATTRIBUTE oxxo stripe_invoices.p_p_payment_records_resource_payment_method_details_oxxo,
-  ADD ATTRIBUTE p24 stripe_invoices.p_p_payment_records_resource_payment_method_details_p24,
-  ADD ATTRIBUTE pay_by_bank stripe_invoices.p_p_payment_records_resource_payment_method_details_pay_by_bank,
-  ADD ATTRIBUTE payco stripe_invoices.p_p_payment_records_resource_payment_method_details_payco,
+  ADD ATTRIBUTE interac_present stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_intrc_prsnt,
+  ADD ATTRIBUTE kakao_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_kkao_py,
+  ADD ATTRIBUTE klarna stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_klrna,
+  ADD ATTRIBUTE konbini stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_knbini,
+  ADD ATTRIBUTE kr_card stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_kr_crd,
+  ADD ATTRIBUTE link stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_lnk,
+  ADD ATTRIBUTE mb_way stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_mb_wy,
+  ADD ATTRIBUTE mobilepay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_mbilepay,
+  ADD ATTRIBUTE multibanco stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_mltibanco,
+  ADD ATTRIBUTE naver_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_nver_py,
+  ADD ATTRIBUTE nz_bank_account stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_nz_bnk_accnt,
+  ADD ATTRIBUTE oxxo stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_oxxo,
+  ADD ATTRIBUTE p24 stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_p24,
+  ADD ATTRIBUTE pay_by_bank stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_py_by_bnk,
+  ADD ATTRIBUTE payco stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyco,
   ADD ATTRIBUTE payment_method TEXT,
-  ADD ATTRIBUTE paynow stripe_invoices.p_p_payment_records_resource_payment_method_details_paynow,
-  ADD ATTRIBUTE paypal stripe_invoices.p_p_payment_records_resource_payment_method_details_paypal,
-  ADD ATTRIBUTE payto stripe_invoices.p_p_payment_records_resource_payment_method_details_payto,
-  ADD ATTRIBUTE pix stripe_invoices.p_p_payment_records_resource_payment_method_details_pix,
-  ADD ATTRIBUTE promptpay stripe_invoices.p_p_payment_records_resource_payment_method_details_promptpay,
-  ADD ATTRIBUTE revolut_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_revolut_pay,
-  ADD ATTRIBUTE samsung_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_samsung_pay,
-  ADD ATTRIBUTE satispay stripe_invoices.p_p_payment_records_resource_payment_method_details_satispay,
-  ADD ATTRIBUTE sepa_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_sepa_debit,
+  ADD ATTRIBUTE paynow stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pynow,
+  ADD ATTRIBUTE paypal stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pypal,
+  ADD ATTRIBUTE payto stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyto,
+  ADD ATTRIBUTE pix stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pix,
+  ADD ATTRIBUTE promptpay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_prmptpay,
+  ADD ATTRIBUTE revolut_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_rvolut_py,
+  ADD ATTRIBUTE samsung_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_smsung_py,
+  ADD ATTRIBUTE satispay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_stispay,
+  ADD ATTRIBUTE sepa_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_spa_dbit,
   ADD ATTRIBUTE sofort JSONB,
-  ADD ATTRIBUTE stripe_account stripe_invoices.p_p_p_records_resource_payment_method_details_stripe_account,
-  ADD ATTRIBUTE swish stripe_invoices.p_p_payment_records_resource_payment_method_details_swish,
-  ADD ATTRIBUTE twint stripe_invoices.p_p_payment_records_resource_payment_method_details_twint,
+  ADD ATTRIBUTE stripe_account stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_strpe_accnt,
+  ADD ATTRIBUTE swish stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_swsh,
+  ADD ATTRIBUTE twint stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_twnt,
   ADD ATTRIBUTE us_bank_account JSONB,
-  ADD ATTRIBUTE wechat stripe_invoices.p_p_payment_records_resource_payment_method_details_wechat,
-  ADD ATTRIBUTE wechat_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_wechat_pay,
-  ADD ATTRIBUTE zip stripe_invoices.p_p_payment_records_resource_payment_method_details_zip;
+  ADD ATTRIBUTE wechat stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_wchat,
+  ADD ATTRIBUTE wechat_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_wchat_py,
+  ADD ATTRIBUTE zip stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_zip;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_primitives_payment_records_resource_payment_method_details(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails(
   type TEXT,
-  ach_credit_transfer stripe_invoices.p_p_p_r_resource_payment_method_details_ach_credit_transfer DEFAULT NULL,
-  ach_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_ach_debit DEFAULT NULL,
-  acss_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_acss_debit DEFAULT NULL,
-  affirm stripe_invoices.p_p_payment_records_resource_payment_method_details_affirm DEFAULT NULL,
-  afterpay_clearpay stripe_invoices.p_p_p_records_resource_payment_method_details_afterpay_clearpay DEFAULT NULL,
-  alipay stripe_invoices.p_p_payment_records_resource_payment_method_details_alipay DEFAULT NULL,
-  alma stripe_invoices.p_p_payment_records_resource_payment_method_details_alma DEFAULT NULL,
-  amazon_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_amazon_pay DEFAULT NULL,
-  au_becs_debit stripe_invoices.p_p_p_records_resource_payment_method_details_au_becs_debit DEFAULT NULL,
-  bacs_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_bacs_debit DEFAULT NULL,
+  ach_credit_transfer stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_ach_crdt_trnsfr DEFAULT NULL,
+  ach_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_ach_dbit DEFAULT NULL,
+  acss_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_acss_dbit DEFAULT NULL,
+  affirm stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_affrm DEFAULT NULL,
+  afterpay_clearpay stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_aftrpy_clrpay DEFAULT NULL,
+  alipay stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_alpay DEFAULT NULL,
+  alma stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_alma DEFAULT NULL,
+  amazon_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_amzon_py DEFAULT NULL,
+  au_becs_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_au_bcs_dbit DEFAULT NULL,
+  bacs_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_bcs_dbit DEFAULT NULL,
   bancontact JSONB DEFAULT NULL,
-  billie stripe_invoices.p_p_payment_records_resource_payment_method_details_billie DEFAULT NULL,
-  billing_details stripe_invoices.p_p_p_records_resource_payment_method_details_billing_detail DEFAULT NULL,
-  blik stripe_invoices.p_p_payment_records_resource_payment_method_details_blik DEFAULT NULL,
-  boleto stripe_invoices.p_p_payment_records_resource_payment_method_details_boleto DEFAULT NULL,
-  card stripe_invoices.p_p_payment_records_resource_payment_method_details_card DEFAULT NULL,
+  billie stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bllie DEFAULT NULL,
+  billing_details stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_bllng_dtail DEFAULT NULL,
+  blik stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_blk DEFAULT NULL,
+  boleto stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bleto DEFAULT NULL,
+  card stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_crd DEFAULT NULL,
   card_present stripe.payment_method_details_card_present DEFAULT NULL,
-  cashapp stripe_invoices.p_p_payment_records_resource_payment_method_details_cashapp DEFAULT NULL,
-  crypto stripe_invoices.p_p_payment_records_resource_payment_method_details_crypto DEFAULT NULL,
-  custom stripe_invoices.p_p_payment_records_resource_payment_method_details_custom DEFAULT NULL,
-  customer_balance stripe_invoices.p_p_p_records_resource_payment_method_details_customer_balance DEFAULT NULL,
-  eps stripe_invoices.p_primitives_payment_records_resource_payment_method_details_ep DEFAULT NULL,
-  fpx stripe_invoices.p_p_payment_records_resource_payment_method_details_fpx DEFAULT NULL,
-  giropay stripe_invoices.p_p_payment_records_resource_payment_method_details_giropay DEFAULT NULL,
-  grabpay stripe_invoices.p_p_payment_records_resource_payment_method_details_grabpay DEFAULT NULL,
+  cashapp stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_cshapp DEFAULT NULL,
+  crypto stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_crypto DEFAULT NULL,
+  custom stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_cstom DEFAULT NULL,
+  customer_balance stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_cstmer_blnce DEFAULT NULL,
+  eps stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_details_ep DEFAULT NULL,
+  fpx stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_fpx DEFAULT NULL,
+  giropay stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_gropay DEFAULT NULL,
+  grabpay stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_grbpay DEFAULT NULL,
   ideal JSONB DEFAULT NULL,
-  interac_present stripe_invoices.p_p_p_records_resource_payment_method_details_interac_present DEFAULT NULL,
-  kakao_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_kakao_pay DEFAULT NULL,
-  klarna stripe_invoices.p_p_payment_records_resource_payment_method_details_klarna DEFAULT NULL,
-  konbini stripe_invoices.p_p_payment_records_resource_payment_method_details_konbini DEFAULT NULL,
-  kr_card stripe_invoices.p_p_payment_records_resource_payment_method_details_kr_card DEFAULT NULL,
-  link stripe_invoices.p_p_payment_records_resource_payment_method_details_link DEFAULT NULL,
-  mb_way stripe_invoices.p_p_payment_records_resource_payment_method_details_mb_way DEFAULT NULL,
-  mobilepay stripe_invoices.p_p_payment_records_resource_payment_method_details_mobilepay DEFAULT NULL,
-  multibanco stripe_invoices.p_p_payment_records_resource_payment_method_details_multibanco DEFAULT NULL,
-  naver_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_naver_pay DEFAULT NULL,
-  nz_bank_account stripe_invoices.p_p_p_records_resource_payment_method_details_nz_bank_account DEFAULT NULL,
-  oxxo stripe_invoices.p_p_payment_records_resource_payment_method_details_oxxo DEFAULT NULL,
-  p24 stripe_invoices.p_p_payment_records_resource_payment_method_details_p24 DEFAULT NULL,
-  pay_by_bank stripe_invoices.p_p_payment_records_resource_payment_method_details_pay_by_bank DEFAULT NULL,
-  payco stripe_invoices.p_p_payment_records_resource_payment_method_details_payco DEFAULT NULL,
+  interac_present stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_intrc_prsnt DEFAULT NULL,
+  kakao_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_kkao_py DEFAULT NULL,
+  klarna stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_klrna DEFAULT NULL,
+  konbini stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_knbini DEFAULT NULL,
+  kr_card stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_kr_crd DEFAULT NULL,
+  link stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_lnk DEFAULT NULL,
+  mb_way stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_mb_wy DEFAULT NULL,
+  mobilepay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_mbilepay DEFAULT NULL,
+  multibanco stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_mltibanco DEFAULT NULL,
+  naver_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_nver_py DEFAULT NULL,
+  nz_bank_account stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_nz_bnk_accnt DEFAULT NULL,
+  oxxo stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_oxxo DEFAULT NULL,
+  p24 stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_p24 DEFAULT NULL,
+  pay_by_bank stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_py_by_bnk DEFAULT NULL,
+  payco stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyco DEFAULT NULL,
   payment_method TEXT DEFAULT NULL,
-  paynow stripe_invoices.p_p_payment_records_resource_payment_method_details_paynow DEFAULT NULL,
-  paypal stripe_invoices.p_p_payment_records_resource_payment_method_details_paypal DEFAULT NULL,
-  payto stripe_invoices.p_p_payment_records_resource_payment_method_details_payto DEFAULT NULL,
-  pix stripe_invoices.p_p_payment_records_resource_payment_method_details_pix DEFAULT NULL,
-  promptpay stripe_invoices.p_p_payment_records_resource_payment_method_details_promptpay DEFAULT NULL,
-  revolut_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_revolut_pay DEFAULT NULL,
-  samsung_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_samsung_pay DEFAULT NULL,
-  satispay stripe_invoices.p_p_payment_records_resource_payment_method_details_satispay DEFAULT NULL,
-  sepa_debit stripe_invoices.p_p_payment_records_resource_payment_method_details_sepa_debit DEFAULT NULL,
+  paynow stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pynow DEFAULT NULL,
+  paypal stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pypal DEFAULT NULL,
+  payto stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyto DEFAULT NULL,
+  pix stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pix DEFAULT NULL,
+  promptpay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_prmptpay DEFAULT NULL,
+  revolut_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_rvolut_py DEFAULT NULL,
+  samsung_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_smsung_py DEFAULT NULL,
+  satispay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_stispay DEFAULT NULL,
+  sepa_debit stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_spa_dbit DEFAULT NULL,
   sofort JSONB DEFAULT NULL,
-  stripe_account stripe_invoices.p_p_p_records_resource_payment_method_details_stripe_account DEFAULT NULL,
-  swish stripe_invoices.p_p_payment_records_resource_payment_method_details_swish DEFAULT NULL,
-  twint stripe_invoices.p_p_payment_records_resource_payment_method_details_twint DEFAULT NULL,
+  stripe_account stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_strpe_accnt DEFAULT NULL,
+  swish stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_swsh DEFAULT NULL,
+  twint stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_twnt DEFAULT NULL,
   us_bank_account JSONB DEFAULT NULL,
-  wechat stripe_invoices.p_p_payment_records_resource_payment_method_details_wechat DEFAULT NULL,
-  wechat_pay stripe_invoices.p_p_payment_records_resource_payment_method_details_wechat_pay DEFAULT NULL,
-  zip stripe_invoices.p_p_payment_records_resource_payment_method_details_zip DEFAULT NULL
+  wechat stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_wchat DEFAULT NULL,
+  wechat_pay stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_wchat_py DEFAULT NULL,
+  zip stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_zip DEFAULT NULL
 )
-RETURNS stripe_invoices.p_primitives_payment_records_resource_payment_method_details
+RETURNS stripe_invoices.pyments_prmitives_pyment_rcords_resource_payment_method_details
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -3046,31 +3046,31 @@ AS $$
     wechat,
     wechat_pay,
     zip
-  )::stripe_invoices.p_primitives_payment_records_resource_payment_method_details;
+  )::stripe_invoices.pyments_prmitives_pyment_rcords_resource_payment_method_details;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_ach_credit_transfer
+ALTER TYPE stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_ach_crdt_trnsfr
   ADD ATTRIBUTE account_number TEXT,
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE routing_number TEXT,
   ADD ATTRIBUTE swift_code TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_ach_credit_transfer(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_ach_crdt_trnsfr(
   account_number TEXT DEFAULT NULL,
   bank_name TEXT DEFAULT NULL,
   routing_number TEXT DEFAULT NULL,
   swift_code TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_ach_credit_transfer
+RETURNS stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_ach_crdt_trnsfr
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     account_number, bank_name, routing_number, swift_code
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_ach_credit_transfer;
+  )::stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_ach_crdt_trnsfr;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_ach_debit
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_ach_dbit
   ADD ATTRIBUTE account_holder_type TEXT,
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE country TEXT,
@@ -3078,7 +3078,7 @@ ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_a
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE routing_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_ach_debit(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_ach_dbt(
   account_holder_type TEXT DEFAULT NULL,
   bank_name TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
@@ -3086,16 +3086,16 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_paymen
   last4 TEXT DEFAULT NULL,
   routing_number TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_ach_debit
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_ach_dbit
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     account_holder_type, bank_name, country, fingerprint, last4, routing_number
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_ach_debit;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_ach_dbit;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_acss_debit
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_acss_dbit
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE expected_debit_date TEXT,
   ADD ATTRIBUTE fingerprint TEXT,
@@ -3104,7 +3104,7 @@ ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_a
   ADD ATTRIBUTE mandate TEXT,
   ADD ATTRIBUTE transit_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_acss_debit(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_acss_dbt(
   bank_name TEXT DEFAULT NULL,
   expected_debit_date TEXT DEFAULT NULL,
   fingerprint TEXT DEFAULT NULL,
@@ -3113,7 +3113,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_meth
   mandate TEXT DEFAULT NULL,
   transit_number TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_acss_debit
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_acss_dbit
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -3125,211 +3125,211 @@ AS $$
     last4,
     mandate,
     transit_number
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_acss_debit;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_acss_dbit;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_affirm
+ALTER TYPE stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_affrm
   ADD ATTRIBUTE location TEXT,
   ADD ATTRIBUTE reader TEXT,
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_affirm(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_affrm(
   location TEXT DEFAULT NULL,
   reader TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_affirm
+RETURNS stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_affrm
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     location, reader, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_affirm;
+  )::stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_affrm;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_afterpay_clearpay
+ALTER TYPE stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_aftrpy_clrpay
   ADD ATTRIBUTE order_id TEXT, ADD ATTRIBUTE reference TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_afterpay_clearpay(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_aftrpy_clrpy(
   order_id TEXT DEFAULT NULL, reference TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_afterpay_clearpay
+RETURNS stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_aftrpy_clrpay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     order_id, reference
-  )::stripe_invoices.p_p_p_records_resource_payment_method_details_afterpay_clearpay;
+  )::stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_aftrpy_clrpay;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_alipay
+ALTER TYPE stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_alpay
   ADD ATTRIBUTE buyer_id TEXT,
   ADD ATTRIBUTE fingerprint TEXT,
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_alipay(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_alpay(
   buyer_id TEXT DEFAULT NULL,
   fingerprint TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_alipay
+RETURNS stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_alpay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     buyer_id, fingerprint, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_alipay;
+  )::stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_alpay;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_alma
-  ADD ATTRIBUTE installments stripe_invoices.p_p_p_records_resource_payment_method_details_alma_installment,
+ALTER TYPE stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_alma
+  ADD ATTRIBUTE installments stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_alma_instllmnt,
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_alma(
-  installments stripe_invoices.p_p_p_records_resource_payment_method_details_alma_installment DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_alma(
+  installments stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_alma_instllmnt DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_alma
+RETURNS stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_alma
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     installments, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_alma;
+  )::stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_alma;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_alma_installment
+ALTER TYPE stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_alma_instllmnt
   ADD ATTRIBUTE count BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_alma_installment(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_alma_instllmnt(
   count BIGINT
 )
-RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_alma_installment
+RETURNS stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_alma_instllmnt
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     count
-  )::stripe_invoices.p_p_p_records_resource_payment_method_details_alma_installment;
+  )::stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_alma_instllmnt;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_amazon_pay
-  ADD ATTRIBUTE funding stripe_invoices.p_p_p_r_resource_payment_method_details_amazon_pay_funding,
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_amzon_py
+  ADD ATTRIBUTE funding stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_amzn_py_fndng,
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_amazon_pay(
-  funding stripe_invoices.p_p_p_r_resource_payment_method_details_amazon_pay_funding DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_amzn_py(
+  funding stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_amzn_py_fndng DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_amazon_pay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_amzon_py
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     funding, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_amazon_pay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_amzon_py;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_amazon_pay_funding
+ALTER TYPE stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_amzn_py_fndng
   ADD ATTRIBUTE card stripe.payment_method_details_passthrough_card,
   ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_amazon_pay_funding(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_amzn_py_fndng(
   card stripe.payment_method_details_passthrough_card DEFAULT NULL,
   type TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_amazon_pay_funding
+RETURNS stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_amzn_py_fndng
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     card, type
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_amazon_pay_funding;
+  )::stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_amzn_py_fndng;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_au_becs_debit
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_au_bcs_dbit
   ADD ATTRIBUTE bsb_number TEXT,
   ADD ATTRIBUTE expected_debit_date TEXT,
   ADD ATTRIBUTE fingerprint TEXT,
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE mandate TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_au_becs_debit(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_au_bcs_dbt(
   bsb_number TEXT DEFAULT NULL,
   expected_debit_date TEXT DEFAULT NULL,
   fingerprint TEXT DEFAULT NULL,
   last4 TEXT DEFAULT NULL,
   mandate TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_au_becs_debit
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_au_bcs_dbit
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bsb_number, expected_debit_date, fingerprint, last4, mandate
-  )::stripe_invoices.p_p_p_records_resource_payment_method_details_au_becs_debit;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_au_bcs_dbit;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_bacs_debit
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_bcs_dbit
   ADD ATTRIBUTE expected_debit_date TEXT,
   ADD ATTRIBUTE fingerprint TEXT,
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE mandate TEXT,
   ADD ATTRIBUTE sort_code TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_bacs_debit(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_bcs_dbt(
   expected_debit_date TEXT DEFAULT NULL,
   fingerprint TEXT DEFAULT NULL,
   last4 TEXT DEFAULT NULL,
   mandate TEXT DEFAULT NULL,
   sort_code TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_bacs_debit
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_bcs_dbit
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     expected_debit_date, fingerprint, last4, mandate, sort_code
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_bacs_debit;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_bcs_dbit;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_billie
+ALTER TYPE stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bllie
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_billie(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_bllie(
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_billie
+RETURNS stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bllie
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_billie;
+  )::stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bllie;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_billing_detail
-  ADD ATTRIBUTE address stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detail_address,
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_bllng_dtail
+  ADD ATTRIBUTE address stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_bllng_dtl_addrss,
   ADD ATTRIBUTE email TEXT,
   ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE phone TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_billing_detail(
-  address stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detail_address,
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_bllng_dtil(
+  address stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_bllng_dtl_addrss,
   email TEXT DEFAULT NULL,
   name TEXT DEFAULT NULL,
   phone TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_billing_detail
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_bllng_dtail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     address, email, name, phone
-  )::stripe_invoices.p_p_p_records_resource_payment_method_details_billing_detail;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_bllng_dtail;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detail_address
+ALTER TYPE stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_bllng_dtl_addrss
   ADD ATTRIBUTE city TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE line1 TEXT,
@@ -3337,7 +3337,7 @@ ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detai
   ADD ATTRIBUTE postal_code TEXT,
   ADD ATTRIBUTE state TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_r_payment_method_details_billing_detail_address(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_bllng_dtl_addrss(
   city TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
   line1 TEXT DEFAULT NULL,
@@ -3345,46 +3345,46 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_r_payment_method_details_bi
   postal_code TEXT DEFAULT NULL,
   state TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detail_address
+RETURNS stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_bllng_dtl_addrss
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     city, country, line1, line2, postal_code, state
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_billing_detail_address;
+  )::stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_bllng_dtl_addrss;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_blik
+ALTER TYPE stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_blk
   ADD ATTRIBUTE buyer_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_blik(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_blk(
   buyer_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_blik
+RETURNS stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_blk
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     buyer_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_blik;
+  )::stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_blk;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_boleto
+ALTER TYPE stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bleto
   ADD ATTRIBUTE tax_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_boleto(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_bleto(
   tax_id TEXT
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_boleto
+RETURNS stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bleto
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     tax_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_boleto;
+  )::stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_bleto;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_card
+ALTER TYPE stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_crd
   ADD ATTRIBUTE brand TEXT,
   ADD ATTRIBUTE exp_month BIGINT,
   ADD ATTRIBUTE exp_year BIGINT,
@@ -3392,23 +3392,23 @@ ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_c
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE authorization_code TEXT,
   ADD ATTRIBUTE capture_before BIGINT,
-  ADD ATTRIBUTE checks stripe_invoices.p_p_payment_records_resource_payment_method_details_card_check,
+  ADD ATTRIBUTE checks stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_crd_chck,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE fingerprint TEXT,
   ADD ATTRIBUTE iin TEXT,
-  ADD ATTRIBUTE installments stripe_invoices.p_p_p_records_resource_payment_method_details_card_installment,
+  ADD ATTRIBUTE installments stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_instllmnt,
   ADD ATTRIBUTE issuer TEXT,
   ADD ATTRIBUTE network TEXT,
   ADD ATTRIBUTE network_advice_code TEXT,
   ADD ATTRIBUTE network_decline_code TEXT,
-  ADD ATTRIBUTE network_token stripe_invoices.p_p_p_r_resource_payment_method_details_card_network_token,
+  ADD ATTRIBUTE network_token stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_ntwrk_tkn,
   ADD ATTRIBUTE network_transaction_id TEXT,
   ADD ATTRIBUTE stored_credential_usage TEXT,
-  ADD ATTRIBUTE three_d_secure stripe_invoices.p_p_p_r_resource_payment_method_details_card_three_d_secure,
-  ADD ATTRIBUTE wallet stripe_invoices.p_p_payment_records_resource_payment_method_details_card_wallet;
+  ADD ATTRIBUTE three_d_secure stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_thre_d_scre,
+  ADD ATTRIBUTE wallet stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_crd_wllet;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_card(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_crd(
   brand TEXT,
   exp_month BIGINT,
   exp_year BIGINT,
@@ -3416,23 +3416,23 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_paymen
   last4 TEXT,
   authorization_code TEXT DEFAULT NULL,
   capture_before BIGINT DEFAULT NULL,
-  checks stripe_invoices.p_p_payment_records_resource_payment_method_details_card_check DEFAULT NULL,
+  checks stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_crd_chck DEFAULT NULL,
   country TEXT DEFAULT NULL,
   description TEXT DEFAULT NULL,
   fingerprint TEXT DEFAULT NULL,
   iin TEXT DEFAULT NULL,
-  installments stripe_invoices.p_p_p_records_resource_payment_method_details_card_installment DEFAULT NULL,
+  installments stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_instllmnt DEFAULT NULL,
   issuer TEXT DEFAULT NULL,
   network TEXT DEFAULT NULL,
   network_advice_code TEXT DEFAULT NULL,
   network_decline_code TEXT DEFAULT NULL,
-  network_token stripe_invoices.p_p_p_r_resource_payment_method_details_card_network_token DEFAULT NULL,
+  network_token stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_ntwrk_tkn DEFAULT NULL,
   network_transaction_id TEXT DEFAULT NULL,
   stored_credential_usage TEXT DEFAULT NULL,
-  three_d_secure stripe_invoices.p_p_p_r_resource_payment_method_details_card_three_d_secure DEFAULT NULL,
-  wallet stripe_invoices.p_p_payment_records_resource_payment_method_details_card_wallet DEFAULT NULL
+  three_d_secure stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_thre_d_scre DEFAULT NULL,
+  wallet stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_crd_wllet DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_card
+RETURNS stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_crd
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -3459,254 +3459,254 @@ AS $$
     stored_credential_usage,
     three_d_secure,
     wallet
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_card;
+  )::stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_crd;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_card_check
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_crd_chck
   ADD ATTRIBUTE address_line1_check TEXT,
   ADD ATTRIBUTE address_postal_code_check TEXT,
   ADD ATTRIBUTE cvc_check TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_card_check(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_crd_chck(
   address_line1_check TEXT DEFAULT NULL,
   address_postal_code_check TEXT DEFAULT NULL,
   cvc_check TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_card_check
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_crd_chck
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     address_line1_check, address_postal_code_check, cvc_check
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_card_check;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_crd_chck;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_card_installment
-  ADD ATTRIBUTE plan stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan;
+ALTER TYPE stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_instllmnt
+  ADD ATTRIBUTE plan stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_instllmnt_pln;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_card_installment(
-  plan stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_invoices.m_pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_instllmnt(
+  plan stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_instllmnt_pln DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_card_installment
+RETURNS stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_instllmnt
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     plan
-  )::stripe_invoices.p_p_p_records_resource_payment_method_details_card_installment;
+  )::stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_instllmnt;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan
+ALTER TYPE stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_instllmnt_pln
   ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE count BIGINT,
   ADD ATTRIBUTE "interval" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_card_installment_plan(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_instllmnt_pln(
   type TEXT, count BIGINT DEFAULT NULL, "interval" TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan
+RETURNS stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_instllmnt_pln
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type, count, "interval"
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_card_installment_plan;
+  )::stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_instllmnt_pln;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_card_network_token
+ALTER TYPE stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_ntwrk_tkn
   ADD ATTRIBUTE used BOOLEAN;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_card_network_token(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_ntwrk_tkn(
   used BOOLEAN
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_card_network_token
+RETURNS stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_ntwrk_tkn
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     used
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_card_network_token;
+  )::stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtils_crd_ntwrk_tkn;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_card_three_d_secure
+ALTER TYPE stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_thre_d_scre
   ADD ATTRIBUTE authentication_flow TEXT,
   ADD ATTRIBUTE result TEXT,
   ADD ATTRIBUTE result_reason TEXT,
   ADD ATTRIBUTE version TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_card_three_d_secure(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_thre_d_scre(
   authentication_flow TEXT DEFAULT NULL,
   result TEXT DEFAULT NULL,
   result_reason TEXT DEFAULT NULL,
   version TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_card_three_d_secure
+RETURNS stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_thre_d_scre
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     authentication_flow, result, result_reason, version
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_card_three_d_secure;
+  )::stripe_invoices.pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_thre_d_scre;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_card_wallet
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_crd_wllet
   ADD ATTRIBUTE type TEXT,
-  ADD ATTRIBUTE apple_pay stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay,
+  ADD ATTRIBUTE apple_pay stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_wllt_apple_py,
   ADD ATTRIBUTE dynamic_last4 TEXT,
-  ADD ATTRIBUTE google_pay stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_google_pay;
+  ADD ATTRIBUTE google_pay stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_wllt_ggle_py;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_card_wallet(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_crd_wllt(
   type TEXT,
-  apple_pay stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay DEFAULT NULL,
+  apple_pay stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_wllt_apple_py DEFAULT NULL,
   dynamic_last4 TEXT DEFAULT NULL,
-  google_pay stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_google_pay DEFAULT NULL
+  google_pay stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_wllt_ggle_py DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_card_wallet
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_crd_wllet
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type, apple_pay, dynamic_last4, google_pay
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_card_wallet;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_crd_wllet;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay
+ALTER TYPE stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_wllt_apple_py
   ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_card_wallet_apple_pay(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_wllt_apple_py(
   type TEXT
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay
+RETURNS stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_wllt_apple_py
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_card_wallet_apple_pay;
+  )::stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_crd_wllt_apple_py;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_cashapp
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_cshapp
   ADD ATTRIBUTE buyer_id TEXT,
   ADD ATTRIBUTE cashtag TEXT,
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_cashapp(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtails_cshapp(
   buyer_id TEXT DEFAULT NULL,
   cashtag TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_cashapp
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_cshapp
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     buyer_id, cashtag, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_cashapp;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_cshapp;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_crypto
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_crypto
   ADD ATTRIBUTE buyer_address TEXT,
   ADD ATTRIBUTE network TEXT,
   ADD ATTRIBUTE token_currency TEXT,
   ADD ATTRIBUTE transaction_hash TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_crypto(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtails_crypto(
   buyer_address TEXT DEFAULT NULL,
   network TEXT DEFAULT NULL,
   token_currency TEXT DEFAULT NULL,
   transaction_hash TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_crypto
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_crypto
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     buyer_address, network, token_currency, transaction_hash
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_crypto;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_crypto;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_custom
+ALTER TYPE stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_cstom
   ADD ATTRIBUTE display_name TEXT, ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_custom(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_cstom(
   display_name TEXT, type TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_custom
+RETURNS stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_cstom
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     display_name, type
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_custom;
+  )::stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_cstom;
 $$;
 
-ALTER TYPE stripe_invoices.p_primitives_payment_records_resource_payment_method_details_ep
+ALTER TYPE stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_details_ep
   ADD ATTRIBUTE bank TEXT, ADD ATTRIBUTE verified_name TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_ep(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_ep(
   bank TEXT DEFAULT NULL, verified_name TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_primitives_payment_records_resource_payment_method_details_ep
+RETURNS stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_details_ep
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bank, verified_name
-  )::stripe_invoices.p_primitives_payment_records_resource_payment_method_details_ep;
+  )::stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_details_ep;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_fpx
+ALTER TYPE stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_fpx
   ADD ATTRIBUTE bank TEXT, ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_fpx(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_fpx(
   bank TEXT, transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_fpx
+RETURNS stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_fpx
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bank, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_fpx;
+  )::stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_fpx;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_giropay
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_gropay
   ADD ATTRIBUTE bank_code TEXT,
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE bic TEXT,
   ADD ATTRIBUTE verified_name TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_giropay(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtails_gropay(
   bank_code TEXT DEFAULT NULL,
   bank_name TEXT DEFAULT NULL,
   bic TEXT DEFAULT NULL,
   verified_name TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_giropay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_gropay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bank_code, bank_name, bic, verified_name
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_giropay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_gropay;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_grabpay
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_grbpay
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_grabpay(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtails_grbpay(
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_grabpay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_grbpay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_grabpay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_grbpay;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_interac_present
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_intrc_prsnt
   ADD ATTRIBUTE exp_month BIGINT,
   ADD ATTRIBUTE exp_year BIGINT,
   ADD ATTRIBUTE brand TEXT,
@@ -3723,9 +3723,9 @@ ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_interac
   ADD ATTRIBUTE network_transaction_id TEXT,
   ADD ATTRIBUTE preferred_locales TEXT[],
   ADD ATTRIBUTE read_method TEXT,
-  ADD ATTRIBUTE receipt stripe_invoices.p_p_p_r_resource_payment_method_details_interac_present_receipt;
+  ADD ATTRIBUTE receipt stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_intrc_prsnt_rcpt;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_interac_present(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_intrc_prsnt(
   exp_month BIGINT,
   exp_year BIGINT,
   brand TEXT DEFAULT NULL,
@@ -3742,9 +3742,9 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_meth
   network_transaction_id TEXT DEFAULT NULL,
   preferred_locales TEXT[] DEFAULT NULL,
   read_method TEXT DEFAULT NULL,
-  receipt stripe_invoices.p_p_p_r_resource_payment_method_details_interac_present_receipt DEFAULT NULL
+  receipt stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_intrc_prsnt_rcpt DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_interac_present
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_intrc_prsnt
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -3766,10 +3766,10 @@ AS $$
     preferred_locales,
     read_method,
     receipt
-  )::stripe_invoices.p_p_p_records_resource_payment_method_details_interac_present;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_intrc_prsnt;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_interac_present_receipt
+ALTER TYPE stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_intrc_prsnt_rcpt
   ADD ATTRIBUTE account_type TEXT,
   ADD ATTRIBUTE application_cryptogram TEXT,
   ADD ATTRIBUTE application_preferred_name TEXT,
@@ -3780,7 +3780,7 @@ ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_interac_prese
   ADD ATTRIBUTE terminal_verification_results TEXT,
   ADD ATTRIBUTE transaction_status_information TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_r_payment_method_details_interac_present_receipt(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_intrc_prsnt_rcpt(
   account_type TEXT DEFAULT NULL,
   application_cryptogram TEXT DEFAULT NULL,
   application_preferred_name TEXT DEFAULT NULL,
@@ -3791,7 +3791,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_r_payment_method_details_in
   terminal_verification_results TEXT DEFAULT NULL,
   transaction_status_information TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_interac_present_receipt
+RETURNS stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_intrc_prsnt_rcpt
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -3805,208 +3805,208 @@ AS $$
     dedicated_file_name,
     terminal_verification_results,
     transaction_status_information
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_interac_present_receipt;
+  )::stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_intrc_prsnt_rcpt;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_kakao_pay
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_kkao_py
   ADD ATTRIBUTE buyer_id TEXT, ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_kakao_pay(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_kkao_py(
   buyer_id TEXT DEFAULT NULL, transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_kakao_pay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_kkao_py
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     buyer_id, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_kakao_pay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_kkao_py;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_klarna
-  ADD ATTRIBUTE payer_details stripe_invoices.p_p_p_r_resource_payment_method_details_klarna_payer_detail,
+ALTER TYPE stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_klrna
+  ADD ATTRIBUTE payer_details stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtil,
   ADD ATTRIBUTE payment_method_category TEXT,
   ADD ATTRIBUTE preferred_locale TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_klarna(
-  payer_details stripe_invoices.p_p_p_r_resource_payment_method_details_klarna_payer_detail DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_klrna(
+  payer_details stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtil DEFAULT NULL,
   payment_method_category TEXT DEFAULT NULL,
   preferred_locale TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_klarna
+RETURNS stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_klrna
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     payer_details, payment_method_category, preferred_locale
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_klarna;
+  )::stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_klrna;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_klarna_payer_detail
-  ADD ATTRIBUTE address stripe_invoices.p_p_p_r_r_payment_method_details_klarna_payer_detail_address;
+ALTER TYPE stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtil
+  ADD ATTRIBUTE address stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtl_addrss;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_klarna_payer_detail(
-  address stripe_invoices.p_p_p_r_r_payment_method_details_klarna_payer_detail_address DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_invoices.m_pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtl(
+  address stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtl_addrss DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_klarna_payer_detail
+RETURNS stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtil
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     address
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_klarna_payer_detail;
+  )::stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtil;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_r_payment_method_details_klarna_payer_detail_address
+ALTER TYPE stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtl_addrss
   ADD ATTRIBUTE country TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_r_payment_method_details_klarna_payer_detail_address(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtl_addrss(
   country TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_r_payment_method_details_klarna_payer_detail_address
+RETURNS stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtl_addrss
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     country
-  )::stripe_invoices.p_p_p_r_r_payment_method_details_klarna_payer_detail_address;
+  )::stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_klrna_pyr_dtl_addrss;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_konbini
-  ADD ATTRIBUTE store stripe_invoices.p_p_p_records_resource_payment_method_details_konbini_store;
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_knbini
+  ADD ATTRIBUTE store stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_knbini_stre;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_konbini(
-  store stripe_invoices.p_p_p_records_resource_payment_method_details_konbini_store DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtails_knbini(
+  store stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_knbini_stre DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_konbini
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_knbini
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     store
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_konbini;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_knbini;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_konbini_store
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_knbini_stre
   ADD ATTRIBUTE chain TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_konbini_store(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_knbni_stre(
   chain TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_konbini_store
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_knbini_stre
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     chain
-  )::stripe_invoices.p_p_p_records_resource_payment_method_details_konbini_store;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_knbini_stre;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_kr_card
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_kr_crd
   ADD ATTRIBUTE brand TEXT,
   ADD ATTRIBUTE buyer_id TEXT,
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_kr_card(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtails_kr_crd(
   brand TEXT DEFAULT NULL,
   buyer_id TEXT DEFAULT NULL,
   last4 TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_kr_card
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_kr_crd
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     brand, buyer_id, last4, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_kr_card;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_kr_crd;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_link
+ALTER TYPE stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_lnk
   ADD ATTRIBUTE country TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_link(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_lnk(
   country TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_link
+RETURNS stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_lnk
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     country
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_link;
+  )::stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_lnk;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_mobilepay
-  ADD ATTRIBUTE card stripe_invoices.p_p_p_records_resource_payment_method_details_mobilepay_card;
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_mbilepay
+  ADD ATTRIBUTE card stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_mblepay_crd;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_mobilepay(
-  card stripe_invoices.p_p_p_records_resource_payment_method_details_mobilepay_card DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_mblepay(
+  card stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_mblepay_crd DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_mobilepay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_mbilepay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     card
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_mobilepay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_mbilepay;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_mobilepay_card
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_mblepay_crd
   ADD ATTRIBUTE brand TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE exp_month BIGINT,
   ADD ATTRIBUTE exp_year BIGINT,
   ADD ATTRIBUTE last4 TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_mobilepay_card(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_mblpay_crd(
   brand TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
   exp_month BIGINT DEFAULT NULL,
   exp_year BIGINT DEFAULT NULL,
   last4 TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_mobilepay_card
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_mblepay_crd
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     brand, country, exp_month, exp_year, last4
-  )::stripe_invoices.p_p_p_records_resource_payment_method_details_mobilepay_card;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_mblepay_crd;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_multibanco
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_mltibanco
   ADD ATTRIBUTE entity TEXT, ADD ATTRIBUTE reference TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_multibanco(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_mltbanco(
   entity TEXT DEFAULT NULL, reference TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_multibanco
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_mltibanco
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     entity, reference
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_multibanco;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_mltibanco;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_naver_pay
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_nver_py
   ADD ATTRIBUTE buyer_id TEXT, ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_naver_pay(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_nver_py(
   buyer_id TEXT DEFAULT NULL, transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_naver_pay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_nver_py
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     buyer_id, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_naver_pay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_nver_py;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_nz_bank_account
+ALTER TYPE stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_nz_bnk_accnt
   ADD ATTRIBUTE bank_code TEXT,
   ADD ATTRIBUTE bank_name TEXT,
   ADD ATTRIBUTE branch_code TEXT,
@@ -4015,7 +4015,7 @@ ALTER TYPE stripe_invoices.p_p_p_records_resource_payment_method_details_nz_bank
   ADD ATTRIBUTE expected_debit_date TEXT,
   ADD ATTRIBUTE suffix TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_nz_bank_account(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_nz_bnk_accnt(
   bank_code TEXT,
   bank_name TEXT,
   branch_code TEXT,
@@ -4024,7 +4024,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_meth
   expected_debit_date TEXT DEFAULT NULL,
   suffix TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_records_resource_payment_method_details_nz_bank_account
+RETURNS stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_nz_bnk_accnt
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -4036,94 +4036,94 @@ AS $$
     account_holder_name,
     expected_debit_date,
     suffix
-  )::stripe_invoices.p_p_p_records_resource_payment_method_details_nz_bank_account;
+  )::stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_nz_bnk_accnt;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_oxxo
+ALTER TYPE stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_oxxo
   ADD ATTRIBUTE number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_oxxo(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_oxxo(
   number TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_oxxo
+RETURNS stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_oxxo
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     number
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_oxxo;
+  )::stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_oxxo;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_p24
+ALTER TYPE stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_p24
   ADD ATTRIBUTE bank TEXT,
   ADD ATTRIBUTE reference TEXT,
   ADD ATTRIBUTE verified_name TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_p24(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_p24(
   bank TEXT DEFAULT NULL,
   reference TEXT DEFAULT NULL,
   verified_name TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_p24
+RETURNS stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_p24
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bank, reference, verified_name
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_p24;
+  )::stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_p24;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_payco
+ALTER TYPE stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyco
   ADD ATTRIBUTE buyer_id TEXT, ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_payco(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_pyco(
   buyer_id TEXT DEFAULT NULL, transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_payco
+RETURNS stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyco
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     buyer_id, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_payco;
+  )::stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyco;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_paynow
+ALTER TYPE stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pynow
   ADD ATTRIBUTE location TEXT,
   ADD ATTRIBUTE reader TEXT,
   ADD ATTRIBUTE reference TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_paynow(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_pynow(
   location TEXT DEFAULT NULL,
   reader TEXT DEFAULT NULL,
   reference TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_paynow
+RETURNS stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pynow
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     location, reader, reference
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_paynow;
+  )::stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pynow;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_paypal
+ALTER TYPE stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pypal
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE payer_email TEXT,
   ADD ATTRIBUTE payer_id TEXT,
   ADD ATTRIBUTE payer_name TEXT,
-  ADD ATTRIBUTE seller_protection stripe_invoices.p_p_p_r_r_payment_method_details_paypal_seller_protection,
+  ADD ATTRIBUTE seller_protection stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_pypl_sllr_prtctn,
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_paypal(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_pypal(
   country TEXT DEFAULT NULL,
   payer_email TEXT DEFAULT NULL,
   payer_id TEXT DEFAULT NULL,
   payer_name TEXT DEFAULT NULL,
-  seller_protection stripe_invoices.p_p_p_r_r_payment_method_details_paypal_seller_protection DEFAULT NULL,
+  seller_protection stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_pypl_sllr_prtctn DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_paypal
+RETURNS stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pypal
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -4134,140 +4134,140 @@ AS $$
     payer_name,
     seller_protection,
     transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_paypal;
+  )::stripe_invoices.pymnts_prmtives_pyment_rcords_rsource_pyment_mthod_dtails_pypal;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_r_payment_method_details_paypal_seller_protection
+ALTER TYPE stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_pypl_sllr_prtctn
   ADD ATTRIBUTE status TEXT, ADD ATTRIBUTE dispute_categories TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_r_payment_method_details_paypal_seller_protection(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_pypl_sllr_prtctn(
   status TEXT, dispute_categories TEXT[] DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_r_payment_method_details_paypal_seller_protection
+RETURNS stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_pypl_sllr_prtctn
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     status, dispute_categories
-  )::stripe_invoices.p_p_p_r_r_payment_method_details_paypal_seller_protection;
+  )::stripe_invoices.p_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_pypl_sllr_prtctn;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_payto
+ALTER TYPE stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyto
   ADD ATTRIBUTE bsb_number TEXT,
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE mandate TEXT,
   ADD ATTRIBUTE pay_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_payto(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_pyto(
   bsb_number TEXT DEFAULT NULL,
   last4 TEXT DEFAULT NULL,
   mandate TEXT DEFAULT NULL,
   pay_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_payto
+RETURNS stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyto
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bsb_number, last4, mandate, pay_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_payto;
+  )::stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pyto;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_pix
+ALTER TYPE stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pix
   ADD ATTRIBUTE bank_transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_pix(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcords_rsource_pyment_mthod_dtails_px(
   bank_transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_pix
+RETURNS stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pix
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bank_transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_pix;
+  )::stripe_invoices.pyments_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_pix;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_promptpay
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_prmptpay
   ADD ATTRIBUTE reference TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_promptpay(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_prmptpy(
   reference TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_promptpay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_prmptpay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     reference
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_promptpay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_prmptpay;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_revolut_pay
-  ADD ATTRIBUTE funding stripe_invoices.p_p_p_r_resource_payment_method_details_revolut_pay_funding,
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_rvolut_py
+  ADD ATTRIBUTE funding stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_rvlut_py_fndng,
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_revolut_pay(
-  funding stripe_invoices.p_p_p_r_resource_payment_method_details_revolut_pay_funding DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_rvlut_py(
+  funding stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_rvlut_py_fndng DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_revolut_pay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_rvolut_py
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     funding, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_revolut_pay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_rvolut_py;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_p_r_resource_payment_method_details_revolut_pay_funding
+ALTER TYPE stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_rvlut_py_fndng
   ADD ATTRIBUTE card stripe.payment_method_details_passthrough_card,
   ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_r_resource_payment_method_details_revolut_pay_funding(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_pymnts_prmtvs_pymnt_rcrds_rsrce_pymnt_mthd_dtls_rvlt_py_fndng(
   card stripe.payment_method_details_passthrough_card DEFAULT NULL,
   type TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_p_r_resource_payment_method_details_revolut_pay_funding
+RETURNS stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_rvlut_py_fndng
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     card, type
-  )::stripe_invoices.p_p_p_r_resource_payment_method_details_revolut_pay_funding;
+  )::stripe_invoices.pymnts_prmtves_pymnt_rcrds_rsrce_pymnt_mthd_dtls_rvlut_py_fndng;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_samsung_pay
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_smsung_py
   ADD ATTRIBUTE buyer_id TEXT, ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_samsung_pay(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtves_pymnt_rcrds_rsurce_pymnt_mthd_dtils_smsng_py(
   buyer_id TEXT DEFAULT NULL, transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_samsung_pay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_smsung_py
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     buyer_id, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_samsung_pay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthod_dtails_smsung_py;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_satispay
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_stispay
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_satispay(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_stispay(
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_satispay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_stispay
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_satispay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsource_pyment_mthod_dtails_stispay;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_sepa_debit
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_spa_dbit
   ADD ATTRIBUTE bank_code TEXT,
   ADD ATTRIBUTE branch_code TEXT,
   ADD ATTRIBUTE country TEXT,
@@ -4276,7 +4276,7 @@ ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_s
   ADD ATTRIBUTE last4 TEXT,
   ADD ATTRIBUTE mandate TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_sepa_debit(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_spa_dbt(
   bank_code TEXT DEFAULT NULL,
   branch_code TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
@@ -4285,7 +4285,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_meth
   last4 TEXT DEFAULT NULL,
   mandate TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_sepa_debit
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_spa_dbit
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -4297,47 +4297,47 @@ AS $$
     fingerprint,
     last4,
     mandate
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_sepa_debit;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_spa_dbit;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_swish
+ALTER TYPE stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_swsh
   ADD ATTRIBUTE fingerprint TEXT,
   ADD ATTRIBUTE payment_reference TEXT,
   ADD ATTRIBUTE verified_phone_last4 TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_payment_records_resource_payment_method_details_swish(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_swsh(
   fingerprint TEXT DEFAULT NULL,
   payment_reference TEXT DEFAULT NULL,
   verified_phone_last4 TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_swish
+RETURNS stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_swsh
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     fingerprint, payment_reference, verified_phone_last4
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_swish;
+  )::stripe_invoices.pymnts_prmitives_pyment_rcords_rsource_pyment_mthod_dtails_swsh;
 $$;
 
-ALTER TYPE stripe_invoices.p_p_payment_records_resource_payment_method_details_wechat_pay
+ALTER TYPE stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_wchat_py
   ADD ATTRIBUTE fingerprint TEXT,
   ADD ATTRIBUTE location TEXT,
   ADD ATTRIBUTE reader TEXT,
   ADD ATTRIBUTE transaction_id TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.m_p_p_p_records_resource_payment_method_details_wechat_pay(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_pymnts_prmtives_pymnt_rcrds_rsurce_pymnt_mthd_dtils_wcht_py(
   fingerprint TEXT DEFAULT NULL,
   location TEXT DEFAULT NULL,
   reader TEXT DEFAULT NULL,
   transaction_id TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.p_p_payment_records_resource_payment_method_details_wechat_pay
+RETURNS stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_wchat_py
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     fingerprint, location, reader, transaction_id
-  )::stripe_invoices.p_p_payment_records_resource_payment_method_details_wechat_pay;
+  )::stripe_invoices.pymnts_prmtives_pymnt_rcrds_rsurce_pyment_mthod_dtails_wchat_py;
 $$;
 
 ALTER TYPE stripe_invoices.sepa_debit_generated_from

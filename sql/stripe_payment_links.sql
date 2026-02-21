@@ -130,12 +130,12 @@ $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_after_completion
   ADD ATTRIBUTE type TEXT,
-  ADD ATTRIBUTE hosted_confirmation stripe_payment_links.p_link_create_response_after_completion_hosted_confirmation,
+  ADD ATTRIBUTE hosted_confirmation stripe_payment_links.pyment_lnk_create_response_after_completion_hosted_confirmation,
   ADD ATTRIBUTE redirect stripe_payment_links.payment_link_create_response_after_completion_redirect;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_after_completion(
   type TEXT,
-  hosted_confirmation stripe_payment_links.p_link_create_response_after_completion_hosted_confirmation DEFAULT NULL,
+  hosted_confirmation stripe_payment_links.pyment_lnk_create_response_after_completion_hosted_confirmation DEFAULT NULL,
   redirect stripe_payment_links.payment_link_create_response_after_completion_redirect DEFAULT NULL
 )
 RETURNS stripe_payment_links.payment_link_create_response_after_completion
@@ -147,19 +147,19 @@ AS $$
   )::stripe_payment_links.payment_link_create_response_after_completion;
 $$;
 
-ALTER TYPE stripe_payment_links.p_link_create_response_after_completion_hosted_confirmation
+ALTER TYPE stripe_payment_links.pyment_lnk_create_response_after_completion_hosted_confirmation
   ADD ATTRIBUTE custom_message TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.m_p_link_create_response_after_completion_hosted_confirmation(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_pyment_lnk_crate_rsponse_aftr_cmpletion_hosted_confirmation(
   custom_message TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.p_link_create_response_after_completion_hosted_confirmation
+RETURNS stripe_payment_links.pyment_lnk_create_response_after_completion_hosted_confirmation
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     custom_message
-  )::stripe_payment_links.p_link_create_response_after_completion_hosted_confirmation;
+  )::stripe_payment_links.pyment_lnk_create_response_after_completion_hosted_confirmation;
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_after_completion_redirect
@@ -373,12 +373,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_consent_collection
-  ADD ATTRIBUTE payment_method_reuse_agreement stripe_payment_links.p_l_c_r_consent_collection_payment_method_reuse_agreement,
+  ADD ATTRIBUTE payment_method_reuse_agreement stripe_payment_links.pymnt_lnk_crte_rspnse_cnsnt_cllction_pyment_mthod_ruse_agrement,
   ADD ATTRIBUTE promotions TEXT,
   ADD ATTRIBUTE terms_of_service TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_consent_collection(
-  payment_method_reuse_agreement stripe_payment_links.p_l_c_r_consent_collection_payment_method_reuse_agreement DEFAULT NULL,
+  payment_method_reuse_agreement stripe_payment_links.pymnt_lnk_crte_rspnse_cnsnt_cllction_pyment_mthod_ruse_agrement DEFAULT NULL,
   promotions TEXT DEFAULT NULL,
   terms_of_service TEXT DEFAULT NULL
 )
@@ -391,19 +391,19 @@ AS $$
   )::stripe_payment_links.payment_link_create_response_consent_collection;
 $$;
 
-ALTER TYPE stripe_payment_links.p_l_c_r_consent_collection_payment_method_reuse_agreement
+ALTER TYPE stripe_payment_links.pymnt_lnk_crte_rspnse_cnsnt_cllction_pyment_mthod_ruse_agrement
   ADD ATTRIBUTE "position" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.m_p_l_c_r_consent_collection_payment_method_reuse_agreement(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_pymnt_lnk_crte_rspnse_cnsnt_cllction_pymnt_mthd_rse_agrment(
   "position" TEXT
 )
-RETURNS stripe_payment_links.p_l_c_r_consent_collection_payment_method_reuse_agreement
+RETURNS stripe_payment_links.pymnt_lnk_crte_rspnse_cnsnt_cllction_pyment_mthod_ruse_agrement
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "position"
-  )::stripe_payment_links.p_l_c_r_consent_collection_payment_method_reuse_agreement;
+  )::stripe_payment_links.pymnt_lnk_crte_rspnse_cnsnt_cllction_pyment_mthod_ruse_agrement;
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_invoice_creation
@@ -430,7 +430,7 @@ ALTER TYPE stripe_payment_links.payment_link_create_response_invoice_creation_in
   ADD ATTRIBUTE footer TEXT,
   ADD ATTRIBUTE issuer stripe_invoices.connect_account_reference,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE rendering_options stripe_payment_links.p_l_c_response_invoice_creation_invoice_data_rendering_option;
+  ADD ATTRIBUTE rendering_options stripe_payment_links.pymnt_lnk_crte_rsponse_invice_cration_invice_dta_rndering_opton;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_response_invoice_creation_invoice_data(
   account_tax_ids JSONB[] DEFAULT NULL,
@@ -439,7 +439,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_link_create_respons
   footer TEXT DEFAULT NULL,
   issuer stripe_invoices.connect_account_reference DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  rendering_options stripe_payment_links.p_l_c_response_invoice_creation_invoice_data_rendering_option DEFAULT NULL
+  rendering_options stripe_payment_links.pymnt_lnk_crte_rsponse_invice_cration_invice_dta_rndering_opton DEFAULT NULL
 )
 RETURNS stripe_payment_links.payment_link_create_response_invoice_creation_invoice_data
 LANGUAGE SQL
@@ -456,19 +456,19 @@ AS $$
   )::stripe_payment_links.payment_link_create_response_invoice_creation_invoice_data;
 $$;
 
-ALTER TYPE stripe_payment_links.p_l_c_response_invoice_creation_invoice_data_rendering_option
+ALTER TYPE stripe_payment_links.pymnt_lnk_crte_rsponse_invice_cration_invice_dta_rndering_opton
   ADD ATTRIBUTE amount_tax_display TEXT, ADD ATTRIBUTE template TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.m_p_l_c_response_invoice_creation_invoice_data_rendering_option(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_pymnt_lnk_crte_rspnse_invce_crtion_invce_dta_rndering_opton(
   amount_tax_display TEXT DEFAULT NULL, template TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.p_l_c_response_invoice_creation_invoice_data_rendering_option
+RETURNS stripe_payment_links.pymnt_lnk_crte_rsponse_invice_cration_invice_dta_rndering_opton
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     amount_tax_display, template
-  )::stripe_payment_links.p_l_c_response_invoice_creation_invoice_data_rendering_option;
+  )::stripe_payment_links.pymnt_lnk_crte_rsponse_invice_cration_invice_dta_rndering_opton;
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_line_item
@@ -551,7 +551,7 @@ ALTER TYPE stripe_payment_links.payment_link_create_response_line_item_data_adju
   ADD ATTRIBUTE maximum BIGINT,
   ADD ATTRIBUTE minimum BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.m_p_link_create_response_line_item_data_adjustable_quantity(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_pyment_lnk_crate_rsponse_line_item_data_adjustable_quantity(
   enabled BOOLEAN, maximum BIGINT DEFAULT NULL, minimum BIGINT DEFAULT NULL
 )
 RETURNS stripe_payment_links.payment_link_create_response_line_item_data_adjustable_quantity
@@ -670,7 +670,7 @@ ALTER TYPE stripe_payment_links.payment_link_create_response_optional_item_adjus
   ADD ATTRIBUTE maximum BIGINT,
   ADD ATTRIBUTE minimum BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.m_p_link_create_response_optional_item_adjustable_quantity(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_pyment_lnk_crate_response_optional_item_adjustable_quantity(
   enabled BOOLEAN, maximum BIGINT DEFAULT NULL, minimum BIGINT DEFAULT NULL
 )
 RETURNS stripe_payment_links.payment_link_create_response_optional_item_adjustable_quantity
@@ -786,7 +786,7 @@ $$;
 ALTER TYPE stripe_payment_links.payment_link_create_response_subscription_data_invoice_setting
   ADD ATTRIBUTE issuer stripe_invoices.connect_account_reference;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.m_p_link_create_response_subscription_data_invoice_setting(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_pyment_lnk_crate_response_subscription_data_invoice_setting(
   issuer stripe_invoices.connect_account_reference
 )
 RETURNS stripe_payment_links.payment_link_create_response_subscription_data_invoice_setting
@@ -799,10 +799,10 @@ AS $$
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_subscription_data_trial_setting
-  ADD ATTRIBUTE end_behavior stripe_payment_links.p_l_c_response_subscription_data_trial_setting_end_behavior;
+  ADD ATTRIBUTE end_behavior stripe_payment_links.pymnt_lnk_crate_rsponse_sbscription_dta_tral_stting_end_bhavior;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.m_payment_link_create_response_subscription_data_trial_setting(
-  end_behavior stripe_payment_links.p_l_c_response_subscription_data_trial_setting_end_behavior
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_pyment_link_create_response_subscription_data_trial_setting(
+  end_behavior stripe_payment_links.pymnt_lnk_crate_rsponse_sbscription_dta_tral_stting_end_bhavior
 )
 RETURNS stripe_payment_links.payment_link_create_response_subscription_data_trial_setting
 LANGUAGE SQL
@@ -813,19 +813,19 @@ AS $$
   )::stripe_payment_links.payment_link_create_response_subscription_data_trial_setting;
 $$;
 
-ALTER TYPE stripe_payment_links.p_l_c_response_subscription_data_trial_setting_end_behavior
+ALTER TYPE stripe_payment_links.pymnt_lnk_crate_rsponse_sbscription_dta_tral_stting_end_bhavior
   ADD ATTRIBUTE missing_payment_method TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.m_p_l_c_response_subscription_data_trial_setting_end_behavior(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_pymnt_lnk_crte_rspnse_sbscrption_dta_trl_stting_end_bhavior(
   missing_payment_method TEXT
 )
-RETURNS stripe_payment_links.p_l_c_response_subscription_data_trial_setting_end_behavior
+RETURNS stripe_payment_links.pymnt_lnk_crate_rsponse_sbscription_dta_tral_stting_end_bhavior
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     missing_payment_method
-  )::stripe_payment_links.p_l_c_response_subscription_data_trial_setting_end_behavior;
+  )::stripe_payment_links.pymnt_lnk_crate_rsponse_sbscription_dta_tral_stting_end_bhavior;
 $$;
 
 ALTER TYPE stripe_payment_links.payment_link_create_response_transfer_data

@@ -1258,14 +1258,14 @@ $$;
 
 ALTER TYPE stripe_subscriptions.setup_intent_next_action
   ADD ATTRIBUTE type TEXT,
-  ADD ATTRIBUTE cashapp_handle_redirect_or_display_qr_code stripe_subscriptions.s_intent_next_action_cashapp_handle_redirect_or_display_qr_code,
+  ADD ATTRIBUTE cashapp_handle_redirect_or_display_qr_code stripe_subscriptions.stup_intnt_nxt_acton_cashapp_handle_redirect_or_display_qr_code,
   ADD ATTRIBUTE redirect_to_url stripe_subscriptions.setup_intent_next_action_redirect_to_url,
   ADD ATTRIBUTE use_stripe_sdk JSONB,
   ADD ATTRIBUTE verify_with_microdeposits stripe_subscriptions.setup_intent_next_action_verify_with_microdeposit;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions.make_setup_intent_next_action(
   type TEXT,
-  cashapp_handle_redirect_or_display_qr_code stripe_subscriptions.s_intent_next_action_cashapp_handle_redirect_or_display_qr_code DEFAULT NULL,
+  cashapp_handle_redirect_or_display_qr_code stripe_subscriptions.stup_intnt_nxt_acton_cashapp_handle_redirect_or_display_qr_code DEFAULT NULL,
   redirect_to_url stripe_subscriptions.setup_intent_next_action_redirect_to_url DEFAULT NULL,
   use_stripe_sdk JSONB DEFAULT NULL,
   verify_with_microdeposits stripe_subscriptions.setup_intent_next_action_verify_with_microdeposit DEFAULT NULL
@@ -1283,40 +1283,40 @@ AS $$
   )::stripe_subscriptions.setup_intent_next_action;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_intent_next_action_cashapp_handle_redirect_or_display_qr_code
+ALTER TYPE stripe_subscriptions.stup_intnt_nxt_acton_cashapp_handle_redirect_or_display_qr_code
   ADD ATTRIBUTE hosted_instructions_url TEXT,
   ADD ATTRIBUTE mobile_auth_url TEXT,
-  ADD ATTRIBUTE qr_code stripe_subscriptions.s_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code;
+  ADD ATTRIBUTE qr_code stripe_subscriptions.stp_intnt_nxt_actn_cshapp_hndle_rdirect_or_dsplay_qr_cde_qr_cde;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_i_next_action_cashapp_handle_redirect_or_display_qr_code(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_stup_intnt_nxt_acton_cshapp_hndle_rdirect_or_dsplay_qr_code(
   hosted_instructions_url TEXT,
   mobile_auth_url TEXT,
-  qr_code stripe_subscriptions.s_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code
+  qr_code stripe_subscriptions.stp_intnt_nxt_actn_cshapp_hndle_rdirect_or_dsplay_qr_cde_qr_cde
 )
-RETURNS stripe_subscriptions.s_intent_next_action_cashapp_handle_redirect_or_display_qr_code
+RETURNS stripe_subscriptions.stup_intnt_nxt_acton_cashapp_handle_redirect_or_display_qr_code
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     hosted_instructions_url, mobile_auth_url, qr_code
-  )::stripe_subscriptions.s_intent_next_action_cashapp_handle_redirect_or_display_qr_code;
+  )::stripe_subscriptions.stup_intnt_nxt_acton_cashapp_handle_redirect_or_display_qr_code;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code
+ALTER TYPE stripe_subscriptions.stp_intnt_nxt_actn_cshapp_hndle_rdirect_or_dsplay_qr_cde_qr_cde
   ADD ATTRIBUTE expires_at BIGINT,
   ADD ATTRIBUTE image_url_png TEXT,
   ADD ATTRIBUTE image_url_svg TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_i_n_a_cashapp_handle_redirect_or_display_qr_code_qr_code(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_stp_intnt_nxt_actn_cshpp_hndle_rdrct_or_dsply_qr_cde_qr_cde(
   expires_at BIGINT, image_url_png TEXT, image_url_svg TEXT
 )
-RETURNS stripe_subscriptions.s_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code
+RETURNS stripe_subscriptions.stp_intnt_nxt_actn_cshapp_hndle_rdirect_or_dsplay_qr_cde_qr_cde
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     expires_at, image_url_png, image_url_svg
-  )::stripe_subscriptions.s_i_n_action_cashapp_handle_redirect_or_display_qr_code_qr_code;
+  )::stripe_subscriptions.stp_intnt_nxt_actn_cshapp_hndle_rdirect_or_dsplay_qr_cde_qr_cde;
 $$;
 
 ALTER TYPE stripe_subscriptions.setup_intent_next_action_redirect_to_url
@@ -1445,7 +1445,7 @@ ALTER TYPE stripe_subscriptions.setup_intent_payment_method_option_acss_debit_ma
   ADD ATTRIBUTE purpose TEXT,
   ADD ATTRIBUTE start_date TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_setup_intent_payment_method_option_acss_debit_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_stup_intent_payment_method_option_acss_debit_mandate_option(
   custom_mandate_url TEXT DEFAULT NULL,
   default_for TEXT[] DEFAULT NULL,
   interval_description TEXT DEFAULT NULL,
@@ -1521,7 +1521,7 @@ ALTER TYPE stripe_subscriptions.setup_intent_payment_method_option_bacs_debit_ma
   ADD ATTRIBUTE purpose TEXT,
   ADD ATTRIBUTE start_date TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_setup_intent_payment_method_option_bacs_debit_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_stup_intent_payment_method_option_bacs_debit_mandate_option(
   reference_prefix TEXT DEFAULT NULL,
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
@@ -1737,7 +1737,7 @@ ALTER TYPE stripe_subscriptions.setup_intent_payment_method_option_sepa_debit_ma
   ADD ATTRIBUTE purpose TEXT,
   ADD ATTRIBUTE start_date TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_setup_intent_payment_method_option_sepa_debit_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_stup_intent_payment_method_option_sepa_debit_mandate_option(
   reference_prefix TEXT DEFAULT NULL,
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
@@ -1764,13 +1764,13 @@ AS $$
 $$;
 
 ALTER TYPE stripe_subscriptions.setup_intent_payment_method_option_us_bank_account
-  ADD ATTRIBUTE financial_connections stripe_subscriptions.s_i_payment_method_option_us_bank_account_financial_connection,
-  ADD ATTRIBUTE mandate_options stripe_subscriptions.s_intent_payment_method_option_us_bank_account_mandate_option,
+  ADD ATTRIBUTE financial_connections stripe_subscriptions.stup_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_connection,
+  ADD ATTRIBUTE mandate_options stripe_subscriptions.stup_intnt_payment_method_option_us_bank_account_mandate_option,
   ADD ATTRIBUTE verification_method TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions.make_setup_intent_payment_method_option_us_bank_account(
-  financial_connections stripe_subscriptions.s_i_payment_method_option_us_bank_account_financial_connection DEFAULT NULL,
-  mandate_options stripe_subscriptions.s_intent_payment_method_option_us_bank_account_mandate_option DEFAULT NULL,
+  financial_connections stripe_subscriptions.stup_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_connection DEFAULT NULL,
+  mandate_options stripe_subscriptions.stup_intnt_payment_method_option_us_bank_account_mandate_option DEFAULT NULL,
   verification_method TEXT DEFAULT NULL
 )
 RETURNS stripe_subscriptions.setup_intent_payment_method_option_us_bank_account
@@ -1782,43 +1782,43 @@ AS $$
   )::stripe_subscriptions.setup_intent_payment_method_option_us_bank_account;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_i_payment_method_option_us_bank_account_financial_connection
-  ADD ATTRIBUTE filters stripe_subscriptions.s_i_p_method_option_us_bank_account_financial_connection_filter,
+ALTER TYPE stripe_subscriptions.stup_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_connection
+  ADD ATTRIBUTE filters stripe_subscriptions.stp_intnt_pymnt_mthd_optn_us_bnk_accnt_fnancial_cnnection_flter,
   ADD ATTRIBUTE permissions TEXT[],
   ADD ATTRIBUTE prefetch TEXT[],
   ADD ATTRIBUTE return_url TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_i_p_method_option_us_bank_account_financial_connection(
-  filters stripe_subscriptions.s_i_p_method_option_us_bank_account_financial_connection_filter DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_stp_intnt_pymnt_mthd_opton_us_bnk_accunt_fnancial_cnnection(
+  filters stripe_subscriptions.stp_intnt_pymnt_mthd_optn_us_bnk_accnt_fnancial_cnnection_flter DEFAULT NULL,
   permissions TEXT[] DEFAULT NULL,
   prefetch TEXT[] DEFAULT NULL,
   return_url TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_i_payment_method_option_us_bank_account_financial_connection
+RETURNS stripe_subscriptions.stup_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_connection
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     filters, permissions, prefetch, return_url
-  )::stripe_subscriptions.s_i_payment_method_option_us_bank_account_financial_connection;
+  )::stripe_subscriptions.stup_intnt_pyment_mthod_opton_us_bnk_accunt_fnancial_connection;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_i_p_method_option_us_bank_account_financial_connection_filter
+ALTER TYPE stripe_subscriptions.stp_intnt_pymnt_mthd_optn_us_bnk_accnt_fnancial_cnnection_flter
   ADD ATTRIBUTE account_subcategories TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_i_p_m_option_us_bank_account_financial_connection_filter(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_stp_intnt_pymnt_mthd_optn_us_bnk_accnt_fnncal_cnnction_fltr(
   account_subcategories TEXT[] DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_i_p_method_option_us_bank_account_financial_connection_filter
+RETURNS stripe_subscriptions.stp_intnt_pymnt_mthd_optn_us_bnk_accnt_fnancial_cnnection_flter
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     account_subcategories
-  )::stripe_subscriptions.s_i_p_method_option_us_bank_account_financial_connection_filter;
+  )::stripe_subscriptions.stp_intnt_pymnt_mthd_optn_us_bnk_accnt_fnancial_cnnection_flter;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_intent_payment_method_option_us_bank_account_mandate_option
+ALTER TYPE stripe_subscriptions.stup_intnt_payment_method_option_us_bank_account_mandate_option
   ADD ATTRIBUTE collection_method TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE amount_type TEXT,
@@ -1828,7 +1828,7 @@ ALTER TYPE stripe_subscriptions.s_intent_payment_method_option_us_bank_account_m
   ADD ATTRIBUTE purpose TEXT,
   ADD ATTRIBUTE start_date TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_intent_payment_method_option_us_bank_account_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_stup_intnt_pyment_mthod_opton_us_bnk_account_mandate_option(
   collection_method TEXT DEFAULT NULL,
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
@@ -1838,7 +1838,7 @@ CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_intent_payment_method_option
   purpose TEXT DEFAULT NULL,
   start_date TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_intent_payment_method_option_us_bank_account_mandate_option
+RETURNS stripe_subscriptions.stup_intnt_payment_method_option_us_bank_account_mandate_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1851,7 +1851,7 @@ AS $$
     payments_per_period,
     purpose,
     start_date
-  )::stripe_subscriptions.s_intent_payment_method_option_us_bank_account_mandate_option;
+  )::stripe_subscriptions.stup_intnt_payment_method_option_us_bank_account_mandate_option;
 $$;
 
 ALTER TYPE stripe_subscriptions.setup_intent_payment_method_options_mandate_options_payto
@@ -2202,21 +2202,21 @@ ALTER TYPE stripe_subscriptions.subscription_payment_setting_payment_method_opti
   ADD ATTRIBUTE acss_debit stripe_subscriptions.subscription_payment_setting_payment_method_option_acss_debit,
   ADD ATTRIBUTE bancontact stripe_subscriptions.subscription_payment_setting_payment_method_option_bancontact,
   ADD ATTRIBUTE card stripe_subscriptions.subscription_payment_setting_payment_method_option_card,
-  ADD ATTRIBUTE customer_balance stripe_subscriptions.s_payment_setting_payment_method_option_customer_balance,
+  ADD ATTRIBUTE customer_balance stripe_subscriptions.sbscription_pyment_stting_pyment_method_option_customer_balance,
   ADD ATTRIBUTE konbini stripe_subscriptions.subscription_payment_setting_payment_method_option_konbini,
   ADD ATTRIBUTE payto stripe_subscriptions.subscription_payment_setting_payment_method_option_payto,
   ADD ATTRIBUTE sepa_debit stripe_subscriptions.subscription_payment_setting_payment_method_option_sepa_debit,
-  ADD ATTRIBUTE us_bank_account stripe_subscriptions.s_payment_setting_payment_method_option_us_bank_account;
+  ADD ATTRIBUTE us_bank_account stripe_subscriptions.sbscription_pyment_stting_payment_method_option_us_bank_account;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions.make_subscription_payment_setting_payment_method_option(
   acss_debit stripe_subscriptions.subscription_payment_setting_payment_method_option_acss_debit DEFAULT NULL,
   bancontact stripe_subscriptions.subscription_payment_setting_payment_method_option_bancontact DEFAULT NULL,
   card stripe_subscriptions.subscription_payment_setting_payment_method_option_card DEFAULT NULL,
-  customer_balance stripe_subscriptions.s_payment_setting_payment_method_option_customer_balance DEFAULT NULL,
+  customer_balance stripe_subscriptions.sbscription_pyment_stting_pyment_method_option_customer_balance DEFAULT NULL,
   konbini stripe_subscriptions.subscription_payment_setting_payment_method_option_konbini DEFAULT NULL,
   payto stripe_subscriptions.subscription_payment_setting_payment_method_option_payto DEFAULT NULL,
   sepa_debit stripe_subscriptions.subscription_payment_setting_payment_method_option_sepa_debit DEFAULT NULL,
-  us_bank_account stripe_subscriptions.s_payment_setting_payment_method_option_us_bank_account DEFAULT NULL
+  us_bank_account stripe_subscriptions.sbscription_pyment_stting_payment_method_option_us_bank_account DEFAULT NULL
 )
 RETURNS stripe_subscriptions.subscription_payment_setting_payment_method_option
 LANGUAGE SQL
@@ -2235,11 +2235,11 @@ AS $$
 $$;
 
 ALTER TYPE stripe_subscriptions.subscription_payment_setting_payment_method_option_acss_debit
-  ADD ATTRIBUTE mandate_options stripe_subscriptions.s_p_setting_payment_method_option_acss_debit_mandate_option,
+  ADD ATTRIBUTE mandate_options stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthod_opton_acss_dbit_mndate_opton,
   ADD ATTRIBUTE verification_method TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_subscription_payment_setting_payment_method_option_acss_debit(
-  mandate_options stripe_subscriptions.s_p_setting_payment_method_option_acss_debit_mandate_option DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_sbscription_pyment_setting_payment_method_option_acss_debit(
+  mandate_options stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthod_opton_acss_dbit_mndate_opton DEFAULT NULL,
   verification_method TEXT DEFAULT NULL
 )
 RETURNS stripe_subscriptions.subscription_payment_setting_payment_method_option_acss_debit
@@ -2251,25 +2251,25 @@ AS $$
   )::stripe_subscriptions.subscription_payment_setting_payment_method_option_acss_debit;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_p_setting_payment_method_option_acss_debit_mandate_option
+ALTER TYPE stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthod_opton_acss_dbit_mndate_opton
   ADD ATTRIBUTE transaction_type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_p_setting_payment_method_option_acss_debit_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_sbscrption_pymnt_sttng_pymnt_mthd_optn_acss_dbt_mndte_opton(
   transaction_type TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_p_setting_payment_method_option_acss_debit_mandate_option
+RETURNS stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthod_opton_acss_dbit_mndate_opton
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     transaction_type
-  )::stripe_subscriptions.s_p_setting_payment_method_option_acss_debit_mandate_option;
+  )::stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthod_opton_acss_dbit_mndate_opton;
 $$;
 
 ALTER TYPE stripe_subscriptions.subscription_payment_setting_payment_method_option_bancontact
   ADD ATTRIBUTE preferred_language TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_subscription_payment_setting_payment_method_option_bancontact(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_sbscription_pyment_setting_payment_method_option_bancontact(
   preferred_language TEXT
 )
 RETURNS stripe_subscriptions.subscription_payment_setting_payment_method_option_bancontact
@@ -2282,12 +2282,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_subscriptions.subscription_payment_setting_payment_method_option_card
-  ADD ATTRIBUTE mandate_options stripe_subscriptions.s_payment_setting_payment_method_option_card_mandate_option,
+  ADD ATTRIBUTE mandate_options stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_crd_mandate_option,
   ADD ATTRIBUTE network TEXT,
   ADD ATTRIBUTE request_three_d_secure TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions.make_subscription_payment_setting_payment_method_option_card(
-  mandate_options stripe_subscriptions.s_payment_setting_payment_method_option_card_mandate_option DEFAULT NULL,
+  mandate_options stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_crd_mandate_option DEFAULT NULL,
   network TEXT DEFAULT NULL,
   request_three_d_secure TEXT DEFAULT NULL
 )
@@ -2300,79 +2300,79 @@ AS $$
   )::stripe_subscriptions.subscription_payment_setting_payment_method_option_card;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_payment_setting_payment_method_option_card_mandate_option
+ALTER TYPE stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_crd_mandate_option
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE amount_type TEXT,
   ADD ATTRIBUTE description TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_payment_setting_payment_method_option_card_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_sbscrption_pymnt_stting_pyment_mthod_opton_crd_mndate_opton(
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
   description TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_payment_setting_payment_method_option_card_mandate_option
+RETURNS stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_crd_mandate_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     amount, amount_type, description
-  )::stripe_subscriptions.s_payment_setting_payment_method_option_card_mandate_option;
+  )::stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_crd_mandate_option;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_payment_setting_payment_method_option_customer_balance
-  ADD ATTRIBUTE bank_transfer stripe_subscriptions.s_p_s_payment_method_option_customer_balance_bank_transfer,
+ALTER TYPE stripe_subscriptions.sbscription_pyment_stting_pyment_method_option_customer_balance
+  ADD ATTRIBUTE bank_transfer stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthd_optn_cstmer_blnce_bnk_trnsfer,
   ADD ATTRIBUTE funding_type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_payment_setting_payment_method_option_customer_balance(
-  bank_transfer stripe_subscriptions.s_p_s_payment_method_option_customer_balance_bank_transfer DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_sbscription_pyment_stting_pyment_mthod_opton_cstomer_blance(
+  bank_transfer stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthd_optn_cstmer_blnce_bnk_trnsfer DEFAULT NULL,
   funding_type TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_payment_setting_payment_method_option_customer_balance
+RETURNS stripe_subscriptions.sbscription_pyment_stting_pyment_method_option_customer_balance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bank_transfer, funding_type
-  )::stripe_subscriptions.s_payment_setting_payment_method_option_customer_balance;
+  )::stripe_subscriptions.sbscription_pyment_stting_pyment_method_option_customer_balance;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_p_s_payment_method_option_customer_balance_bank_transfer
-  ADD ATTRIBUTE eu_bank_transfer stripe_subscriptions.s_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer,
+ALTER TYPE stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthd_optn_cstmer_blnce_bnk_trnsfer
+  ADD ATTRIBUTE eu_bank_transfer stripe_subscriptions.s_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr,
   ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_p_s_payment_method_option_customer_balance_bank_transfer(
-  eu_bank_transfer stripe_subscriptions.s_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_sbscrptn_pymnt_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr(
+  eu_bank_transfer stripe_subscriptions.s_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr DEFAULT NULL,
   type TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_p_s_payment_method_option_customer_balance_bank_transfer
+RETURNS stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthd_optn_cstmer_blnce_bnk_trnsfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     eu_bank_transfer, type
-  )::stripe_subscriptions.s_p_s_payment_method_option_customer_balance_bank_transfer;
+  )::stripe_subscriptions.sbscrption_pymnt_sttng_pymnt_mthd_optn_cstmer_blnce_bnk_trnsfer;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer
+ALTER TYPE stripe_subscriptions.s_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr
   ADD ATTRIBUTE country TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_p_s_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr(
   country TEXT
 )
-RETURNS stripe_subscriptions.s_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer
+RETURNS stripe_subscriptions.s_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     country
-  )::stripe_subscriptions.s_p_s_p_m_o_customer_balance_bank_transfer_eu_bank_transfer;
+  )::stripe_subscriptions.s_p_sttng_pymnt_mthd_optn_cstmr_blnce_bnk_trnsfr_eu_bnk_trnsfr;
 $$;
 
 ALTER TYPE stripe_subscriptions.subscription_payment_setting_payment_method_option_payto
-  ADD ATTRIBUTE mandate_options stripe_subscriptions.s_payment_setting_payment_method_option_payto_mandate_option;
+  ADD ATTRIBUTE mandate_options stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_pyto_mndate_option;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions.make_subscription_payment_setting_payment_method_option_payto(
-  mandate_options stripe_subscriptions.s_payment_setting_payment_method_option_payto_mandate_option DEFAULT NULL
+  mandate_options stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_pyto_mndate_option DEFAULT NULL
 )
 RETURNS stripe_subscriptions.subscription_payment_setting_payment_method_option_payto
 LANGUAGE SQL
@@ -2383,74 +2383,74 @@ AS $$
   )::stripe_subscriptions.subscription_payment_setting_payment_method_option_payto;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_payment_setting_payment_method_option_payto_mandate_option
+ALTER TYPE stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_pyto_mndate_option
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE amount_type TEXT,
   ADD ATTRIBUTE purpose TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_payment_setting_payment_method_option_payto_mandate_option(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_sbscrption_pymnt_sttng_pyment_mthod_opton_pyto_mndate_opton(
   amount BIGINT DEFAULT NULL,
   amount_type TEXT DEFAULT NULL,
   purpose TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_payment_setting_payment_method_option_payto_mandate_option
+RETURNS stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_pyto_mndate_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     amount, amount_type, purpose
-  )::stripe_subscriptions.s_payment_setting_payment_method_option_payto_mandate_option;
+  )::stripe_subscriptions.sbscription_pyment_stting_pyment_mthod_opton_pyto_mndate_option;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_payment_setting_payment_method_option_us_bank_account
-  ADD ATTRIBUTE financial_connections stripe_subscriptions.s_p_s_p_method_option_us_bank_account_financial_connection,
+ALTER TYPE stripe_subscriptions.sbscription_pyment_stting_payment_method_option_us_bank_account
+  ADD ATTRIBUTE financial_connections stripe_subscriptions.sbscrptn_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnncton,
   ADD ATTRIBUTE verification_method TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_payment_setting_payment_method_option_us_bank_account(
-  financial_connections stripe_subscriptions.s_p_s_p_method_option_us_bank_account_financial_connection DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_sbscription_pyment_stting_pyment_mthod_opton_us_bnk_account(
+  financial_connections stripe_subscriptions.sbscrptn_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnncton DEFAULT NULL,
   verification_method TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_payment_setting_payment_method_option_us_bank_account
+RETURNS stripe_subscriptions.sbscription_pyment_stting_payment_method_option_us_bank_account
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     financial_connections, verification_method
-  )::stripe_subscriptions.s_payment_setting_payment_method_option_us_bank_account;
+  )::stripe_subscriptions.sbscription_pyment_stting_payment_method_option_us_bank_account;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_p_s_p_method_option_us_bank_account_financial_connection
-  ADD ATTRIBUTE filters stripe_subscriptions.s_p_s_p_m_option_us_bank_account_financial_connection_filter,
+ALTER TYPE stripe_subscriptions.sbscrptn_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnncton
+  ADD ATTRIBUTE filters stripe_subscriptions.s_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr,
   ADD ATTRIBUTE permissions TEXT[],
   ADD ATTRIBUTE prefetch TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_p_s_p_method_option_us_bank_account_financial_connection(
-  filters stripe_subscriptions.s_p_s_p_m_option_us_bank_account_financial_connection_filter DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn(
+  filters stripe_subscriptions.s_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr DEFAULT NULL,
   permissions TEXT[] DEFAULT NULL,
   prefetch TEXT[] DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_p_s_p_method_option_us_bank_account_financial_connection
+RETURNS stripe_subscriptions.sbscrptn_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnncton
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     filters, permissions, prefetch
-  )::stripe_subscriptions.s_p_s_p_method_option_us_bank_account_financial_connection;
+  )::stripe_subscriptions.sbscrptn_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnncton;
 $$;
 
-ALTER TYPE stripe_subscriptions.s_p_s_p_m_option_us_bank_account_financial_connection_filter
+ALTER TYPE stripe_subscriptions.s_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr
   ADD ATTRIBUTE account_subcategories TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_p_s_p_m_option_us_bank_account_financial_connection_filter(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.m_s_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr(
   account_subcategories TEXT[] DEFAULT NULL
 )
-RETURNS stripe_subscriptions.s_p_s_p_m_option_us_bank_account_financial_connection_filter
+RETURNS stripe_subscriptions.s_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     account_subcategories
-  )::stripe_subscriptions.s_p_s_p_m_option_us_bank_account_financial_connection_filter;
+  )::stripe_subscriptions.s_pymnt_sttng_pymnt_mthd_optn_us_bnk_accnt_fnncl_cnnctn_fltr;
 $$;
 
 ALTER TYPE stripe_subscriptions.subscription_pending_invoice_item_interval

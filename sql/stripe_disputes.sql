@@ -461,80 +461,80 @@ AS $$
   )::stripe_disputes.connect_collection_transfer;
 $$;
 
-ALTER TYPE stripe_disputes.c_b_resource_cash_balance_transaction_adjusted_for_overdraft
+ALTER TYPE stripe_disputes.cstmer_blance_rsource_csh_blance_trnsaction_adjsted_fr_ovrdraft
   ADD ATTRIBUTE balance_transaction JSONB,
   ADD ATTRIBUTE linked_transaction JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_c_b_resource_cash_balance_transaction_adjusted_for_overdraft(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_cstmer_blnce_rsurce_csh_blnce_trnsction_adjsted_fr_ovrdraft(
   balance_transaction JSONB, linked_transaction JSONB
 )
-RETURNS stripe_disputes.c_b_resource_cash_balance_transaction_adjusted_for_overdraft
+RETURNS stripe_disputes.cstmer_blance_rsource_csh_blance_trnsaction_adjsted_fr_ovrdraft
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     balance_transaction, linked_transaction
-  )::stripe_disputes.c_b_resource_cash_balance_transaction_adjusted_for_overdraft;
+  )::stripe_disputes.cstmer_blance_rsource_csh_blance_trnsaction_adjsted_fr_ovrdraft;
 $$;
 
-ALTER TYPE stripe_disputes.c_balance_resource_cash_balance_transaction_applied_to_payment
+ALTER TYPE stripe_disputes.cstomer_blance_rsource_csh_blance_trnsaction_applied_to_payment
   ADD ATTRIBUTE payment_intent JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_c_b_resource_cash_balance_transaction_applied_to_payment(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_cstmer_blnce_rsource_csh_blance_trnsaction_appled_to_pyment(
   payment_intent JSONB
 )
-RETURNS stripe_disputes.c_balance_resource_cash_balance_transaction_applied_to_payment
+RETURNS stripe_disputes.cstomer_blance_rsource_csh_blance_trnsaction_applied_to_payment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     payment_intent
-  )::stripe_disputes.c_balance_resource_cash_balance_transaction_applied_to_payment;
+  )::stripe_disputes.cstomer_blance_rsource_csh_blance_trnsaction_applied_to_payment;
 $$;
 
-ALTER TYPE stripe_disputes.c_b_resource_cash_balance_transaction_refunded_from_payment
+ALTER TYPE stripe_disputes.cstomer_blance_rsource_csh_blance_trnsaction_rfunded_frm_pyment
   ADD ATTRIBUTE refund JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_c_b_resource_cash_balance_transaction_refunded_from_payment(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_cstmer_blnce_rsurce_csh_blnce_trnsaction_rfunded_frm_pyment(
   refund JSONB
 )
-RETURNS stripe_disputes.c_b_resource_cash_balance_transaction_refunded_from_payment
+RETURNS stripe_disputes.cstomer_blance_rsource_csh_blance_trnsaction_rfunded_frm_pyment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     refund
-  )::stripe_disputes.c_b_resource_cash_balance_transaction_refunded_from_payment;
+  )::stripe_disputes.cstomer_blance_rsource_csh_blance_trnsaction_rfunded_frm_pyment;
 $$;
 
-ALTER TYPE stripe_disputes.c_b_resource_cash_balance_transaction_transferred_to_balance
+ALTER TYPE stripe_disputes.cstmer_blnce_rsource_csh_blance_trnsaction_trnsferred_to_blance
   ADD ATTRIBUTE balance_transaction JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_c_b_resource_cash_balance_transaction_transferred_to_balance(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_cstmer_blnce_rsurce_csh_blnce_trnsction_trnsfrred_to_blance(
   balance_transaction JSONB
 )
-RETURNS stripe_disputes.c_b_resource_cash_balance_transaction_transferred_to_balance
+RETURNS stripe_disputes.cstmer_blnce_rsource_csh_blance_trnsaction_trnsferred_to_blance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     balance_transaction
-  )::stripe_disputes.c_b_resource_cash_balance_transaction_transferred_to_balance;
+  )::stripe_disputes.cstmer_blnce_rsource_csh_blance_trnsaction_trnsferred_to_blance;
 $$;
 
-ALTER TYPE stripe_disputes.c_b_resource_cash_balance_transaction_unapplied_from_payment
+ALTER TYPE stripe_disputes.cstmer_blance_rsource_csh_blance_trnsaction_unpplied_frm_pyment
   ADD ATTRIBUTE payment_intent JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_c_b_resource_cash_balance_transaction_unapplied_from_payment(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_cstmer_blnce_rsurce_csh_blnce_trnsction_unpplied_frm_pyment(
   payment_intent JSONB
 )
-RETURNS stripe_disputes.c_b_resource_cash_balance_transaction_unapplied_from_payment
+RETURNS stripe_disputes.cstmer_blance_rsource_csh_blance_trnsaction_unpplied_frm_pyment
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     payment_intent
-  )::stripe_disputes.c_b_resource_cash_balance_transaction_unapplied_from_payment;
+  )::stripe_disputes.cstmer_blance_rsource_csh_blance_trnsaction_unpplied_frm_pyment;
 $$;
 
 ALTER TYPE stripe_disputes.customer_cash_balance_transaction
@@ -614,19 +614,19 @@ $$;
 
 ALTER TYPE stripe_disputes.customer_cash_balance_transaction_funded_bank_transfer
   ADD ATTRIBUTE type TEXT,
-  ADD ATTRIBUTE eu_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_eu_bank_transfer,
-  ADD ATTRIBUTE gb_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_gb_bank_transfer,
-  ADD ATTRIBUTE jp_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_jp_bank_transfer,
+  ADD ATTRIBUTE eu_bank_transfer stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_eu_bnk_transfer,
+  ADD ATTRIBUTE gb_bank_transfer stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_gb_bnk_transfer,
+  ADD ATTRIBUTE jp_bank_transfer stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_jp_bnk_transfer,
   ADD ATTRIBUTE reference TEXT,
-  ADD ATTRIBUTE us_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_us_bank_transfer;
+  ADD ATTRIBUTE us_bank_transfer stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_us_bnk_transfer;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_customer_cash_balance_transaction_funded_bank_transfer(
   type TEXT,
-  eu_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_eu_bank_transfer DEFAULT NULL,
-  gb_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_gb_bank_transfer DEFAULT NULL,
-  jp_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_jp_bank_transfer DEFAULT NULL,
+  eu_bank_transfer stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_eu_bnk_transfer DEFAULT NULL,
+  gb_bank_transfer stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_gb_bnk_transfer DEFAULT NULL,
+  jp_bank_transfer stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_jp_bnk_transfer DEFAULT NULL,
   reference TEXT DEFAULT NULL,
-  us_bank_transfer stripe_disputes.c_c_balance_transaction_funded_bank_transfer_us_bank_transfer DEFAULT NULL
+  us_bank_transfer stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_us_bnk_transfer DEFAULT NULL
 )
 RETURNS stripe_disputes.customer_cash_balance_transaction_funded_bank_transfer
 LANGUAGE SQL
@@ -642,76 +642,76 @@ AS $$
   )::stripe_disputes.customer_cash_balance_transaction_funded_bank_transfer;
 $$;
 
-ALTER TYPE stripe_disputes.c_c_balance_transaction_funded_bank_transfer_eu_bank_transfer
+ALTER TYPE stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_eu_bnk_transfer
   ADD ATTRIBUTE bic TEXT,
   ADD ATTRIBUTE iban_last4 TEXT,
   ADD ATTRIBUTE sender_name TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_c_c_balance_transaction_funded_bank_transfer_eu_bank_transfer(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_cstmer_csh_blnce_trnsction_fnded_bnk_trnsfer_eu_bnk_trnsfer(
   bic TEXT DEFAULT NULL,
   iban_last4 TEXT DEFAULT NULL,
   sender_name TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.c_c_balance_transaction_funded_bank_transfer_eu_bank_transfer
+RETURNS stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_eu_bnk_transfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     bic, iban_last4, sender_name
-  )::stripe_disputes.c_c_balance_transaction_funded_bank_transfer_eu_bank_transfer;
+  )::stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_eu_bnk_transfer;
 $$;
 
-ALTER TYPE stripe_disputes.c_c_balance_transaction_funded_bank_transfer_gb_bank_transfer
+ALTER TYPE stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_gb_bnk_transfer
   ADD ATTRIBUTE account_number_last4 TEXT,
   ADD ATTRIBUTE sender_name TEXT,
   ADD ATTRIBUTE sort_code TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_c_c_balance_transaction_funded_bank_transfer_gb_bank_transfer(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_cstmer_csh_blnce_trnsction_fnded_bnk_trnsfer_gb_bnk_trnsfer(
   account_number_last4 TEXT DEFAULT NULL,
   sender_name TEXT DEFAULT NULL,
   sort_code TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.c_c_balance_transaction_funded_bank_transfer_gb_bank_transfer
+RETURNS stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_gb_bnk_transfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     account_number_last4, sender_name, sort_code
-  )::stripe_disputes.c_c_balance_transaction_funded_bank_transfer_gb_bank_transfer;
+  )::stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_gb_bnk_transfer;
 $$;
 
-ALTER TYPE stripe_disputes.c_c_balance_transaction_funded_bank_transfer_jp_bank_transfer
+ALTER TYPE stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_jp_bnk_transfer
   ADD ATTRIBUTE sender_bank TEXT,
   ADD ATTRIBUTE sender_branch TEXT,
   ADD ATTRIBUTE sender_name TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_c_c_balance_transaction_funded_bank_transfer_jp_bank_transfer(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_cstmer_csh_blnce_trnsction_fnded_bnk_trnsfer_jp_bnk_trnsfer(
   sender_bank TEXT DEFAULT NULL,
   sender_branch TEXT DEFAULT NULL,
   sender_name TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.c_c_balance_transaction_funded_bank_transfer_jp_bank_transfer
+RETURNS stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_jp_bnk_transfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     sender_bank, sender_branch, sender_name
-  )::stripe_disputes.c_c_balance_transaction_funded_bank_transfer_jp_bank_transfer;
+  )::stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_jp_bnk_transfer;
 $$;
 
-ALTER TYPE stripe_disputes.c_c_balance_transaction_funded_bank_transfer_us_bank_transfer
+ALTER TYPE stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_us_bnk_transfer
   ADD ATTRIBUTE network TEXT, ADD ATTRIBUTE sender_name TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_c_c_balance_transaction_funded_bank_transfer_us_bank_transfer(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_cstmer_csh_blnce_trnsction_fnded_bnk_trnsfer_us_bnk_trnsfer(
   network TEXT DEFAULT NULL, sender_name TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.c_c_balance_transaction_funded_bank_transfer_us_bank_transfer
+RETURNS stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_us_bnk_transfer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     network, sender_name
-  )::stripe_disputes.c_c_balance_transaction_funded_bank_transfer_us_bank_transfer;
+  )::stripe_disputes.cstomer_csh_blance_trnsaction_fnded_bnk_trnsfer_us_bnk_transfer;
 $$;
 
 ALTER TYPE stripe_disputes.dispute
@@ -891,12 +891,12 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.dispute_evidence_enhanced_evidence_visa_compelling_evidence_3
-  ADD ATTRIBUTE prior_undisputed_transactions stripe_disputes.d_e_e_e_visa_compelling_evidence_3_prior_undisputed_transaction[],
-  ADD ATTRIBUTE disputed_transaction stripe_disputes.d_e_e_evidence_visa_compelling_evidence_3_disputed_transaction;
+  ADD ATTRIBUTE prior_undisputed_transactions stripe_disputes.d_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn[],
+  ADD ATTRIBUTE disputed_transaction stripe_disputes.dspte_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsction;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_dispute_evidence_enhanced_evidence_visa_compelling_evidence_3(
-  prior_undisputed_transactions stripe_disputes.d_e_e_e_visa_compelling_evidence_3_prior_undisputed_transaction[],
-  disputed_transaction stripe_disputes.d_e_e_evidence_visa_compelling_evidence_3_disputed_transaction DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_dspute_evdence_enhanced_evidence_visa_compelling_evidence_3(
+  prior_undisputed_transactions stripe_disputes.d_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn[],
+  disputed_transaction stripe_disputes.dspte_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsction DEFAULT NULL
 )
 RETURNS stripe_disputes.dispute_evidence_enhanced_evidence_visa_compelling_evidence_3
 LANGUAGE SQL
@@ -907,7 +907,7 @@ AS $$
   )::stripe_disputes.dispute_evidence_enhanced_evidence_visa_compelling_evidence_3;
 $$;
 
-ALTER TYPE stripe_disputes.d_e_e_e_visa_compelling_evidence_3_prior_undisputed_transaction
+ALTER TYPE stripe_disputes.d_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn
   ADD ATTRIBUTE charge TEXT,
   ADD ATTRIBUTE customer_account_id TEXT,
   ADD ATTRIBUTE customer_device_fingerprint TEXT,
@@ -915,9 +915,9 @@ ALTER TYPE stripe_disputes.d_e_e_e_visa_compelling_evidence_3_prior_undisputed_t
   ADD ATTRIBUTE customer_email_address TEXT,
   ADD ATTRIBUTE customer_purchase_ip TEXT,
   ADD ATTRIBUTE product_description TEXT,
-  ADD ATTRIBUTE shipping_address stripe_disputes.d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping_address;
+  ADD ATTRIBUTE shipping_address stripe_disputes.d_e_e_e_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn_shppng_addrss;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_compelling_evidence_3_prior_undisputed_transaction(
+CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_enhncd_evdnce_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn(
   charge TEXT,
   customer_account_id TEXT DEFAULT NULL,
   customer_device_fingerprint TEXT DEFAULT NULL,
@@ -925,9 +925,9 @@ CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_compelling_evidence_3_pri
   customer_email_address TEXT DEFAULT NULL,
   customer_purchase_ip TEXT DEFAULT NULL,
   product_description TEXT DEFAULT NULL,
-  shipping_address stripe_disputes.d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping_address DEFAULT NULL
+  shipping_address stripe_disputes.d_e_e_e_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn_shppng_addrss DEFAULT NULL
 )
-RETURNS stripe_disputes.d_e_e_e_visa_compelling_evidence_3_prior_undisputed_transaction
+RETURNS stripe_disputes.d_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -940,10 +940,10 @@ AS $$
     customer_purchase_ip,
     product_description,
     shipping_address
-  )::stripe_disputes.d_e_e_e_visa_compelling_evidence_3_prior_undisputed_transaction;
+  )::stripe_disputes.d_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn;
 $$;
 
-ALTER TYPE stripe_disputes.d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping_address
+ALTER TYPE stripe_disputes.d_e_e_e_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn_shppng_addrss
   ADD ATTRIBUTE city TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE line1 TEXT,
@@ -951,7 +951,7 @@ ALTER TYPE stripe_disputes.d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping
   ADD ATTRIBUTE postal_code TEXT,
   ADD ATTRIBUTE state TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping_address(
+CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_cmpllng_evdnce_3_prr_undsptd_trnsctn_shppng_addrss(
   city TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
   line1 TEXT DEFAULT NULL,
@@ -959,16 +959,16 @@ CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_c_e_3_prior_undisputed_tr
   postal_code TEXT DEFAULT NULL,
   state TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping_address
+RETURNS stripe_disputes.d_e_e_e_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn_shppng_addrss
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     city, country, line1, line2, postal_code, state
-  )::stripe_disputes.d_e_e_e_v_c_e_3_prior_undisputed_transaction_shipping_address;
+  )::stripe_disputes.d_e_e_e_vsa_cmpllng_evdnce_3_prr_undsptd_trnsctn_shppng_addrss;
 $$;
 
-ALTER TYPE stripe_disputes.d_e_e_evidence_visa_compelling_evidence_3_disputed_transaction
+ALTER TYPE stripe_disputes.dspte_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsction
   ADD ATTRIBUTE customer_account_id TEXT,
   ADD ATTRIBUTE customer_device_fingerprint TEXT,
   ADD ATTRIBUTE customer_device_id TEXT,
@@ -976,9 +976,9 @@ ALTER TYPE stripe_disputes.d_e_e_evidence_visa_compelling_evidence_3_disputed_tr
   ADD ATTRIBUTE customer_purchase_ip TEXT,
   ADD ATTRIBUTE merchandise_or_services TEXT,
   ADD ATTRIBUTE product_description TEXT,
-  ADD ATTRIBUTE shipping_address stripe_disputes.d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_address;
+  ADD ATTRIBUTE shipping_address stripe_disputes.d_e_e_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsctn_shppng_addrss;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_visa_compelling_evidence_3_disputed_transaction(
+CREATE OR REPLACE FUNCTION stripe_disputes.m_dspte_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsctn(
   customer_account_id TEXT DEFAULT NULL,
   customer_device_fingerprint TEXT DEFAULT NULL,
   customer_device_id TEXT DEFAULT NULL,
@@ -986,9 +986,9 @@ CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_visa_compelling_evidence_3_
   customer_purchase_ip TEXT DEFAULT NULL,
   merchandise_or_services TEXT DEFAULT NULL,
   product_description TEXT DEFAULT NULL,
-  shipping_address stripe_disputes.d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_address DEFAULT NULL
+  shipping_address stripe_disputes.d_e_e_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsctn_shppng_addrss DEFAULT NULL
 )
-RETURNS stripe_disputes.d_e_e_evidence_visa_compelling_evidence_3_disputed_transaction
+RETURNS stripe_disputes.dspte_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsction
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1001,10 +1001,10 @@ AS $$
     merchandise_or_services,
     product_description,
     shipping_address
-  )::stripe_disputes.d_e_e_evidence_visa_compelling_evidence_3_disputed_transaction;
+  )::stripe_disputes.dspte_evdnce_enhncd_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsction;
 $$;
 
-ALTER TYPE stripe_disputes.d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_address
+ALTER TYPE stripe_disputes.d_e_e_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsctn_shppng_addrss
   ADD ATTRIBUTE city TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE line1 TEXT,
@@ -1012,7 +1012,7 @@ ALTER TYPE stripe_disputes.d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_
   ADD ATTRIBUTE postal_code TEXT,
   ADD ATTRIBUTE state TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_address(
+CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsctn_shppng_addrss(
   city TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
   line1 TEXT DEFAULT NULL,
@@ -1020,13 +1020,13 @@ CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_e_e_v_c_evidence_3_disputed_tra
   postal_code TEXT DEFAULT NULL,
   state TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_address
+RETURNS stripe_disputes.d_e_e_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsctn_shppng_addrss
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     city, country, line1, line2, postal_code, state
-  )::stripe_disputes.d_e_e_e_v_c_evidence_3_disputed_transaction_shipping_address;
+  )::stripe_disputes.d_e_e_evdnce_vsa_cmpllng_evdnce_3_dsptd_trnsctn_shppng_addrss;
 $$;
 
 ALTER TYPE stripe_disputes.dispute_evidence_enhanced_evidence_visa_compliance
@@ -1068,11 +1068,11 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.dispute_evidence_detail_enhanced_eligibility
-  ADD ATTRIBUTE visa_compelling_evidence_3 stripe_disputes.d_e_detail_enhanced_eligibility_visa_compelling_evidence_3,
+  ADD ATTRIBUTE visa_compelling_evidence_3 stripe_disputes.dspute_evdence_dtail_enhnced_elgibility_vsa_cmpelling_evdence_3,
   ADD ATTRIBUTE visa_compliance stripe_disputes.dispute_evidence_detail_enhanced_eligibility_visa_compliance;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_dispute_evidence_detail_enhanced_eligibility(
-  visa_compelling_evidence_3 stripe_disputes.d_e_detail_enhanced_eligibility_visa_compelling_evidence_3 DEFAULT NULL,
+  visa_compelling_evidence_3 stripe_disputes.dspute_evdence_dtail_enhnced_elgibility_vsa_cmpelling_evdence_3 DEFAULT NULL,
   visa_compliance stripe_disputes.dispute_evidence_detail_enhanced_eligibility_visa_compliance DEFAULT NULL
 )
 RETURNS stripe_disputes.dispute_evidence_detail_enhanced_eligibility
@@ -1084,25 +1084,25 @@ AS $$
   )::stripe_disputes.dispute_evidence_detail_enhanced_eligibility;
 $$;
 
-ALTER TYPE stripe_disputes.d_e_detail_enhanced_eligibility_visa_compelling_evidence_3
+ALTER TYPE stripe_disputes.dspute_evdence_dtail_enhnced_elgibility_vsa_cmpelling_evdence_3
   ADD ATTRIBUTE required_actions TEXT[], ADD ATTRIBUTE status TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_d_e_detail_enhanced_eligibility_visa_compelling_evidence_3(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_dspte_evdnce_dtil_enhncd_elgibility_vsa_cmpelling_evdence_3(
   required_actions TEXT[], status TEXT
 )
-RETURNS stripe_disputes.d_e_detail_enhanced_eligibility_visa_compelling_evidence_3
+RETURNS stripe_disputes.dspute_evdence_dtail_enhnced_elgibility_vsa_cmpelling_evdence_3
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     required_actions, status
-  )::stripe_disputes.d_e_detail_enhanced_eligibility_visa_compelling_evidence_3;
+  )::stripe_disputes.dspute_evdence_dtail_enhnced_elgibility_vsa_cmpelling_evdence_3;
 $$;
 
 ALTER TYPE stripe_disputes.dispute_evidence_detail_enhanced_eligibility_visa_compliance
   ADD ATTRIBUTE status TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_dispute_evidence_detail_enhanced_eligibility_visa_compliance(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_dspute_evidence_detail_enhanced_eligibility_visa_compliance(
   status TEXT
 )
 RETURNS stripe_disputes.dispute_evidence_detail_enhanced_eligibility_visa_compliance
@@ -1518,7 +1518,7 @@ ALTER TYPE stripe_disputes.issuing_authorization_verification_data
   ADD ATTRIBUTE address_postal_code_check TEXT,
   ADD ATTRIBUTE cvc_check TEXT,
   ADD ATTRIBUTE expiry_check TEXT,
-  ADD ATTRIBUTE authentication_exemption stripe_disputes.i_authorization_verification_data_authentication_exemption,
+  ADD ATTRIBUTE authentication_exemption stripe_disputes.issing_authorization_verification_data_authentication_exemption,
   ADD ATTRIBUTE postal_code TEXT,
   ADD ATTRIBUTE three_d_secure stripe_disputes.issuing_authorization_verification_data_three_d_secure;
 
@@ -1527,7 +1527,7 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_authorization_verificati
   address_postal_code_check TEXT,
   cvc_check TEXT,
   expiry_check TEXT,
-  authentication_exemption stripe_disputes.i_authorization_verification_data_authentication_exemption DEFAULT NULL,
+  authentication_exemption stripe_disputes.issing_authorization_verification_data_authentication_exemption DEFAULT NULL,
   postal_code TEXT DEFAULT NULL,
   three_d_secure stripe_disputes.issuing_authorization_verification_data_three_d_secure DEFAULT NULL
 )
@@ -1546,19 +1546,19 @@ AS $$
   )::stripe_disputes.issuing_authorization_verification_data;
 $$;
 
-ALTER TYPE stripe_disputes.i_authorization_verification_data_authentication_exemption
+ALTER TYPE stripe_disputes.issing_authorization_verification_data_authentication_exemption
   ADD ATTRIBUTE claimed_by TEXT, ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_i_authorization_verification_data_authentication_exemption(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_issing_athorization_vrification_dta_athentication_exemption(
   claimed_by TEXT, type TEXT
 )
-RETURNS stripe_disputes.i_authorization_verification_data_authentication_exemption
+RETURNS stripe_disputes.issing_authorization_verification_data_authentication_exemption
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     claimed_by, type
-  )::stripe_disputes.i_authorization_verification_data_authentication_exemption;
+  )::stripe_disputes.issing_authorization_verification_data_authentication_exemption;
 $$;
 
 ALTER TYPE stripe_disputes.issuing_authorization_verification_data_three_d_secure
@@ -2842,13 +2842,13 @@ AS $$
 $$;
 
 ALTER TYPE stripe_disputes.issuing_transaction_purchase_detail_fleet
-  ADD ATTRIBUTE cardholder_prompt_data stripe_disputes.i_transaction_purchase_detail_fleet_cardholder_prompt_data,
+  ADD ATTRIBUTE cardholder_prompt_data stripe_disputes.issing_transaction_purchase_detail_fleet_cardholder_prompt_data,
   ADD ATTRIBUTE purchase_type TEXT,
   ADD ATTRIBUTE reported_breakdown stripe_disputes.issuing_transaction_purchase_detail_fleet_reported_breakdown,
   ADD ATTRIBUTE service_type TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.make_issuing_transaction_purchase_detail_fleet(
-  cardholder_prompt_data stripe_disputes.i_transaction_purchase_detail_fleet_cardholder_prompt_data DEFAULT NULL,
+  cardholder_prompt_data stripe_disputes.issing_transaction_purchase_detail_fleet_cardholder_prompt_data DEFAULT NULL,
   purchase_type TEXT DEFAULT NULL,
   reported_breakdown stripe_disputes.issuing_transaction_purchase_detail_fleet_reported_breakdown DEFAULT NULL,
   service_type TEXT DEFAULT NULL
@@ -2862,38 +2862,38 @@ AS $$
   )::stripe_disputes.issuing_transaction_purchase_detail_fleet;
 $$;
 
-ALTER TYPE stripe_disputes.i_transaction_purchase_detail_fleet_cardholder_prompt_data
+ALTER TYPE stripe_disputes.issing_transaction_purchase_detail_fleet_cardholder_prompt_data
   ADD ATTRIBUTE driver_id TEXT,
   ADD ATTRIBUTE odometer BIGINT,
   ADD ATTRIBUTE unspecified_id TEXT,
   ADD ATTRIBUTE user_id TEXT,
   ADD ATTRIBUTE vehicle_number TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_i_transaction_purchase_detail_fleet_cardholder_prompt_data(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_issing_trnsaction_prchase_dtail_flet_cardholder_prompt_data(
   driver_id TEXT DEFAULT NULL,
   odometer BIGINT DEFAULT NULL,
   unspecified_id TEXT DEFAULT NULL,
   user_id TEXT DEFAULT NULL,
   vehicle_number TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.i_transaction_purchase_detail_fleet_cardholder_prompt_data
+RETURNS stripe_disputes.issing_transaction_purchase_detail_fleet_cardholder_prompt_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     driver_id, odometer, unspecified_id, user_id, vehicle_number
-  )::stripe_disputes.i_transaction_purchase_detail_fleet_cardholder_prompt_data;
+  )::stripe_disputes.issing_transaction_purchase_detail_fleet_cardholder_prompt_data;
 $$;
 
 ALTER TYPE stripe_disputes.issuing_transaction_purchase_detail_fleet_reported_breakdown
-  ADD ATTRIBUTE fuel stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_fuel,
-  ADD ATTRIBUTE non_fuel stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_non_fuel,
-  ADD ATTRIBUTE tax stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_tax;
+  ADD ATTRIBUTE fuel stripe_disputes.issing_trnsaction_purchase_detail_fleet_reported_breakdown_fuel,
+  ADD ATTRIBUTE non_fuel stripe_disputes.issing_trnsaction_prchase_dtail_flet_rported_breakdown_non_fuel,
+  ADD ATTRIBUTE tax stripe_disputes.issing_transaction_purchase_detail_fleet_reported_breakdown_tax;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_issuing_transaction_purchase_detail_fleet_reported_breakdown(
-  fuel stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_fuel DEFAULT NULL,
-  non_fuel stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_non_fuel DEFAULT NULL,
-  tax stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_tax DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_issing_transaction_purchase_detail_fleet_reported_breakdown(
+  fuel stripe_disputes.issing_trnsaction_purchase_detail_fleet_reported_breakdown_fuel DEFAULT NULL,
+  non_fuel stripe_disputes.issing_trnsaction_prchase_dtail_flet_rported_breakdown_non_fuel DEFAULT NULL,
+  tax stripe_disputes.issing_transaction_purchase_detail_fleet_reported_breakdown_tax DEFAULT NULL
 )
 RETURNS stripe_disputes.issuing_transaction_purchase_detail_fleet_reported_breakdown
 LANGUAGE SQL
@@ -2904,51 +2904,51 @@ AS $$
   )::stripe_disputes.issuing_transaction_purchase_detail_fleet_reported_breakdown;
 $$;
 
-ALTER TYPE stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_fuel
+ALTER TYPE stripe_disputes.issing_trnsaction_purchase_detail_fleet_reported_breakdown_fuel
   ADD ATTRIBUTE gross_amount_decimal TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_i_transaction_purchase_detail_fleet_reported_breakdown_fuel(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_issing_trnsaction_prchase_dtail_flet_rported_breakdown_fuel(
   gross_amount_decimal TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_fuel
+RETURNS stripe_disputes.issing_trnsaction_purchase_detail_fleet_reported_breakdown_fuel
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     gross_amount_decimal
-  )::stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_fuel;
+  )::stripe_disputes.issing_trnsaction_purchase_detail_fleet_reported_breakdown_fuel;
 $$;
 
-ALTER TYPE stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_non_fuel
+ALTER TYPE stripe_disputes.issing_trnsaction_prchase_dtail_flet_rported_breakdown_non_fuel
   ADD ATTRIBUTE gross_amount_decimal TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_i_t_purchase_detail_fleet_reported_breakdown_non_fuel(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_issng_trnsaction_prchase_dtail_flet_rported_brakdown_nn_fel(
   gross_amount_decimal TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_non_fuel
+RETURNS stripe_disputes.issing_trnsaction_prchase_dtail_flet_rported_breakdown_non_fuel
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     gross_amount_decimal
-  )::stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_non_fuel;
+  )::stripe_disputes.issing_trnsaction_prchase_dtail_flet_rported_breakdown_non_fuel;
 $$;
 
-ALTER TYPE stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_tax
+ALTER TYPE stripe_disputes.issing_transaction_purchase_detail_fleet_reported_breakdown_tax
   ADD ATTRIBUTE local_amount_decimal TEXT,
   ADD ATTRIBUTE national_amount_decimal TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.m_i_transaction_purchase_detail_fleet_reported_breakdown_tax(
+CREATE OR REPLACE FUNCTION stripe_disputes.mke_issing_trnsaction_prchase_dtail_flet_reported_breakdown_tax(
   local_amount_decimal TEXT DEFAULT NULL,
   national_amount_decimal TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_tax
+RETURNS stripe_disputes.issing_transaction_purchase_detail_fleet_reported_breakdown_tax
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     local_amount_decimal, national_amount_decimal
-  )::stripe_disputes.i_transaction_purchase_detail_fleet_reported_breakdown_tax;
+  )::stripe_disputes.issing_transaction_purchase_detail_fleet_reported_breakdown_tax;
 $$;
 
 ALTER TYPE stripe_disputes.issuing_transaction_purchase_detail_flight

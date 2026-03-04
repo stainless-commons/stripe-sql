@@ -2607,190 +2607,202 @@ AS $$
   )::stripe_subscriptions.subscription_transfer_data;
 $$;
 
-ALTER TYPE stripe_subscriptions.add_invoice_item
-  ADD ATTRIBUTE discounts stripe_subscriptions.add_invoice_item_discount[],
+ALTER TYPE stripe_subscriptions.update_params_add_invoice_item
+  ADD ATTRIBUTE discounts stripe_subscriptions.update_params_add_invoice_item_update_params_discount[],
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE period stripe_subscriptions.add_invoice_item_period,
+  ADD ATTRIBUTE period stripe_subscriptions.update_params_add_invoice_item_update_params_period,
   ADD ATTRIBUTE price TEXT,
-  ADD ATTRIBUTE price_data stripe_subscriptions.add_invoice_item_price_data,
+  ADD ATTRIBUTE price_data stripe_subscriptions.update_params_add_invoice_item_update_params_price_data,
   ADD ATTRIBUTE quantity BIGINT,
   ADD ATTRIBUTE tax_rates JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_add_invoice_item(
-  discounts stripe_subscriptions.add_invoice_item_discount[] DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_add_invoice_item(
+  discounts stripe_subscriptions.update_params_add_invoice_item_update_params_discount[] DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  period stripe_subscriptions.add_invoice_item_period DEFAULT NULL,
+  period stripe_subscriptions.update_params_add_invoice_item_update_params_period DEFAULT NULL,
   price TEXT DEFAULT NULL,
-  price_data stripe_subscriptions.add_invoice_item_price_data DEFAULT NULL,
+  price_data stripe_subscriptions.update_params_add_invoice_item_update_params_price_data DEFAULT NULL,
   quantity BIGINT DEFAULT NULL,
   tax_rates JSONB DEFAULT NULL
 )
-RETURNS stripe_subscriptions.add_invoice_item
+RETURNS stripe_subscriptions.update_params_add_invoice_item
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     discounts, metadata, period, price, price_data, quantity, tax_rates
-  )::stripe_subscriptions.add_invoice_item;
+  )::stripe_subscriptions.update_params_add_invoice_item;
 $$;
 
-ALTER TYPE stripe_subscriptions.add_invoice_item_discount
+ALTER TYPE stripe_subscriptions.update_params_add_invoice_item_update_params_discount
   ADD ATTRIBUTE coupon TEXT,
   ADD ATTRIBUTE discount TEXT,
   ADD ATTRIBUTE promotion_code TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_add_invoice_item_discount(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_add_invoice_item_update_params_discount(
   coupon TEXT DEFAULT NULL,
   discount TEXT DEFAULT NULL,
   promotion_code TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.add_invoice_item_discount
+RETURNS stripe_subscriptions.update_params_add_invoice_item_update_params_discount
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     coupon, discount, promotion_code
-  )::stripe_subscriptions.add_invoice_item_discount;
+  )::stripe_subscriptions.update_params_add_invoice_item_update_params_discount;
 $$;
 
-ALTER TYPE stripe_subscriptions.add_invoice_item_period
-  ADD ATTRIBUTE "end" stripe_subscriptions.add_invoice_item_period_end,
-  ADD ATTRIBUTE start stripe_subscriptions.add_invoice_item_period_start;
+ALTER TYPE stripe_subscriptions.update_params_add_invoice_item_update_params_period
+  ADD ATTRIBUTE "end" stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_period_update_params_end,
+  ADD ATTRIBUTE start stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_priod_updte_params_start;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_add_invoice_item_period(
-  "end" stripe_subscriptions.add_invoice_item_period_end,
-  start stripe_subscriptions.add_invoice_item_period_start
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_add_invoice_item_update_params_period(
+  "end" stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_period_update_params_end,
+  start stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_priod_updte_params_start
 )
-RETURNS stripe_subscriptions.add_invoice_item_period
+RETURNS stripe_subscriptions.update_params_add_invoice_item_update_params_period
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("end", start)::stripe_subscriptions.add_invoice_item_period;
+  SELECT ROW(
+    "end", start
+  )::stripe_subscriptions.update_params_add_invoice_item_update_params_period;
 $$;
 
-ALTER TYPE stripe_subscriptions.add_invoice_item_period_end
+ALTER TYPE stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_period_update_params_end
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE "timestamp" BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_add_invoice_item_period_end(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_updte_prms_add_invice_itm_updte_prams_priod_updte_prams_end(
   type TEXT, "timestamp" BIGINT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.add_invoice_item_period_end
+RETURNS stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_period_update_params_end
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type, "timestamp"
-  )::stripe_subscriptions.add_invoice_item_period_end;
+  )::stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_period_update_params_end;
 $$;
 
-ALTER TYPE stripe_subscriptions.add_invoice_item_period_start
+ALTER TYPE stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_priod_updte_params_start
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE "timestamp" BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_add_invoice_item_period_start(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_updte_prms_add_invce_itm_updte_prams_priod_updte_prams_strt(
   type TEXT, "timestamp" BIGINT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.add_invoice_item_period_start
+RETURNS stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_priod_updte_params_start
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type, "timestamp"
-  )::stripe_subscriptions.add_invoice_item_period_start;
+  )::stripe_subscriptions.updte_prams_add_invice_itm_updte_prams_priod_updte_params_start;
 $$;
 
-ALTER TYPE stripe_subscriptions.add_invoice_item_price_data
+ALTER TYPE stripe_subscriptions.update_params_add_invoice_item_update_params_price_data
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE product TEXT,
   ADD ATTRIBUTE tax_behavior TEXT,
   ADD ATTRIBUTE unit_amount BIGINT,
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_add_invoice_item_price_data(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_add_invoice_item_update_params_price_data(
   currency TEXT,
   product TEXT,
   tax_behavior TEXT DEFAULT NULL,
   unit_amount BIGINT DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.add_invoice_item_price_data
+RETURNS stripe_subscriptions.update_params_add_invoice_item_update_params_price_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     currency, product, tax_behavior, unit_amount, unit_amount_decimal
-  )::stripe_subscriptions.add_invoice_item_price_data;
+  )::stripe_subscriptions.update_params_add_invoice_item_update_params_price_data;
 $$;
 
-ALTER TYPE stripe_subscriptions.automatic_tax
+ALTER TYPE stripe_subscriptions.update_params_automatic_tax
   ADD ATTRIBUTE enabled BOOLEAN,
-  ADD ATTRIBUTE liability stripe_subscriptions.automatic_tax_liability;
+  ADD ATTRIBUTE liability stripe_subscriptions.update_params_automatic_tax_update_params_liability;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_automatic_tax(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_automatic_tax(
   enabled BOOLEAN,
-  liability stripe_subscriptions.automatic_tax_liability DEFAULT NULL
+  liability stripe_subscriptions.update_params_automatic_tax_update_params_liability DEFAULT NULL
 )
-RETURNS stripe_subscriptions.automatic_tax
+RETURNS stripe_subscriptions.update_params_automatic_tax
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(enabled, liability)::stripe_subscriptions.automatic_tax;
+  SELECT ROW(
+    enabled, liability
+  )::stripe_subscriptions.update_params_automatic_tax;
 $$;
 
-ALTER TYPE stripe_subscriptions.automatic_tax_liability
+ALTER TYPE stripe_subscriptions.update_params_automatic_tax_update_params_liability
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_automatic_tax_liability(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_automatic_tax_update_params_liability(
   type TEXT, account TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.automatic_tax_liability
+RETURNS stripe_subscriptions.update_params_automatic_tax_update_params_liability
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(type, account)::stripe_subscriptions.automatic_tax_liability;
+  SELECT ROW(
+    type, account
+  )::stripe_subscriptions.update_params_automatic_tax_update_params_liability;
 $$;
 
-ALTER TYPE stripe_subscriptions.cancellation_detail
+ALTER TYPE stripe_subscriptions.update_params_cancellation_detail
   ADD ATTRIBUTE comment TEXT, ADD ATTRIBUTE feedback TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_cancellation_detail(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_cancellation_detail(
   comment TEXT DEFAULT NULL, feedback TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.cancellation_detail
+RETURNS stripe_subscriptions.update_params_cancellation_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(comment, feedback)::stripe_subscriptions.cancellation_detail;
+  SELECT ROW(
+    comment, feedback
+  )::stripe_subscriptions.update_params_cancellation_detail;
 $$;
 
-ALTER TYPE stripe_subscriptions.invoice_setting
+ALTER TYPE stripe_subscriptions.update_params_invoice_setting
   ADD ATTRIBUTE account_tax_ids JSONB,
-  ADD ATTRIBUTE issuer stripe_subscriptions.invoice_setting_issuer;
+  ADD ATTRIBUTE issuer stripe_subscriptions.update_params_invoice_setting_update_params_issuer;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_invoice_setting(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_invoice_setting(
   account_tax_ids JSONB DEFAULT NULL,
-  issuer stripe_subscriptions.invoice_setting_issuer DEFAULT NULL
+  issuer stripe_subscriptions.update_params_invoice_setting_update_params_issuer DEFAULT NULL
 )
-RETURNS stripe_subscriptions.invoice_setting
+RETURNS stripe_subscriptions.update_params_invoice_setting
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(account_tax_ids, issuer)::stripe_subscriptions.invoice_setting;
+  SELECT ROW(
+    account_tax_ids, issuer
+  )::stripe_subscriptions.update_params_invoice_setting;
 $$;
 
-ALTER TYPE stripe_subscriptions.invoice_setting_issuer
+ALTER TYPE stripe_subscriptions.update_params_invoice_setting_update_params_issuer
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_invoice_setting_issuer(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_invoice_setting_update_params_issuer(
   type TEXT, account TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.invoice_setting_issuer
+RETURNS stripe_subscriptions.update_params_invoice_setting_update_params_issuer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(type, account)::stripe_subscriptions.invoice_setting_issuer;
+  SELECT ROW(
+    type, account
+  )::stripe_subscriptions.update_params_invoice_setting_update_params_issuer;
 $$;
 
-ALTER TYPE stripe_subscriptions.item
+ALTER TYPE stripe_subscriptions.update_params_item
   ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE billing_thresholds JSONB,
   ADD ATTRIBUTE clear_usage BOOLEAN,
@@ -2798,11 +2810,11 @@ ALTER TYPE stripe_subscriptions.item
   ADD ATTRIBUTE discounts JSONB,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE price TEXT,
-  ADD ATTRIBUTE price_data stripe_subscriptions.item_price_data,
+  ADD ATTRIBUTE price_data stripe_subscriptions.update_params_item_update_params_price_data,
   ADD ATTRIBUTE quantity BIGINT,
   ADD ATTRIBUTE tax_rates JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_item(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_item(
   id TEXT DEFAULT NULL,
   billing_thresholds JSONB DEFAULT NULL,
   clear_usage BOOLEAN DEFAULT NULL,
@@ -2810,11 +2822,11 @@ CREATE OR REPLACE FUNCTION stripe_subscriptions.make_item(
   discounts JSONB DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   price TEXT DEFAULT NULL,
-  price_data stripe_subscriptions.item_price_data DEFAULT NULL,
+  price_data stripe_subscriptions.update_params_item_update_params_price_data DEFAULT NULL,
   quantity BIGINT DEFAULT NULL,
   tax_rates JSONB DEFAULT NULL
 )
-RETURNS stripe_subscriptions.item
+RETURNS stripe_subscriptions.update_params_item
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -2829,69 +2841,69 @@ AS $$
     price_data,
     quantity,
     tax_rates
-  )::stripe_subscriptions.item;
+  )::stripe_subscriptions.update_params_item;
 $$;
 
-ALTER TYPE stripe_subscriptions.item_price_data
+ALTER TYPE stripe_subscriptions.update_params_item_update_params_price_data
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE product TEXT,
-  ADD ATTRIBUTE recurring stripe_subscriptions.item_price_data_recurring,
+  ADD ATTRIBUTE recurring stripe_subscriptions.updte_prams_itm_updte_params_price_data_update_params_recurring,
   ADD ATTRIBUTE tax_behavior TEXT,
   ADD ATTRIBUTE unit_amount BIGINT,
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_item_price_data(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_item_update_params_price_data(
   currency TEXT,
   product TEXT,
-  recurring stripe_subscriptions.item_price_data_recurring,
+  recurring stripe_subscriptions.updte_prams_itm_updte_params_price_data_update_params_recurring,
   tax_behavior TEXT DEFAULT NULL,
   unit_amount BIGINT DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.item_price_data
+RETURNS stripe_subscriptions.update_params_item_update_params_price_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     currency, product, recurring, tax_behavior, unit_amount, unit_amount_decimal
-  )::stripe_subscriptions.item_price_data;
+  )::stripe_subscriptions.update_params_item_update_params_price_data;
 $$;
 
-ALTER TYPE stripe_subscriptions.item_price_data_recurring
+ALTER TYPE stripe_subscriptions.updte_prams_itm_updte_params_price_data_update_params_recurring
   ADD ATTRIBUTE "interval" TEXT, ADD ATTRIBUTE interval_count BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_item_price_data_recurring(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_updte_prams_itm_updte_prams_prce_dta_updte_params_recurring(
   "interval" TEXT, interval_count BIGINT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.item_price_data_recurring
+RETURNS stripe_subscriptions.updte_prams_itm_updte_params_price_data_update_params_recurring
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "interval", interval_count
-  )::stripe_subscriptions.item_price_data_recurring;
+  )::stripe_subscriptions.updte_prams_itm_updte_params_price_data_update_params_recurring;
 $$;
 
-ALTER TYPE stripe_subscriptions.payment_setting
-  ADD ATTRIBUTE payment_method_options stripe_subscriptions.payment_setting_payment_method_option,
+ALTER TYPE stripe_subscriptions.update_params_payment_setting
+  ADD ATTRIBUTE payment_method_options stripe_subscriptions.updte_prams_payment_setting_update_params_payment_method_option,
   ADD ATTRIBUTE payment_method_types JSONB,
   ADD ATTRIBUTE save_default_payment_method TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_payment_setting(
-  payment_method_options stripe_subscriptions.payment_setting_payment_method_option DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_payment_setting(
+  payment_method_options stripe_subscriptions.updte_prams_payment_setting_update_params_payment_method_option DEFAULT NULL,
   payment_method_types JSONB DEFAULT NULL,
   save_default_payment_method TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.payment_setting
+RETURNS stripe_subscriptions.update_params_payment_setting
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     payment_method_options, payment_method_types, save_default_payment_method
-  )::stripe_subscriptions.payment_setting;
+  )::stripe_subscriptions.update_params_payment_setting;
 $$;
 
-ALTER TYPE stripe_subscriptions.payment_setting_payment_method_option
+ALTER TYPE stripe_subscriptions.updte_prams_payment_setting_update_params_payment_method_option
   ADD ATTRIBUTE acss_debit JSONB,
   ADD ATTRIBUTE bancontact JSONB,
   ADD ATTRIBUTE card JSONB,
@@ -2901,7 +2913,7 @@ ALTER TYPE stripe_subscriptions.payment_setting_payment_method_option
   ADD ATTRIBUTE sepa_debit JSONB,
   ADD ATTRIBUTE us_bank_account JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_payment_setting_payment_method_option(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.mke_updte_prams_pyment_stting_updte_prams_payment_method_option(
   acss_debit JSONB DEFAULT NULL,
   bancontact JSONB DEFAULT NULL,
   card JSONB DEFAULT NULL,
@@ -2911,7 +2923,7 @@ CREATE OR REPLACE FUNCTION stripe_subscriptions.make_payment_setting_payment_met
   sepa_debit JSONB DEFAULT NULL,
   us_bank_account JSONB DEFAULT NULL
 )
-RETURNS stripe_subscriptions.payment_setting_payment_method_option
+RETURNS stripe_subscriptions.updte_prams_payment_setting_update_params_payment_method_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -2924,73 +2936,75 @@ AS $$
     payto,
     sepa_debit,
     us_bank_account
-  )::stripe_subscriptions.payment_setting_payment_method_option;
+  )::stripe_subscriptions.updte_prams_payment_setting_update_params_payment_method_option;
 $$;
 
-ALTER TYPE stripe_subscriptions.trial_setting
-  ADD ATTRIBUTE end_behavior stripe_subscriptions.trial_setting_end_behavior;
+ALTER TYPE stripe_subscriptions.update_params_trial_setting
+  ADD ATTRIBUTE end_behavior stripe_subscriptions.update_params_trial_setting_update_params_end_behavior;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_trial_setting(
-  end_behavior stripe_subscriptions.trial_setting_end_behavior
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_trial_setting(
+  end_behavior stripe_subscriptions.update_params_trial_setting_update_params_end_behavior
 )
-RETURNS stripe_subscriptions.trial_setting
+RETURNS stripe_subscriptions.update_params_trial_setting
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(end_behavior)::stripe_subscriptions.trial_setting;
+  SELECT ROW(end_behavior)::stripe_subscriptions.update_params_trial_setting;
 $$;
 
-ALTER TYPE stripe_subscriptions.trial_setting_end_behavior
+ALTER TYPE stripe_subscriptions.update_params_trial_setting_update_params_end_behavior
   ADD ATTRIBUTE missing_payment_method TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_trial_setting_end_behavior(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_update_params_trial_setting_update_params_end_behavior(
   missing_payment_method TEXT
 )
-RETURNS stripe_subscriptions.trial_setting_end_behavior
+RETURNS stripe_subscriptions.update_params_trial_setting_update_params_end_behavior
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     missing_payment_method
-  )::stripe_subscriptions.trial_setting_end_behavior;
+  )::stripe_subscriptions.update_params_trial_setting_update_params_end_behavior;
 $$;
 
-ALTER TYPE stripe_subscriptions.automatic_tax1
+ALTER TYPE stripe_subscriptions.list_params_automatic_tax
   ADD ATTRIBUTE enabled BOOLEAN;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_automatic_tax1(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_list_params_automatic_tax(
   enabled BOOLEAN
 )
-RETURNS stripe_subscriptions.automatic_tax1
+RETURNS stripe_subscriptions.list_params_automatic_tax
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(enabled)::stripe_subscriptions.automatic_tax1;
+  SELECT ROW(enabled)::stripe_subscriptions.list_params_automatic_tax;
 $$;
 
-ALTER TYPE stripe_subscriptions.cancellation_detail1
+ALTER TYPE stripe_subscriptions.cancel_params_cancellation_detail
   ADD ATTRIBUTE comment TEXT, ADD ATTRIBUTE feedback TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_subscriptions.make_cancellation_detail1(
+CREATE OR REPLACE FUNCTION stripe_subscriptions.make_cancel_params_cancellation_detail(
   comment TEXT DEFAULT NULL, feedback TEXT DEFAULT NULL
 )
-RETURNS stripe_subscriptions.cancellation_detail1
+RETURNS stripe_subscriptions.cancel_params_cancellation_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(comment, feedback)::stripe_subscriptions.cancellation_detail1;
+  SELECT ROW(
+    comment, feedback
+  )::stripe_subscriptions.cancel_params_cancellation_detail;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions._update(
   subscription_exposed_id TEXT,
-  add_invoice_items stripe_subscriptions.add_invoice_item[] DEFAULT NULL,
+  add_invoice_items stripe_subscriptions.update_params_add_invoice_item[] DEFAULT NULL,
   application_fee_percent JSONB DEFAULT NULL,
-  automatic_tax stripe_subscriptions.automatic_tax DEFAULT NULL,
+  automatic_tax stripe_subscriptions.update_params_automatic_tax DEFAULT NULL,
   billing_cycle_anchor TEXT DEFAULT NULL,
   billing_thresholds JSONB DEFAULT NULL,
   cancel_at JSONB DEFAULT NULL,
   cancel_at_period_end BOOLEAN DEFAULT NULL,
-  cancellation_details stripe_subscriptions.cancellation_detail DEFAULT NULL,
+  cancellation_details stripe_subscriptions.update_params_cancellation_detail DEFAULT NULL,
   collection_method TEXT DEFAULT NULL,
   days_until_due BIGINT DEFAULT NULL,
   default_payment_method TEXT DEFAULT NULL,
@@ -2999,21 +3013,21 @@ CREATE OR REPLACE FUNCTION stripe_subscriptions._update(
   description TEXT DEFAULT NULL,
   discounts JSONB DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
-  invoice_settings stripe_subscriptions.invoice_setting DEFAULT NULL,
-  items stripe_subscriptions.item[] DEFAULT NULL,
+  invoice_settings stripe_subscriptions.update_params_invoice_setting DEFAULT NULL,
+  items stripe_subscriptions.update_params_item[] DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   off_session BOOLEAN DEFAULT NULL,
   on_behalf_of TEXT DEFAULT NULL,
   pause_collection JSONB DEFAULT NULL,
   payment_behavior TEXT DEFAULT NULL,
-  payment_settings stripe_subscriptions.payment_setting DEFAULT NULL,
+  payment_settings stripe_subscriptions.update_params_payment_setting DEFAULT NULL,
   pending_invoice_item_interval JSONB DEFAULT NULL,
   proration_behavior TEXT DEFAULT NULL,
   proration_date BIGINT DEFAULT NULL,
   transfer_data JSONB DEFAULT NULL,
   trial_end JSONB DEFAULT NULL,
   trial_from_plan BOOLEAN DEFAULT NULL,
-  trial_settings stripe_subscriptions.trial_setting DEFAULT NULL
+  trial_settings stripe_subscriptions.update_params_trial_setting DEFAULT NULL
 )
 RETURNS JSONB
 LANGUAGE plpython3u
@@ -3064,14 +3078,14 @@ $$;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions.update(
   subscription_exposed_id TEXT,
-  add_invoice_items stripe_subscriptions.add_invoice_item[] DEFAULT NULL,
+  add_invoice_items stripe_subscriptions.update_params_add_invoice_item[] DEFAULT NULL,
   application_fee_percent JSONB DEFAULT NULL,
-  automatic_tax stripe_subscriptions.automatic_tax DEFAULT NULL,
+  automatic_tax stripe_subscriptions.update_params_automatic_tax DEFAULT NULL,
   billing_cycle_anchor TEXT DEFAULT NULL,
   billing_thresholds JSONB DEFAULT NULL,
   cancel_at JSONB DEFAULT NULL,
   cancel_at_period_end BOOLEAN DEFAULT NULL,
-  cancellation_details stripe_subscriptions.cancellation_detail DEFAULT NULL,
+  cancellation_details stripe_subscriptions.update_params_cancellation_detail DEFAULT NULL,
   collection_method TEXT DEFAULT NULL,
   days_until_due BIGINT DEFAULT NULL,
   default_payment_method TEXT DEFAULT NULL,
@@ -3080,21 +3094,21 @@ CREATE OR REPLACE FUNCTION stripe_subscriptions.update(
   description TEXT DEFAULT NULL,
   discounts JSONB DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
-  invoice_settings stripe_subscriptions.invoice_setting DEFAULT NULL,
-  items stripe_subscriptions.item[] DEFAULT NULL,
+  invoice_settings stripe_subscriptions.update_params_invoice_setting DEFAULT NULL,
+  items stripe_subscriptions.update_params_item[] DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   off_session BOOLEAN DEFAULT NULL,
   on_behalf_of TEXT DEFAULT NULL,
   pause_collection JSONB DEFAULT NULL,
   payment_behavior TEXT DEFAULT NULL,
-  payment_settings stripe_subscriptions.payment_setting DEFAULT NULL,
+  payment_settings stripe_subscriptions.update_params_payment_setting DEFAULT NULL,
   pending_invoice_item_interval JSONB DEFAULT NULL,
   proration_behavior TEXT DEFAULT NULL,
   proration_date BIGINT DEFAULT NULL,
   transfer_data JSONB DEFAULT NULL,
   trial_end JSONB DEFAULT NULL,
   trial_from_plan BOOLEAN DEFAULT NULL,
-  trial_settings stripe_subscriptions.trial_setting DEFAULT NULL
+  trial_settings stripe_subscriptions.update_params_trial_setting DEFAULT NULL
 )
 RETURNS stripe_subscriptions.subscription
 LANGUAGE plpgsql
@@ -3142,7 +3156,7 @@ AS $$
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions._list_first_page_py(
-  automatic_tax stripe_subscriptions.automatic_tax1 DEFAULT NULL,
+  automatic_tax stripe_subscriptions.list_params_automatic_tax DEFAULT NULL,
   collection_method TEXT DEFAULT NULL,
   created JSONB DEFAULT NULL,
   current_period_end JSONB DEFAULT NULL,
@@ -3203,7 +3217,7 @@ $$;
 
 -- A simpler wrapper around `stripe_subscriptions._list_first_page` that ensures the global client is initialized.
 CREATE OR REPLACE FUNCTION stripe_subscriptions._list_first_page(
-  automatic_tax stripe_subscriptions.automatic_tax1 DEFAULT NULL,
+  automatic_tax stripe_subscriptions.list_params_automatic_tax DEFAULT NULL,
   collection_method TEXT DEFAULT NULL,
   created JSONB DEFAULT NULL,
   current_period_end JSONB DEFAULT NULL,
@@ -3280,7 +3294,7 @@ AS $$
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions.list(
-  automatic_tax stripe_subscriptions.automatic_tax1 DEFAULT NULL,
+  automatic_tax stripe_subscriptions.list_params_automatic_tax DEFAULT NULL,
   collection_method TEXT DEFAULT NULL,
   created JSONB DEFAULT NULL,
   current_period_end JSONB DEFAULT NULL,
@@ -3330,7 +3344,7 @@ $$;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions._cancel(
   subscription_exposed_id TEXT,
-  cancellation_details stripe_subscriptions.cancellation_detail1 DEFAULT NULL,
+  cancellation_details stripe_subscriptions.cancel_params_cancellation_detail DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   invoice_now BOOLEAN DEFAULT NULL,
   prorate BOOLEAN DEFAULT NULL
@@ -3356,7 +3370,7 @@ $$;
 
 CREATE OR REPLACE FUNCTION stripe_subscriptions.cancel(
   subscription_exposed_id TEXT,
-  cancellation_details stripe_subscriptions.cancellation_detail1 DEFAULT NULL,
+  cancellation_details stripe_subscriptions.cancel_params_cancellation_detail DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   invoice_now BOOLEAN DEFAULT NULL,
   prorate BOOLEAN DEFAULT NULL

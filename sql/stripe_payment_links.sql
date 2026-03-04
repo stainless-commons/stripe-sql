@@ -843,63 +843,63 @@ AS $$
   )::stripe_payment_links.payment_link_create_response_transfer_data;
 $$;
 
-ALTER TYPE stripe_payment_links.line_item
+ALTER TYPE stripe_payment_links.create_params_line_item
   ADD ATTRIBUTE quantity BIGINT,
-  ADD ATTRIBUTE adjustable_quantity stripe_payment_links.line_item_adjustable_quantity,
+  ADD ATTRIBUTE adjustable_quantity stripe_payment_links.create_params_line_item_create_params_adjustable_quantity,
   ADD ATTRIBUTE price TEXT,
-  ADD ATTRIBUTE price_data stripe_payment_links.line_item_price_data;
+  ADD ATTRIBUTE price_data stripe_payment_links.create_params_line_item_create_params_price_data;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_line_item(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_line_item(
   quantity BIGINT,
-  adjustable_quantity stripe_payment_links.line_item_adjustable_quantity DEFAULT NULL,
+  adjustable_quantity stripe_payment_links.create_params_line_item_create_params_adjustable_quantity DEFAULT NULL,
   price TEXT DEFAULT NULL,
-  price_data stripe_payment_links.line_item_price_data DEFAULT NULL
+  price_data stripe_payment_links.create_params_line_item_create_params_price_data DEFAULT NULL
 )
-RETURNS stripe_payment_links.line_item
+RETURNS stripe_payment_links.create_params_line_item
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     quantity, adjustable_quantity, price, price_data
-  )::stripe_payment_links.line_item;
+  )::stripe_payment_links.create_params_line_item;
 $$;
 
-ALTER TYPE stripe_payment_links.line_item_adjustable_quantity
+ALTER TYPE stripe_payment_links.create_params_line_item_create_params_adjustable_quantity
   ADD ATTRIBUTE enabled BOOLEAN,
   ADD ATTRIBUTE maximum BIGINT,
   ADD ATTRIBUTE minimum BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_line_item_adjustable_quantity(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_line_item_create_params_adjustable_quantity(
   enabled BOOLEAN, maximum BIGINT DEFAULT NULL, minimum BIGINT DEFAULT NULL
 )
-RETURNS stripe_payment_links.line_item_adjustable_quantity
+RETURNS stripe_payment_links.create_params_line_item_create_params_adjustable_quantity
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     enabled, maximum, minimum
-  )::stripe_payment_links.line_item_adjustable_quantity;
+  )::stripe_payment_links.create_params_line_item_create_params_adjustable_quantity;
 $$;
 
-ALTER TYPE stripe_payment_links.line_item_price_data
+ALTER TYPE stripe_payment_links.create_params_line_item_create_params_price_data
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE product TEXT,
-  ADD ATTRIBUTE product_data stripe_payment_links.line_item_price_data_product_data,
-  ADD ATTRIBUTE recurring stripe_payment_links.line_item_price_data_recurring,
+  ADD ATTRIBUTE product_data stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_prams_prduct_dta,
+  ADD ATTRIBUTE recurring stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_params_recurring,
   ADD ATTRIBUTE tax_behavior TEXT,
   ADD ATTRIBUTE unit_amount BIGINT,
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_line_item_price_data(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_line_item_create_params_price_data(
   currency TEXT,
   product TEXT DEFAULT NULL,
-  product_data stripe_payment_links.line_item_price_data_product_data DEFAULT NULL,
-  recurring stripe_payment_links.line_item_price_data_recurring DEFAULT NULL,
+  product_data stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_prams_prduct_dta DEFAULT NULL,
+  recurring stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_params_recurring DEFAULT NULL,
   tax_behavior TEXT DEFAULT NULL,
   unit_amount BIGINT DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.line_item_price_data
+RETURNS stripe_payment_links.create_params_line_item_create_params_price_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -911,10 +911,10 @@ AS $$
     tax_behavior,
     unit_amount,
     unit_amount_decimal
-  )::stripe_payment_links.line_item_price_data;
+  )::stripe_payment_links.create_params_line_item_create_params_price_data;
 $$;
 
-ALTER TYPE stripe_payment_links.line_item_price_data_product_data
+ALTER TYPE stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_prams_prduct_dta
   ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE images TEXT[],
@@ -922,7 +922,7 @@ ALTER TYPE stripe_payment_links.line_item_price_data_product_data
   ADD ATTRIBUTE tax_code TEXT,
   ADD ATTRIBUTE unit_label TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_line_item_price_data_product_data(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_crte_prms_lne_itm_crte_prms_prce_dta_crate_prams_prduct_dta(
   name TEXT,
   description TEXT DEFAULT NULL,
   images TEXT[] DEFAULT NULL,
@@ -930,302 +930,314 @@ CREATE OR REPLACE FUNCTION stripe_payment_links.make_line_item_price_data_produc
   tax_code TEXT DEFAULT NULL,
   unit_label TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.line_item_price_data_product_data
+RETURNS stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_prams_prduct_dta
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     name, description, images, metadata, tax_code, unit_label
-  )::stripe_payment_links.line_item_price_data_product_data;
+  )::stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_prams_prduct_dta;
 $$;
 
-ALTER TYPE stripe_payment_links.line_item_price_data_recurring
+ALTER TYPE stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_params_recurring
   ADD ATTRIBUTE "interval" TEXT, ADD ATTRIBUTE interval_count BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_line_item_price_data_recurring(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_crte_prms_lne_itm_crate_prams_prce_dta_crate_prams_rcurring(
   "interval" TEXT, interval_count BIGINT DEFAULT NULL
 )
-RETURNS stripe_payment_links.line_item_price_data_recurring
+RETURNS stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_params_recurring
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "interval", interval_count
-  )::stripe_payment_links.line_item_price_data_recurring;
+  )::stripe_payment_links.crate_prams_lne_itm_crate_prams_prce_dta_crate_params_recurring;
 $$;
 
-ALTER TYPE stripe_payment_links.after_completion
+ALTER TYPE stripe_payment_links.create_params_after_completion
   ADD ATTRIBUTE type TEXT,
-  ADD ATTRIBUTE hosted_confirmation stripe_payment_links.after_completion_hosted_confirmation,
-  ADD ATTRIBUTE redirect stripe_payment_links.after_completion_redirect;
+  ADD ATTRIBUTE hosted_confirmation stripe_payment_links.crate_params_after_completion_create_params_hosted_confirmation,
+  ADD ATTRIBUTE redirect stripe_payment_links.create_params_after_completion_create_params_redirect;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_after_completion(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_after_completion(
   type TEXT,
-  hosted_confirmation stripe_payment_links.after_completion_hosted_confirmation DEFAULT NULL,
-  redirect stripe_payment_links.after_completion_redirect DEFAULT NULL
+  hosted_confirmation stripe_payment_links.crate_params_after_completion_create_params_hosted_confirmation DEFAULT NULL,
+  redirect stripe_payment_links.create_params_after_completion_create_params_redirect DEFAULT NULL
 )
-RETURNS stripe_payment_links.after_completion
+RETURNS stripe_payment_links.create_params_after_completion
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type, hosted_confirmation, redirect
-  )::stripe_payment_links.after_completion;
+  )::stripe_payment_links.create_params_after_completion;
 $$;
 
-ALTER TYPE stripe_payment_links.after_completion_hosted_confirmation
+ALTER TYPE stripe_payment_links.crate_params_after_completion_create_params_hosted_confirmation
   ADD ATTRIBUTE custom_message TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_after_completion_hosted_confirmation(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_crate_prams_aftr_cmpletion_crate_params_hosted_confirmation(
   custom_message TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.after_completion_hosted_confirmation
+RETURNS stripe_payment_links.crate_params_after_completion_create_params_hosted_confirmation
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     custom_message
-  )::stripe_payment_links.after_completion_hosted_confirmation;
+  )::stripe_payment_links.crate_params_after_completion_create_params_hosted_confirmation;
 $$;
 
-ALTER TYPE stripe_payment_links.after_completion_redirect
+ALTER TYPE stripe_payment_links.create_params_after_completion_create_params_redirect
   ADD ATTRIBUTE url TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_after_completion_redirect(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_after_completion_create_params_redirect(
   url TEXT
 )
-RETURNS stripe_payment_links.after_completion_redirect
+RETURNS stripe_payment_links.create_params_after_completion_create_params_redirect
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(url)::stripe_payment_links.after_completion_redirect;
+  SELECT ROW(
+    url
+  )::stripe_payment_links.create_params_after_completion_create_params_redirect;
 $$;
 
-ALTER TYPE stripe_payment_links.automatic_tax
+ALTER TYPE stripe_payment_links.create_params_automatic_tax
   ADD ATTRIBUTE enabled BOOLEAN,
-  ADD ATTRIBUTE liability stripe_payment_links.automatic_tax_liability;
+  ADD ATTRIBUTE liability stripe_payment_links.create_params_automatic_tax_create_params_liability;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_automatic_tax(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_automatic_tax(
   enabled BOOLEAN,
-  liability stripe_payment_links.automatic_tax_liability DEFAULT NULL
+  liability stripe_payment_links.create_params_automatic_tax_create_params_liability DEFAULT NULL
 )
-RETURNS stripe_payment_links.automatic_tax
+RETURNS stripe_payment_links.create_params_automatic_tax
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(enabled, liability)::stripe_payment_links.automatic_tax;
+  SELECT ROW(
+    enabled, liability
+  )::stripe_payment_links.create_params_automatic_tax;
 $$;
 
-ALTER TYPE stripe_payment_links.automatic_tax_liability
+ALTER TYPE stripe_payment_links.create_params_automatic_tax_create_params_liability
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_automatic_tax_liability(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_automatic_tax_create_params_liability(
   type TEXT, account TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.automatic_tax_liability
+RETURNS stripe_payment_links.create_params_automatic_tax_create_params_liability
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(type, account)::stripe_payment_links.automatic_tax_liability;
+  SELECT ROW(
+    type, account
+  )::stripe_payment_links.create_params_automatic_tax_create_params_liability;
 $$;
 
-ALTER TYPE stripe_payment_links.consent_collection
-  ADD ATTRIBUTE payment_method_reuse_agreement stripe_payment_links.consent_collection_payment_method_reuse_agreement,
+ALTER TYPE stripe_payment_links.create_params_consent_collection
+  ADD ATTRIBUTE payment_method_reuse_agreement stripe_payment_links.crte_prms_cnsnt_cllction_crate_prams_pyment_mthod_ruse_agrement,
   ADD ATTRIBUTE promotions TEXT,
   ADD ATTRIBUTE terms_of_service TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_consent_collection(
-  payment_method_reuse_agreement stripe_payment_links.consent_collection_payment_method_reuse_agreement DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_consent_collection(
+  payment_method_reuse_agreement stripe_payment_links.crte_prms_cnsnt_cllction_crate_prams_pyment_mthod_ruse_agrement DEFAULT NULL,
   promotions TEXT DEFAULT NULL,
   terms_of_service TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.consent_collection
+RETURNS stripe_payment_links.create_params_consent_collection
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     payment_method_reuse_agreement, promotions, terms_of_service
-  )::stripe_payment_links.consent_collection;
+  )::stripe_payment_links.create_params_consent_collection;
 $$;
 
-ALTER TYPE stripe_payment_links.consent_collection_payment_method_reuse_agreement
+ALTER TYPE stripe_payment_links.crte_prms_cnsnt_cllction_crate_prams_pyment_mthod_ruse_agrement
   ADD ATTRIBUTE "position" TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_consent_collection_payment_method_reuse_agreement(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_crte_prms_cnsnt_cllction_crte_prms_pymnt_mthd_ruse_agrement(
   "position" TEXT
 )
-RETURNS stripe_payment_links.consent_collection_payment_method_reuse_agreement
+RETURNS stripe_payment_links.crte_prms_cnsnt_cllction_crate_prams_pyment_mthod_ruse_agrement
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "position"
-  )::stripe_payment_links.consent_collection_payment_method_reuse_agreement;
+  )::stripe_payment_links.crte_prms_cnsnt_cllction_crate_prams_pyment_mthod_ruse_agrement;
 $$;
 
-ALTER TYPE stripe_payment_links.custom_field
+ALTER TYPE stripe_payment_links.create_params_custom_field
   ADD ATTRIBUTE key TEXT,
-  ADD ATTRIBUTE label stripe_payment_links.custom_field_label,
+  ADD ATTRIBUTE label stripe_payment_links.create_params_custom_field_create_params_label,
   ADD ATTRIBUTE type TEXT,
-  ADD ATTRIBUTE dropdown stripe_payment_links.custom_field_dropdown,
-  ADD ATTRIBUTE "numeric" stripe_payment_links.custom_field_numeric,
+  ADD ATTRIBUTE dropdown stripe_payment_links.create_params_custom_field_create_params_dropdown,
+  ADD ATTRIBUTE "numeric" stripe_payment_links.create_params_custom_field_create_params_numeric,
   ADD ATTRIBUTE optional BOOLEAN,
-  ADD ATTRIBUTE text stripe_payment_links.custom_field_text;
+  ADD ATTRIBUTE text stripe_payment_links.create_params_custom_field_create_params_text;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_custom_field(
   key TEXT,
-  label stripe_payment_links.custom_field_label,
+  label stripe_payment_links.create_params_custom_field_create_params_label,
   type TEXT,
-  dropdown stripe_payment_links.custom_field_dropdown DEFAULT NULL,
-  "numeric" stripe_payment_links.custom_field_numeric DEFAULT NULL,
+  dropdown stripe_payment_links.create_params_custom_field_create_params_dropdown DEFAULT NULL,
+  "numeric" stripe_payment_links.create_params_custom_field_create_params_numeric DEFAULT NULL,
   optional BOOLEAN DEFAULT NULL,
-  text stripe_payment_links.custom_field_text DEFAULT NULL
+  text stripe_payment_links.create_params_custom_field_create_params_text DEFAULT NULL
 )
-RETURNS stripe_payment_links.custom_field
+RETURNS stripe_payment_links.create_params_custom_field
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     key, label, type, dropdown, "numeric", optional, text
-  )::stripe_payment_links.custom_field;
+  )::stripe_payment_links.create_params_custom_field;
 $$;
 
-ALTER TYPE stripe_payment_links.custom_field_label
+ALTER TYPE stripe_payment_links.create_params_custom_field_create_params_label
   ADD ATTRIBUTE custom TEXT, ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field_label(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_custom_field_create_params_label(
   custom TEXT, type TEXT
 )
-RETURNS stripe_payment_links.custom_field_label
+RETURNS stripe_payment_links.create_params_custom_field_create_params_label
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(custom, type)::stripe_payment_links.custom_field_label;
+  SELECT ROW(
+    custom, type
+  )::stripe_payment_links.create_params_custom_field_create_params_label;
 $$;
 
-ALTER TYPE stripe_payment_links.custom_field_dropdown
-  ADD ATTRIBUTE options stripe_payment_links.custom_field_dropdown_option[],
+ALTER TYPE stripe_payment_links.create_params_custom_field_create_params_dropdown
+  ADD ATTRIBUTE options stripe_payment_links.crate_prams_cstom_feld_crate_prams_drpdown_create_params_option[],
   ADD ATTRIBUTE default_value TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field_dropdown(
-  options stripe_payment_links.custom_field_dropdown_option[],
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_custom_field_create_params_dropdown(
+  options stripe_payment_links.crate_prams_cstom_feld_crate_prams_drpdown_create_params_option[],
   default_value TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.custom_field_dropdown
+RETURNS stripe_payment_links.create_params_custom_field_create_params_dropdown
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     options, default_value
-  )::stripe_payment_links.custom_field_dropdown;
+  )::stripe_payment_links.create_params_custom_field_create_params_dropdown;
 $$;
 
-ALTER TYPE stripe_payment_links.custom_field_dropdown_option
+ALTER TYPE stripe_payment_links.crate_prams_cstom_feld_crate_prams_drpdown_create_params_option
   ADD ATTRIBUTE label TEXT, ADD ATTRIBUTE value TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field_dropdown_option(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_crte_prams_cstom_feld_crate_prams_drpdown_crate_prams_opton(
   label TEXT, value TEXT
 )
-RETURNS stripe_payment_links.custom_field_dropdown_option
+RETURNS stripe_payment_links.crate_prams_cstom_feld_crate_prams_drpdown_create_params_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(label, value)::stripe_payment_links.custom_field_dropdown_option;
+  SELECT ROW(
+    label, value
+  )::stripe_payment_links.crate_prams_cstom_feld_crate_prams_drpdown_create_params_option;
 $$;
 
-ALTER TYPE stripe_payment_links.custom_field_numeric
+ALTER TYPE stripe_payment_links.create_params_custom_field_create_params_numeric
   ADD ATTRIBUTE default_value TEXT,
   ADD ATTRIBUTE maximum_length BIGINT,
   ADD ATTRIBUTE minimum_length BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field_numeric(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_custom_field_create_params_numeric(
   default_value TEXT DEFAULT NULL,
   maximum_length BIGINT DEFAULT NULL,
   minimum_length BIGINT DEFAULT NULL
 )
-RETURNS stripe_payment_links.custom_field_numeric
+RETURNS stripe_payment_links.create_params_custom_field_create_params_numeric
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     default_value, maximum_length, minimum_length
-  )::stripe_payment_links.custom_field_numeric;
+  )::stripe_payment_links.create_params_custom_field_create_params_numeric;
 $$;
 
-ALTER TYPE stripe_payment_links.custom_field_text
+ALTER TYPE stripe_payment_links.create_params_custom_field_create_params_text
   ADD ATTRIBUTE default_value TEXT,
   ADD ATTRIBUTE maximum_length BIGINT,
   ADD ATTRIBUTE minimum_length BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_field_text(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_custom_field_create_params_text(
   default_value TEXT DEFAULT NULL,
   maximum_length BIGINT DEFAULT NULL,
   minimum_length BIGINT DEFAULT NULL
 )
-RETURNS stripe_payment_links.custom_field_text
+RETURNS stripe_payment_links.create_params_custom_field_create_params_text
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     default_value, maximum_length, minimum_length
-  )::stripe_payment_links.custom_field_text;
+  )::stripe_payment_links.create_params_custom_field_create_params_text;
 $$;
 
-ALTER TYPE stripe_payment_links.custom_text
+ALTER TYPE stripe_payment_links.create_params_custom_text
   ADD ATTRIBUTE after_submit JSONB,
   ADD ATTRIBUTE shipping_address JSONB,
   ADD ATTRIBUTE submit JSONB,
   ADD ATTRIBUTE terms_of_service_acceptance JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_custom_text(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_custom_text(
   after_submit JSONB DEFAULT NULL,
   shipping_address JSONB DEFAULT NULL,
   submit JSONB DEFAULT NULL,
   terms_of_service_acceptance JSONB DEFAULT NULL
 )
-RETURNS stripe_payment_links.custom_text
+RETURNS stripe_payment_links.create_params_custom_text
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     after_submit, shipping_address, submit, terms_of_service_acceptance
-  )::stripe_payment_links.custom_text;
+  )::stripe_payment_links.create_params_custom_text;
 $$;
 
-ALTER TYPE stripe_payment_links.invoice_creation
+ALTER TYPE stripe_payment_links.create_params_invoice_creation
   ADD ATTRIBUTE enabled BOOLEAN,
-  ADD ATTRIBUTE invoice_data stripe_payment_links.invoice_creation_invoice_data;
+  ADD ATTRIBUTE invoice_data stripe_payment_links.create_params_invoice_creation_create_params_invoice_data;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_invoice_creation(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_invoice_creation(
   enabled BOOLEAN,
-  invoice_data stripe_payment_links.invoice_creation_invoice_data DEFAULT NULL
+  invoice_data stripe_payment_links.create_params_invoice_creation_create_params_invoice_data DEFAULT NULL
 )
-RETURNS stripe_payment_links.invoice_creation
+RETURNS stripe_payment_links.create_params_invoice_creation
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(enabled, invoice_data)::stripe_payment_links.invoice_creation;
+  SELECT ROW(
+    enabled, invoice_data
+  )::stripe_payment_links.create_params_invoice_creation;
 $$;
 
-ALTER TYPE stripe_payment_links.invoice_creation_invoice_data
+ALTER TYPE stripe_payment_links.create_params_invoice_creation_create_params_invoice_data
   ADD ATTRIBUTE account_tax_ids JSONB,
   ADD ATTRIBUTE custom_fields JSONB,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE footer TEXT,
-  ADD ATTRIBUTE issuer stripe_payment_links.invoice_creation_invoice_data_issuer,
+  ADD ATTRIBUTE issuer stripe_payment_links.crte_prms_invce_crtion_crate_prams_invice_dta_crate_prams_isser,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE rendering_options JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_invoice_creation_invoice_data(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_invoice_creation_create_params_invoice_data(
   account_tax_ids JSONB DEFAULT NULL,
   custom_fields JSONB DEFAULT NULL,
   description TEXT DEFAULT NULL,
   footer TEXT DEFAULT NULL,
-  issuer stripe_payment_links.invoice_creation_invoice_data_issuer DEFAULT NULL,
+  issuer stripe_payment_links.crte_prms_invce_crtion_crate_prams_invice_dta_crate_prams_isser DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   rendering_options JSONB DEFAULT NULL
 )
-RETURNS stripe_payment_links.invoice_creation_invoice_data
+RETURNS stripe_payment_links.create_params_invoice_creation_create_params_invoice_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1237,104 +1249,108 @@ AS $$
     issuer,
     metadata,
     rendering_options
-  )::stripe_payment_links.invoice_creation_invoice_data;
+  )::stripe_payment_links.create_params_invoice_creation_create_params_invoice_data;
 $$;
 
-ALTER TYPE stripe_payment_links.invoice_creation_invoice_data_issuer
+ALTER TYPE stripe_payment_links.crte_prms_invce_crtion_crate_prams_invice_dta_crate_prams_isser
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_invoice_creation_invoice_data_issuer(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_crte_prms_invce_crtion_crte_prms_invce_dta_crte_prams_isser(
   type TEXT, account TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.invoice_creation_invoice_data_issuer
+RETURNS stripe_payment_links.crte_prms_invce_crtion_crate_prams_invice_dta_crate_prams_isser
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type, account
-  )::stripe_payment_links.invoice_creation_invoice_data_issuer;
+  )::stripe_payment_links.crte_prms_invce_crtion_crate_prams_invice_dta_crate_prams_isser;
 $$;
 
-ALTER TYPE stripe_payment_links.name_collection
-  ADD ATTRIBUTE business stripe_payment_links.name_collection_business,
-  ADD ATTRIBUTE individual stripe_payment_links.name_collection_individual;
+ALTER TYPE stripe_payment_links.create_params_name_collection
+  ADD ATTRIBUTE business stripe_payment_links.create_params_name_collection_create_params_business,
+  ADD ATTRIBUTE individual stripe_payment_links.create_params_name_collection_create_params_individual;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_name_collection(
-  business stripe_payment_links.name_collection_business DEFAULT NULL,
-  individual stripe_payment_links.name_collection_individual DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_name_collection(
+  business stripe_payment_links.create_params_name_collection_create_params_business DEFAULT NULL,
+  individual stripe_payment_links.create_params_name_collection_create_params_individual DEFAULT NULL
 )
-RETURNS stripe_payment_links.name_collection
+RETURNS stripe_payment_links.create_params_name_collection
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(business, individual)::stripe_payment_links.name_collection;
+  SELECT ROW(
+    business, individual
+  )::stripe_payment_links.create_params_name_collection;
 $$;
 
-ALTER TYPE stripe_payment_links.name_collection_business
+ALTER TYPE stripe_payment_links.create_params_name_collection_create_params_business
   ADD ATTRIBUTE enabled BOOLEAN, ADD ATTRIBUTE optional BOOLEAN;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_name_collection_business(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_name_collection_create_params_business(
   enabled BOOLEAN, optional BOOLEAN DEFAULT NULL
 )
-RETURNS stripe_payment_links.name_collection_business
-LANGUAGE SQL
-IMMUTABLE
-AS $$
-  SELECT ROW(enabled, optional)::stripe_payment_links.name_collection_business;
-$$;
-
-ALTER TYPE stripe_payment_links.name_collection_individual
-  ADD ATTRIBUTE enabled BOOLEAN, ADD ATTRIBUTE optional BOOLEAN;
-
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_name_collection_individual(
-  enabled BOOLEAN, optional BOOLEAN DEFAULT NULL
-)
-RETURNS stripe_payment_links.name_collection_individual
+RETURNS stripe_payment_links.create_params_name_collection_create_params_business
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     enabled, optional
-  )::stripe_payment_links.name_collection_individual;
+  )::stripe_payment_links.create_params_name_collection_create_params_business;
 $$;
 
-ALTER TYPE stripe_payment_links.optional_item
+ALTER TYPE stripe_payment_links.create_params_name_collection_create_params_individual
+  ADD ATTRIBUTE enabled BOOLEAN, ADD ATTRIBUTE optional BOOLEAN;
+
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_name_collection_create_params_individual(
+  enabled BOOLEAN, optional BOOLEAN DEFAULT NULL
+)
+RETURNS stripe_payment_links.create_params_name_collection_create_params_individual
+LANGUAGE SQL
+IMMUTABLE
+AS $$
+  SELECT ROW(
+    enabled, optional
+  )::stripe_payment_links.create_params_name_collection_create_params_individual;
+$$;
+
+ALTER TYPE stripe_payment_links.create_params_optional_item
   ADD ATTRIBUTE price TEXT,
   ADD ATTRIBUTE quantity BIGINT,
-  ADD ATTRIBUTE adjustable_quantity stripe_payment_links.optional_item_adjustable_quantity;
+  ADD ATTRIBUTE adjustable_quantity stripe_payment_links.create_params_optional_item_create_params_adjustable_quantity;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_optional_item(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_optional_item(
   price TEXT,
   quantity BIGINT,
-  adjustable_quantity stripe_payment_links.optional_item_adjustable_quantity DEFAULT NULL
+  adjustable_quantity stripe_payment_links.create_params_optional_item_create_params_adjustable_quantity DEFAULT NULL
 )
-RETURNS stripe_payment_links.optional_item
+RETURNS stripe_payment_links.create_params_optional_item
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     price, quantity, adjustable_quantity
-  )::stripe_payment_links.optional_item;
+  )::stripe_payment_links.create_params_optional_item;
 $$;
 
-ALTER TYPE stripe_payment_links.optional_item_adjustable_quantity
+ALTER TYPE stripe_payment_links.create_params_optional_item_create_params_adjustable_quantity
   ADD ATTRIBUTE enabled BOOLEAN,
   ADD ATTRIBUTE maximum BIGINT,
   ADD ATTRIBUTE minimum BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_optional_item_adjustable_quantity(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_crate_prams_optional_item_create_params_adjustable_quantity(
   enabled BOOLEAN, maximum BIGINT DEFAULT NULL, minimum BIGINT DEFAULT NULL
 )
-RETURNS stripe_payment_links.optional_item_adjustable_quantity
+RETURNS stripe_payment_links.create_params_optional_item_create_params_adjustable_quantity
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     enabled, maximum, minimum
-  )::stripe_payment_links.optional_item_adjustable_quantity;
+  )::stripe_payment_links.create_params_optional_item_create_params_adjustable_quantity;
 $$;
 
-ALTER TYPE stripe_payment_links.payment_intent_data
+ALTER TYPE stripe_payment_links.create_params_payment_intent_data
   ADD ATTRIBUTE capture_method TEXT,
   ADD ATTRIBUTE description TEXT,
   ADD ATTRIBUTE metadata JSONB,
@@ -1343,7 +1359,7 @@ ALTER TYPE stripe_payment_links.payment_intent_data
   ADD ATTRIBUTE statement_descriptor_suffix TEXT,
   ADD ATTRIBUTE transfer_group TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_intent_data(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_payment_intent_data(
   capture_method TEXT DEFAULT NULL,
   description TEXT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
@@ -1352,7 +1368,7 @@ CREATE OR REPLACE FUNCTION stripe_payment_links.make_payment_intent_data(
   statement_descriptor_suffix TEXT DEFAULT NULL,
   transfer_group TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.payment_intent_data
+RETURNS stripe_payment_links.create_params_payment_intent_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -1364,214 +1380,226 @@ AS $$
     statement_descriptor,
     statement_descriptor_suffix,
     transfer_group
-  )::stripe_payment_links.payment_intent_data;
+  )::stripe_payment_links.create_params_payment_intent_data;
 $$;
 
-ALTER TYPE stripe_payment_links.phone_number_collection
+ALTER TYPE stripe_payment_links.create_params_phone_number_collection
   ADD ATTRIBUTE enabled BOOLEAN;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_phone_number_collection(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_phone_number_collection(
   enabled BOOLEAN
 )
-RETURNS stripe_payment_links.phone_number_collection
+RETURNS stripe_payment_links.create_params_phone_number_collection
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(enabled)::stripe_payment_links.phone_number_collection;
+  SELECT ROW(
+    enabled
+  )::stripe_payment_links.create_params_phone_number_collection;
 $$;
 
-ALTER TYPE stripe_payment_links.restriction
-  ADD ATTRIBUTE completed_sessions stripe_payment_links.restriction_completed_session;
+ALTER TYPE stripe_payment_links.create_params_restriction
+  ADD ATTRIBUTE completed_sessions stripe_payment_links.create_params_restriction_create_params_completed_session;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_restriction(
-  completed_sessions stripe_payment_links.restriction_completed_session
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_restriction(
+  completed_sessions stripe_payment_links.create_params_restriction_create_params_completed_session
 )
-RETURNS stripe_payment_links.restriction
+RETURNS stripe_payment_links.create_params_restriction
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(completed_sessions)::stripe_payment_links.restriction;
+  SELECT ROW(
+    completed_sessions
+  )::stripe_payment_links.create_params_restriction;
 $$;
 
-ALTER TYPE stripe_payment_links.restriction_completed_session
+ALTER TYPE stripe_payment_links.create_params_restriction_create_params_completed_session
   ADD ATTRIBUTE "limit" BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_restriction_completed_session(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_restriction_create_params_completed_session(
   "limit" BIGINT
 )
-RETURNS stripe_payment_links.restriction_completed_session
+RETURNS stripe_payment_links.create_params_restriction_create_params_completed_session
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("limit")::stripe_payment_links.restriction_completed_session;
+  SELECT ROW(
+    "limit"
+  )::stripe_payment_links.create_params_restriction_create_params_completed_session;
 $$;
 
-ALTER TYPE stripe_payment_links.shipping_address_collection
+ALTER TYPE stripe_payment_links.create_params_shipping_address_collection
   ADD ATTRIBUTE allowed_countries TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_shipping_address_collection(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_shipping_address_collection(
   allowed_countries TEXT[]
 )
-RETURNS stripe_payment_links.shipping_address_collection
+RETURNS stripe_payment_links.create_params_shipping_address_collection
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     allowed_countries
-  )::stripe_payment_links.shipping_address_collection;
+  )::stripe_payment_links.create_params_shipping_address_collection;
 $$;
 
-ALTER TYPE stripe_payment_links.shipping_option
+ALTER TYPE stripe_payment_links.create_params_shipping_option
   ADD ATTRIBUTE shipping_rate TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_shipping_option(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_shipping_option(
   shipping_rate TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.shipping_option
+RETURNS stripe_payment_links.create_params_shipping_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(shipping_rate)::stripe_payment_links.shipping_option;
+  SELECT ROW(shipping_rate)::stripe_payment_links.create_params_shipping_option;
 $$;
 
-ALTER TYPE stripe_payment_links.subscription_data
+ALTER TYPE stripe_payment_links.create_params_subscription_data
   ADD ATTRIBUTE description TEXT,
-  ADD ATTRIBUTE invoice_settings stripe_payment_links.subscription_data_invoice_setting,
+  ADD ATTRIBUTE invoice_settings stripe_payment_links.create_params_subscription_data_create_params_invoice_setting,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE trial_period_days BIGINT,
-  ADD ATTRIBUTE trial_settings stripe_payment_links.subscription_data_trial_setting;
+  ADD ATTRIBUTE trial_settings stripe_payment_links.create_params_subscription_data_create_params_trial_setting;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_subscription_data(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_subscription_data(
   description TEXT DEFAULT NULL,
-  invoice_settings stripe_payment_links.subscription_data_invoice_setting DEFAULT NULL,
+  invoice_settings stripe_payment_links.create_params_subscription_data_create_params_invoice_setting DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   trial_period_days BIGINT DEFAULT NULL,
-  trial_settings stripe_payment_links.subscription_data_trial_setting DEFAULT NULL
+  trial_settings stripe_payment_links.create_params_subscription_data_create_params_trial_setting DEFAULT NULL
 )
-RETURNS stripe_payment_links.subscription_data
+RETURNS stripe_payment_links.create_params_subscription_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     description, invoice_settings, metadata, trial_period_days, trial_settings
-  )::stripe_payment_links.subscription_data;
+  )::stripe_payment_links.create_params_subscription_data;
 $$;
 
-ALTER TYPE stripe_payment_links.subscription_data_invoice_setting
-  ADD ATTRIBUTE issuer stripe_payment_links.subscription_data_invoice_setting_issuer;
+ALTER TYPE stripe_payment_links.create_params_subscription_data_create_params_invoice_setting
+  ADD ATTRIBUTE issuer stripe_payment_links.crte_prms_sbscrption_dta_crte_prms_invce_sttng_crte_prams_isser;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_subscription_data_invoice_setting(
-  issuer stripe_payment_links.subscription_data_invoice_setting_issuer DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_crate_prams_subscription_data_create_params_invoice_setting(
+  issuer stripe_payment_links.crte_prms_sbscrption_dta_crte_prms_invce_sttng_crte_prams_isser DEFAULT NULL
 )
-RETURNS stripe_payment_links.subscription_data_invoice_setting
+RETURNS stripe_payment_links.create_params_subscription_data_create_params_invoice_setting
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(issuer)::stripe_payment_links.subscription_data_invoice_setting;
+  SELECT ROW(
+    issuer
+  )::stripe_payment_links.create_params_subscription_data_create_params_invoice_setting;
 $$;
 
-ALTER TYPE stripe_payment_links.subscription_data_invoice_setting_issuer
+ALTER TYPE stripe_payment_links.crte_prms_sbscrption_dta_crte_prms_invce_sttng_crte_prams_isser
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_subscription_data_invoice_setting_issuer(
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_crte_prms_sbscrptn_dta_crte_prms_invce_sttng_crte_prms_issr(
   type TEXT, account TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.subscription_data_invoice_setting_issuer
+RETURNS stripe_payment_links.crte_prms_sbscrption_dta_crte_prms_invce_sttng_crte_prams_isser
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     type, account
-  )::stripe_payment_links.subscription_data_invoice_setting_issuer;
+  )::stripe_payment_links.crte_prms_sbscrption_dta_crte_prms_invce_sttng_crte_prams_isser;
 $$;
 
-ALTER TYPE stripe_payment_links.subscription_data_trial_setting
-  ADD ATTRIBUTE end_behavior stripe_payment_links.subscription_data_trial_setting_end_behavior;
+ALTER TYPE stripe_payment_links.create_params_subscription_data_create_params_trial_setting
+  ADD ATTRIBUTE end_behavior stripe_payment_links.crte_prms_sbscrpton_dta_crte_prms_trl_sttng_crte_prms_end_bhvor;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_subscription_data_trial_setting(
-  end_behavior stripe_payment_links.subscription_data_trial_setting_end_behavior
+CREATE OR REPLACE FUNCTION stripe_payment_links.mke_create_params_subscription_data_create_params_trial_setting(
+  end_behavior stripe_payment_links.crte_prms_sbscrpton_dta_crte_prms_trl_sttng_crte_prms_end_bhvor
 )
-RETURNS stripe_payment_links.subscription_data_trial_setting
+RETURNS stripe_payment_links.create_params_subscription_data_create_params_trial_setting
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     end_behavior
-  )::stripe_payment_links.subscription_data_trial_setting;
+  )::stripe_payment_links.create_params_subscription_data_create_params_trial_setting;
 $$;
 
-ALTER TYPE stripe_payment_links.subscription_data_trial_setting_end_behavior
+ALTER TYPE stripe_payment_links.crte_prms_sbscrpton_dta_crte_prms_trl_sttng_crte_prms_end_bhvor
   ADD ATTRIBUTE missing_payment_method TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_subscription_data_trial_setting_end_behavior(
+CREATE OR REPLACE FUNCTION stripe_payment_links.m_crte_prms_sbscrptn_dta_crte_prms_trl_sttng_crte_prms_end_bhvr(
   missing_payment_method TEXT
 )
-RETURNS stripe_payment_links.subscription_data_trial_setting_end_behavior
+RETURNS stripe_payment_links.crte_prms_sbscrpton_dta_crte_prms_trl_sttng_crte_prms_end_bhvor
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     missing_payment_method
-  )::stripe_payment_links.subscription_data_trial_setting_end_behavior;
+  )::stripe_payment_links.crte_prms_sbscrpton_dta_crte_prms_trl_sttng_crte_prms_end_bhvor;
 $$;
 
-ALTER TYPE stripe_payment_links.tax_id_collection
+ALTER TYPE stripe_payment_links.create_params_tax_id_collection
   ADD ATTRIBUTE enabled BOOLEAN, ADD ATTRIBUTE required TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_tax_id_collection(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_tax_id_collection(
   enabled BOOLEAN, required TEXT DEFAULT NULL
 )
-RETURNS stripe_payment_links.tax_id_collection
+RETURNS stripe_payment_links.create_params_tax_id_collection
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(enabled, required)::stripe_payment_links.tax_id_collection;
+  SELECT ROW(
+    enabled, required
+  )::stripe_payment_links.create_params_tax_id_collection;
 $$;
 
-ALTER TYPE stripe_payment_links.transfer_data
+ALTER TYPE stripe_payment_links.create_params_transfer_data
   ADD ATTRIBUTE destination TEXT, ADD ATTRIBUTE amount BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_payment_links.make_transfer_data(
+CREATE OR REPLACE FUNCTION stripe_payment_links.make_create_params_transfer_data(
   destination TEXT, amount BIGINT DEFAULT NULL
 )
-RETURNS stripe_payment_links.transfer_data
+RETURNS stripe_payment_links.create_params_transfer_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(destination, amount)::stripe_payment_links.transfer_data;
+  SELECT ROW(
+    destination, amount
+  )::stripe_payment_links.create_params_transfer_data;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links._create(
-  line_items stripe_payment_links.line_item[],
-  after_completion stripe_payment_links.after_completion DEFAULT NULL,
+  line_items stripe_payment_links.create_params_line_item[],
+  after_completion stripe_payment_links.create_params_after_completion DEFAULT NULL,
   allow_promotion_codes BOOLEAN DEFAULT NULL,
   application_fee_amount BIGINT DEFAULT NULL,
   application_fee_percent DOUBLE PRECISION DEFAULT NULL,
-  automatic_tax stripe_payment_links.automatic_tax DEFAULT NULL,
+  automatic_tax stripe_payment_links.create_params_automatic_tax DEFAULT NULL,
   billing_address_collection TEXT DEFAULT NULL,
-  consent_collection stripe_payment_links.consent_collection DEFAULT NULL,
+  consent_collection stripe_payment_links.create_params_consent_collection DEFAULT NULL,
   currency TEXT DEFAULT NULL,
-  custom_fields stripe_payment_links.custom_field[] DEFAULT NULL,
-  custom_text stripe_payment_links.custom_text DEFAULT NULL,
+  custom_fields stripe_payment_links.create_params_custom_field[] DEFAULT NULL,
+  custom_text stripe_payment_links.create_params_custom_text DEFAULT NULL,
   customer_creation TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   inactive_message TEXT DEFAULT NULL,
-  invoice_creation stripe_payment_links.invoice_creation DEFAULT NULL,
+  invoice_creation stripe_payment_links.create_params_invoice_creation DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  name_collection stripe_payment_links.name_collection DEFAULT NULL,
+  name_collection stripe_payment_links.create_params_name_collection DEFAULT NULL,
   on_behalf_of TEXT DEFAULT NULL,
-  optional_items stripe_payment_links.optional_item[] DEFAULT NULL,
-  payment_intent_data stripe_payment_links.payment_intent_data DEFAULT NULL,
+  optional_items stripe_payment_links.create_params_optional_item[] DEFAULT NULL,
+  payment_intent_data stripe_payment_links.create_params_payment_intent_data DEFAULT NULL,
   payment_method_collection TEXT DEFAULT NULL,
   payment_method_types TEXT[] DEFAULT NULL,
-  phone_number_collection stripe_payment_links.phone_number_collection DEFAULT NULL,
-  restrictions stripe_payment_links.restriction DEFAULT NULL,
-  shipping_address_collection stripe_payment_links.shipping_address_collection DEFAULT NULL,
-  shipping_options stripe_payment_links.shipping_option[] DEFAULT NULL,
+  phone_number_collection stripe_payment_links.create_params_phone_number_collection DEFAULT NULL,
+  restrictions stripe_payment_links.create_params_restriction DEFAULT NULL,
+  shipping_address_collection stripe_payment_links.create_params_shipping_address_collection DEFAULT NULL,
+  shipping_options stripe_payment_links.create_params_shipping_option[] DEFAULT NULL,
   submit_type TEXT DEFAULT NULL,
-  subscription_data stripe_payment_links.subscription_data DEFAULT NULL,
-  tax_id_collection stripe_payment_links.tax_id_collection DEFAULT NULL,
-  transfer_data stripe_payment_links.transfer_data DEFAULT NULL
+  subscription_data stripe_payment_links.create_params_subscription_data DEFAULT NULL,
+  tax_id_collection stripe_payment_links.create_params_tax_id_collection DEFAULT NULL,
+  transfer_data stripe_payment_links.create_params_transfer_data DEFAULT NULL
 )
 RETURNS JSONB
 LANGUAGE plpython3u
@@ -1619,36 +1647,36 @@ AS $$
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_payment_links.create(
-  line_items stripe_payment_links.line_item[],
-  after_completion stripe_payment_links.after_completion DEFAULT NULL,
+  line_items stripe_payment_links.create_params_line_item[],
+  after_completion stripe_payment_links.create_params_after_completion DEFAULT NULL,
   allow_promotion_codes BOOLEAN DEFAULT NULL,
   application_fee_amount BIGINT DEFAULT NULL,
   application_fee_percent DOUBLE PRECISION DEFAULT NULL,
-  automatic_tax stripe_payment_links.automatic_tax DEFAULT NULL,
+  automatic_tax stripe_payment_links.create_params_automatic_tax DEFAULT NULL,
   billing_address_collection TEXT DEFAULT NULL,
-  consent_collection stripe_payment_links.consent_collection DEFAULT NULL,
+  consent_collection stripe_payment_links.create_params_consent_collection DEFAULT NULL,
   currency TEXT DEFAULT NULL,
-  custom_fields stripe_payment_links.custom_field[] DEFAULT NULL,
-  custom_text stripe_payment_links.custom_text DEFAULT NULL,
+  custom_fields stripe_payment_links.create_params_custom_field[] DEFAULT NULL,
+  custom_text stripe_payment_links.create_params_custom_text DEFAULT NULL,
   customer_creation TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   inactive_message TEXT DEFAULT NULL,
-  invoice_creation stripe_payment_links.invoice_creation DEFAULT NULL,
+  invoice_creation stripe_payment_links.create_params_invoice_creation DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  name_collection stripe_payment_links.name_collection DEFAULT NULL,
+  name_collection stripe_payment_links.create_params_name_collection DEFAULT NULL,
   on_behalf_of TEXT DEFAULT NULL,
-  optional_items stripe_payment_links.optional_item[] DEFAULT NULL,
-  payment_intent_data stripe_payment_links.payment_intent_data DEFAULT NULL,
+  optional_items stripe_payment_links.create_params_optional_item[] DEFAULT NULL,
+  payment_intent_data stripe_payment_links.create_params_payment_intent_data DEFAULT NULL,
   payment_method_collection TEXT DEFAULT NULL,
   payment_method_types TEXT[] DEFAULT NULL,
-  phone_number_collection stripe_payment_links.phone_number_collection DEFAULT NULL,
-  restrictions stripe_payment_links.restriction DEFAULT NULL,
-  shipping_address_collection stripe_payment_links.shipping_address_collection DEFAULT NULL,
-  shipping_options stripe_payment_links.shipping_option[] DEFAULT NULL,
+  phone_number_collection stripe_payment_links.create_params_phone_number_collection DEFAULT NULL,
+  restrictions stripe_payment_links.create_params_restriction DEFAULT NULL,
+  shipping_address_collection stripe_payment_links.create_params_shipping_address_collection DEFAULT NULL,
+  shipping_options stripe_payment_links.create_params_shipping_option[] DEFAULT NULL,
   submit_type TEXT DEFAULT NULL,
-  subscription_data stripe_payment_links.subscription_data DEFAULT NULL,
-  tax_id_collection stripe_payment_links.tax_id_collection DEFAULT NULL,
-  transfer_data stripe_payment_links.transfer_data DEFAULT NULL
+  subscription_data stripe_payment_links.create_params_subscription_data DEFAULT NULL,
+  tax_id_collection stripe_payment_links.create_params_tax_id_collection DEFAULT NULL,
+  transfer_data stripe_payment_links.create_params_transfer_data DEFAULT NULL
 )
 RETURNS stripe_payment_links.payment_link_create_response
 LANGUAGE plpgsql

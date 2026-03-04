@@ -4447,80 +4447,82 @@ AS $$
   SELECT ROW(amount, currency)::stripe_invoices.tax_rate_flat_amount;
 $$;
 
-ALTER TYPE stripe_invoices.automatic_tax
+ALTER TYPE stripe_invoices.create_params_automatic_tax
   ADD ATTRIBUTE enabled BOOLEAN,
-  ADD ATTRIBUTE liability stripe_invoices.automatic_tax_liability;
+  ADD ATTRIBUTE liability stripe_invoices.create_params_automatic_tax_create_params_liability;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_automatic_tax(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_automatic_tax(
   enabled BOOLEAN,
-  liability stripe_invoices.automatic_tax_liability DEFAULT NULL
+  liability stripe_invoices.create_params_automatic_tax_create_params_liability DEFAULT NULL
 )
-RETURNS stripe_invoices.automatic_tax
+RETURNS stripe_invoices.create_params_automatic_tax
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(enabled, liability)::stripe_invoices.automatic_tax;
+  SELECT ROW(enabled, liability)::stripe_invoices.create_params_automatic_tax;
 $$;
 
-ALTER TYPE stripe_invoices.automatic_tax_liability
+ALTER TYPE stripe_invoices.create_params_automatic_tax_create_params_liability
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_automatic_tax_liability(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_automatic_tax_create_params_liability(
   type TEXT, account TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.automatic_tax_liability
+RETURNS stripe_invoices.create_params_automatic_tax_create_params_liability
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(type, account)::stripe_invoices.automatic_tax_liability;
+  SELECT ROW(
+    type, account
+  )::stripe_invoices.create_params_automatic_tax_create_params_liability;
 $$;
 
-ALTER TYPE stripe_invoices.from_invoice
+ALTER TYPE stripe_invoices.create_params_from_invoice
   ADD ATTRIBUTE action TEXT, ADD ATTRIBUTE invoice TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_from_invoice(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_from_invoice(
   action TEXT, invoice TEXT
 )
-RETURNS stripe_invoices.from_invoice
+RETURNS stripe_invoices.create_params_from_invoice
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(action, invoice)::stripe_invoices.from_invoice;
+  SELECT ROW(action, invoice)::stripe_invoices.create_params_from_invoice;
 $$;
 
-ALTER TYPE stripe_invoices.issuer
+ALTER TYPE stripe_invoices.create_params_issuer
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE account TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_issuer(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_issuer(
   type TEXT, account TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.issuer
+RETURNS stripe_invoices.create_params_issuer
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(type, account)::stripe_invoices.issuer;
+  SELECT ROW(type, account)::stripe_invoices.create_params_issuer;
 $$;
 
-ALTER TYPE stripe_invoices.payment_setting
+ALTER TYPE stripe_invoices.create_params_payment_setting
   ADD ATTRIBUTE default_mandate TEXT,
-  ADD ATTRIBUTE payment_method_options stripe_invoices.payment_setting_payment_method_option,
+  ADD ATTRIBUTE payment_method_options stripe_invoices.crate_prams_payment_setting_create_params_payment_method_option,
   ADD ATTRIBUTE payment_method_types JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_setting(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_payment_setting(
   default_mandate TEXT DEFAULT NULL,
-  payment_method_options stripe_invoices.payment_setting_payment_method_option DEFAULT NULL,
+  payment_method_options stripe_invoices.crate_prams_payment_setting_create_params_payment_method_option DEFAULT NULL,
   payment_method_types JSONB DEFAULT NULL
 )
-RETURNS stripe_invoices.payment_setting
+RETURNS stripe_invoices.create_params_payment_setting
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     default_mandate, payment_method_options, payment_method_types
-  )::stripe_invoices.payment_setting;
+  )::stripe_invoices.create_params_payment_setting;
 $$;
 
-ALTER TYPE stripe_invoices.payment_setting_payment_method_option
+ALTER TYPE stripe_invoices.crate_prams_payment_setting_create_params_payment_method_option
   ADD ATTRIBUTE acss_debit JSONB,
   ADD ATTRIBUTE bancontact JSONB,
   ADD ATTRIBUTE card JSONB,
@@ -4530,7 +4532,7 @@ ALTER TYPE stripe_invoices.payment_setting_payment_method_option
   ADD ATTRIBUTE sepa_debit JSONB,
   ADD ATTRIBUTE us_bank_account JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_setting_payment_method_option(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_crate_prams_pyment_stting_crate_prams_payment_method_option(
   acss_debit JSONB DEFAULT NULL,
   bancontact JSONB DEFAULT NULL,
   card JSONB DEFAULT NULL,
@@ -4540,7 +4542,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_payment_setting_payment_method_o
   sepa_debit JSONB DEFAULT NULL,
   us_bank_account JSONB DEFAULT NULL
 )
-RETURNS stripe_invoices.payment_setting_payment_method_option
+RETURNS stripe_invoices.crate_prams_payment_setting_create_params_payment_method_option
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -4553,77 +4555,81 @@ AS $$
     payto,
     sepa_debit,
     us_bank_account
-  )::stripe_invoices.payment_setting_payment_method_option;
+  )::stripe_invoices.crate_prams_payment_setting_create_params_payment_method_option;
 $$;
 
-ALTER TYPE stripe_invoices.rendering
+ALTER TYPE stripe_invoices.create_params_rendering
   ADD ATTRIBUTE amount_tax_display TEXT,
-  ADD ATTRIBUTE pdf stripe_invoices.rendering_pdf,
+  ADD ATTRIBUTE pdf stripe_invoices.create_params_rendering_create_params_pdf,
   ADD ATTRIBUTE template TEXT,
   ADD ATTRIBUTE template_version JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_rendering(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_rendering(
   amount_tax_display TEXT DEFAULT NULL,
-  pdf stripe_invoices.rendering_pdf DEFAULT NULL,
+  pdf stripe_invoices.create_params_rendering_create_params_pdf DEFAULT NULL,
   template TEXT DEFAULT NULL,
   template_version JSONB DEFAULT NULL
 )
-RETURNS stripe_invoices.rendering
+RETURNS stripe_invoices.create_params_rendering
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     amount_tax_display, pdf, template, template_version
-  )::stripe_invoices.rendering;
+  )::stripe_invoices.create_params_rendering;
 $$;
 
-ALTER TYPE stripe_invoices.rendering_pdf
+ALTER TYPE stripe_invoices.create_params_rendering_create_params_pdf
   ADD ATTRIBUTE page_size TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_rendering_pdf(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_rendering_create_params_pdf(
   page_size TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.rendering_pdf
+RETURNS stripe_invoices.create_params_rendering_create_params_pdf
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(page_size)::stripe_invoices.rendering_pdf;
+  SELECT ROW(
+    page_size
+  )::stripe_invoices.create_params_rendering_create_params_pdf;
 $$;
 
-ALTER TYPE stripe_invoices.shipping_cost
+ALTER TYPE stripe_invoices.create_params_shipping_cost
   ADD ATTRIBUTE shipping_rate TEXT,
-  ADD ATTRIBUTE shipping_rate_data stripe_invoices.shipping_cost_shipping_rate_data;
+  ADD ATTRIBUTE shipping_rate_data stripe_invoices.create_params_shipping_cost_create_params_shipping_rate_data;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_shipping_cost(
   shipping_rate TEXT DEFAULT NULL,
-  shipping_rate_data stripe_invoices.shipping_cost_shipping_rate_data DEFAULT NULL
+  shipping_rate_data stripe_invoices.create_params_shipping_cost_create_params_shipping_rate_data DEFAULT NULL
 )
-RETURNS stripe_invoices.shipping_cost
+RETURNS stripe_invoices.create_params_shipping_cost
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(shipping_rate, shipping_rate_data)::stripe_invoices.shipping_cost;
+  SELECT ROW(
+    shipping_rate, shipping_rate_data
+  )::stripe_invoices.create_params_shipping_cost;
 $$;
 
-ALTER TYPE stripe_invoices.shipping_cost_shipping_rate_data
+ALTER TYPE stripe_invoices.create_params_shipping_cost_create_params_shipping_rate_data
   ADD ATTRIBUTE display_name TEXT,
-  ADD ATTRIBUTE delivery_estimate stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate,
-  ADD ATTRIBUTE fixed_amount stripe_invoices.shipping_cost_shipping_rate_data_fixed_amount,
+  ADD ATTRIBUTE delivery_estimate stripe_invoices.c_p_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_dlvry_estmte,
+  ADD ATTRIBUTE fixed_amount stripe_invoices.c_prms_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_fxd_amnt,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE tax_behavior TEXT,
   ADD ATTRIBUTE tax_code TEXT,
   ADD ATTRIBUTE type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost_shipping_rate_data(
+CREATE OR REPLACE FUNCTION stripe_invoices.mke_crate_params_shipping_cost_create_params_shipping_rate_data(
   display_name TEXT,
-  delivery_estimate stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate DEFAULT NULL,
-  fixed_amount stripe_invoices.shipping_cost_shipping_rate_data_fixed_amount DEFAULT NULL,
+  delivery_estimate stripe_invoices.c_p_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_dlvry_estmte DEFAULT NULL,
+  fixed_amount stripe_invoices.c_prms_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_fxd_amnt DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   tax_behavior TEXT DEFAULT NULL,
   tax_code TEXT DEFAULT NULL,
   type TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.shipping_cost_shipping_rate_data
+RETURNS stripe_invoices.create_params_shipping_cost_create_params_shipping_rate_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -4635,91 +4641,93 @@ AS $$
     tax_behavior,
     tax_code,
     type
-  )::stripe_invoices.shipping_cost_shipping_rate_data;
+  )::stripe_invoices.create_params_shipping_cost_create_params_shipping_rate_data;
 $$;
 
-ALTER TYPE stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate
-  ADD ATTRIBUTE maximum stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_maximum,
-  ADD ATTRIBUTE minimum stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_minimum;
+ALTER TYPE stripe_invoices.c_p_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_dlvry_estmte
+  ADD ATTRIBUTE maximum stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mxmm,
+  ADD ATTRIBUTE minimum stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mnmm;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost_shipping_rate_data_delivery_estimate(
-  maximum stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_maximum DEFAULT NULL,
-  minimum stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_minimum DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_invoices.m_c_p_s_cst_crte_prms_shppng_rte_dta_crte_prms_dlvry_estmte(
+  maximum stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mxmm DEFAULT NULL,
+  minimum stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mnmm DEFAULT NULL
 )
-RETURNS stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate
+RETURNS stripe_invoices.c_p_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_dlvry_estmte
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     maximum, minimum
-  )::stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate;
+  )::stripe_invoices.c_p_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_dlvry_estmte;
 $$;
 
-ALTER TYPE stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_maximum
+ALTER TYPE stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mxmm
   ADD ATTRIBUTE unit TEXT, ADD ATTRIBUTE value BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost_shipping_rate_data_delivery_estimate_maximum(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mxmm(
   unit TEXT, value BIGINT
 )
-RETURNS stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_maximum
+RETURNS stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mxmm
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     unit, value
-  )::stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_maximum;
+  )::stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mxmm;
 $$;
 
-ALTER TYPE stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_minimum
+ALTER TYPE stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mnmm
   ADD ATTRIBUTE unit TEXT, ADD ATTRIBUTE value BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost_shipping_rate_data_delivery_estimate_minimum(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mnmm(
   unit TEXT, value BIGINT
 )
-RETURNS stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_minimum
+RETURNS stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mnmm
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     unit, value
-  )::stripe_invoices.shipping_cost_shipping_rate_data_delivery_estimate_minimum;
+  )::stripe_invoices.c_p_s_c_c_p_s_rte_dta_crte_prms_dlvry_estmte_crte_prms_mnmm;
 $$;
 
-ALTER TYPE stripe_invoices.shipping_cost_shipping_rate_data_fixed_amount
+ALTER TYPE stripe_invoices.c_prms_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_fxd_amnt
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE currency_options JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_cost_shipping_rate_data_fixed_amount(
+CREATE OR REPLACE FUNCTION stripe_invoices.m_c_prms_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_fxd_amnt(
   amount BIGINT, currency TEXT, currency_options JSONB DEFAULT NULL
 )
-RETURNS stripe_invoices.shipping_cost_shipping_rate_data_fixed_amount
+RETURNS stripe_invoices.c_prms_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_fxd_amnt
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     amount, currency, currency_options
-  )::stripe_invoices.shipping_cost_shipping_rate_data_fixed_amount;
+  )::stripe_invoices.c_prms_shppng_cst_crte_prms_shppng_rte_dta_crte_prms_fxd_amnt;
 $$;
 
-ALTER TYPE stripe_invoices.shipping_detail
-  ADD ATTRIBUTE address stripe_invoices.shipping_detail_address,
+ALTER TYPE stripe_invoices.create_params_shipping_detail
+  ADD ATTRIBUTE address stripe_invoices.create_params_shipping_detail_create_params_address,
   ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE phone TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_detail(
-  address stripe_invoices.shipping_detail_address,
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_shipping_detail(
+  address stripe_invoices.create_params_shipping_detail_create_params_address,
   name TEXT,
   phone TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.shipping_detail
+RETURNS stripe_invoices.create_params_shipping_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(address, name, phone)::stripe_invoices.shipping_detail;
+  SELECT ROW(
+    address, name, phone
+  )::stripe_invoices.create_params_shipping_detail;
 $$;
 
-ALTER TYPE stripe_invoices.shipping_detail_address
+ALTER TYPE stripe_invoices.create_params_shipping_detail_create_params_address
   ADD ATTRIBUTE city TEXT,
   ADD ATTRIBUTE country TEXT,
   ADD ATTRIBUTE line1 TEXT,
@@ -4727,7 +4735,7 @@ ALTER TYPE stripe_invoices.shipping_detail_address
   ADD ATTRIBUTE postal_code TEXT,
   ADD ATTRIBUTE state TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_detail_address(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_shipping_detail_create_params_address(
   city TEXT DEFAULT NULL,
   country TEXT DEFAULT NULL,
   line1 TEXT DEFAULT NULL,
@@ -4735,33 +4743,33 @@ CREATE OR REPLACE FUNCTION stripe_invoices.make_shipping_detail_address(
   postal_code TEXT DEFAULT NULL,
   state TEXT DEFAULT NULL
 )
-RETURNS stripe_invoices.shipping_detail_address
+RETURNS stripe_invoices.create_params_shipping_detail_create_params_address
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     city, country, line1, line2, postal_code, state
-  )::stripe_invoices.shipping_detail_address;
+  )::stripe_invoices.create_params_shipping_detail_create_params_address;
 $$;
 
-ALTER TYPE stripe_invoices.transfer_data
+ALTER TYPE stripe_invoices.create_params_transfer_data
   ADD ATTRIBUTE destination TEXT, ADD ATTRIBUTE amount BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_invoices.make_transfer_data(
+CREATE OR REPLACE FUNCTION stripe_invoices.make_create_params_transfer_data(
   destination TEXT, amount BIGINT DEFAULT NULL
 )
-RETURNS stripe_invoices.transfer_data
+RETURNS stripe_invoices.create_params_transfer_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(destination, amount)::stripe_invoices.transfer_data;
+  SELECT ROW(destination, amount)::stripe_invoices.create_params_transfer_data;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_invoices._create(
   account_tax_ids JSONB DEFAULT NULL,
   application_fee_amount BIGINT DEFAULT NULL,
   auto_advance BOOLEAN DEFAULT NULL,
-  automatic_tax stripe_invoices.automatic_tax DEFAULT NULL,
+  automatic_tax stripe_invoices.create_params_automatic_tax DEFAULT NULL,
   automatically_finalizes_at BIGINT DEFAULT NULL,
   collection_method TEXT DEFAULT NULL,
   currency TEXT DEFAULT NULL,
@@ -4778,19 +4786,19 @@ CREATE OR REPLACE FUNCTION stripe_invoices._create(
   effective_at BIGINT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   footer TEXT DEFAULT NULL,
-  from_invoice stripe_invoices.from_invoice DEFAULT NULL,
-  issuer stripe_invoices.issuer DEFAULT NULL,
+  from_invoice stripe_invoices.create_params_from_invoice DEFAULT NULL,
+  issuer stripe_invoices.create_params_issuer DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   number TEXT DEFAULT NULL,
   on_behalf_of TEXT DEFAULT NULL,
-  payment_settings stripe_invoices.payment_setting DEFAULT NULL,
+  payment_settings stripe_invoices.create_params_payment_setting DEFAULT NULL,
   pending_invoice_items_behavior TEXT DEFAULT NULL,
-  rendering stripe_invoices.rendering DEFAULT NULL,
-  shipping_cost stripe_invoices.shipping_cost DEFAULT NULL,
-  shipping_details stripe_invoices.shipping_detail DEFAULT NULL,
+  rendering stripe_invoices.create_params_rendering DEFAULT NULL,
+  shipping_cost stripe_invoices.create_params_shipping_cost DEFAULT NULL,
+  shipping_details stripe_invoices.create_params_shipping_detail DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL,
   subscription TEXT DEFAULT NULL,
-  transfer_data stripe_invoices.transfer_data DEFAULT NULL
+  transfer_data stripe_invoices.create_params_transfer_data DEFAULT NULL
 )
 RETURNS JSONB
 LANGUAGE plpython3u
@@ -4844,7 +4852,7 @@ CREATE OR REPLACE FUNCTION stripe_invoices.create(
   account_tax_ids JSONB DEFAULT NULL,
   application_fee_amount BIGINT DEFAULT NULL,
   auto_advance BOOLEAN DEFAULT NULL,
-  automatic_tax stripe_invoices.automatic_tax DEFAULT NULL,
+  automatic_tax stripe_invoices.create_params_automatic_tax DEFAULT NULL,
   automatically_finalizes_at BIGINT DEFAULT NULL,
   collection_method TEXT DEFAULT NULL,
   currency TEXT DEFAULT NULL,
@@ -4861,19 +4869,19 @@ CREATE OR REPLACE FUNCTION stripe_invoices.create(
   effective_at BIGINT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   footer TEXT DEFAULT NULL,
-  from_invoice stripe_invoices.from_invoice DEFAULT NULL,
-  issuer stripe_invoices.issuer DEFAULT NULL,
+  from_invoice stripe_invoices.create_params_from_invoice DEFAULT NULL,
+  issuer stripe_invoices.create_params_issuer DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   number TEXT DEFAULT NULL,
   on_behalf_of TEXT DEFAULT NULL,
-  payment_settings stripe_invoices.payment_setting DEFAULT NULL,
+  payment_settings stripe_invoices.create_params_payment_setting DEFAULT NULL,
   pending_invoice_items_behavior TEXT DEFAULT NULL,
-  rendering stripe_invoices.rendering DEFAULT NULL,
-  shipping_cost stripe_invoices.shipping_cost DEFAULT NULL,
-  shipping_details stripe_invoices.shipping_detail DEFAULT NULL,
+  rendering stripe_invoices.create_params_rendering DEFAULT NULL,
+  shipping_cost stripe_invoices.create_params_shipping_cost DEFAULT NULL,
+  shipping_details stripe_invoices.create_params_shipping_detail DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL,
   subscription TEXT DEFAULT NULL,
-  transfer_data stripe_invoices.transfer_data DEFAULT NULL
+  transfer_data stripe_invoices.create_params_transfer_data DEFAULT NULL
 )
 RETURNS stripe_invoices.invoice
 LANGUAGE plpgsql

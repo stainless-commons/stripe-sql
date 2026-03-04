@@ -87,10 +87,10 @@ See this table for the available configuration parameters:
 
 To send a request to the Stripe API, call the relevant SQL function with values corresponding to the parameter types and `SELECT` the columns you need from the returned rows.
 
-To construct [composite type](https://www.postgresql.org/docs/current/rowtypes.html) parameters, use the parameter type's provided `make_*` function. For example, `stripe_coupons.applies_to` may be constructed like so:
+To construct [composite type](https://www.postgresql.org/docs/current/rowtypes.html) parameters, use the parameter type's provided `make_*` function. For example, `stripe_coupons.create_params_applies_to` may be constructed like so:
 
 ```sql
-stripe_coupons.make_applies_to(products := ARRAY['string'])
+stripe_coupons.make_create_params_applies_to(products := ARRAY['string'])
 ```
 
 ## Pagination

@@ -740,90 +740,92 @@ AS $$
   )::stripe_customers.tax_ids_owner;
 $$;
 
-ALTER TYPE stripe_customers.cash_balance
-  ADD ATTRIBUTE settings stripe_customers.cash_balance_setting;
+ALTER TYPE stripe_customers.create_params_cash_balance
+  ADD ATTRIBUTE settings stripe_customers.create_params_cash_balance_create_params_setting;
 
-CREATE OR REPLACE FUNCTION stripe_customers.make_cash_balance(
-  settings stripe_customers.cash_balance_setting DEFAULT NULL
+CREATE OR REPLACE FUNCTION stripe_customers.make_create_params_cash_balance(
+  settings stripe_customers.create_params_cash_balance_create_params_setting DEFAULT NULL
 )
-RETURNS stripe_customers.cash_balance
+RETURNS stripe_customers.create_params_cash_balance
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(settings)::stripe_customers.cash_balance;
+  SELECT ROW(settings)::stripe_customers.create_params_cash_balance;
 $$;
 
-ALTER TYPE stripe_customers.cash_balance_setting
+ALTER TYPE stripe_customers.create_params_cash_balance_create_params_setting
   ADD ATTRIBUTE reconciliation_mode TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_customers.make_cash_balance_setting(
+CREATE OR REPLACE FUNCTION stripe_customers.make_create_params_cash_balance_create_params_setting(
   reconciliation_mode TEXT DEFAULT NULL
 )
-RETURNS stripe_customers.cash_balance_setting
+RETURNS stripe_customers.create_params_cash_balance_create_params_setting
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(reconciliation_mode)::stripe_customers.cash_balance_setting;
+  SELECT ROW(
+    reconciliation_mode
+  )::stripe_customers.create_params_cash_balance_create_params_setting;
 $$;
 
-ALTER TYPE stripe_customers.invoice_setting1
+ALTER TYPE stripe_customers.create_params_invoice_setting
   ADD ATTRIBUTE custom_fields JSONB,
   ADD ATTRIBUTE default_payment_method TEXT,
   ADD ATTRIBUTE footer TEXT,
   ADD ATTRIBUTE rendering_options JSONB;
 
-CREATE OR REPLACE FUNCTION stripe_customers.make_invoice_setting1(
+CREATE OR REPLACE FUNCTION stripe_customers.make_create_params_invoice_setting(
   custom_fields JSONB DEFAULT NULL,
   default_payment_method TEXT DEFAULT NULL,
   footer TEXT DEFAULT NULL,
   rendering_options JSONB DEFAULT NULL
 )
-RETURNS stripe_customers.invoice_setting1
+RETURNS stripe_customers.create_params_invoice_setting
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     custom_fields, default_payment_method, footer, rendering_options
-  )::stripe_customers.invoice_setting1;
+  )::stripe_customers.create_params_invoice_setting;
 $$;
 
-ALTER TYPE stripe_customers.tax
+ALTER TYPE stripe_customers.create_params_tax
   ADD ATTRIBUTE ip_address TEXT, ADD ATTRIBUTE validate_location TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_customers.make_tax(
+CREATE OR REPLACE FUNCTION stripe_customers.make_create_params_tax(
   ip_address TEXT DEFAULT NULL, validate_location TEXT DEFAULT NULL
 )
-RETURNS stripe_customers.tax
+RETURNS stripe_customers.create_params_tax
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(ip_address, validate_location)::stripe_customers.tax;
+  SELECT ROW(ip_address, validate_location)::stripe_customers.create_params_tax;
 $$;
 
-ALTER TYPE stripe_customers.tax_id_data
+ALTER TYPE stripe_customers.create_params_tax_id_data
   ADD ATTRIBUTE type TEXT, ADD ATTRIBUTE value TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_customers.make_tax_id_data(
+CREATE OR REPLACE FUNCTION stripe_customers.make_create_params_tax_id_data(
   type TEXT, value TEXT
 )
-RETURNS stripe_customers.tax_id_data
+RETURNS stripe_customers.create_params_tax_id_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(type, value)::stripe_customers.tax_id_data;
+  SELECT ROW(type, value)::stripe_customers.create_params_tax_id_data;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_customers._create(
   address JSONB DEFAULT NULL,
   balance BIGINT DEFAULT NULL,
   business_name TEXT DEFAULT NULL,
-  cash_balance stripe_customers.cash_balance DEFAULT NULL,
+  cash_balance stripe_customers.create_params_cash_balance DEFAULT NULL,
   description TEXT DEFAULT NULL,
   email TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   individual_name TEXT DEFAULT NULL,
   invoice_prefix TEXT DEFAULT NULL,
-  invoice_settings stripe_customers.invoice_setting1 DEFAULT NULL,
+  invoice_settings stripe_customers.create_params_invoice_setting DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   name TEXT DEFAULT NULL,
   next_invoice_sequence BIGINT DEFAULT NULL,
@@ -832,9 +834,9 @@ CREATE OR REPLACE FUNCTION stripe_customers._create(
   preferred_locales TEXT[] DEFAULT NULL,
   shipping JSONB DEFAULT NULL,
   source TEXT DEFAULT NULL,
-  tax stripe_customers.tax DEFAULT NULL,
+  tax stripe_customers.create_params_tax DEFAULT NULL,
   tax_exempt TEXT DEFAULT NULL,
-  tax_id_data stripe_customers.tax_id_data[] DEFAULT NULL,
+  tax_id_data stripe_customers.create_params_tax_id_data[] DEFAULT NULL,
   test_clock TEXT DEFAULT NULL
 )
 RETURNS JSONB
@@ -878,13 +880,13 @@ CREATE OR REPLACE FUNCTION stripe_customers.create(
   address JSONB DEFAULT NULL,
   balance BIGINT DEFAULT NULL,
   business_name TEXT DEFAULT NULL,
-  cash_balance stripe_customers.cash_balance DEFAULT NULL,
+  cash_balance stripe_customers.create_params_cash_balance DEFAULT NULL,
   description TEXT DEFAULT NULL,
   email TEXT DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   individual_name TEXT DEFAULT NULL,
   invoice_prefix TEXT DEFAULT NULL,
-  invoice_settings stripe_customers.invoice_setting1 DEFAULT NULL,
+  invoice_settings stripe_customers.create_params_invoice_setting DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   name TEXT DEFAULT NULL,
   next_invoice_sequence BIGINT DEFAULT NULL,
@@ -893,9 +895,9 @@ CREATE OR REPLACE FUNCTION stripe_customers.create(
   preferred_locales TEXT[] DEFAULT NULL,
   shipping JSONB DEFAULT NULL,
   source TEXT DEFAULT NULL,
-  tax stripe_customers.tax DEFAULT NULL,
+  tax stripe_customers.create_params_tax DEFAULT NULL,
   tax_exempt TEXT DEFAULT NULL,
-  tax_id_data stripe_customers.tax_id_data[] DEFAULT NULL,
+  tax_id_data stripe_customers.create_params_tax_id_data[] DEFAULT NULL,
   test_clock TEXT DEFAULT NULL
 )
 RETURNS stripe_customers.customer

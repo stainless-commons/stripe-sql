@@ -172,53 +172,53 @@ AS $$
   )::stripe_invoiceitems.invoiceitem_create_response_proration_detail;
 $$;
 
-ALTER TYPE stripe_invoiceitems.period
+ALTER TYPE stripe_invoiceitems.create_params_period
   ADD ATTRIBUTE "end" BIGINT, ADD ATTRIBUTE start BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_period(
+CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_create_params_period(
   "end" BIGINT, start BIGINT
 )
-RETURNS stripe_invoiceitems.period
+RETURNS stripe_invoiceitems.create_params_period
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("end", start)::stripe_invoiceitems.period;
+  SELECT ROW("end", start)::stripe_invoiceitems.create_params_period;
 $$;
 
-ALTER TYPE stripe_invoiceitems.price_data
+ALTER TYPE stripe_invoiceitems.create_params_price_data
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE product TEXT,
   ADD ATTRIBUTE tax_behavior TEXT,
   ADD ATTRIBUTE unit_amount BIGINT,
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_price_data(
+CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_create_params_price_data(
   currency TEXT,
   product TEXT,
   tax_behavior TEXT DEFAULT NULL,
   unit_amount BIGINT DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
-RETURNS stripe_invoiceitems.price_data
+RETURNS stripe_invoiceitems.create_params_price_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     currency, product, tax_behavior, unit_amount, unit_amount_decimal
-  )::stripe_invoiceitems.price_data;
+  )::stripe_invoiceitems.create_params_price_data;
 $$;
 
-ALTER TYPE stripe_invoiceitems.pricing
+ALTER TYPE stripe_invoiceitems.create_params_pricing
   ADD ATTRIBUTE price TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_pricing(
+CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_create_params_pricing(
   price TEXT DEFAULT NULL
 )
-RETURNS stripe_invoiceitems.pricing
+RETURNS stripe_invoiceitems.create_params_pricing
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(price)::stripe_invoiceitems.pricing;
+  SELECT ROW(price)::stripe_invoiceitems.create_params_pricing;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_invoiceitems._create(
@@ -232,9 +232,9 @@ CREATE OR REPLACE FUNCTION stripe_invoiceitems._create(
   expand TEXT[] DEFAULT NULL,
   invoice TEXT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  period stripe_invoiceitems.period DEFAULT NULL,
-  price_data stripe_invoiceitems.price_data DEFAULT NULL,
-  pricing stripe_invoiceitems.pricing DEFAULT NULL,
+  period stripe_invoiceitems.create_params_period DEFAULT NULL,
+  price_data stripe_invoiceitems.create_params_price_data DEFAULT NULL,
+  pricing stripe_invoiceitems.create_params_pricing DEFAULT NULL,
   quantity BIGINT DEFAULT NULL,
   subscription TEXT DEFAULT NULL,
   tax_behavior TEXT DEFAULT NULL,
@@ -287,9 +287,9 @@ CREATE OR REPLACE FUNCTION stripe_invoiceitems.create(
   expand TEXT[] DEFAULT NULL,
   invoice TEXT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  period stripe_invoiceitems.period DEFAULT NULL,
-  price_data stripe_invoiceitems.price_data DEFAULT NULL,
-  pricing stripe_invoiceitems.pricing DEFAULT NULL,
+  period stripe_invoiceitems.create_params_period DEFAULT NULL,
+  price_data stripe_invoiceitems.create_params_price_data DEFAULT NULL,
+  pricing stripe_invoiceitems.create_params_pricing DEFAULT NULL,
   quantity BIGINT DEFAULT NULL,
   subscription TEXT DEFAULT NULL,
   tax_behavior TEXT DEFAULT NULL,

@@ -74,23 +74,23 @@ AS $$
   SELECT ROW(products)::stripe_coupons.coupon_applies_to;
 $$;
 
-ALTER TYPE stripe_coupons.applies_to
+ALTER TYPE stripe_coupons.create_params_applies_to
   ADD ATTRIBUTE products TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_coupons.make_applies_to(
+CREATE OR REPLACE FUNCTION stripe_coupons.make_create_params_applies_to(
   products TEXT[] DEFAULT NULL
 )
-RETURNS stripe_coupons.applies_to
+RETURNS stripe_coupons.create_params_applies_to
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(products)::stripe_coupons.applies_to;
+  SELECT ROW(products)::stripe_coupons.create_params_applies_to;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_coupons._create(
   id TEXT DEFAULT NULL,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_coupons.applies_to DEFAULT NULL,
+  applies_to stripe_coupons.create_params_applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration TEXT DEFAULT NULL,
@@ -133,7 +133,7 @@ $$;
 CREATE OR REPLACE FUNCTION stripe_coupons.create(
   id TEXT DEFAULT NULL,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_coupons.applies_to DEFAULT NULL,
+  applies_to stripe_coupons.create_params_applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration TEXT DEFAULT NULL,

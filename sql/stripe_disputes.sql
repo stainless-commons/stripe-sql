@@ -4953,7 +4953,7 @@ AS $$
   SELECT ROW(data, has_more, object, url)::stripe_disputes.transfer_reversal;
 $$;
 
-ALTER TYPE stripe_disputes.evidence
+ALTER TYPE stripe_disputes.update_params_evidence
   ADD ATTRIBUTE access_activity_log TEXT,
   ADD ATTRIBUTE billing_address TEXT,
   ADD ATTRIBUTE cancellation_policy TEXT,
@@ -4983,7 +4983,7 @@ ALTER TYPE stripe_disputes.evidence
   ADD ATTRIBUTE uncategorized_file TEXT,
   ADD ATTRIBUTE uncategorized_text TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_disputes.make_evidence(
+CREATE OR REPLACE FUNCTION stripe_disputes.make_update_params_evidence(
   access_activity_log TEXT DEFAULT NULL,
   billing_address TEXT DEFAULT NULL,
   cancellation_policy TEXT DEFAULT NULL,
@@ -5013,7 +5013,7 @@ CREATE OR REPLACE FUNCTION stripe_disputes.make_evidence(
   uncategorized_file TEXT DEFAULT NULL,
   uncategorized_text TEXT DEFAULT NULL
 )
-RETURNS stripe_disputes.evidence
+RETURNS stripe_disputes.update_params_evidence
 LANGUAGE SQL
 IMMUTABLE
 AS $$
@@ -5046,12 +5046,12 @@ AS $$
     shipping_tracking_number,
     uncategorized_file,
     uncategorized_text
-  )::stripe_disputes.evidence;
+  )::stripe_disputes.update_params_evidence;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_disputes._update(
   dispute TEXT,
-  evidence stripe_disputes.evidence DEFAULT NULL,
+  evidence stripe_disputes.update_params_evidence DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   submit BOOLEAN DEFAULT NULL
@@ -5078,7 +5078,7 @@ $$;
 
 CREATE OR REPLACE FUNCTION stripe_disputes.update(
   dispute TEXT,
-  evidence stripe_disputes.evidence DEFAULT NULL,
+  evidence stripe_disputes.update_params_evidence DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   submit BOOLEAN DEFAULT NULL

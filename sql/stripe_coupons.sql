@@ -1,11 +1,11 @@
 ALTER TYPE stripe_coupons.coupon
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE duration TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE times_redeemed BIGINT,
-  ADD ATTRIBUTE "valid" BOOLEAN,
+  ADD ATTRIBUTE valid BOOLEAN,
   ADD ATTRIBUTE amount_off BIGINT,
   ADD ATTRIBUTE applies_to stripe_coupons.coupon_applies_to,
   ADD ATTRIBUTE currency TEXT,
@@ -13,18 +13,18 @@ ALTER TYPE stripe_coupons.coupon
   ADD ATTRIBUTE duration_in_months BIGINT,
   ADD ATTRIBUTE max_redemptions BIGINT,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "name" TEXT,
+  ADD ATTRIBUTE name TEXT,
   ADD ATTRIBUTE percent_off DOUBLE PRECISION,
   ADD ATTRIBUTE redeem_by BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_coupons.make_coupon(
-  "id" TEXT,
+  id TEXT,
   created BIGINT,
   duration TEXT,
   livemode BOOLEAN,
-  "object" TEXT,
+  object TEXT,
   times_redeemed BIGINT,
-  "valid" BOOLEAN,
+  valid BOOLEAN,
   amount_off BIGINT DEFAULT NULL,
   applies_to stripe_coupons.coupon_applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
@@ -32,7 +32,7 @@ CREATE OR REPLACE FUNCTION stripe_coupons.make_coupon(
   duration_in_months BIGINT DEFAULT NULL,
   max_redemptions BIGINT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   percent_off DOUBLE PRECISION DEFAULT NULL,
   redeem_by BIGINT DEFAULT NULL
 )
@@ -41,13 +41,13 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     created,
     duration,
     livemode,
-    "object",
+    object,
     times_redeemed,
-    "valid",
+    valid,
     amount_off,
     applies_to,
     currency,
@@ -55,7 +55,7 @@ AS $$
     duration_in_months,
     max_redemptions,
     metadata,
-    "name",
+    name,
     percent_off,
     redeem_by
   )::stripe_coupons.coupon;
@@ -74,23 +74,23 @@ AS $$
   SELECT ROW(products)::stripe_coupons.coupon_applies_to;
 $$;
 
-ALTER TYPE stripe_coupons.applies_to
+ALTER TYPE stripe_coupons.create_params_applies_to
   ADD ATTRIBUTE products TEXT[];
 
-CREATE OR REPLACE FUNCTION stripe_coupons.make_applies_to(
+CREATE OR REPLACE FUNCTION stripe_coupons.make_create_params_applies_to(
   products TEXT[] DEFAULT NULL
 )
-RETURNS stripe_coupons.applies_to
+RETURNS stripe_coupons.create_params_applies_to
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(products)::stripe_coupons.applies_to;
+  SELECT ROW(products)::stripe_coupons.create_params_applies_to;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_coupons._create(
-  "id" TEXT DEFAULT NULL,
+  id TEXT DEFAULT NULL,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_coupons.applies_to DEFAULT NULL,
+  applies_to stripe_coupons.create_params_applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration TEXT DEFAULT NULL,
@@ -98,7 +98,7 @@ CREATE OR REPLACE FUNCTION stripe_coupons._create(
   expand TEXT[] DEFAULT NULL,
   max_redemptions BIGINT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   percent_off DOUBLE PRECISION DEFAULT NULL,
   redeem_by BIGINT DEFAULT NULL
 )
@@ -131,9 +131,9 @@ AS $$
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_coupons.create(
-  "id" TEXT DEFAULT NULL,
+  id TEXT DEFAULT NULL,
   amount_off BIGINT DEFAULT NULL,
-  applies_to stripe_coupons.applies_to DEFAULT NULL,
+  applies_to stripe_coupons.create_params_applies_to DEFAULT NULL,
   currency TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
   duration TEXT DEFAULT NULL,
@@ -141,7 +141,7 @@ CREATE OR REPLACE FUNCTION stripe_coupons.create(
   expand TEXT[] DEFAULT NULL,
   max_redemptions BIGINT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "name" TEXT DEFAULT NULL,
+  name TEXT DEFAULT NULL,
   percent_off DOUBLE PRECISION DEFAULT NULL,
   redeem_by BIGINT DEFAULT NULL
 )
@@ -153,7 +153,7 @@ AS $$
     RETURN jsonb_populate_record(
       NULL::stripe_coupons.coupon,
       stripe_coupons._create(
-        "id",
+        id,
         amount_off,
         applies_to,
         currency,
@@ -163,7 +163,7 @@ AS $$
         expand,
         max_redemptions,
         metadata,
-        "name",
+        name,
         percent_off,
         redeem_by
       )
@@ -293,5 +293,5 @@ AS $$
     CROSS JOIN stripe_coupons._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_coupons.coupon, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_coupons.coupon, data)).* FROM paginated;
 $$;

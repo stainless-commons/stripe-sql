@@ -1,14 +1,14 @@
 ALTER TYPE stripe_prices.price
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE active BOOLEAN,
   ADD ATTRIBUTE billing_scheme TEXT,
   ADD ATTRIBUTE created BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE livemode BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
-  ADD ATTRIBUTE "object" TEXT,
+  ADD ATTRIBUTE object TEXT,
   ADD ATTRIBUTE product JSONB,
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE currency_options JSONB,
   ADD ATTRIBUTE custom_unit_amount stripe_prices.price_custom_unit_amount,
   ADD ATTRIBUTE lookup_key TEXT,
@@ -22,16 +22,16 @@ ALTER TYPE stripe_prices.price
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_prices.make_price(
-  "id" TEXT,
+  id TEXT,
   active BOOLEAN,
   billing_scheme TEXT,
   created BIGINT,
   currency TEXT,
   livemode BOOLEAN,
   metadata JSONB,
-  "object" TEXT,
+  object TEXT,
   product JSONB,
-  "type" TEXT,
+  type TEXT,
   currency_options JSONB DEFAULT NULL,
   custom_unit_amount stripe_prices.price_custom_unit_amount DEFAULT NULL,
   lookup_key TEXT DEFAULT NULL,
@@ -49,16 +49,16 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     active,
     billing_scheme,
     created,
     currency,
     livemode,
     metadata,
-    "object",
+    object,
     product,
-    "type",
+    type,
     currency_options,
     custom_unit_amount,
     lookup_key,
@@ -147,126 +147,128 @@ AS $$
   SELECT ROW(divide_by, round)::stripe_prices.price_transform_quantity;
 $$;
 
-ALTER TYPE stripe_prices.custom_unit_amount
+ALTER TYPE stripe_prices.create_params_custom_unit_amount
   ADD ATTRIBUTE enabled BOOLEAN,
   ADD ATTRIBUTE maximum BIGINT,
   ADD ATTRIBUTE minimum BIGINT,
   ADD ATTRIBUTE preset BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_prices.make_custom_unit_amount(
+CREATE OR REPLACE FUNCTION stripe_prices.make_create_params_custom_unit_amount(
   enabled BOOLEAN,
   maximum BIGINT DEFAULT NULL,
   minimum BIGINT DEFAULT NULL,
   preset BIGINT DEFAULT NULL
 )
-RETURNS stripe_prices.custom_unit_amount
+RETURNS stripe_prices.create_params_custom_unit_amount
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     enabled, maximum, minimum, preset
-  )::stripe_prices.custom_unit_amount;
+  )::stripe_prices.create_params_custom_unit_amount;
 $$;
 
-ALTER TYPE stripe_prices.product_data
-  ADD ATTRIBUTE "name" TEXT,
-  ADD ATTRIBUTE "id" TEXT,
+ALTER TYPE stripe_prices.create_params_product_data
+  ADD ATTRIBUTE name TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE active BOOLEAN,
   ADD ATTRIBUTE metadata JSONB,
   ADD ATTRIBUTE statement_descriptor TEXT,
   ADD ATTRIBUTE tax_code TEXT,
   ADD ATTRIBUTE unit_label TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_prices.make_product_data(
-  "name" TEXT,
-  "id" TEXT DEFAULT NULL,
+CREATE OR REPLACE FUNCTION stripe_prices.make_create_params_product_data(
+  name TEXT,
+  id TEXT DEFAULT NULL,
   active BOOLEAN DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   statement_descriptor TEXT DEFAULT NULL,
   tax_code TEXT DEFAULT NULL,
   unit_label TEXT DEFAULT NULL
 )
-RETURNS stripe_prices.product_data
+RETURNS stripe_prices.create_params_product_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "name", "id", active, metadata, statement_descriptor, tax_code, unit_label
-  )::stripe_prices.product_data;
+    name, id, active, metadata, statement_descriptor, tax_code, unit_label
+  )::stripe_prices.create_params_product_data;
 $$;
 
-ALTER TYPE stripe_prices.recurring
+ALTER TYPE stripe_prices.create_params_recurring
   ADD ATTRIBUTE "interval" TEXT,
   ADD ATTRIBUTE interval_count BIGINT,
   ADD ATTRIBUTE meter TEXT,
   ADD ATTRIBUTE usage_type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_prices.make_recurring(
+CREATE OR REPLACE FUNCTION stripe_prices.make_create_params_recurring(
   "interval" TEXT,
   interval_count BIGINT DEFAULT NULL,
   meter TEXT DEFAULT NULL,
   usage_type TEXT DEFAULT NULL
 )
-RETURNS stripe_prices.recurring
+RETURNS stripe_prices.create_params_recurring
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     "interval", interval_count, meter, usage_type
-  )::stripe_prices.recurring;
+  )::stripe_prices.create_params_recurring;
 $$;
 
-ALTER TYPE stripe_prices.tier
+ALTER TYPE stripe_prices.create_params_tier
   ADD ATTRIBUTE up_to JSONB,
   ADD ATTRIBUTE flat_amount BIGINT,
   ADD ATTRIBUTE flat_amount_decimal TEXT,
   ADD ATTRIBUTE unit_amount BIGINT,
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_prices.make_tier(
+CREATE OR REPLACE FUNCTION stripe_prices.make_create_params_tier(
   up_to JSONB,
   flat_amount BIGINT DEFAULT NULL,
   flat_amount_decimal TEXT DEFAULT NULL,
   unit_amount BIGINT DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
-RETURNS stripe_prices.tier
+RETURNS stripe_prices.create_params_tier
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     up_to, flat_amount, flat_amount_decimal, unit_amount, unit_amount_decimal
-  )::stripe_prices.tier;
+  )::stripe_prices.create_params_tier;
 $$;
 
-ALTER TYPE stripe_prices.transform_quantity
+ALTER TYPE stripe_prices.create_params_transform_quantity
   ADD ATTRIBUTE divide_by BIGINT, ADD ATTRIBUTE round TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_prices.make_transform_quantity(
+CREATE OR REPLACE FUNCTION stripe_prices.make_create_params_transform_quantity(
   divide_by BIGINT, round TEXT
 )
-RETURNS stripe_prices.transform_quantity
+RETURNS stripe_prices.create_params_transform_quantity
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(divide_by, round)::stripe_prices.transform_quantity;
+  SELECT ROW(divide_by, round)::stripe_prices.create_params_transform_quantity;
 $$;
 
-ALTER TYPE stripe_prices.recurring1
+ALTER TYPE stripe_prices.list_params_recurring
   ADD ATTRIBUTE "interval" TEXT,
   ADD ATTRIBUTE meter TEXT,
   ADD ATTRIBUTE usage_type TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_prices.make_recurring1(
+CREATE OR REPLACE FUNCTION stripe_prices.make_list_params_recurring(
   "interval" TEXT DEFAULT NULL,
   meter TEXT DEFAULT NULL,
   usage_type TEXT DEFAULT NULL
 )
-RETURNS stripe_prices.recurring1
+RETURNS stripe_prices.list_params_recurring
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("interval", meter, usage_type)::stripe_prices.recurring1;
+  SELECT ROW(
+    "interval", meter, usage_type
+  )::stripe_prices.list_params_recurring;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_prices._create(
@@ -274,19 +276,19 @@ CREATE OR REPLACE FUNCTION stripe_prices._create(
   active BOOLEAN DEFAULT NULL,
   billing_scheme TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
-  custom_unit_amount stripe_prices.custom_unit_amount DEFAULT NULL,
+  custom_unit_amount stripe_prices.create_params_custom_unit_amount DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   lookup_key TEXT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   nickname TEXT DEFAULT NULL,
   product TEXT DEFAULT NULL,
-  product_data stripe_prices.product_data DEFAULT NULL,
-  recurring stripe_prices.recurring DEFAULT NULL,
+  product_data stripe_prices.create_params_product_data DEFAULT NULL,
+  recurring stripe_prices.create_params_recurring DEFAULT NULL,
   tax_behavior TEXT DEFAULT NULL,
-  tiers stripe_prices.tier[] DEFAULT NULL,
+  tiers stripe_prices.create_params_tier[] DEFAULT NULL,
   tiers_mode TEXT DEFAULT NULL,
   transfer_lookup_key BOOLEAN DEFAULT NULL,
-  transform_quantity stripe_prices.transform_quantity DEFAULT NULL,
+  transform_quantity stripe_prices.create_params_transform_quantity DEFAULT NULL,
   unit_amount BIGINT DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
@@ -329,19 +331,19 @@ CREATE OR REPLACE FUNCTION stripe_prices.create(
   active BOOLEAN DEFAULT NULL,
   billing_scheme TEXT DEFAULT NULL,
   currency_options JSONB DEFAULT NULL,
-  custom_unit_amount stripe_prices.custom_unit_amount DEFAULT NULL,
+  custom_unit_amount stripe_prices.create_params_custom_unit_amount DEFAULT NULL,
   expand TEXT[] DEFAULT NULL,
   lookup_key TEXT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
   nickname TEXT DEFAULT NULL,
   product TEXT DEFAULT NULL,
-  product_data stripe_prices.product_data DEFAULT NULL,
-  recurring stripe_prices.recurring DEFAULT NULL,
+  product_data stripe_prices.create_params_product_data DEFAULT NULL,
+  recurring stripe_prices.create_params_recurring DEFAULT NULL,
   tax_behavior TEXT DEFAULT NULL,
-  tiers stripe_prices.tier[] DEFAULT NULL,
+  tiers stripe_prices.create_params_tier[] DEFAULT NULL,
   tiers_mode TEXT DEFAULT NULL,
   transfer_lookup_key BOOLEAN DEFAULT NULL,
-  transform_quantity stripe_prices.transform_quantity DEFAULT NULL,
+  transform_quantity stripe_prices.create_params_transform_quantity DEFAULT NULL,
   unit_amount BIGINT DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
@@ -386,9 +388,9 @@ CREATE OR REPLACE FUNCTION stripe_prices._list_first_page_py(
   "limit" BIGINT DEFAULT NULL,
   lookup_keys TEXT[] DEFAULT NULL,
   product TEXT DEFAULT NULL,
-  recurring stripe_prices.recurring1 DEFAULT NULL,
+  recurring stripe_prices.list_params_recurring DEFAULT NULL,
   starting_after TEXT DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_internal.page
 LANGUAGE plpython3u
@@ -441,9 +443,9 @@ CREATE OR REPLACE FUNCTION stripe_prices._list_first_page(
   "limit" BIGINT DEFAULT NULL,
   lookup_keys TEXT[] DEFAULT NULL,
   product TEXT DEFAULT NULL,
-  recurring stripe_prices.recurring1 DEFAULT NULL,
+  recurring stripe_prices.list_params_recurring DEFAULT NULL,
   starting_after TEXT DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS stripe_internal.page
 LANGUAGE plpgsql
@@ -462,7 +464,7 @@ AS $$
       product,
       recurring,
       starting_after,
-      "type"
+      type
     );
   END;
 $$;
@@ -512,9 +514,9 @@ CREATE OR REPLACE FUNCTION stripe_prices.list(
   "limit" BIGINT DEFAULT NULL,
   lookup_keys TEXT[] DEFAULT NULL,
   product TEXT DEFAULT NULL,
-  recurring stripe_prices.recurring1 DEFAULT NULL,
+  recurring stripe_prices.list_params_recurring DEFAULT NULL,
   starting_after TEXT DEFAULT NULL,
-  "type" TEXT DEFAULT NULL
+  type TEXT DEFAULT NULL
 )
 RETURNS SETOF stripe_prices.price
 LANGUAGE SQL
@@ -533,7 +535,7 @@ AS $$
       product,
       recurring,
       starting_after,
-      "type"
+      type
     ) AS page
 
     UNION ALL
@@ -543,5 +545,5 @@ AS $$
     CROSS JOIN stripe_prices._list_next_page(paginated.next_request_options) AS page
     WHERE paginated.next_request_options IS NOT NULL
   )
-  SELECT (jsonb_populate_recordset(NULL::stripe_prices.price, "data")).* FROM paginated;
+  SELECT (jsonb_populate_recordset(NULL::stripe_prices.price, data)).* FROM paginated;
 $$;

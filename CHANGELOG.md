@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.2.0 (2026-03-17)
+
+Full Changelog: [v0.1.1...v0.2.0](https://github.com/stainless-commons/stripe-sql/compare/v0.1.1...v0.2.0)
+
+### ⚠ BREAKING CHANGES
+
+* improve long names
+
+### Features
+
+* improve long names ([5c82949](https://github.com/stainless-commons/stripe-sql/commit/5c82949ab6a160e97236485728d70a9aec65df92))
+
+
+### Bug Fixes
+
+* improve names ([f6d26ab](https://github.com/stainless-commons/stripe-sql/commit/f6d26abeb23185e18c5d0ae5d59bf79228c76d0a))
+
+
+### Chores
+
+* **internal:** bump mock server version ([f8b68c8](https://github.com/stainless-commons/stripe-sql/commit/f8b68c870aa032ae5af140bbdfd278b00a75579a))
+* **internal:** codegen related update ([8b096df](https://github.com/stainless-commons/stripe-sql/commit/8b096dfc9ec3a2495171d84b7d63ed294a557ae7))
+* **internal:** codegen related update ([abef48a](https://github.com/stainless-commons/stripe-sql/commit/abef48a5b13aa62ffe43788297dc63fca9a3e6b1))
+* **internal:** reduce unnecessary quoting ([985725d](https://github.com/stainless-commons/stripe-sql/commit/985725dadb49e64201833f79a045e372df36736b))
+* **internal:** tweak CI branches ([c0b2007](https://github.com/stainless-commons/stripe-sql/commit/c0b200781ebb2886d7e236ee5981923fcaf183ca))
+* **test:** do not count install time for mock server timeout ([f9b576f](https://github.com/stainless-commons/stripe-sql/commit/f9b576fba174907a4fc4885d0f52f48ec0a8e0ac))
+* **tests:** bump @stdy/cli to 0.16.1 ([79a449c](https://github.com/stainless-commons/stripe-sql/commit/79a449c61acfd3a6cda26cf1e85a5fc5401d1797))
+* **tests:** bump mock server version ([f283773](https://github.com/stainless-commons/stripe-sql/commit/f2837733dbcb05c8d96ce25f0fd579868303a6b7))
+
+
+### Documentation
+
+* fix admonition line wrapping ([9d7164a](https://github.com/stainless-commons/stripe-sql/commit/9d7164a588fa518707a62594749cee58b063e4cf))
+
 ## 0.1.1 (2026-02-13)
 
 Full Changelog: [v0.1.0...v0.1.1](https://github.com/stainless-commons/stripe-sql/compare/v0.1.0...v0.1.1)

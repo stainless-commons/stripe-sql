@@ -1,13 +1,13 @@
 ALTER TYPE stripe_invoiceitems.invoiceitem_create_response
-  ADD ATTRIBUTE "id" TEXT,
+  ADD ATTRIBUTE id TEXT,
   ADD ATTRIBUTE amount BIGINT,
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE customer JSONB,
-  ADD ATTRIBUTE "date" BIGINT,
+  ADD ATTRIBUTE date BIGINT,
   ADD ATTRIBUTE discountable BOOLEAN,
   ADD ATTRIBUTE livemode BOOLEAN,
-  ADD ATTRIBUTE "object" TEXT,
-  ADD ATTRIBUTE "period" stripe_invoiceitems.invoiceitem_create_response_period,
+  ADD ATTRIBUTE object TEXT,
+  ADD ATTRIBUTE period stripe_invoiceitems.invoiceitem_create_response_period,
   ADD ATTRIBUTE proration BOOLEAN,
   ADD ATTRIBUTE quantity BIGINT,
   ADD ATTRIBUTE customer_account TEXT,
@@ -23,15 +23,15 @@ ALTER TYPE stripe_invoiceitems.invoiceitem_create_response
   ADD ATTRIBUTE test_clock JSONB;
 
 CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_invoiceitem_create_response(
-  "id" TEXT,
+  id TEXT,
   amount BIGINT,
   currency TEXT,
   customer JSONB,
-  "date" BIGINT,
+  date BIGINT,
   discountable BOOLEAN,
   livemode BOOLEAN,
-  "object" TEXT,
-  "period" stripe_invoiceitems.invoiceitem_create_response_period,
+  object TEXT,
+  period stripe_invoiceitems.invoiceitem_create_response_period,
   proration BOOLEAN,
   quantity BIGINT,
   customer_account TEXT DEFAULT NULL,
@@ -51,15 +51,15 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "id",
+    id,
     amount,
     currency,
     customer,
-    "date",
+    date,
     discountable,
     livemode,
-    "object",
-    "period",
+    object,
+    period,
     proration,
     quantity,
     customer_account,
@@ -77,26 +77,26 @@ AS $$
 $$;
 
 ALTER TYPE stripe_invoiceitems.invoiceitem_create_response_period
-  ADD ATTRIBUTE "end" BIGINT, ADD ATTRIBUTE "start" BIGINT;
+  ADD ATTRIBUTE "end" BIGINT, ADD ATTRIBUTE start BIGINT;
 
 CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_invoiceitem_create_response_period(
-  "end" BIGINT, "start" BIGINT
+  "end" BIGINT, start BIGINT
 )
 RETURNS stripe_invoiceitems.invoiceitem_create_response_period
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "end", "start"
+    "end", start
   )::stripe_invoiceitems.invoiceitem_create_response_period;
 $$;
 
 ALTER TYPE stripe_invoiceitems.invoiceitem_create_response_parent
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE subscription_details stripe_invoiceitems.invoiceitem_create_response_parent_subscription_detail;
 
 CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_invoiceitem_create_response_parent(
-  "type" TEXT,
+  type TEXT,
   subscription_details stripe_invoiceitems.invoiceitem_create_response_parent_subscription_detail DEFAULT NULL
 )
 RETURNS stripe_invoiceitems.invoiceitem_create_response_parent
@@ -104,32 +104,32 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", subscription_details
+    type, subscription_details
   )::stripe_invoiceitems.invoiceitem_create_response_parent;
 $$;
 
 ALTER TYPE stripe_invoiceitems.invoiceitem_create_response_parent_subscription_detail
-  ADD ATTRIBUTE "subscription" TEXT, ADD ATTRIBUTE subscription_item TEXT;
+  ADD ATTRIBUTE subscription TEXT, ADD ATTRIBUTE subscription_item TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_invoiceitem_create_response_parent_subscription_detail(
-  "subscription" TEXT, subscription_item TEXT DEFAULT NULL
+  subscription TEXT, subscription_item TEXT DEFAULT NULL
 )
 RETURNS stripe_invoiceitems.invoiceitem_create_response_parent_subscription_detail
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "subscription", subscription_item
+    subscription, subscription_item
   )::stripe_invoiceitems.invoiceitem_create_response_parent_subscription_detail;
 $$;
 
 ALTER TYPE stripe_invoiceitems.invoiceitem_create_response_pricing
-  ADD ATTRIBUTE "type" TEXT,
+  ADD ATTRIBUTE type TEXT,
   ADD ATTRIBUTE price_details stripe_invoiceitems.invoiceitem_create_response_pricing_price_detail,
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
 CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_invoiceitem_create_response_pricing(
-  "type" TEXT,
+  type TEXT,
   price_details stripe_invoiceitems.invoiceitem_create_response_pricing_price_detail DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
@@ -138,7 +138,7 @@ LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
-    "type", price_details, unit_amount_decimal
+    type, price_details, unit_amount_decimal
   )::stripe_invoiceitems.invoiceitem_create_response_pricing;
 $$;
 
@@ -172,53 +172,53 @@ AS $$
   )::stripe_invoiceitems.invoiceitem_create_response_proration_detail;
 $$;
 
-ALTER TYPE stripe_invoiceitems.period
-  ADD ATTRIBUTE "end" BIGINT, ADD ATTRIBUTE "start" BIGINT;
+ALTER TYPE stripe_invoiceitems.create_params_period
+  ADD ATTRIBUTE "end" BIGINT, ADD ATTRIBUTE start BIGINT;
 
-CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_period(
-  "end" BIGINT, "start" BIGINT
+CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_create_params_period(
+  "end" BIGINT, start BIGINT
 )
-RETURNS stripe_invoiceitems.period
+RETURNS stripe_invoiceitems.create_params_period
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW("end", "start")::stripe_invoiceitems.period;
+  SELECT ROW("end", start)::stripe_invoiceitems.create_params_period;
 $$;
 
-ALTER TYPE stripe_invoiceitems.price_data
+ALTER TYPE stripe_invoiceitems.create_params_price_data
   ADD ATTRIBUTE currency TEXT,
   ADD ATTRIBUTE product TEXT,
   ADD ATTRIBUTE tax_behavior TEXT,
   ADD ATTRIBUTE unit_amount BIGINT,
   ADD ATTRIBUTE unit_amount_decimal TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_price_data(
+CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_create_params_price_data(
   currency TEXT,
   product TEXT,
   tax_behavior TEXT DEFAULT NULL,
   unit_amount BIGINT DEFAULT NULL,
   unit_amount_decimal TEXT DEFAULT NULL
 )
-RETURNS stripe_invoiceitems.price_data
+RETURNS stripe_invoiceitems.create_params_price_data
 LANGUAGE SQL
 IMMUTABLE
 AS $$
   SELECT ROW(
     currency, product, tax_behavior, unit_amount, unit_amount_decimal
-  )::stripe_invoiceitems.price_data;
+  )::stripe_invoiceitems.create_params_price_data;
 $$;
 
-ALTER TYPE stripe_invoiceitems.pricing
+ALTER TYPE stripe_invoiceitems.create_params_pricing
   ADD ATTRIBUTE price TEXT;
 
-CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_pricing(
+CREATE OR REPLACE FUNCTION stripe_invoiceitems.make_create_params_pricing(
   price TEXT DEFAULT NULL
 )
-RETURNS stripe_invoiceitems.pricing
+RETURNS stripe_invoiceitems.create_params_pricing
 LANGUAGE SQL
 IMMUTABLE
 AS $$
-  SELECT ROW(price)::stripe_invoiceitems.pricing;
+  SELECT ROW(price)::stripe_invoiceitems.create_params_pricing;
 $$;
 
 CREATE OR REPLACE FUNCTION stripe_invoiceitems._create(
@@ -232,11 +232,11 @@ CREATE OR REPLACE FUNCTION stripe_invoiceitems._create(
   expand TEXT[] DEFAULT NULL,
   invoice TEXT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "period" stripe_invoiceitems.period DEFAULT NULL,
-  price_data stripe_invoiceitems.price_data DEFAULT NULL,
-  pricing stripe_invoiceitems.pricing DEFAULT NULL,
+  period stripe_invoiceitems.create_params_period DEFAULT NULL,
+  price_data stripe_invoiceitems.create_params_price_data DEFAULT NULL,
+  pricing stripe_invoiceitems.create_params_pricing DEFAULT NULL,
   quantity BIGINT DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL,
+  subscription TEXT DEFAULT NULL,
   tax_behavior TEXT DEFAULT NULL,
   tax_code TEXT DEFAULT NULL,
   tax_rates TEXT[] DEFAULT NULL,
@@ -287,11 +287,11 @@ CREATE OR REPLACE FUNCTION stripe_invoiceitems.create(
   expand TEXT[] DEFAULT NULL,
   invoice TEXT DEFAULT NULL,
   metadata JSONB DEFAULT NULL,
-  "period" stripe_invoiceitems.period DEFAULT NULL,
-  price_data stripe_invoiceitems.price_data DEFAULT NULL,
-  pricing stripe_invoiceitems.pricing DEFAULT NULL,
+  period stripe_invoiceitems.create_params_period DEFAULT NULL,
+  price_data stripe_invoiceitems.create_params_price_data DEFAULT NULL,
+  pricing stripe_invoiceitems.create_params_pricing DEFAULT NULL,
   quantity BIGINT DEFAULT NULL,
-  "subscription" TEXT DEFAULT NULL,
+  subscription TEXT DEFAULT NULL,
   tax_behavior TEXT DEFAULT NULL,
   tax_code TEXT DEFAULT NULL,
   tax_rates TEXT[] DEFAULT NULL,
@@ -315,11 +315,11 @@ AS $$
         expand,
         invoice,
         metadata,
-        "period",
+        period,
         price_data,
         pricing,
         quantity,
-        "subscription",
+        subscription,
         tax_behavior,
         tax_code,
         tax_rates,

@@ -111,6 +111,23 @@ LIMIT 200;
 > removed, then PostgreSQL may not [push down the condition](https://wiki.postgresql.org/wiki/Inlining_of_SQL_functions),
 > causing all pages to be requested and buffered.
 
+## Caching
+
+Sending requests to the Stripe API for every SQL query can be slow. Combine [materialized views](https://www.postgresql.org/docs/current/rules-materializedviews.html) with [`pg_cron`](https://github.com/citusdata/pg_cron) for scheduled data pulls:
+
+```sql
+CREATE MATERIALIZED VIEW stripe_coupons AS
+SELECT *
+FROM stripe_coupons.list();
+
+-- Refresh the view every 4 hours.
+SELECT cron.schedule(
+  'refresh-stripe-coupons',
+  '0 */4 * * *',
+  'REFRESH MATERIALIZED VIEW CONCURRENTLY stripe_coupons'
+);
+```
+
 ## Troubleshooting
 
 ### Installation

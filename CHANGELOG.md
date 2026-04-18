@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.2.1 (2026-04-18)
+
+Full Changelog: [v0.2.0...v0.2.1](https://github.com/stainless-commons/stripe-sql/compare/v0.2.0...v0.2.1)
+
+### Chores
+
+* **internal:** support env vars in `./scripts/repl` ([e61819d](https://github.com/stainless-commons/stripe-sql/commit/e61819df63d91bf0f6b10ecc2abf8730b390d401))
+* **internal:** update gitignore ([69bef31](https://github.com/stainless-commons/stripe-sql/commit/69bef3126b1bd07a04bc674559262920b03c29ec))
+* **internal:** update multipart form array serialization ([f710526](https://github.com/stainless-commons/stripe-sql/commit/f7105265acdf5b566798f3fcf58528f1bb95b192))
+* **tests:** bump steady to v0.19.4 ([0037da0](https://github.com/stainless-commons/stripe-sql/commit/0037da0bb51eace12f3df31216ee2cab695b7b9a))
+* **tests:** bump steady to v0.19.5 ([34e63fb](https://github.com/stainless-commons/stripe-sql/commit/34e63fb004f010e4fed95b3f8b357c4236d0d9e0))
+* **tests:** bump steady to v0.19.6 ([01d5cde](https://github.com/stainless-commons/stripe-sql/commit/01d5cdebb2577d2bd3716a53aae26654a6881e65))
+* **tests:** bump steady to v0.19.7 ([77881f1](https://github.com/stainless-commons/stripe-sql/commit/77881f17bf5ec4d3aae93842e35522b1626b3153))
+* **tests:** bump steady to v0.20.1 ([caecce0](https://github.com/stainless-commons/stripe-sql/commit/caecce006ec4da82fe07d4007e7033ed5d7f0b34))
+* **tests:** bump steady to v0.20.2 ([65b284f](https://github.com/stainless-commons/stripe-sql/commit/65b284f35ffae8cb04abdee3ee2a0161882923cc))
+* **tests:** bump steady to v0.22.1 ([ef16d9b](https://github.com/stainless-commons/stripe-sql/commit/ef16d9b6411f06e7f424938ceaab2174a3077ae9))
+
+
+### Documentation
+
+* explain caching ([c9ad730](https://github.com/stainless-commons/stripe-sql/commit/c9ad7300a4a279955f8fc2ef1f4cf8b7a3d45c39))
+
 ## 0.2.0 (2026-03-17)
 
 Full Changelog: [v0.1.1...v0.2.0](https://github.com/stainless-commons/stripe-sql/compare/v0.1.1...v0.2.0)

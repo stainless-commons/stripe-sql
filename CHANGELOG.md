@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0 (2026-04-30)
+
+Full Changelog: [v0.2.1...v0.3.0](https://github.com/stainless-commons/stripe-sql/compare/v0.2.1...v0.3.0)
+
+### Features
+
+* **go:** add default http client with timeout ([bb37cf2](https://github.com/stainless-commons/stripe-sql/commit/bb37cf252d4b0f6bc947de1cb20762db11e8b51d))
+
+
+### Chores
+
+* **internal:** codegen related update ([883a0b5](https://github.com/stainless-commons/stripe-sql/commit/883a0b5aadfdc86382fb0d32830558388a8997ae))
+* **internal:** codegen related update ([578f9a4](https://github.com/stainless-commons/stripe-sql/commit/578f9a4c3ea60c2ab6af821ec2bf0397af8d1790))
+* **internal:** codegen related update ([06d7086](https://github.com/stainless-commons/stripe-sql/commit/06d7086bd29edf846ccfd20b907b70312eb0ea18))
+
 ## 0.2.1 (2026-04-18)
 
 Full Changelog: [v0.2.0...v0.2.1](https://github.com/stainless-commons/stripe-sql/compare/v0.2.0...v0.2.1)
